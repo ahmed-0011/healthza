@@ -1,3 +1,41 @@
 <resources>
     <string name="app_name">healthza</string>
-</resources>
+    <string name="login_text">Login</string>
+    <string name="register_text">Register</string>
+    <string name="action_sign_in_short">login</string>
+    <string name="action_sign_in">sign in</string>
+    <string name="action_sign_up_short">register</string>
+    <string name="action_sign_up">sign up</string>
+    <string name="action_next">next</string>
+    <string name="create_new_account">create new account</string>
+    <string name="welcome_text">welcome to chronic disease healthcare system</string>
+    <string name="doctor_text">Doctor</string>
+    <string name="patient_text">Patient</string>
+    <string name="email_hint">Email</string>
+    <string name="email_example_text">example: eeeee@mail.com</string>
+    <string name="phone_number_hint">Phone number</string>
+    <string name="password_hint">Password</string>
+    <string name="confirm_password_hint">Confirm password</string>
+    <string name="name_hint">Name</string>
+    <string name="name_text">Name</string>
+    <string name="height_hint">Height</string>
+    <string name="weight_hint">Weight</string>
+    <string name="already_have_account">already have account? register</string>
+    <string name="specialty_hint">Specialty</string>
+    <string name="sex_text">Sex:</string>
+    <string name="you_are_text">You are:</string>
+    <string name="male_text">Male</string>
+    <string name="female_text">Female</string>
+    <string name="forgot_password_text">Forgot your password?</string>
+    <string name="new_user_text">New user?</string>
+    <string name="content_description_email_icon">icon for email text input</string>
+    <string name="content_description_phone_icon">icon for phone number input</string>
+    <string name="content_description_password_icon">icon for password text input</string>
+    <string name="content_description_name_icon">icon for name text input</string>
+    <string name="register">Register</string>
+    <string name="diabetic">Diabetic</string>
+    <string name="hypertension">Hypertension</string>
+    <string name="cholestrol">Cholestrol</string>
+    <string name="select_disease_text">select at least on disease</string>
+
+    </resources>
