@@ -1,0 +1,1261 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ComprehensiveTest">
+
+        <ViewFlipper
+            android:id="@+id/view_flipper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:inAnimation="@android:anim/slide_in_left"
+            android:outAnimation="@android:anim/slide_out_right"
+            app:layout_constraintBottom_toTopOf="@+id/divider3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:textDirection="firstStrong">
+
+                <ImageView
+                    android:id="@+id/TimeIcon7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="5dp"
+                    app:layout_constraintBottom_toTopOf="@+id/divider2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/timeText7"
+                    app:layout_constraintTop_toBottomOf="@+id/DateIcon7"
+                    app:srcCompat="@drawable/timeicon" />
+
+                <ImageView
+                    android:id="@+id/DateIcon7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="44dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/TimeIcon7"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/dateText7"
+                    app:layout_constraintTop_toBottomOf="@+id/divider"
+                    app:srcCompat="@drawable/dateicon" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/bubblegum_sans"
+                    android:text="Press to set Time and Date:"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textColor="#757171"
+                    android:textSize="18sp"
+                    android:textStyle="bold|italic"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TimeDateAuto7"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/timeText7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/bubblegum_sans"
+                    android:text="HH:MM"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold|italic"
+                    app:layout_constraintBottom_toTopOf="@+id/divider2"
+                    app:layout_constraintEnd_toStartOf="@+id/TimeIcon7"
+                    app:layout_constraintStart_toEndOf="@+id/textView"
+                    app:layout_constraintTop_toBottomOf="@+id/dateText7"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/dateText7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginTop="43dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/bubblegum_sans"
+                    android:text="YYYY/MM/DD"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold|italic"
+                    app:layout_constraintBottom_toTopOf="@+id/timeText7"
+                    app:layout_constraintEnd_toStartOf="@+id/DateIcon7"
+                    app:layout_constraintStart_toEndOf="@+id/textView"
+                    app:layout_constraintTop_toBottomOf="@+id/divider"
+                    tools:ignore="MissingConstraints" />
+
+                <CheckBox
+                    android:id="@+id/TimeDateAuto7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/bubblegum_sans"
+                    android:text="Set Time and Date Auto"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="#757171"
+                    android:textStyle="bold|italic"
+                    app:layout_constraintBottom_toTopOf="@+id/textView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#ffff"
+                    android:backgroundTint="#CA1A1A"
+                    app:layout_constraintBottom_toTopOf="@+id/TimeDateAuto7"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="55dp"
+                    android:background="#ffff"
+                    android:backgroundTint="#CA1A1A"
+                    app:layout_constraintBottom_toTopOf="@+id/textView3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/bubblegum_sans"
+                    android:text="Comprehensive Test"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+                    android:textSize="46sp"
+                    app:layout_constraintBottom_toTopOf="@+id/divider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive5Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive4Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive5Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="S.GOT  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive1Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive2Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive1Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="F.B.S  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive2Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive3Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive1Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive2Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="Alk.phosphatese  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive3Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive4Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive2Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive3Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="G.G.T  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive4Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive5Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive3Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive4Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="S.GPT  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/bubblegum_sans"
+                    android:text="Enter these Fields:"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textColor="#757171"
+                    android:textSize="18sp"
+                    android:textStyle="bold|italic"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider2"
+                    tools:ignore="MissingConstraints" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                android:textAlignment="center"
+                android:textDirection="firstStrong">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive6Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive7Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive6Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="Uric Acid  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive7Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive8Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive6Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive7Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="Urea  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive8Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive9Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive7Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive8Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="Creatinine  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive9Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive10Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive8Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive9Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="Triglyceride  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive13Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive12Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive13Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="Albumin  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive12Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive13Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive11Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive12Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="Cholesterol Total  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive11Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive12Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive10Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive11Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="HDL Cholesterol  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive10Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive11Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive9Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive10Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="LDL Cholesterol  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                android:textAlignment="center"
+                android:textDirection="firstStrong">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive14Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive15Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive14Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="Acp.Total  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive15Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive16Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive14Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive15Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="Calcium  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive16Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive17Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive15Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive16Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="Chloride  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive17Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive18Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive16Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive17Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="S.Iron  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive21Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive20Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive21Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="Potassium  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive20Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive21Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive19Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive20Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="Amylase  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive19Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive20Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive18Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive19Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="Acp.Prostatic  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive18Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive19Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive17Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive18Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="TIBC  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                android:textAlignment="center"
+                android:textDirection="firstStrong">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive22Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive23Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive22Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="Sodium  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive23Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive24Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive22Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive23Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="2HPPS  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive24Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive25Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive23Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive24Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="R.B.S  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive25Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive26Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive24Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive25Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="Bilirubin Total  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive29Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive28Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive29Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="LDH  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive28Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive29Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive27Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive28Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="Phosphours  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive27Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive28Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive26Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive27Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="PSA  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive26Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive27Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive25Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive26Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="Bilirubin Direct  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                android:textAlignment="center"
+                android:textDirection="firstStrong">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive30Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive31Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive30Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="CK-MB  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive31Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive32Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive30Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive31Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="CPK  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive33Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive32Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive33Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="Magnesium  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outerComprehensive32Percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/outerComprehensive33Percent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive31Percent">
+
+                    <EditText
+                        android:id="@+id/innerComprehensive32Percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/bubblegum_sans"
+                        android:hint="T.Protein  Percent:"
+                        android:inputType="numberDecimal"
+                        android:paddingStart="10dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/ClearComprehensiveTest"
+                    android:layout_width="163dp"
+                    android:layout_height="57dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="3dp"
+                    android:backgroundTint="@color/design_default_color_error"
+                    android:fontFamily="@font/bubblegum_sans"
+                    android:text="CLEAR"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="24sp"
+                    android:textStyle="bold|italic"
+                    app:icon="@android:drawable/ic_menu_delete"
+                    app:iconGravity="textEnd"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/AddComprehensiveTest"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive33Percent" />
+
+                <Button
+                    android:id="@+id/AddComprehensiveTest"
+                    android:layout_width="163dp"
+                    android:layout_height="57dp"
+                    android:backgroundTint="@color/design_default_color_secondary_variant"
+                    android:fontFamily="@font/bubblegum_sans"
+                    android:text="ADD"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="24sp"
+                    android:textStyle="bold|italic"
+                    app:icon="@android:drawable/ic_input_add"
+                    app:iconGravity="textEnd"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/ClearComprehensiveTest"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outerComprehensive33Percent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </ViewFlipper>
+
+        <Button
+            android:id="@+id/previous"
+            android:layout_width="163dp"
+            android:layout_height="57dp"
+            android:layout_below="@+id/divider3"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="25dp"
+            android:backgroundTint="@color/design_default_color_error"
+            android:fontFamily="@font/bubblegum_sans"
+            android:onClick="previousView"
+            android:text="Previous"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="24sp"
+            android:textStyle="bold|italic"
+            app:icon="@android:drawable/ic_media_previous"
+            app:iconGravity="textEnd"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/next"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+
+        <Button
+            android:id="@+id/next"
+            android:layout_width="163dp"
+            android:layout_height="57dp"
+            android:layout_below="@+id/divider3"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="3dp"
+            android:backgroundTint="@color/teal_700"
+            android:fontFamily="@font/bubblegum_sans"
+            android:onClick="nextView"
+            android:text="Next"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="24sp"
+            android:textStyle="bold|italic"
+            app:icon="@android:drawable/ic_media_next"
+            app:iconGravity="textEnd"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/previous"
+            app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+        <!--app:layout_constraintBottom_toTopOf="@+id/view_flipper"-->
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/view_flipper"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="10dp"
+            android:background="#ffff"
+            android:backgroundTint="#CA1A1A"
+            app:layout_constraintBottom_toTopOf="@+id/previous"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_flipper" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
+
