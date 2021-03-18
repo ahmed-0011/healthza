@@ -515,7 +515,7 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
 
         NotificationCompat.BigTextStyle bigtext = new NotificationCompat.BigTextStyle ();
         bigtext.setBigContentTitle ("Test Type:"+text);
-        bigtext.bigText ("Test Date:"+ datE.getText().toString()+ " && Test Time"+timE.getText().toString() );
+        bigtext.bigText ("Test Date:"+ datE.getText().toString()+ " && Test Time:"+timE.getText().toString() );
         bigtext.setSummaryText ("New  Test ADD");
 
         note = new NotificationCompat.Builder ( getApplicationContext(),ChannelID )
