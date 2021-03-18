@@ -526,7 +526,6 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
                 .setContentText ("")*/
                 .setOngoing ( false )
                 .setColor ( Color.RED  )
-
                 .setColorized ( true )
                 .setPriority ( NotificationManager.IMPORTANCE_HIGH )
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
