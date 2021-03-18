@@ -49,4 +49,18 @@
     <string name="change_password_text">Change password.</string>
     <string name="update_password_text">Update password</string>
     <string name="return_to_login_text">Return to login.</string>
+
+    <string name="hh_mm">HH:MM</string>
+    <string name="ldl_cholesterol_percent">LDL Cholesterol Percent:</string>
+    <string name="yyyy_mm_dd">YYYY/MM/DD</string>
+    <string name="cholesterol_and_fats_test">Cholesterol and Fats Test</string>
+    <string name="clear">CLEAR</string>
+    <string name="add">ADD</string>
+    <string name="hdl_cholesterol_percent">HDL Cholesterol Percent:</string>
+    <string name="enter_these_fields">Enter these Fields:</string>
+    <string name="set_time_and_date_auto">Set Time and Date Auto</string>
+    <string name="press_to_set_time_and_date">Press to set Time and Date:</string>
+    <string name="todo">TODO</string>
+    <string name="triglyceride_percent">Triglyceride Percent:</string>
+    <string name="cholesterol_total_percent">Cholesterol Total Percent:</string>
 </resources>
