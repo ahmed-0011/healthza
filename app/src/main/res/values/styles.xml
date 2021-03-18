@@ -14,7 +14,7 @@
         <item name="android:windowBackground">@drawable/splash_screen_background</item>
     </style>
 
-    <!-- Sign in/Sign up style button. -->
+    <!-- button style -->
     <style name="buttonStyle" parent="@style/Widget.MaterialComponents.Button">
         <item name="android:textColor">@android:color/white</item>
         <item name="backgroundTint">@color/colorPrimary</item>
@@ -23,11 +23,12 @@
 
     <style name="my_textAppearance" parent="@style/TextAppearance.MaterialComponents.Button">
         <item name="android:textSize">18sp</item>
-        <item name="android:textAllCaps">true</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
     <!-- text button style -->
     <style name="textButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
         <item name="android:minWidth">0dp</item>
@@ -40,22 +41,22 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-
     <style name="roundedButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">51%</item>
     </style>
-
-
 
     <style name="helperTextStyle" parent="@android:style/TextAppearance">
         <item name="android:textSize">16sp</item>
     </style>
 
     <style name="textInputLayoutFilledBox" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
-
+        <item name="boxStrokeColor">@color/colorPrimary</item>
+        <item name="android:textColorHint">@color/hint_color</item>
+        <item name="startIconTint">@color/hint_color</item>
+        <item name="endIconTint">@color/hint_color</item>
+        <item name="hintAnimationEnabled">true</item>
     </style>
-
 
 
 </resources>
