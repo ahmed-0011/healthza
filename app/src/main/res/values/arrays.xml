@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="newChronicDiseases_prompt">Select Name and Type of Chronic Diseases:</string>
+
+    <string-array name="arrayChronicDiseases">
+        <item>Diabetes ( Type 1 )</item>
+        <item>Diabetes ( Type 2 )</item>
+        <item>Diabetes ( Gestational (GDM) )</item>
+        <item>Hypertension ( Essential )</item>
+        <item>Hypertension ( Secondary )</item>
+        <item>Hypertension ( Isolated systolic  )</item>
+        <item>Hypertension ( Malignant )</item>
+        <item>Hypertension ( Resistant )</item>
+        <item>Cholesterol and Fats</item>
+    </string-array>
+</resources>

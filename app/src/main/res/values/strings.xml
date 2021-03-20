@@ -63,4 +63,7 @@
     <string name="todo">TODO</string>
     <string name="triglyceride_percent">Triglyceride Percent:</string>
     <string name="cholesterol_total_percent">Cholesterol Total Percent:</string>
+    <string name="new_chronic_diseases">New Chronic Diseases</string>
+    <string name="set_name_and_type">Set Name and Type:</string>
+    <string name="set_detection_date">Set Detection Date:</string>
 </resources>
