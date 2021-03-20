@@ -14,5 +14,6 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent I = new Intent(this, newChronicDiseases.class);
                 startActivity(I);
+                //sdd
             }
 }
