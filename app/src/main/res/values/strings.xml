@@ -66,4 +66,5 @@
     <string name="new_chronic_diseases">New Chronic Diseases</string>
     <string name="set_name_and_type">Set Name and Type:</string>
     <string name="set_detection_date">Set Detection Date:</string>
+    <string name="test">test</string>
 </resources>
