@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:scrollbarThumbVertical="@color/colorAccent"
     android:layout_height="match_parent"
     android:fillViewport="true">
 
@@ -16,33 +17,47 @@
         android:paddingTop="8dp"
         android:paddingRight="8dp"
         android:paddingBottom="8dp"
-        tools:context=".CodeVerificationActivity">
+        tools:context=".EmailVerificationCodeActivity">
 
         <ImageView
-            android:id="@+id/forgotPasswordImageView"
+            android:id="@+id/emailVerificationImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:src="@drawable/ic_verfication_code"
+            android:src="@drawable/ic_email_code_verification"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/enterVerificationCodeTextView"
+            android:id="@+id/emailVerificationCodeMessageTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:gravity="center"
-            android:text="@string/enter_verfication_code_text"
+            android:text="@string/email_verfication_code_message_text"
             android:textColor="@color/txt_black"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/forgotPasswordImageView" />
+            app:layout_constraintTop_toBottomOf="@id/emailVerificationImageView" />
+
+
+        <TextView
+            android:id="@+id/enterEmailVerificationCodeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="@string/enter_email_verfication_code_text"
+            android:textColor="@color/subtxt_black"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/emailVerificationCodeMessageTextView" />
 
         <com.chaos.view.PinView
-            android:id="@+id/verificationCodePinView"
+            android:id="@+id/emailVerificationCodePinView"
             style="@style/PinWidget.PinView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -63,12 +78,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/enterVerificationCodeTextView"
-            app:layout_constraintVertical_bias="0.100000024"
+            app:layout_constraintTop_toBottomOf="@id/enterEmailVerificationCodeTextView"
+            app:layout_constraintVertical_bias="0.050000012"
             app:lineColor="@color/colorPrimary" />
 
         <Button
-            android:id="@+id/confirmButton"
+            android:id="@+id/verifyButton"
             style="@style/buttonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -76,11 +91,11 @@
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:padding="14dp"
-            android:text="@string/confirm_text"
+            android:text="@string/verify_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/verificationCodePinView" />
+            app:layout_constraintTop_toBottomOf="@+id/emailVerificationCodePinView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

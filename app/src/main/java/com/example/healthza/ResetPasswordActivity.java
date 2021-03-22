@@ -11,32 +11,31 @@ import com.google.android.material.textfield.TextInputEditText;
 public class ResetPasswordActivity extends AppCompatActivity {
 
     private TextInputEditText passwordInputEditText, confirmPasswordInputEditText;
-    private Button resetPassword;
+    private Button resetPasswordButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
-        resetPassword = findViewById(R.id.resetPasswordButton);
+        /* Buttons */
+        resetPasswordButton = findViewById(R.id.resetPasswordButton);
         passwordInputEditText = findViewById(R.id.passwordInputEditText);
+
+        /* InputEditText */
         confirmPasswordInputEditText = findViewById(R.id.confirmPasswordInputEditText);
 
 
+         /*Class TextInputEditTextFocusListenerHelper has add() function
+         which will set focus listener for TextInputEditText to change start and end icon color tint*/
         TextInputEditTextFocusListenerHelper.add(this, passwordInputEditText);
         TextInputEditTextFocusListenerHelper.add(this, confirmPasswordInputEditText);
 
-
-        setOnClickListenersForButtons();
-    }
-
-
-    /* set on click listeners for Buttons to navigate to other activity */
-    private void setOnClickListenersForButtons()
-    {
-        resetPassword.setOnClickListener(view ->
+        resetPasswordButton.setOnClickListener(view ->
                 startActivity(new Intent(this, ResetPasswordMessageActivity.class)));
-
     }
+
+
+
 
 }
