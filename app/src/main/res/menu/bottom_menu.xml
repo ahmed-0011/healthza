@@ -1,0 +1,31 @@
+<!-- bottom_menu.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/ic_home"
+        android:title="Home"
+        app:cnb_iconColor="@color/colorPrimaryDark"/>
+    <item
+        android:id="@+id/medicalHistory"
+        android:title="Medical History"
+        android:icon="@drawable/ic_medical_history"
+        app:cnb_iconColor="@color/colorPrimaryDark"/>
+
+    <item
+        android:icon="@drawable/ic_barchart"
+        android:id="@+id/charts"
+        android:title="Charts"
+        app:cnb_iconColor="@color/colorPrimaryDark" />
+
+    <item
+        android:icon="@drawable/ic_appointments"
+        android:id="@+id/appointments"
+        android:title="Appointments"
+        app:cnb_iconColor="@color/colorPrimaryDark" />
+    <item
+        android:id="@+id/chat"
+        android:title="Chat"
+        android:icon="@drawable/ic_chat"
+        app:cnb_iconColor="@color/colorPrimaryDark" />
+</menu>

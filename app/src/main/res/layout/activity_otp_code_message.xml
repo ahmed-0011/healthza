@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:scrollbarThumbVertical="@color/colorAccent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -16,14 +17,14 @@
         android:paddingTop="8dp"
         android:paddingRight="8dp"
         android:paddingBottom="8dp"
-        tools:context=".CodeVerificationMessageActivity">
+        tools:context=".OTPCodeMessageActivity">
 
         <ImageView
             android:id="@+id/codeVerificationMessageImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:src="@drawable/ic_verification_check_mark"
+            android:src="@drawable/ic_opt_check_mark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

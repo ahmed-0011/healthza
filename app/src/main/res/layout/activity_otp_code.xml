@@ -2,8 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:scrollbarThumbVertical="@color/colorAccent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
 
@@ -17,47 +17,71 @@
         android:paddingTop="8dp"
         android:paddingRight="8dp"
         android:paddingBottom="8dp"
-        tools:context=".CodeVerficationMessageActivity">
+        tools:context=".OTPCodeActivity">
 
         <ImageView
-            android:id="@+id/forgotPasswordImageView"
+            android:id="@+id/otpVerificationCodeImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:src="@drawable/ic_reset_password_check_mark"
+            android:src="@drawable/ic_otp_code"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/resetPasswordMessageTextView"
+            android:id="@+id/enterOtpCodeTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="40dp"
             android:gravity="center"
-            android:text="@string/reset_password_message_text"
+            android:text="@string/enter_otp_code_text"
             android:textColor="@color/txt_black"
-            android:textSize="28sp"
+            android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/forgotPasswordImageView" />
+            app:layout_constraintTop_toBottomOf="@id/otpVerificationCodeImageView" />
+
+        <com.chaos.view.PinView
+            android:id="@+id/otpCodePinView"
+            style="@style/PinWidget.PinView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:cursorVisible="true"
+            android:inputType="number"
+            android:itemBackground="@color/white"
+            android:padding="8dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cursorColor="#50bafb"
+            app:cursorWidth="2dp"
+            app:itemCount="6"
+            app:itemHeight="50dp"
+            app:itemRadius="4dp"
+            app:itemSpacing="4dp"
+            app:itemWidth="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/enterOtpCodeTextView"
+            app:layout_constraintVertical_bias="0.100000024"
+            app:lineColor="@color/colorPrimary" />
 
         <Button
-            android:id="@+id/goToLoginButton"
+            android:id="@+id/confirmButton"
             style="@style/buttonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
-            android:drawableEnd="@drawable/ic_arrow_forward"
             android:padding="14dp"
-            android:text="@string/return_to_login_text"
+            android:text="@string/confirm_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/resetPasswordMessageTextView"
-            app:layout_constraintVertical_bias="0.8" />
+            app:layout_constraintTop_toBottomOf="@+id/otpCodePinView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

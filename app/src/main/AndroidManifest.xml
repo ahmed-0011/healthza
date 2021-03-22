@@ -9,8 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Theme.Healthza">
-        <activity android:name=".AddPatientIdentifier"></activity>
-        <activity android:name=".newChronicDiseases" />
+        <activity android:name=".newChronicDiseases"></activity>
         <activity
             android:name=".MainActivity"
             android:noHistory="true"

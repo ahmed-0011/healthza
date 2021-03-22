@@ -5,6 +5,7 @@
     <string name="sign_in_text">Sign in</string>
     <string name="sign_up_text">Sign up</string>
     <string name="next_text">Next</string>
+    <string name="finish_text">Finish</string>
     <string name="create_new_account">create new account.</string>
     <string name="welcome_text">welcome to chronic disease healthcare system</string>
     <string name="doctor_text">Doctor</string>
@@ -20,10 +21,26 @@
     <string name="name_text">Name</string>
     <string name="height_hint">Height</string>
     <string name="weight_hint">Weight</string>
+    <string name="start_text">Start</string>
+    <string name="welcome_dialog_message">Hello,</string>
+    <string name="welcome_dialog_text">before start using our app we need you to fill some usefull information
+                                       so press "start button" to fill these information.</string>
     <string name="already_have_account">already have account? login</string>
     <string name="specialty_hint">Specialty</string>
+    <string name="years_of_experience_hint">Years of experience</string>
+    <string name="workplace_text">Workplace</string>
+    <string name="select_your_work_days">Select your work days:</string>
+    <string name="saturday">Sat</string>
+    <string name="sunday">Sun</string>
+    <string name="monday">Mon</string>
+    <string name="tuesday">Tue</string>
+    <string name="wednesday">Wed</string>
+    <string name="thursday">Thu</string>
+    <string name="friday">Fri</string>
     <string name="sex_text">Sex:</string>
     <string name="you_are_text">You are:</string>
+    <string name="birth_date_text">Date birth:</string>
+    <string name="select_text">Select</string>
     <string name="male_text">Male</string>
     <string name="female_text">Female</string>
     <string name="forgot_password_text">Forgot your password?</string>
@@ -44,12 +61,24 @@
                                                press next and enter the code.</string>
     <string name="reset_password_message_text">Your password was updated successfully,
                                                return to login page and enter your information</string>
-    <string name="enter_verfication_code_text">Enter verification code</string>
+    <string name="email_verfication_code_message_text">We will send a verification code to this address: </string>
+    <string name="enter_email_verfication_code_text">Enter verification code</string>
+    <string name="enter_otp_code_text">Enter OTP code</string>
     <string name="confirm_text">Confirm</string>
+    <string name="verify_text">Verify</string>
     <string name="change_password_text">Change password.</string>
     <string name="update_password_text">Update password</string>
     <string name="return_to_login_text">Return to login.</string>
-
+    <string name="please_fill_the_following_information">Please fill the following information.</string>
+    <string name="diseases_names">Disease(s) name(s):</string>
+    <string name="diseases_types">Disease(s) type(s):</string>
+    <string name="diabetic_type">Diabetic type:</string>
+    <string name="hypertension_type">Hypertension type:</string>
+    <string name="cholestrol_type">Cholestrol type:</string>
+    <string name="detection_date">Detection date:</string>
+    <string name="diabetic_detection_date">Diabetic detection date</string>
+    <string name="hypertension_detection_date">Hypertension detection date</string>
+    <string name="cholestrol_detection_date">Cholestrol detection date</string>
     <string name="hh_mm">HH:MM</string>
     <string name="ldl_cholesterol_percent">LDL Cholesterol Percent:</string>
     <string name="yyyy_mm_dd">YYYY/MM/DD</string>
@@ -63,6 +92,11 @@
     <string name="todo">TODO</string>
     <string name="triglyceride_percent">Triglyceride Percent:</string>
     <string name="cholesterol_total_percent">Cholesterol Total Percent:</string>
+    <string name="enter_a_valid_email">Enter a valid email</string>
+    <string name="enter_a_valid_phonenumber">Enter a valid phone number</string>
+    <string name="password_length_error">"Password length must be at least 8 chracters"</string>
+    <string name="name_characters_error">Name must consist of characters and spaces only</string>
+    <string name="passwords_not_match_error">Password does not match</string>
     <string name="new_chronic_diseases">New Chronic Diseases</string>
     <string name="set_name_and_type">Set Name and Type:</string>
     <string name="set_detection_date">Set Detection Date:</string>

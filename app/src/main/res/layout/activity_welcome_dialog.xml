@@ -3,61 +3,66 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:scrollbarThumbVertical="@color/colorAccent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:scrollbarThumbVertical="@color/colorAccent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_color"
+        android:background="@drawable/welcome_dialog_background"
         android:clickable="true"
         android:focusable="true"
-        android:paddingLeft="8dp"
-        android:paddingTop="8dp"
-        android:paddingRight="8dp"
-        android:paddingBottom="8dp"
-        tools:context=".CodeVerficationMessageActivity">
+        android:paddingLeft="4dp"
+        android:paddingTop="4dp"
+        android:paddingRight="4dp"
+        android:paddingBottom="4dp">
 
-        <ImageView
-            android:id="@+id/forgotPasswordImageView"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/welcomeTextView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:layout_marginTop="16dp"
-            android:src="@drawable/ic_reset_password_check_mark"
+            android:gravity="center"
+            android:text="@string/welcome_dialog_message"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="44sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/resetPasswordMessageTextView"
+            android:id="@+id/welcomeDialogTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:text="@string/welcome_dialog_text"
+            android:textSize="32sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="24dp"
             android:gravity="center"
-            android:text="@string/reset_password_message_text"
-            android:textColor="@color/txt_black"
-            android:textSize="28sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/forgotPasswordImageView" />
+            app:layout_constraintTop_toBottomOf="@+id/welcomeTextView" />
+
 
         <Button
-            android:id="@+id/goToLoginButton"
+            android:id="@+id/startButton"
             style="@style/buttonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:drawableEnd="@drawable/ic_arrow_forward"
-            android:padding="14dp"
-            android:text="@string/return_to_login_text"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="36dp"
+            android:padding="10dp"
+            android:text="@string/start_text"
+            android:textSize="24sp"
+            android:backgroundTint="#FFC110"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/resetPasswordMessageTextView"
-            app:layout_constraintVertical_bias="0.8" />
+            app:layout_constraintTop_toBottomOf="@+id/welcomeDialogTextView"
+            app:layout_constraintVertical_bias="0.9" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
