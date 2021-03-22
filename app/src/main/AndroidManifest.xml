@@ -10,6 +10,7 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.Healthza">
         <activity android:name=".EmailVerificationCodeActivity"/>
+        <activity android:name=".newChronicDiseases"/>
         <activity
             android:name=".SplashScreenActivity"
             android:noHistory="true"
@@ -24,12 +25,14 @@
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".CodeVerificationMessageActivity"/>
         <activity android:name=".OTPCodeMessageActivity" />
         <activity android:name=".ResetPasswordMessageActivity" />
         <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".OTPCodeActivity" />
         <activity android:name=".ForgotPasswordActivity" />
-        <activity android:name=".HbAlc" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".HbAlc"/>
         <activity android:name=".ComprehensiveTest" />
         <activity android:name=".AddLiverTest" />
         <activity android:name=".AddKidneysTest" />
@@ -37,7 +40,6 @@
         <activity android:name=".AddGlucoseTest" />
         <activity android:name=".AddFBStest" />
         <activity android:name=".AddCholesterolAndFatsTest" />
-        <activity android:name=".MainActivity"/>
     </application>
 
 </manifest>
