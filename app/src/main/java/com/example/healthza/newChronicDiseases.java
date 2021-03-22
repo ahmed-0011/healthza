@@ -1,6 +1,5 @@
 package com.example.healthza;
 
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -120,6 +119,7 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
         spinner1 = findViewById(R.id.spinner);
         flagChronicDiseases();
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @SuppressLint("LongLogTag")
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -217,7 +217,6 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
 
     }
 
-
     void flagChronicDiseases()
     {
         Resources res = getResources();
@@ -229,7 +228,6 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
         spinner1.setAdapter(adapter1);
 
     }
-
 
     private void createChannel() {
 
@@ -245,7 +243,6 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
 
         }
     }
-
 
     void notification(String text,String date)
     {
@@ -285,14 +282,12 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
 
     }
 
-
    /* //Empty Fields
     boolean ifEmptyFields()
     {
         //complet
         return data.size() <= 0 ;
     }*/
-
 
     void adD()
     {
@@ -338,7 +333,6 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
                 .show ();
     }
 
-
     @SuppressLint("LongLogTag")
     void do_()
     {
@@ -372,7 +366,6 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
         Toast.makeText(getApplicationContext(),"new Chronic Disease is added :"+itemTemp+" \n\nDate:"+date_,Toast.LENGTH_LONG).show();
 
     }
-
     @Override
     public void onClick(View v) {
         if (v == add) { adD(); return; }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "972791042745",
+    "project_id": "healthza-94f39",
+    "storage_bucket": "healthza-94f39.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:972791042745:android:a598f63cd0029913edc168",
+        "android_client_info": {
+          "package_name": "com.example.healthza"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "972791042745-0ufb51aghbphhq6an00re7o9si0v3ujo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOhhdOmS3x-CQ67pwfNnL69vKFFR46UQo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "972791042745-0ufb51aghbphhq6an00re7o9si0v3ujo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
