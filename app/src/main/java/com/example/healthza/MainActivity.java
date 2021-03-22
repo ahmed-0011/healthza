@@ -19,7 +19,6 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import com.google.android.material.textfield.TextInputEditText;
 import java.util.Calendar;
-//sssss
 public class MainActivity extends AppCompatActivity {
 
 @RequiresApi(api = Build.VERSION_CODES.R)
