@@ -370,4 +370,17 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
     public void onClick(View v) {
         if (v == add) { adD(); return; }
     }
+
+    //rotate
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
 }

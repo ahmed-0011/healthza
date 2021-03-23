@@ -419,4 +419,17 @@ public class HbAlc extends AppCompatActivity implements View.OnClickListener
 
     }
 
+    //rotate
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
+
 }

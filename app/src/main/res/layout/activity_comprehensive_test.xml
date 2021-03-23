@@ -38,11 +38,11 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="5dp"
+                    android:contentDescription="@string/todo"
                     app:layout_constraintBottom_toTopOf="@+id/divider2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/DateIcon7"
-                    app:srcCompat="@drawable/timeicon"
-                    android:contentDescription="@string/todo" />
+                    app:srcCompat="@drawable/timeicon" />
 
                 <ImageView
                     android:id="@+id/DateIcon7"
@@ -50,11 +50,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="44dp"
                     android:layout_marginEnd="10dp"
+                    android:contentDescription="@string/todo"
                     app:layout_constraintBottom_toTopOf="@+id/TimeIcon7"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/divider"
-                    app:srcCompat="@drawable/dateicon"
-                    android:contentDescription="@string/todo" />
+                    app:srcCompat="@drawable/dateicon" />
 
                 <TextView
                     android:id="@+id/textView"
@@ -79,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:layout_marginTop="13dp"
-                    android:layout_marginEnd="2dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="5dp"
                     android:fontFamily="@font/bubblegum_sans"
                     android:text="@string/hh_mm"
@@ -100,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:layout_marginTop="43dp"
-                    android:layout_marginEnd="2dp"
+                    android:layout_marginEnd="8dp"
                     android:fontFamily="@font/bubblegum_sans"
                     android:text="@string/yyyy_mm_dd"
                     android:textAlignment="center"
@@ -174,7 +174,9 @@
                     android:id="@+id/outerComprehensive5Percent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
@@ -184,6 +186,7 @@
                         android:id="@+id/innerComprehensive5Percent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:autofillHints=""
                         android:background="@drawable/round"
                         android:ems="10"
                         android:focusableInTouchMode="true"
@@ -192,8 +195,7 @@
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:autofillHints="" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -201,7 +203,9 @@
                     android:id="@+id/outerComprehensive1Percent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
                     app:layout_constraintBottom_toTopOf="@+id/outerComprehensive2Percent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -212,6 +216,7 @@
                         android:id="@+id/innerComprehensive1Percent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:autofillHints=""
                         android:background="@drawable/round"
                         android:ems="10"
                         android:focusableInTouchMode="true"
@@ -220,8 +225,7 @@
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:autofillHints="" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -229,7 +233,9 @@
                     android:id="@+id/outerComprehensive2Percent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
                     app:layout_constraintBottom_toTopOf="@+id/outerComprehensive3Percent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -240,6 +246,7 @@
                         android:id="@+id/innerComprehensive2Percent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:autofillHints=""
                         android:background="@drawable/round"
                         android:ems="10"
                         android:focusableInTouchMode="true"
@@ -248,8 +255,7 @@
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:autofillHints="" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -257,7 +263,9 @@
                     android:id="@+id/outerComprehensive3Percent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
                     app:layout_constraintBottom_toTopOf="@+id/outerComprehensive4Percent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -273,11 +281,11 @@
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
                         android:hint="@string/g_g_t_percent"
+                        android:importantForAutofill="no"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:importantForAutofill="no" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -285,7 +293,9 @@
                     android:id="@+id/outerComprehensive4Percent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
                     app:layout_constraintBottom_toTopOf="@+id/outerComprehensive5Percent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -296,6 +306,7 @@
                         android:id="@+id/innerComprehensive4Percent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:autofillHints=""
                         android:background="@drawable/round"
                         android:ems="10"
                         android:focusableInTouchMode="true"
@@ -304,8 +315,7 @@
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:autofillHints="" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
