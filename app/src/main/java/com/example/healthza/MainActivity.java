@@ -26,11 +26,17 @@ protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent I = new Intent(this, ComprehensiveTest.class);
+
+
+       Intent I = new Intent(this, ComprehensiveTest.class);
         startActivity(I);
+   /* if(!(I.getBooleanExtra(Functions.loginSUC,false)))
+      {
 
         showWelcomeDialog();
-    }
+     }*/
+
+}
 
 
     @RequiresApi(api = Build.VERSION_CODES.R)
@@ -44,7 +50,7 @@ protected void onCreate(Bundle savedInstanceState) {
         AlertDialog welcomeDialog = new AlertDialog.Builder(this)
                 .setView(view)
                 .create();
-        welcomeDialog.show();
+             welcomeDialog.show();
 
 
         DisplayMetrics metrics = new DisplayMetrics(); //get metrics of screen
@@ -56,6 +62,7 @@ protected void onCreate(Bundle savedInstanceState) {
         welcomeDialog.setContentView(R.layout.activity_welcome_dialog);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     void showPatientDialog1()
     {
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -101,6 +108,7 @@ protected void onCreate(Bundle savedInstanceState) {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     void showPatientDialog2()
     {
         LayoutInflater inflater = LayoutInflater.from(this);

@@ -20,6 +20,9 @@ public class Functions extends AppCompatActivity{
     public static String dateS = "";
     public static String timeS = "";
 
+    public static String loginSUC = "147";
+    public  static  boolean loginSUCV = true;
+
     static    int ne=1;//  Notification ID"Counter"
 
     //Date

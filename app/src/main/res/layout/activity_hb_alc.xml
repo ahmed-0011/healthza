@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/background"
         android:textAlignment="center"
         android:textDirection="firstStrong"
@@ -20,25 +20,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginBottom="5dp"
             app:layout_constraintBottom_toTopOf="@+id/divider2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/timeText2"
             app:layout_constraintTop_toBottomOf="@+id/DateIcon2"
-            app:srcCompat="@drawable/timeicon" />
+            app:srcCompat="@drawable/timeicon"
+            android:contentDescription="@string/todo" />
 
         <ImageView
             android:id="@+id/DateIcon2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="10dp"
             app:layout_constraintBottom_toTopOf="@+id/TimeIcon2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/dateText2"
             app:layout_constraintTop_toBottomOf="@+id/divider"
-            app:srcCompat="@drawable/dateicon" />
+            app:srcCompat="@drawable/dateicon"
+            android:contentDescription="@string/todo" />
 
         <TextView
             android:id="@+id/textView"
@@ -47,7 +47,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="2dp"
             android:fontFamily="@font/bubblegum_sans"
-            android:text="Press to set Time and Date:"
+            android:text="@string/press_to_set_time_and_date"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="#757171"
@@ -64,7 +64,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="3dp"
             android:fontFamily="@font/bubblegum_sans"
-            android:text="Set Time and Date Auto"
+            android:text="@string/set_time_and_date_auto"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="#757171"
@@ -75,14 +75,14 @@
 
         <TextView
             android:id="@+id/timeText2"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="1dp"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="13dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="2dp"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/bubblegum_sans"
-            android:text="HH:MM"
+            android:text="@string/hh_mm"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@color/white"
@@ -96,13 +96,13 @@
 
         <TextView
             android:id="@+id/dateText2"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="1dp"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="43dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="2dp"
             android:fontFamily="@font/bubblegum_sans"
-            android:text="YYYY/MM/DD"
+            android:text="@string/yyyy_mm_dd"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@color/white"
@@ -144,7 +144,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/bubblegum_sans"
-            android:text="Diabetes Cumulative Test"
+            android:text="@string/diabetes_cumulative_test"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
             android:textSize="40sp"
             app:layout_constraintBottom_toTopOf="@+id/divider"
@@ -173,14 +173,16 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/round"
                 android:drawableStart="@drawable/hbalctest"
+                android:drawablePadding="?attr/actionBarSize"
                 android:ems="10"
                 android:focusableInTouchMode="true"
                 android:fontFamily="@font/bubblegum_sans"
-                android:hint="Enter Hb Alc percent:"
+                android:hint="@string/enter_hb_alc_percent"
                 android:inputType="numberDecimal"
                 android:paddingStart="10dp"
                 android:selectAllOnFocus="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:autofillHints="" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -192,7 +194,7 @@
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/design_default_color_error"
             android:fontFamily="@font/bubblegum_sans"
-            android:text="CLEAR"
+            android:text="@string/clear"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@android:color/darker_gray"
@@ -224,7 +226,7 @@
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/design_default_color_secondary_variant"
             android:fontFamily="@font/bubblegum_sans"
-            android:text="ADD"
+            android:text="@string/add"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@android:color/darker_gray"

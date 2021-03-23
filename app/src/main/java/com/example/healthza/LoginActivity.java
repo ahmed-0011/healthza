@@ -101,7 +101,10 @@ public class LoginActivity extends AppCompatActivity {
                 firebaseAuth.signInWithEmailAndPassword(email.trim(), password).addOnCompleteListener(task -> {
 
                     if(task.isComplete() && task.isSuccessful()) {
-                        startActivity(new Intent(this, MainActivity.class));
+
+                        Intent I = new Intent(this, MainActivity.class);
+                        I.putExtra(Functions.loginSUC,Functions.loginSUCV);
+                        startActivity(I);
                         Toast.makeText(this, "welcome" + firebaseAuth.getCurrentUser().getDisplayName()
                                 , Toast.LENGTH_LONG).show();
                     }

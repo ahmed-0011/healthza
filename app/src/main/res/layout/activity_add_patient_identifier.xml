@@ -7,208 +7,211 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".AddPatientIdentifier">
-
-    <Button
-        android:id="@+id/clearIdentifierInfo"
-        android:layout_width="163dp"
-        android:layout_height="57dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:backgroundTint="@color/design_default_color_error"
-        android:fontFamily="@font/bubblegum_sans"
-        android:text="CLEAR"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="24sp"
-        android:textStyle="bold|italic"
-        app:icon="@android:drawable/ic_menu_delete"
-        app:iconGravity="textEnd"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/addIdentifierInfo"
-        app:layout_constraintTop_toBottomOf="@+id/divider2" />
-
-    <Button
-        android:id="@+id/addIdentifierInfo"
-        android:layout_width="163dp"
-        android:layout_height="57dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="5dp"
-        android:backgroundTint="@color/purple_500"
-        android:fontFamily="@font/bubblegum_sans"
-        android:text="ADD"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="24sp"
-        android:textStyle="bold|italic"
-        app:icon="@android:drawable/ic_input_add"
-        app:iconGravity="textEnd"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/clearIdentifierInfo"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider2" />
-
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
-        android:background="#ffff"
-        android:backgroundTint="#CA1A1A"
-        app:layout_constraintBottom_toTopOf="@+id/clearIdentifierInfo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/outerIdentifierRelationship" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/bubblegum_sans"
-        android:text="Enter these Fields:"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="#757171"
-        android:textSize="35sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintBottom_toTopOf="@+id/outerIdentifierName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider"
-        tools:ignore="MissingConstraints" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/outerIdentifierRelationship"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/divider2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/outerIdentifierPhone">
+        tools:context=".AddPatientIdentifier">
 
-        <EditText
-            android:id="@+id/innerIdentifierRelationship"
+        <Button
+            android:id="@+id/clearIdentifierInfo"
+            android:layout_width="163dp"
+            android:layout_height="57dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:backgroundTint="@color/design_default_color_error"
+            android:fontFamily="@font/bubblegum_sans"
+            android:text="@string/clear"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="24sp"
+            android:textStyle="bold|italic"
+            app:icon="@android:drawable/ic_menu_delete"
+            app:iconGravity="textEnd"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/addIdentifierInfo"
+            app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+        <Button
+            android:id="@+id/addIdentifierInfo"
+            android:layout_width="163dp"
+            android:layout_height="57dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="5dp"
+            android:backgroundTint="@color/purple_500"
+            android:fontFamily="@font/bubblegum_sans"
+            android:text="@string/add"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="24sp"
+            android:textStyle="bold|italic"
+            app:icon="@android:drawable/ic_input_add"
+            app:iconGravity="textEnd"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/clearIdentifierInfo"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="#ffff"
+            android:backgroundTint="#CA1A1A"
+            app:layout_constraintBottom_toTopOf="@+id/clearIdentifierInfo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/outerIdentifierRelationship" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/bubblegum_sans"
+            android:text="@string/enter_these_fields"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="#757171"
+            android:textSize="35sp"
+            android:textStyle="bold|italic"
+            app:layout_constraintBottom_toTopOf="@+id/outerIdentifierName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider"
+            tools:ignore="MissingConstraints" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/outerIdentifierRelationship"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/round_empty"
-            android:drawableStart="@drawable/relationship"
-            android:drawablePadding="?attr/actionBarSize"
-            android:ems="10"
-            android:focusableInTouchMode="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/divider2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/outerIdentifierPhone">
+
+            <EditText
+                android:id="@+id/innerIdentifierRelationship"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_empty"
+                android:drawableStart="@drawable/relationship"
+                android:drawablePadding="?attr/actionBarSize"
+                android:ems="10"
+                android:focusableInTouchMode="true"
+                android:fontFamily="@font/bubblegum_sans"
+                android:hint="@string/enter_identifier_relationship"
+                android:inputType="text"
+                android:paddingStart="10dp"
+                android:selectAllOnFocus="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:autofillHints="" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/bubblegum_sans"
-            android:hint="Enter Identifier Relationship:"
-            android:inputType="text"
-            android:paddingStart="10dp"
-            android:selectAllOnFocus="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:text="@string/add_patient_identifier"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toTopOf="@+id/divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/bubblegum_sans"
-        android:text="Add Patient Identifier"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@+id/divider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/outerIdentifierPhone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/outerIdentifierRelationship"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/outerIdentifierName">
-
-        <EditText
-            android:id="@+id/innerIdentifierPhone"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/outerIdentifierPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/round_empty"
-            android:digits=" 0123456789+#*"
-            android:imeOptions="actionNext"
-            android:drawableStart="@drawable/phone"
-            android:drawablePadding="?attr/actionBarSize"
-            android:ems="10"
-            android:focusableInTouchMode="true"
-            android:fontFamily="@font/bubblegum_sans"
-            android:hint="Enter Identifier Phone:"
-            android:inputType="phone"
-            android:paddingStart="10dp"
-            android:selectAllOnFocus="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/outerIdentifierRelationship"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/outerIdentifierName">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <EditText
+                android:id="@+id/innerIdentifierPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_empty"
+                android:digits=" 0123456789+#*"
+                android:imeOptions="actionNext"
+                android:drawableStart="@drawable/phone"
+                android:drawablePadding="?attr/actionBarSize"
+                android:ems="10"
+                android:focusableInTouchMode="true"
+                android:fontFamily="@font/bubblegum_sans"
+                android:hint="@string/enter_identifier_phone"
+                android:inputType="phone"
+                android:paddingStart="10dp"
+                android:selectAllOnFocus="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:importantForAutofill="no" />
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
-        android:background="#ffff"
-        android:backgroundTint="#CA1A1A"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/outerIdentifierName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/outerIdentifierPhone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="#ffff"
+            android:backgroundTint="#CA1A1A"
+            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-        <EditText
-            android:id="@+id/innerIdentifierName"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/outerIdentifierName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/round_empty"
-            android:drawableStart="@drawable/name"
-            android:drawablePadding="?attr/actionBarSize"
-            android:ems="10"
-            android:focusableInTouchMode="true"
-            android:fontFamily="@font/bubblegum_sans"
-            android:hint="Enter Identifier Name:"
-            android:inputType="textPersonName"
-            android:paddingStart="10dp"
-            android:selectAllOnFocus="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/outerIdentifierPhone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <EditText
+                android:id="@+id/innerIdentifierName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_empty"
+                android:drawableStart="@drawable/name"
+                android:drawablePadding="?attr/actionBarSize"
+                android:ems="10"
+                android:focusableInTouchMode="true"
+                android:fontFamily="@font/bubblegum_sans"
+                android:hint="@string/enter_identifier_name"
+                android:inputType="textPersonName"
+                android:paddingStart="10dp"
+                android:selectAllOnFocus="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:autofillHints="" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
