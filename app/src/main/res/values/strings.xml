@@ -146,4 +146,12 @@
     <string name="comprehensive_test">Comprehensive Test</string>
     <string name="set_time_and_date_auto">Set Time and Date Auto</string>
     <string name="todo">TODO</string>
+    <string name="new_test_appointment">New Test Appointment</string>
+    <string name="set_date_of_appointment">Set Date of Appointment:</string>
+    <string name="select_patient">Select Patient:</string>
+    <string name="set_test">Set Test:</string>
+    <string name="or_search_on_patient">Or Search on Patient :</string>
+    <string name="search">Search</string>
+    <string name="enter_patient_name_or_id">Enter Patient Name or ID:</string>
+    <string name="clearT">Clear</string>
 </resources>
