@@ -28,7 +28,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
 
 
-       Intent I = new Intent(this, addNewTestAppointment.class);
+       Intent I = new Intent(this, ComprehensiveTest.class);
         startActivity(I);
    /* if(!(I.getBooleanExtra(Functions.loginSUC,false)))
       {
