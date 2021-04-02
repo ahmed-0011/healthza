@@ -9,38 +9,80 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Theme.Healthza">
-        <activity android:name=".addNewTestAppointment" android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".AddPatientIdentifier" android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".newChronicDiseases" android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity android:name=".addComplications"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".addNewTestAppointment"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".AddPatientIdentifier"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".newChronicDiseases"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/splashScreenStyle"
-            android:configChanges="orientation|screenSize|keyboardHidden">
+            android:theme="@style/splashScreenStyle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WelcomeActivity" android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".RegisterActivity" android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".LoginActivity" android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".CodeVerificationMessageActivity" android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".ResetPasswordMessageActivity" android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".ResetPasswordActivity" android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".CodeVerificationActivity" android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".ForgotPasswordActivity" android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".SplashScreenActivity" android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".HbAlc" android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".ComprehensiveTest" android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".AddLiverTest" android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".AddKidneysTest" android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".AddHypertensionTest" android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".AddGlucoseTest" android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".AddFBStest" android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".AddCholesterolAndFatsTest" android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".WelcomeActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".RegisterActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".LoginActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".CodeVerificationMessageActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".ResetPasswordMessageActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".ResetPasswordActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".CodeVerificationActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".SplashScreenActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".HbAlc"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".ComprehensiveTest"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".AddLiverTest"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".AddKidneysTest"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".AddHypertensionTest"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".AddGlucoseTest"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".AddFBStest"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".AddCholesterolAndFatsTest"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
     </application>
 
 </manifest>

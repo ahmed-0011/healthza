@@ -18,6 +18,7 @@
     </string-array>
 
     <string-array name="arrayTests">
+        <item>Doctor Appointment</item>
         <item>Glucose Test</item>
         <item>F.B.S test</item>
         <item>Cumulative test</item>

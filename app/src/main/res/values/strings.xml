@@ -149,7 +149,7 @@
     <string name="new_test_appointment">New Test Appointment</string>
     <string name="set_date_of_appointment">Set Date of Appointment:</string>
     <string name="select_patient">Select Patient:</string>
-    <string name="set_test">Set Test:</string>
+    <string name="set_test">Set Doctor Appointment or Test Appointment:</string>
     <string name="or_search_on_patient">Or Search on Patient :</string>
     <string name="search">Search</string>
     <string name="enter_patient_name_or_id">Enter Patient Name or ID:</string>

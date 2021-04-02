@@ -14,6 +14,18 @@
     </item>
 
     <item
+        android:id="@+id/ManagePatientsComplicationsDM"
+        android:icon="@drawable/compier"
+        android:title="Manage Patients Complications">
+        <menu>
+            <item
+                android:id="@+id/newComplicationDM"
+                android:icon="@drawable/icocomp"
+                android:title="Add new Complication" />
+        </menu>
+    </item>
+
+    <item
         android:id="@+id/logOutDM"
         android:icon="@drawable/logoutm"
         android:title="LogOut" />
