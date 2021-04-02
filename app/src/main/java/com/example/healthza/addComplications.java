@@ -132,7 +132,7 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
                 break;
             }
 
-            case R.id.ManagePatientsComplicationsDM:
+            case R.id.newComplicationDM:
             {
                 /*Intent I = new Intent(this, addComplications.class);
                 startActivity(I);*/

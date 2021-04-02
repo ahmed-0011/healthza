@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".addComplications">
 
         <Button
@@ -112,7 +112,7 @@
             android:layout_marginBottom="10dp"
             android:backgroundTint="@color/design_default_color_error"
             android:fontFamily="@font/bubblegum_sans"
-            android:text="Clear Complication"
+            android:text="@string/clear_complication"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@android:color/darker_gray"
@@ -192,7 +192,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/bubblegum_sans"
-            android:text="Enter Complication Name and Status:"
+            android:text="@string/enter_complication_name_and_status"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
             android:textSize="18sp"
             app:drawableStartCompat="@drawable/icocomp"
@@ -246,7 +246,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/bubblegum_sans"
-            android:text="Add Complication"
+            android:text="@string/add_complication"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
             android:textSize="40sp"
             app:drawableEndCompat="@drawable/complications"
@@ -275,12 +275,13 @@
                 android:ems="10"
                 android:focusableInTouchMode="true"
                 android:fontFamily="@font/bubblegum_sans"
-                android:hint="Enter Complication Name:"
+                android:hint="@string/enter_complication_name"
                 android:inputType="text"
                 android:paddingStart="10dp"
                 android:selectAllOnFocus="true"
                 android:textAlignment="gravity"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:autofillHints="" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -304,12 +305,13 @@
                 android:ems="10"
                 android:focusableInTouchMode="true"
                 android:fontFamily="@font/bubblegum_sans"
-                android:hint="Enter Describe of Complication Status:"
+                android:hint="@string/enter_describe_of_complication_status"
                 android:inputType="text"
                 android:paddingStart="10dp"
                 android:selectAllOnFocus="true"
                 android:textAlignment="gravity"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:autofillHints="" />
         </com.google.android.material.textfield.TextInputLayout>
 
 

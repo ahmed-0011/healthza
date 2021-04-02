@@ -135,7 +135,7 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
                 break;
             }
 
-            case R.id.ManagePatientsComplicationsDM:
+            case R.id.newComplicationDM:
             {
                 Intent I = new Intent(this, addComplications.class);
                 startActivity(I);

@@ -154,4 +154,9 @@
     <string name="search">Search</string>
     <string name="enter_patient_name_or_id">Enter Patient Name or ID:</string>
     <string name="clearT">Clear</string>
+    <string name="clear_complication">Clear Complication</string>
+    <string name="enter_complication_name_and_status">Enter Complication Name and Status:</string>
+    <string name="add_complication">Add Complication</string>
+    <string name="enter_describe_of_complication_status">Enter Describe of Complication Status:</string>
+    <string name="enter_complication_name">Enter Complication Name:</string>
 </resources>
