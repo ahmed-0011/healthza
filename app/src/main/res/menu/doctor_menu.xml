@@ -22,6 +22,11 @@
                 android:id="@+id/newComplicationDM"
                 android:icon="@drawable/icocomp"
                 android:title="Add new Complication" />
+
+            <item
+                android:id="@+id/updateComplicationDM"
+                android:icon="@drawable/updatecomp"
+                android:title="UPDATE Complication Status" />
         </menu>
     </item>
 

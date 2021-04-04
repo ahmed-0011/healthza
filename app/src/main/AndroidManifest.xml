@@ -9,7 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Theme.Healthza">
-        <activity android:name=".addComplications"
+        <activity
+            android:name=".updateComplicationStatus"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".addComplications"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".addNewTestAppointment"

@@ -139,6 +139,13 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
                 break;
             }
 
+            case R.id.updateComplicationDM:
+            {
+                Intent I = new Intent(this, updateComplicationStatus.class);
+                startActivity(I);
+                break;
+            }
+
             default:{}
         }
         return super.onOptionsItemSelected ( item );

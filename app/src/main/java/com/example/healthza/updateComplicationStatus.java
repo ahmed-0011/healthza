@@ -14,7 +14,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -33,6 +32,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -40,37 +40,48 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class addNewTestAppointment extends AppCompatActivity implements View.OnClickListener
+public class updateComplicationStatus extends AppCompatActivity implements View.OnClickListener
+        , CompoundButton.OnCheckedChangeListener
         , View.OnFocusChangeListener
 {
 
     public final int holo_green_dark = 17170453;
-    private static final  String ChannelID= "addNewTestAppointmenNote";
+    private static final  String ChannelID= "updateComplicationStatusNote";
 
-    private Button add;
+    private Button update;
     private Button clear;
+    private Button clearC;
     private Button search;
 
-    private Spinner spinnerT;
+    private Spinner spinnerC;
     private Spinner spinnerP;
 
     private DatePicker datePicker;
 
     EditText searchP;
+    EditText describeC;
 
-    List<String> dataT;
+    List<String> dataC;
     List<String> dataP;
 
-    private String testName = "";
-    int testPOS = 0;
+    private String complicationName = "";
+    private String complicationDate = "";
+    int compPOS = 0;
 
     private String patientName = "";
     private String patientId = "";
     int patientPOS = 0;
+
+    CheckBox autoTD;
+
+    TextView tog;
+
+    boolean dt = false;
 
     //
     @SuppressLint("RestrictedApi")
@@ -101,8 +112,8 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
         {
             case R.id.newAppointmentsDM:
             {
-               /* Intent I = new Intent(this, addNewTestAppointment.class);
-                startActivity(I);*/
+                Intent I = new Intent(this, addNewTestAppointment.class);
+                startActivity(I);
                 break;
             }
 
@@ -144,8 +155,8 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
 
             case R.id.updateComplicationDM:
             {
-                Intent I = new Intent(this, updateComplicationStatus.class);
-                startActivity(I);
+               /* Intent I = new Intent(this, updateComplicationStatus.class);
+                startActivity(I);*/
                 break;
             }
 
@@ -158,7 +169,7 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
     @SuppressLint("LongLogTag")
     public boolean onSupportNavigateUp()
     {
-        Log.w ("Add New Test Appointment.", "onSupportNavigateUp is calll");
+        Log.w ("Add New Complication.", "onSupportNavigateUp is calll");
         onBackPressed ();
         return super.onSupportNavigateUp ();
     }
@@ -168,6 +179,7 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
     {
         //complet
         searchP.clearFocus();
+        describeC.clearFocus();
         return super.onKeyDown(keyCode, event);
     }
     //
@@ -176,15 +188,15 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
     public void onBackPressed()
     {
         //super.onBackPressed ();
-        Log.w ("Add New Test Appointment.", "this onbackpress is calll");
+        Log.w ("Update Complication Status.", "this onbackpress is calll");
 
         AlertDialog.Builder   x= new AlertDialog.Builder ( this );
-        x.setMessage ( "DO YOU WANT TO EXIT?" ).setTitle ( "Exit Activity'Add New Test Appointment'" )
+        x.setMessage ( "DO YOU WANT TO EXIT?" ).setTitle ( "Exit Activity'Update Complication Status'" )
 
                 .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.w ("Add New Test Appointment.", "end");
+                        Log.w ("Update Complication Status.", "end");
                         Toast.makeText(getApplicationContext(), "Back...", Toast.LENGTH_SHORT).show();
                         //complet
                         finish();
@@ -209,38 +221,40 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
         //complet
     }
 
-
-    @SuppressLint("LongLogTag")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_new_test_appointment);
+        setContentView(R.layout.activity_update_complication_status);
 
-        Log.w ("Add New Test Appointment.", "start");
-        Toast.makeText(getApplicationContext(), "Add New Test Appointment....", Toast.LENGTH_SHORT).show();
+        Log.w("Update Complication Status.", "start");
+        Toast.makeText(getApplicationContext(), "Update Complication Status....", Toast.LENGTH_SHORT).show();
 
-        ActionBar bar = getSupportActionBar ();
-        bar.setHomeButtonEnabled ( true );
-        bar.setDisplayHomeAsUpEnabled ( true );
-        bar.setHomeAsUpIndicator ( R.drawable.ex);
-        bar.setTitle("Add New Test Appointment.");
+        ActionBar bar = getSupportActionBar();
+        bar.setHomeButtonEnabled(true);
+        bar.setDisplayHomeAsUpEnabled(true);
+        bar.setHomeAsUpIndicator(R.drawable.ex);
+        bar.setTitle("Update Complication Status.");
 
-        datePicker = findViewById(R.id.datePicker);
+        tog = findViewById(R.id.textView2); tog.setVisibility(View.VISIBLE);
+
+        datePicker = findViewById(R.id.datePickerCU);
         datePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-               // Toast.makeText(getApplicationContext()," You are changed date is : "+dayOfMonth +" - "+monthOfYear+ " - "+year,Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext()," You are changed date is : "+dayOfMonth +" - "+monthOfYear+ " - "+year,Toast.LENGTH_SHORT).show();
             }
         });
 
-        searchP = findViewById(R.id.innerPatient); searchP.setOnFocusChangeListener(this);
+        searchP = findViewById(R.id.innerPatientCompU); searchP.setOnFocusChangeListener(this);
+        describeC = findViewById(R.id.innerComplicationStatusDescribeU); describeC.setOnFocusChangeListener(this);
 
-        add = findViewById(R.id.addAppointment); add.setOnClickListener(this);
-        clear = findViewById(R.id.clearSearch); clear.setOnClickListener(this);
-        search = findViewById(R.id.SearchPatient); search.setOnClickListener(this);
+        update = findViewById(R.id.updateComplicationS); update.setOnClickListener(this);
+        clear = findViewById(R.id.clearSearchCompU); clear.setOnClickListener(this);
+        clearC = findViewById(R.id.clearCompDES); clearC.setOnClickListener(this);
+        search = findViewById(R.id.SearchPatientCompU); search.setOnClickListener(this);
 
-        spinnerP = findViewById(R.id.spinnerPatient);
+        spinnerP = findViewById(R.id.spinnerPatientCompU);
         flagPatient();
         spinnerP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -252,6 +266,7 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
                 patientPOS = position;
                 ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
                 //!complet
+                //flagComplication();
 
             }
 
@@ -265,57 +280,50 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
             }
         });
 
-        spinnerT = findViewById(R.id.spinnerTest);
-        flagTest();
-        spinnerT.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerC = findViewById(R.id.spinnerComplicationU);
+        flagComplication();
+        spinnerC.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-
-                testName = "" + parent.getItemAtPosition(position).toString();
-                testPOS = position;
-                ((TextView) spinnerT.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                String temp = "" + parent.getItemAtPosition(position).toString();
+                complicationName = temp.substring(0,temp.indexOf(" : "));
+                complicationDate = temp.substring((temp.indexOf(" : ")+3),temp.length());
+                compPOS = position;
+                ((TextView) spinnerC.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
                 //!complet
 
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                testName = "" + parent.getItemAtPosition(testPOS).toString();
-                ((TextView) spinnerT.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                String temp = "" + parent.getItemAtPosition(compPOS).toString();
+                complicationName = temp.substring(0,temp.indexOf(" : "));
+                complicationDate = temp.substring((temp.indexOf(" : ")+3),temp.length());
+                ((TextView) spinnerC.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
                 //!complet
             }
         });
 
+        autoTD = findViewById(R.id.TimeDateAutoCU);
+        autoTD.setChecked(false);
+        autoTD.setOnClickListener(this);
     }
 
-    void flagTest()
-    {
-        Resources res = getResources();
-        dataT = Arrays.asList(res.getStringArray(R.array.arrayTests));
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, dataT);
-        //complet
-        // ........... When create db [add this code]: 'pre check and drop 'remove' Chronic Diseases added in past'
-        spinnerT.setAdapter(adapter1);
 
-    }
-
-    void flagPatient()
-    {
+    void flagPatient() {
         List<String> patient = new ArrayList<String>();
         getPatient(patient);
         dataP = patient;
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
                 android.R.layout.simple_dropdown_item_1line, dataP);
         //complet
-        // ........... When create db [add this code]: 'pre check and drop 'remove' Chronic Diseases added in past'
+        // ........... When create db [add code]:
         spinnerP.setAdapter(adapter1);
 
     }
 
-    void getPatient(List<String> p)
-    {
+    void getPatient(List<String> p) {
         //sample of virtual Patients  for test 'should comment it after writing db code'
         //<!--
         p.add("zoew dorar awwad : 1025878963");
@@ -326,6 +334,38 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
         //-->
 
         // complet db code to get Patient Name and ID
+        // code ...
+
+    }
+
+    void flagComplication() {
+
+        if(spinnerC == null){spinnerC = findViewById(R.id.spinnerComplicationU);}
+
+        List<String> complication = new ArrayList<String>();
+        getComplication(complication);
+        dataC = complication;
+        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
+                android.R.layout.simple_dropdown_item_1line, dataC);
+        //complet
+        // ........... When create db [add code]:
+        spinnerC.setAdapter(adapter1);
+
+    }
+
+    void getComplication(List<String> p) {
+        //sample of virtual Patients  for test 'should comment it after writing db code'
+        //<!--
+        p.add("Eye damage : 2020/09/10");
+        p.add("Cardiovascular disease : 2019/07/12");
+        p.add("Foot damage : 2011/08/29");
+        p.add("Hearing impairment : 2008/12/12");
+        p.add("Alzheimer's disease : 2003/02/28");
+        p.add("Depression : 2011/01/26");
+        p.add("Nerve damage (neuropathy) : 2020/08/08");
+        //-->
+
+        // complet db code to get Complication
         // code ...
 
     }
@@ -407,15 +447,41 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
 
     }
 
-    void adD(){
+    boolean ifEmptyFields()
+    {
+        //complet
+        return  describeC.getText().toString().isEmpty();
+    }
+
+    void updateD(){
+
+        //complet
+        if(ifEmptyFields())
+        {
+            AlertDialog.Builder x = new AlertDialog.Builder(this);
+            x.setMessage("Please complete fill the form data.").setTitle("incomplete data")
+
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            return;
+                        }
+                    })
+
+                    .setIcon(R.drawable.goo)
+                    .setPositiveButtonIcon(getDrawable(R.drawable.yes))
+
+                    .show();
+            return;
+        }
 
         AlertDialog.Builder   x= new AlertDialog.Builder ( this );
-        x.setMessage ( "DO YOU WANT TO Add New Test Appointment?" ).setTitle ( "Add New Test Appointment." )
+        x.setMessage ( "DO YOU WANT TO Update Status describe of Complication'"+complicationName+"'?" ).setTitle ( "Update Status Complication." )
 
-                .setPositiveButton ( "YES_ADD", new DialogInterface.OnClickListener () {
+                .setPositiveButton ( "YES_UPDATE", new DialogInterface.OnClickListener () {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        addDo();
+                        updateDo();
                         return; }
                 } )
 
@@ -431,7 +497,7 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
     }
 
 
-    void addDo()
+    void updateDo()
     {
 
         int year_ = datePicker.getYear();
@@ -441,40 +507,61 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
 
         String s3 = "Patient Name: "+patientName
                 +"\nPatient Id: "+patientId
-                +"\nAppointment: "+testName
-                +"\nAppointment Date: "+date_;
+                +"\nComplication: "+complicationName
+                +"\nNew Describe of Status: "+describeC.getText().toString()
+                +"\nUPDATE Date: "+date_;
 
         // add code dd
         //<!--
 
         //-->
 
-        notification("New Appointment added",testName,s3);
-
+        notification("UPDATE Status Describe of Complication",complicationName+"is UPDATED",s3);
 
     }
 
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View v) {
 
-        if(v == add)
-        {
-            adD();
-            return;
-        }
+        if(v == update) { updateD(); return;  }
 
-        if(v == clear)
-        {
-            searchP.setText("");
-            return;
-        }
+        if(v == clear) {  searchP.setText(""); return; }
 
-        if(v == search)
-        {
-            searchDO();
-            return;
+        if(v == clearC) {  describeC.setText(""); return; }
+
+        if(v == search) { searchDO(); return; }
+
+        if (v == autoTD) { onCheckboxClicked(v); return; }
+    }
+
+    //time and date auto
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void onCheckboxClicked(View view) {
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+
+        // Check which checkbox was clicked
+        if (autoTD.equals(view)) {
+            if (checked) {
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/mm/dd hh:mm:ss");
+                LocalDateTime now = LocalDateTime.now();
+                Functions.timeS = now.getHour()+":"+now.getMinute();
+                Functions.dateS = now.getYear()+"/"+now.getMonthValue()+"/"+now.getDayOfMonth();
+                datePicker.init(now.getYear(),now.getMonthValue(),now.getDayOfMonth(),null);
+                datePicker.setEnabled(false);
+                tog.setVisibility(View.INVISIBLE);
+
+            } else {
+                datePicker.setEnabled(true);
+                tog.setVisibility(View.VISIBLE);
+            }
+
+            // TODO: Veggie sandwich
         }
     }
+
 
     private void createChannel() {
 
@@ -569,5 +656,10 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
     }
 }

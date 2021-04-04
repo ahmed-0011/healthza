@@ -159,4 +159,11 @@
     <string name="add_complication">Add Complication</string>
     <string name="enter_describe_of_complication_status">Enter Describe of Complication Status:</string>
     <string name="enter_complication_name">Enter Complication Name:</string>
+    <string name="set_update_date_auto">Set Update Date Auto</string>
+    <string name="set_date_of_update">Set Date of Update:</string>
+    <string name="clear_describe">Clear Describe</string>
+    <string name="select_a_complication">Select a Complication:</string>
+    <string name="update">Update</string>
+    <string name="enter_description_status_of_complication">Enter Description Status of Complication:</string>
+    <string name="update_complication">Update Complication</string>
 </resources>

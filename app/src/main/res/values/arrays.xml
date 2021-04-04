@@ -28,8 +28,14 @@
         <item>Kidneys test</item>
         <item>comprehensive test</item>
     </string-array>
+
     <string-array name="SelectPatient">
         <item>Select Patient:</item>
+    </string-array>
+
+    <string name="SelectComplicationPrompt">Select a Complication:</string>
+    <string-array name="SelectComplication">
+        <item>Select Complication:</item>
     </string-array>
 
 </resources>
