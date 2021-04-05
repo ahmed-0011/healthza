@@ -137,10 +137,6 @@ public class RegisterActivity extends AppCompatActivity {
         return Patterns.PHONE.matcher(phoneNumber).matches();
     }
 
-    private boolean isValidEmail(String email) // No need to check if the field is empty
-    {                                          // because regex won't match empty strings
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
 
     private boolean isValidPassword(String password)
     {
@@ -152,10 +148,6 @@ public class RegisterActivity extends AppCompatActivity {
         return password.equals(confirmPassword);
     }
 
-    private boolean isValidEmail(String email) // No need to check if the field is empty
-    {                                          // because regex won't match empty strings
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
 
     private void setOnClickListenersForButtons()
     {
@@ -279,21 +271,21 @@ public class RegisterActivity extends AppCompatActivity {
 
                                 newDoctor = new Doctor(userId, name, email, phoneNumber, birthDate, sex, false);
 
-                                    DocumentReference documentReference = db.collection("doctors").document(userId);
+                                DocumentReference documentReference = db.collection("doctors").document(userId);
 
-                                    documentReference.set(newDoctor).addOnCompleteListener(task1 -> {
+                                documentReference.set(newDoctor).addOnCompleteListener(task1 -> {
 
-                                        if(task1.isSuccessful())
-                                        {
-                                            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                        }
+                                    if(task1.isSuccessful())
+                                    {
+                                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                    }
 
-                                        else
-                                        {
-                                            Log.w(TAG, "Error adding document", task.getException());
-                                        }
+                                    else
+                                    {
+                                        Log.w(TAG, "Error adding document", task.getException());
+                                    }
 
-                                    });
+                                });
                             }
 
 
@@ -422,143 +414,6 @@ public class RegisterActivity extends AppCompatActivity {
         }, year, month, date);
 
         datePickerDialog.show();
-    }
-
-    //rotate
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
-    }
-
-
-    private void progressButtonAnimation()
-    {
-        GradientDrawable drawable = (GradientDrawable) registerButton.getBackground();
-
-        int initialButtonWidth = registerButton.getWidth();
-        float initialTextSize = registerButton.getTextSize();
-        int targetButtonWidth = registerButton.getHeight();
-        int targetWidth = targetButtonWidth;
-        int targetCorrnerRadius = targetButtonWidth;
-
-        ValueAnimator cornerAnimator = ValueAnimator.ofFloat(0f, targetCorrnerRadius);
-        ValueAnimator widthAnimator = ValueAnimator.ofInt(initialButtonWidth, targetWidth);
-        ValueAnimator textSizeAnimator = ValueAnimator.ofFloat(initialTextSize, 0f);
-        ValueAnimator progressBarAlphaANimator = ObjectAnimator.ofFloat(progressBar,"alpha",0f, 1f);
-
-        cornerAnimator.setDuration(1000);
-        widthAnimator.setDuration(1000);
-        textSizeAnimator.setDuration(1000);
-        progressBarAlphaANimator.setDuration(1000);
-
-        cornerAnimator.addUpdateListener(animation -> {
-            drawable.setCornerRadius((float)animation.getAnimatedValue());
-            registerButton.setBackground(drawable);
-        });
-
-        widthAnimator.addUpdateListener(animation -> {
-            ViewGroup.LayoutParams layoutParams = registerButton.getLayoutParams();
-            layoutParams.width = (int)animation.getAnimatedValue();
-            registerButton.setLayoutParams(layoutParams);
-        });
-
-        textSizeAnimator.addUpdateListener(animation -> {
-
-            // to get text size in scale pixel
-            float textSizeSp = (float) animation.getAnimatedValue() /  getResources().getDisplayMetrics().density;
-            registerButton.setTextSize(textSizeSp);
-        });
-
-        progressBar.setAlpha(0f);
-        progressBar.setVisibility(View.VISIBLE);
-
-        animations.add(widthAnimator);
-        animations.add(cornerAnimator);
-        animations.add(progressBarAlphaANimator);
-        animations.add(textSizeAnimator);
-
-        widthAnimator.start();
-        cornerAnimator.start();
-        progressBarAlphaANimator.start();
-        textSizeAnimator.start();
-    }
-
-
-    private void progressButtonReverseAnimation()
-    {
-        for(int i = 0; i < animations.size(); i++)
-            animations.get(i).reverse();
-
-        animations.clear();
-    }
-
-
-    private void progressButtonAnimation()
-    {
-        GradientDrawable drawable = (GradientDrawable) registerButton.getBackground();
-
-        int initialButtonWidth = registerButton.getWidth();
-        float initialTextSize = registerButton.getTextSize();
-        int targetButtonWidth = registerButton.getHeight();
-        int targetWidth = targetButtonWidth;
-        int targetCorrnerRadius = targetButtonWidth;
-
-        ValueAnimator cornerAnimator = ValueAnimator.ofFloat(0f, targetCorrnerRadius);
-        ValueAnimator widthAnimator = ValueAnimator.ofInt(initialButtonWidth, targetWidth);
-        ValueAnimator textSizeAnimator = ValueAnimator.ofFloat(initialTextSize, 0f);
-        ValueAnimator progressBarAlphaANimator = ObjectAnimator.ofFloat(progressBar,"alpha",0f, 1f);
-
-        cornerAnimator.setDuration(1000);
-        widthAnimator.setDuration(1000);
-        textSizeAnimator.setDuration(1000);
-        progressBarAlphaANimator.setDuration(1000);
-
-        cornerAnimator.addUpdateListener(animation -> {
-            drawable.setCornerRadius((float)animation.getAnimatedValue());
-            registerButton.setBackground(drawable);
-        });
-
-        widthAnimator.addUpdateListener(animation -> {
-            ViewGroup.LayoutParams layoutParams = registerButton.getLayoutParams();
-            layoutParams.width = (int)animation.getAnimatedValue();
-            registerButton.setLayoutParams(layoutParams);
-        });
-
-        textSizeAnimator.addUpdateListener(animation -> {
-
-            // to get text size in scale pixel
-            float textSizeSp = (float) animation.getAnimatedValue() /  getResources().getDisplayMetrics().density;
-            registerButton.setTextSize(textSizeSp);
-        });
-
-        progressBar.setAlpha(0f);
-        progressBar.setVisibility(View.VISIBLE);
-
-        animations.add(widthAnimator);
-        animations.add(cornerAnimator);
-        animations.add(progressBarAlphaANimator);
-        animations.add(textSizeAnimator);
-
-        widthAnimator.start();
-        cornerAnimator.start();
-        progressBarAlphaANimator.start();
-        textSizeAnimator.start();
-    }
-
-
-    private void progressButtonReverseAnimation()
-    {
-        for(int i = 0; i < animations.size(); i++)
-            animations.get(i).reverse();
-
-        animations.clear();
     }
 
 
