@@ -32,14 +32,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/signInButton"
+            android:id="@+id/signUpButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:backgroundTint="@color/colorPrimary"
             android:padding="16dp"
-            android:text="@string/sign_in_text"
+            android:text="@string/sign_up_text"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -49,20 +49,20 @@
             app:shapeAppearanceOverlay="@style/roundedButtonStyle" />
 
         <Button
-            android:id="@+id/signUpButton"
+            android:id="@+id/signInButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:backgroundTint="@android:color/white"
             android:padding="16dp"
-            android:text="@string/sign_up_text"
+            android:text="@string/sign_in_text"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signInButton"
+            app:layout_constraintTop_toBottomOf="@+id/signUpButton"
             app:layout_constraintVertical_bias="0.100000024"
             app:shapeAppearanceOverlay="@style/roundedButtonStyle" />
 

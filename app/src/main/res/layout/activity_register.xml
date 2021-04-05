@@ -75,7 +75,7 @@
 
 
         <RadioGroup
-            android:id="@+id/youAreRadioGroup"
+            android:id="@+id/userTypeRadioGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -88,7 +88,7 @@
 
 
             <TextView
-                android:id="@+id/youAreTextView"
+                android:id="@+id/userTypeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -135,7 +135,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/youAreRadioGroup">
+            app:layout_constraintTop_toBottomOf="@id/userTypeRadioGroup">
 
 
             <TextView
@@ -288,9 +288,9 @@
             android:layout_marginEnd="8dp"
             android:hint="@string/password_hint"
             app:endIconMode="password_toggle"
+            app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:errorEnabled="true"
             app:layout_constraintTop_toBottomOf="@id/phoneNumberInputLayout"
             app:startIconContentDescription="@string/content_description_password_icon"
             app:startIconDrawable="@drawable/ic_password">
@@ -341,17 +341,30 @@
             android:id="@+id/signUpButton"
             style="@style/buttonStyle"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:layout_gravity="center"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="36dp"
-            android:padding="14dp"
+            android:background="@drawable/rounded_button"
+            android:padding="10dp"
             android:text="@string/sign_up_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/confirmPasswordInputLayout" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="4dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/signUpButton"
+            app:layout_constraintEnd_toEndOf="@+id/signUpButton"
+            app:layout_constraintStart_toStartOf="@+id/signUpButton"
+            app:layout_constraintTop_toTopOf="@+id/signUpButton" />
 
         <Button
             android:id="@+id/alreadyHaveAccount"

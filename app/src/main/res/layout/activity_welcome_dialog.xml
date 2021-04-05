@@ -22,7 +22,6 @@
             android:id="@+id/welcomeTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="@string/welcome_dialog_message"
@@ -37,10 +36,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/welcome_dialog_text"
-            android:textSize="32sp"
+            android:textSize="28sp"
             android:textColor="@color/white"
             android:layout_marginTop="24dp"
             android:gravity="center"
+            android:lineSpacingExtra="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/welcomeTextView" />

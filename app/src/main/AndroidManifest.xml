@@ -45,17 +45,12 @@
         <activity
             android:name=".LoginActivity"
             android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity
-            android:name=".CodeVerificationMessageActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+
         <activity
             android:name=".ResetPasswordMessageActivity"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".ResetPasswordActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity
-            android:name=".CodeVerificationActivity"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".ForgotPasswordActivity"
@@ -87,6 +82,24 @@
         <activity
             android:name=".AddCholesterolAndFatsTest"
             android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".PatientHomeActivity"
+            android:theme="@style/noActionBarTheme" />
+
+        <activity
+            android:name=".EmailVerificationCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/noActionBarTheme" />
+
+        <activity
+            android:name=".OTPCodeMessageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/noActionBarTheme" />
+
+        <activity
+            android:name=".OTPCodeActivity"
+            android:theme="@style/noActionBarTheme" />
     </application>
+
 
 </manifest>

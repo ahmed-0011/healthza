@@ -45,12 +45,12 @@
 
 
         <CheckBox
-            android:id="@+id/diabeticCheckBox"
+            android:id="@+id/diabetesCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
-            android:text="@string/diabetic"
+            android:text="@string/diabetes"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +65,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/diabeticCheckBox" />
+            app:layout_constraintTop_toBottomOf="@id/diabetesCheckBox" />
 
         <CheckBox
             android:id="@+id/cholestrolCheckBox"
@@ -93,20 +93,21 @@
             app:layout_constraintTop_toBottomOf="@id/cholestrolCheckBox" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/diabeticTypeInputLayout"
+            android:id="@+id/diabetesTypeInputLayout"
             style="@style/textInputLayoutFilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:hint="@string/diabetic_type"
+            android:enabled="false"
+            android:hint="@string/diabetes_type"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/diseasesTypesTextView">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/diabeticTypeInputEditText"
+                android:id="@+id/diabetesTypeInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/white"
@@ -127,10 +128,11 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
+            android:enabled="false"
             android:hint="@string/hypertension_type"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/diabeticTypeInputLayout">
+            app:layout_constraintTop_toBottomOf="@+id/diabetesTypeInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/hypertensionTypeInputEditText"
@@ -139,7 +141,6 @@
                 android:backgroundTint="@color/white"
                 android:inputType="text"
                 android:selectAllOnFocus="true"
-
                 android:textColorHint="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -156,6 +157,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:hint="@string/cholestrol_type"
+            android:enabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/hypertensionTypeInputLayout">

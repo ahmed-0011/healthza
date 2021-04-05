@@ -1,214 +1,331 @@
 package com.example.healthza;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.os.Build;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.format.DateFormat;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class MainActivity extends AppCompatActivity {
 
-@RequiresApi(api = Build.VERSION_CODES.R)
-protected void onCreate(Bundle savedInstanceState) {
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore db;
+    String userId;
+    String patientName;
+    TextInputLayout specialityInputLayout, yearsOfExperienceInputLayout, workplaceInputLayout;
+    TextInputEditText specialityInputEditText,
+            yearsOfExperienceInputEditText, workplaceInputEditText;
+
+        startButton.setOnClickListener(v -> {
+            showDoctorDialog();
+            welcomeDialog.dismiss();
+        });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
-
-       Intent I = new Intent(this, addNewTestAppointment.class);
-        startActivity(I);
-   /* if(!(I.getBooleanExtra(Functions.loginSUC,false)))
-      {
-
-        showWelcomeDialog();
-     }*/
-
-}
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        userId = firebaseAuth.getCurrentUser().getUid();
+        patientName = firebaseAuth.getCurrentUser().getDisplayName();
 
 
-    @RequiresApi(api = Build.VERSION_CODES.R)
+        SharedPreferences sharedPreferences = getSharedPreferences("User",MODE_PRIVATE);
+
+        boolean userCompleteinfo = sharedPreferences.getBoolean("user_complete_info", false);
+
+        if(!userCompleteinfo)
+            showWelcomeDialog();
+    }
+
+    @SuppressLint("SetTextI18n")
     void showWelcomeDialog() {
-        LayoutInflater inflater = LayoutInflater.from(this);
 
+        LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.activity_welcome_dialog, null);
-
         Button startButton = view.findViewById(R.id.startButton);
-
+        TextView welcomeTextView = view.findViewById(R.id.welcomeTextView);
+        welcomeTextView.setText(welcomeTextView.getText() + " " + patientName);
         AlertDialog welcomeDialog = new AlertDialog.Builder(this)
-                .setView(view)
+                .setCancelable(false)
                 .create();
-             welcomeDialog.show();
+        doctorDialog.show();
+
+        Button positiveButton = doctorDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+
+        positiveButton.setOnClickListener(v ->
+        {
+            clearInputsErrors();
+
+            String speciality = specialityInputEditText.getText().toString();
+            String yearsOfExperience = yearsOfExperienceInputEditText.getText().toString();
+            String workplace = workplaceInputEditText.getText().toString();
+
+            MaterialButtonToggleGroup workDaysFirstToggleButton, workDaysSecondToggleButton;
+            workDaysFirstToggleButton = view.findViewById(R.id.workDaysFirsttoggleButton);
+            workDaysSecondToggleButton = view.findViewById(R.id.workDaysSecondToggleButton);
 
 
-        DisplayMetrics metrics = new DisplayMetrics(); //get metrics of screen
-        getDisplay().getRealMetrics(metrics);
-        int height = (int) (metrics.heightPixels * 0.95); //set height to 90% of total
-        int width = (int) (metrics.widthPixels * 0.95); //set width to 90% of total
+            List<String> workdays = getWorkDays(workDaysFirstToggleButton, workDaysSecondToggleButton );
 
-        welcomeDialog.getWindow().setLayout(width, height); //set layout
-        welcomeDialog.setContentView(R.layout.activity_welcome_dialog);
-    }
+            if (!isValidSpeciality(speciality)) {
+                specialityInputLayout.setError("Invalid speciality, speciality must contains alphabetic and spaces only");
+                specialityInputEditText.requestFocus();
+            } else if (!isValidYearsOfExperience(yearsOfExperience)) {
+                yearsOfExperienceInputLayout.setError("Invalid years of experience, years can't be more than 60 years");
+                yearsOfExperienceInputEditText.requestFocus();
+            } else if (!isValidWorkplace(workplace)) {
+                workplaceInputLayout.setError("Invalid workplace, workplace must contains alphabetic and spaces only");
+                workplaceInputEditText.requestFocus();
+            } else {
+                Map<String, Object> additionalData = new HashMap<>();
 
-    @RequiresApi(api = Build.VERSION_CODES.R)
-    void showPatientDialog1()
-    {
-        LayoutInflater inflater = LayoutInflater.from(this);
+        welcomeDialog.show();
+        int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.90);  // height in pixels for
+        welcomeDialog.getWindow().setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT, height);
+        welcomeDialog.setContentView(view);
 
-        View view =  inflater.inflate(R.layout.activity_patient_dialog1,null);
-
-        CheckBox diabeticCheckBox, hypertensionCheckBox ,cholestrolCheckBox;
-        TextInputEditText diabeticTypeInputEditText, hypertensionTypeInputEditText,
-                cholestrolTypeInputEditText;
-
-        diabeticCheckBox = view.findViewById(R.id.diabeticCheckBox);
-        hypertensionCheckBox =view.findViewById(R.id.hypertensionCheckBox);
-        cholestrolCheckBox = view.findViewById(R.id.cholestrolCheckBox);
-        diabeticTypeInputEditText = view.findViewById(R.id.diabeticTypeInputEditText);
-        hypertensionTypeInputEditText = view.findViewById(R.id.hypertensionTypeInputEditText);
-        cholestrolTypeInputEditText = view.findViewById(R.id.cholestrolTypeInputEditText);
-
-
-        AlertDialog patientDialog1 = new AlertDialog.Builder(this)
-                .setView(view)
-                .setTitle("Welcome, patientName")
-                .setPositiveButton(R.string.next_text, (dialog, which) -> {
-
-                    /* check if all field filled */
-
-
-                    /* if all required field filled */
-                    showPatientDialog2();
-                    dialog.dismiss();
-                    /* else show error dialog */
-
-                })
-                .create();
-        patientDialog1.show();
-
-        DisplayMetrics metrics = new DisplayMetrics(); //get metrics of screen
-        getDisplay().getRealMetrics(metrics);
-        int height = (int) (metrics.heightPixels * 0.95); //set height to 90% of total
-        int width = (int) (metrics.widthPixels * 0.95); //set width to 90% of total
-
-        patientDialog1.getWindow().setLayout(width, height); //set layout
-        patientDialog1.setContentView(R.layout.activity_welcome_dialog);
+        startButton.setOnClickListener(v -> {
+            showDoctorDialog();
+            welcomeDialog.dismiss();
+        });
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.R)
-    void showPatientDialog2()
-    {
-        LayoutInflater inflater = LayoutInflater.from(this);
-
-        View view =  inflater.inflate(R.layout.activity_patient_dialog2,null);
-
-        Button selectDiabeticDetectionDateButton, selectHypertensionDetectionDateButton
-                ,selectCholestrolDetectionDateButton;
-
-        TextView selectedDiabeticDetectionDateTextView, selectedHypertensionDetectionDateTextView
-                ,selectedCholestrolDetectionDateTextView;
-
-        selectDiabeticDetectionDateButton = view.findViewById(R.id.selectDiabeticDetectionDateButton);
-        selectHypertensionDetectionDateButton =view.findViewById(R.id.selectHypertensionDetectionDateButton);
-        selectCholestrolDetectionDateButton = view.findViewById(R.id.selectCholestrolDateButton);
-
-
-        selectedDiabeticDetectionDateTextView = view.findViewById(R.id.selectedDiabeticDetectionDateTextView);
-        selectedHypertensionDetectionDateTextView = view.findViewById(R.id.selectedHypertensionDetectionDateTextView);
-        selectedCholestrolDetectionDateTextView = view.findViewById(R.id.selectedCholestrolDetectionDateTextView);
-
-
-
-        selectDiabeticDetectionDateButton.setOnClickListener(v -> {
-            showDateDialog(selectedDiabeticDetectionDateTextView);
-        });
-
-        selectHypertensionDetectionDateButton.setOnClickListener(v -> {
-            showDateDialog(selectedHypertensionDetectionDateTextView);
-        });
-
-        selectCholestrolDetectionDateButton .setOnClickListener(v -> {
-            showDateDialog(selectedCholestrolDetectionDateTextView);
-        });
-
-        AlertDialog patientDialog2 = new AlertDialog.Builder(this)
-                .setView(view)
-                .setTitle("Welcome, patientName")
-                .setPositiveButton(R.string.finish_text, (dialog, which) -> {
-
-                    /* check if all field filled */
-
-
-                    /* if all required field filled */
-                    dialog.dismiss();
-
-                    /* else show error dialog */
-                })
-                .create();
-        patientDialog2.show();
-
-        DisplayMetrics metrics = new DisplayMetrics(); //get metrics of screen
-        getDisplay().getRealMetrics(metrics);
-        int height = (int) (metrics.heightPixels * 0.95); //set height to 90% of total
-        int width = (int) (metrics.widthPixels * 0.95); //set width to 90% of total
-
-        patientDialog2.getWindow().setLayout(width, height); //set layout
-        patientDialog2.setContentView(R.layout.activity_welcome_dialog);
+    private boolean isValidSpeciality(String speciality) // No need to check if the field is empty
+    {                                                   // because Regex won't match empty strings
+        Pattern pattern;
+        Matcher matcher;
+        pattern = Pattern.compile("[A-Za-z ]+");
+        matcher = pattern.matcher(speciality);
+        return matcher.matches();
     }
 
+    private boolean isValidYearsOfExperience(String yearsOfExperience)  // No need to check if the field is empty
+    {                                                                   // because regex won't match empty strings
+        Pattern pattern;
+        Matcher matcher;
+        pattern = Pattern.compile("[1-5][0-9]?");
+        matcher = pattern.matcher(yearsOfExperience);
+        return matcher.matches();
+    }
 
-    void showDoctorDialog1()
-    {
+    private boolean isValidWorkplace(String workpalce) // No need to check if the field is empty
+    {                                                   // because Regex won't match empty strings
+        Pattern pattern;
+        Matcher matcher;
+        pattern = Pattern.compile("[A-Za-z ]+");
+        matcher = pattern.matcher(workpalce);
+        return matcher.matches();
+    }
+
+    void showDoctorDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View view =  inflater.inflate(R.layout.activity_doctor_dialog1,null);
+        View view = inflater.inflate(R.layout.activity_doctor_dialog1, null);
 
-
-        TextInputEditText specialityInputEditText, yearsOfExperienceInputEditText,
-                workplaceInputEditText;
-
+        specialityInputLayout = view.findViewById(R.id.specialityInputLayout);
+        yearsOfExperienceInputLayout = view.findViewById(R.id.yearsOfExperienceInputLayout);
+        workplaceInputLayout = view.findViewById(R.id.workplaceInputLayout);
         specialityInputEditText = view.findViewById(R.id.specialityInputEditText);
         yearsOfExperienceInputEditText = view.findViewById(R.id.yearsOfExperienceInputEditText);
         workplaceInputEditText = view.findViewById(R.id.workplaceInputEditText);
 
 
-        AlertDialog doctorDialog1 = new AlertDialog.Builder(this)
+        /*
+        TextInputEditTextFocusListenerHelper.add(this, specialityInputEditText);
+        TextInputEditTextFocusListenerHelper.add(this,yearsOfExperienceInputEditText);
+        TextInputEditTextFocusListenerHelper.add(this,workplaceInputEditText);
+        */
+
+        AlertDialog doctorDialog = new AlertDialog.Builder(this)
                 .setView(view)
-                .setTitle("Welcome, patientName")
-                .setPositiveButton(R.string.next_text, (dialog, which) -> {
-
-                    /* check if all field filled */
-
-
-                    /* if all required field filled */
-                    dialog.dismiss();
-
-                    /* else show error dialog */
-
-                })
+                .setTitle("Welcome, " + patientName)
+                .setPositiveButton("Next", null)
                 .create();
+        doctorDialog.show();
 
-        doctorDialog1.show();
-        doctorDialog1.getWindow().setBackgroundDrawableResource(R.drawable.welcome_dialog_background);
+        Button positiveButton = doctorDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+
+        positiveButton.setOnClickListener(v ->
+        {
+            clearInputsErrors();
+
+            String speciality = specialityInputEditText.getText().toString();
+            String yearsOfExperience = yearsOfExperienceInputEditText.getText().toString();
+            String workplace = workplaceInputEditText.getText().toString();
+
+            MaterialButtonToggleGroup workDaysFirstToggleButton, workDaysSecondToggleButton;
+            workDaysFirstToggleButton = view.findViewById(R.id.workDaysFirsttoggleButton);
+            workDaysSecondToggleButton = view.findViewById(R.id.workDaysSecondToggleButton);
+
+
+            List<String> workdays = getWorkDays(workDaysFirstToggleButton, workDaysSecondToggleButton );
+
+            if (!isValidSpeciality(speciality)) {
+                specialityInputLayout.setError("Invalid speciality, speciality must contains alphabetic and spaces only");
+                specialityInputEditText.requestFocus();
+            } else if (!isValidYearsOfExperience(yearsOfExperience)) {
+                yearsOfExperienceInputLayout.setError("Invalid years of experience, years can't be more than 60 years");
+                yearsOfExperienceInputEditText.requestFocus();
+            } else if (!isValidWorkplace(workplace)) {
+                workplaceInputLayout.setError("Invalid workplace, workplace must contains alphabetic and spaces only");
+                workplaceInputEditText.requestFocus();
+            } else {
+                Map<String, Object> additionalData = new HashMap<>();
+
+                additionalData.put("speciality", speciality);
+                additionalData.put("years_of_experience", yearsOfExperience);
+                additionalData.put("workplace", workplace);
+                additionalData.put("workdays", workdays);
+                additionalData.put("completeInfo", true);
+
+                DocumentReference doctorRef = db.collection("doctors").document(userId);
+
+                doctorRef.set(additionalData, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task)
+                    {
+                        if (task.isSuccessful())
+                        {
+                            Toast.makeText(MainActivity.this, "profile updated successfully", Toast.LENGTH_LONG).show();
+                            SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putBoolean("user_complete_info", true);
+                            editor.apply();
+                        }
+                        else
+                            Toast.makeText(MainActivity.this, "an error occurred during updating your profile", Toast.LENGTH_LONG).show();
+                        doctorDialog.dismiss();
+                    }
+                });
+            }
+        });
+    }
+
+
+    private void clearInputsErrors() {
+        specialityInputLayout.setError(null);
+        yearsOfExperienceInputLayout.setError(null);
+        workplaceInputLayout.setError(null);
+    }
+
+
+    private List<String> getWorkDays(MaterialButtonToggleGroup workDaysFirstToggleButton,
+                                     MaterialButtonToggleGroup workDaysSecondToggleButton)
+    {
+        List<Integer> workDaysGroup1 = workDaysFirstToggleButton.getCheckedButtonIds();
+        List<Integer> workDaysGroup2 = workDaysSecondToggleButton.getCheckedButtonIds();
+
+        List<String> workDays = new ArrayList<>();
+
+        if(workDaysGroup1.contains(R.id.saturdayButton))
+            workDays.add("saturday");
+        if(workDaysGroup1.contains(R.id.sundayButton))
+            workDays.add("sunday");
+        if(workDaysGroup1.contains(R.id.mondayButton))
+            workDays.add("monday");
+        if(workDaysGroup1.contains(R.id.tuesdayButton))
+            workDays.add("tuesday");
+        if(workDaysGroup2.contains(R.id.wednesdayButton))
+            workDays.add("wednesday");
+        if(workDaysGroup2.contains(R.id.thursdayButton))
+            workDays.add("thursday");
+        if(workDaysGroup2.contains(R.id.fridayButton))
+            workDays.add("friday");
+
+        return workDays;
+    }
+
+    private void addOnTextChangeListenersForInputEditText()
+    {
+
+        specialityInputEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(isValidSpeciality(specialityInputEditText.getText().toString()))
+                    specialityInputLayout.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+
+        yearsOfExperienceInputEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(isValidYearsOfExperience(yearsOfExperienceInputEditText.getText().toString()))
+                    yearsOfExperienceInputLayout.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+
+        workplaceInputEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(isValidWorkplace(workplaceInputEditText.getText().toString()))
+                    workplaceInputLayout.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+
+
+
     }
 
 
     private void showDateDialog(TextView textView)
     {
-
         Calendar calendar = Calendar.getInstance();
 
         /*  get current date  */
@@ -225,16 +342,17 @@ protected void onCreate(Bundle savedInstanceState) {
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.YEAR, year);
 
-                String dateText = DateFormat.format("MM/dd/yyyy",calendar).toString();
+                String dateText = DateFormat.format("MM/dd/yyyy", calendar).toString();
 
                 textView.setText(dateText);
                 textView.setVisibility(TextView.VISIBLE);
             }
         }, year, month, date);
 
-
         datePickerDialog.show();
     }
+
+
 
     //rotate
     @Override

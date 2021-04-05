@@ -79,7 +79,19 @@
     <string name="diabetic_detection_date">Diabetic detection date</string>
     <string name="hypertension_detection_date">Hypertension detection date</string>
     <string name="cholestrol_detection_date">Cholestrol detection date</string>
+    <string name="hh_mm">HH:MM</string>
+    <string name="ldl_cholesterol_percent">LDL Cholesterol Percent:</string>
+    <string name="yyyy_mm_dd">YYYY/MM/DD</string>
     <string name="cholesterol_and_fats_test">Cholesterol and Fats Test</string>
+    <string name="clear">CLEAR</string>
+    <string name="add">ADD</string>
+    <string name="hdl_cholesterol_percent">HDL Cholesterol Percent:</string>
+    <string name="enter_these_fields">Enter these Fields:</string>
+    <string name="set_time_and_date_auto">Set Time and Date Auto</string>
+    <string name="press_to_set_time_and_date">Press to set Time and Date:</string>
+    <string name="todo">TODO</string>
+    <string name="triglyceride_percent">Triglyceride Percent:</string>
+    <string name="cholesterol_total_percent">Cholesterol Total Percent:</string>
     <string name="enter_a_valid_email">Enter a valid email</string>
     <string name="enter_a_valid_phonenumber">Enter a valid phone number</string>
     <string name="password_length_error">"Password length must be at least 8 chracters"</string>
@@ -103,8 +115,6 @@
     <string name="diabetes_cumulative_test">Diabetes Cumulative Test</string>
     <string name="enter_hb_alc_percent">Enter Hb Alc percent:</string>
     <string name="magnesium_percent">Magnesium Percent:</string>
-    <string name="clear">CLEAR</string>
-    <string name="add">ADD</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="bilirubin_total_percent">Bilirubin Total Percent:</string>
@@ -115,9 +125,6 @@
     <string name="psa_percent">PSA Percent:</string>
     <string name="phosphours_percent">Phosphours Percent:</string>
     <string name="sodium_percent">Sodium Percent:</string>
-    <string name="press_to_set_time_and_date">Press to set Time and Date:</string>
-    <string name="hh_mm">HH:MM</string>
-    <string name="yyyy_mm_dd">YYYY/MM/DD</string>
     <string name="bilirubin_direct_percent">Bilirubin Direct Percent:</string>
     <string name="tibc_percent">TIBC Percent:</string>
     <string name="_2hpps_percent">2HPPS Percent:</string>
@@ -128,24 +135,17 @@
     <string name="chloride_percent">Chloride Percent:</string>
     <string name="calcium_percent">Calcium Percent:</string>
     <string name="potassium_percent">Potassium Percent:</string>
-    <string name="ldl_cholesterol_percent">LDL Cholesterol Percent:</string>
     <string name="acp_total_percent">Acp.Total Percent:</string>
-    <string name="hdl_cholesterol_percent">HDL Cholesterol Percent:</string>
-    <string name="cholesterol_total_percent">Cholesterol Total Percent:</string>
     <string name="uric_acid_percent">Uric Acid Percent:</string>
     <string name="g_g_t_percent">G.G.T Percent:</string>
-    <string name="triglyceride_percent">Triglyceride Percent:</string>
     <string name="albumin_percent">Albumin Percent:</string>
     <string name="urea_percent">Urea Percent:</string>
     <string name="creatinine_percent">Creatinine Percent:</string>
     <string name="s_gpt_percent">S.GPT Percent:</string>
-    <string name="enter_these_fields">Enter these Fields:</string>
     <string name="alk_phosphatese_percent">Alk.phosphatese Percent:</string>
     <string name="f_b_s_percent">F.B.S Percent:</string>
     <string name="s_got_percent">S.GOT Percent:</string>
     <string name="comprehensive_test">Comprehensive Test</string>
-    <string name="set_time_and_date_auto">Set Time and Date Auto</string>
-    <string name="todo">TODO</string>
     <string name="new_test_appointment">New Test Appointment</string>
     <string name="set_date_of_appointment">Set Date of Appointment:</string>
     <string name="select_patient">Select Patient:</string>
@@ -166,4 +166,10 @@
     <string name="update">Update</string>
     <string name="enter_description_status_of_complication">Enter Description Status of Complication:</string>
     <string name="update_complication">Update Complication</string>
+    <string name="home">Home</string>
+    <string name="medical_history">Medical history</string>
+    <string name="patients">Patients</string>
+    <string name="appointments">Appointments</string>
+    <string name="chat">chat</string>
+
 </resources>

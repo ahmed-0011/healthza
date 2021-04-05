@@ -1,16 +1,18 @@
 package com.example.healthza;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.google.android.material.textfield.TextInputEditText;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.chaos.view.PinView;
 
 public class EmailVerificationCodeActivity extends AppCompatActivity {
 
+    PinView verificationCode;
     private Button verifyButton;
+    String userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,13 +20,25 @@ public class EmailVerificationCodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_email_verification_code);
 
 
+        userType = getIntent().getStringExtra("userType");
+
+        verificationCode = findViewById(R.id.emailVerificationCodePinView);
         /* Button */
         verifyButton = findViewById(R.id.verifyButton);
 
 
         /* set on click listeners for Button to navigate to other activity */
-        verifyButton.setOnClickListener(view ->
-                startActivity(new Intent(this, MainActivity.class)));
+        verifyButton.setOnClickListener(view -> {
+
+            Intent intent;
+
+            if (userType.equals("patient"))
+                intent = new Intent(this, PatientHomeActivity.class);
+            else
+                intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        });
     }
 
     //rotate
