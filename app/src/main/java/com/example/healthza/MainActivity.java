@@ -48,11 +48,6 @@ public class MainActivity extends AppCompatActivity {
     TextInputEditText specialityInputEditText,
             yearsOfExperienceInputEditText, workplaceInputEditText;
 
-        startButton.setOnClickListener(v -> {
-            showDoctorDialog();
-            welcomeDialog.dismiss();
-        });
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,36 +80,6 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog welcomeDialog = new AlertDialog.Builder(this)
                 .setCancelable(false)
                 .create();
-        doctorDialog.show();
-
-        Button positiveButton = doctorDialog.getButton(DialogInterface.BUTTON_POSITIVE);
-
-        positiveButton.setOnClickListener(v ->
-        {
-            clearInputsErrors();
-
-            String speciality = specialityInputEditText.getText().toString();
-            String yearsOfExperience = yearsOfExperienceInputEditText.getText().toString();
-            String workplace = workplaceInputEditText.getText().toString();
-
-            MaterialButtonToggleGroup workDaysFirstToggleButton, workDaysSecondToggleButton;
-            workDaysFirstToggleButton = view.findViewById(R.id.workDaysFirsttoggleButton);
-            workDaysSecondToggleButton = view.findViewById(R.id.workDaysSecondToggleButton);
-
-
-            List<String> workdays = getWorkDays(workDaysFirstToggleButton, workDaysSecondToggleButton );
-
-            if (!isValidSpeciality(speciality)) {
-                specialityInputLayout.setError("Invalid speciality, speciality must contains alphabetic and spaces only");
-                specialityInputEditText.requestFocus();
-            } else if (!isValidYearsOfExperience(yearsOfExperience)) {
-                yearsOfExperienceInputLayout.setError("Invalid years of experience, years can't be more than 60 years");
-                yearsOfExperienceInputEditText.requestFocus();
-            } else if (!isValidWorkplace(workplace)) {
-                workplaceInputLayout.setError("Invalid workplace, workplace must contains alphabetic and spaces only");
-                workplaceInputEditText.requestFocus();
-            } else {
-                Map<String, Object> additionalData = new HashMap<>();
 
         welcomeDialog.show();
         int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.90);  // height in pixels for
@@ -350,20 +315,5 @@ public class MainActivity extends AppCompatActivity {
         }, year, month, date);
 
         datePickerDialog.show();
-    }
-
-
-
-    //rotate
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
     }
 }
