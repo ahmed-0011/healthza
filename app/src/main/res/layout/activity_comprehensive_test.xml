@@ -10,7 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".ComprehensiveTest">
 
         <ViewFlipper
@@ -36,11 +36,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="15dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginBottom="5dp"
+                    android:contentDescription="@string/todo"
                     app:layout_constraintBottom_toTopOf="@+id/divider2"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/timeText7"
                     app:layout_constraintTop_toBottomOf="@+id/DateIcon7"
                     app:srcCompat="@drawable/timeicon" />
 
@@ -49,10 +49,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="44dp"
-                    android:layout_marginEnd="15dp"
+                    android:layout_marginEnd="10dp"
+                    android:contentDescription="@string/todo"
                     app:layout_constraintBottom_toTopOf="@+id/TimeIcon7"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/dateText7"
                     app:layout_constraintTop_toBottomOf="@+id/divider"
                     app:srcCompat="@drawable/dateicon" />
 
@@ -63,7 +63,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="2dp"
                     android:fontFamily="@font/bubblegum_sans"
-                    android:text="Press to set Time and Date:"
+                    android:text="@string/press_to_set_time_and_date"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textColor="#757171"
@@ -75,14 +75,14 @@
 
                 <TextView
                     android:id="@+id/timeText7"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="1dp"
+                    android:layout_marginStart="2dp"
                     android:layout_marginTop="13dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="5dp"
                     android:fontFamily="@font/bubblegum_sans"
-                    android:text="HH:MM"
+                    android:text="@string/hh_mm"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textColor="@color/white"
@@ -96,13 +96,13 @@
 
                 <TextView
                     android:id="@+id/dateText7"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="1dp"
+                    android:layout_marginStart="2dp"
                     android:layout_marginTop="43dp"
                     android:layout_marginEnd="8dp"
                     android:fontFamily="@font/bubblegum_sans"
-                    android:text="YYYY/MM/DD"
+                    android:text="@string/yyyy_mm_dd"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textColor="@color/white"
@@ -121,7 +121,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="3dp"
                     android:fontFamily="@font/bubblegum_sans"
-                    android:text="Set Time and Date Auto"
+                    android:text="@string/set_time_and_date_auto"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="#757171"
@@ -160,7 +160,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/bubblegum_sans"
-                    android:text="Comprehensive Test"
+                    android:text="@string/comprehensive_test"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display3"
                     android:textSize="46sp"
                     app:layout_constraintBottom_toTopOf="@+id/divider"
@@ -174,7 +174,9 @@
                     android:id="@+id/outerComprehensive5Percent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
@@ -184,11 +186,12 @@
                         android:id="@+id/innerComprehensive5Percent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:autofillHints=""
                         android:background="@drawable/round"
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="S.GOT  Percent:"
+                        android:hint="@string/s_got_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
@@ -200,7 +203,9 @@
                     android:id="@+id/outerComprehensive1Percent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
                     app:layout_constraintBottom_toTopOf="@+id/outerComprehensive2Percent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -211,11 +216,12 @@
                         android:id="@+id/innerComprehensive1Percent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:autofillHints=""
                         android:background="@drawable/round"
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="F.B.S  Percent:"
+                        android:hint="@string/f_b_s_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
@@ -227,7 +233,9 @@
                     android:id="@+id/outerComprehensive2Percent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
                     app:layout_constraintBottom_toTopOf="@+id/outerComprehensive3Percent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -238,11 +246,12 @@
                         android:id="@+id/innerComprehensive2Percent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:autofillHints=""
                         android:background="@drawable/round"
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="Alk.phosphatese  Percent:"
+                        android:hint="@string/alk_phosphatese_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
@@ -254,7 +263,9 @@
                     android:id="@+id/outerComprehensive3Percent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
                     app:layout_constraintBottom_toTopOf="@+id/outerComprehensive4Percent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -269,7 +280,8 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="G.G.T  Percent:"
+                        android:hint="@string/g_g_t_percent"
+                        android:importantForAutofill="no"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
@@ -281,7 +293,9 @@
                     android:id="@+id/outerComprehensive4Percent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="5dp"
                     app:layout_constraintBottom_toTopOf="@+id/outerComprehensive5Percent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -292,11 +306,12 @@
                         android:id="@+id/innerComprehensive4Percent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:autofillHints=""
                         android:background="@drawable/round"
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="S.GPT  Percent:"
+                        android:hint="@string/s_gpt_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
@@ -311,7 +326,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/bubblegum_sans"
-                    android:text="Enter these Fields:"
+                    android:text="@string/enter_these_fields"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textColor="#757171"
@@ -350,11 +365,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="Uric Acid  Percent:"
+                        android:hint="@string/uric_acid_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:autofillHints="" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -379,11 +395,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="Urea  Percent:"
+                        android:hint="@string/urea_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:autofillHints="" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -407,11 +424,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="Creatinine  Percent:"
+                        android:hint="@string/creatinine_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:autofillHints="" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -435,11 +453,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="Triglyceride  Percent:"
+                        android:hint="@string/triglyceride_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:autofillHints="" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -463,11 +482,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="Albumin  Percent:"
+                        android:hint="@string/albumin_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:autofillHints="" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -491,11 +511,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="Cholesterol Total  Percent:"
+                        android:hint="@string/cholesterol_total_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:autofillHints="" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -519,11 +540,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="HDL Cholesterol  Percent:"
+                        android:hint="@string/hdl_cholesterol_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:autofillHints="" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -547,11 +569,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="LDL Cholesterol  Percent:"
+                        android:hint="@string/ldl_cholesterol_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:autofillHints="" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -583,11 +606,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="Acp.Total  Percent:"
+                        android:hint="@string/acp_total_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:autofillHints="" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -612,11 +636,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="Calcium  Percent:"
+                        android:hint="@string/calcium_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:autofillHints="" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -640,11 +665,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="Chloride  Percent:"
+                        android:hint="@string/chloride_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:importantForAutofill="no" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -668,11 +694,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="S.Iron  Percent:"
+                        android:hint="@string/s_iron_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:autofillHints="" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -696,11 +723,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="Potassium  Percent:"
+                        android:hint="@string/potassium_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:importantForAutofill="no" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -724,11 +752,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="Amylase  Percent:"
+                        android:hint="@string/amylase_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:importantForAutofill="no" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -752,11 +781,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="Acp.Prostatic  Percent:"
+                        android:hint="@string/acp_prostatic_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:autofillHints="" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -780,11 +810,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="TIBC  Percent:"
+                        android:hint="@string/tibc_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:importantForAutofill="no" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -817,11 +848,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="Sodium  Percent:"
+                        android:hint="@string/sodium_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:importantForAutofill="no" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -846,11 +878,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="2HPPS  Percent:"
+                        android:hint="@string/_2hpps_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:importantForAutofill="no" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -874,11 +907,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="R.B.S  Percent:"
+                        android:hint="@string/r_b_s_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:autofillHints="" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -902,11 +936,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="Bilirubin Total  Percent:"
+                        android:hint="@string/bilirubin_total_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:importantForAutofill="no" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -930,11 +965,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="LDH  Percent:"
+                        android:hint="@string/ldh_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:autofillHints="" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -958,11 +994,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="Phosphours  Percent:"
+                        android:hint="@string/phosphours_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:autofillHints="" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -986,11 +1023,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="PSA  Percent:"
+                        android:hint="@string/psa_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:autofillHints="" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -1014,11 +1052,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="Bilirubin Direct  Percent:"
+                        android:hint="@string/bilirubin_direct_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:autofillHints="" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -1050,11 +1089,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="CK-MB  Percent:"
+                        android:hint="@string/ck_mb_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:importantForAutofill="no" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -1079,11 +1119,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="CPK  Percent:"
+                        android:hint="@string/cpk_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:importantForAutofill="no" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -1106,11 +1147,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="Magnesium  Percent:"
+                        android:hint="@string/magnesium_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:autofillHints="" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -1134,11 +1176,12 @@
                         android:ems="10"
                         android:focusableInTouchMode="true"
                         android:fontFamily="@font/bubblegum_sans"
-                        android:hint="T.Protein  Percent:"
+                        android:hint="@string/t_protein_percent"
                         android:inputType="numberDecimal"
                         android:paddingStart="10dp"
                         android:selectAllOnFocus="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:autofillHints="" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -1150,7 +1193,7 @@
                     android:layout_marginTop="3dp"
                     android:backgroundTint="@color/design_default_color_error"
                     android:fontFamily="@font/bubblegum_sans"
-                    android:text="CLEAR"
+                    android:text="@string/clear"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@android:color/darker_gray"
@@ -1169,7 +1212,7 @@
                     android:layout_height="57dp"
                     android:backgroundTint="@color/design_default_color_secondary_variant"
                     android:fontFamily="@font/bubblegum_sans"
-                    android:text="ADD"
+                    android:text="@string/add"
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@android:color/darker_gray"
@@ -1200,7 +1243,7 @@
             android:backgroundTint="@color/design_default_color_error"
             android:fontFamily="@font/bubblegum_sans"
             android:onClick="previousView"
-            android:text="Previous"
+            android:text="@string/previous"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@android:color/darker_gray"
@@ -1225,7 +1268,7 @@
             android:backgroundTint="@color/teal_700"
             android:fontFamily="@font/bubblegum_sans"
             android:onClick="nextView"
-            android:text="Next"
+            android:text="@string/next"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@android:color/darker_gray"
@@ -1258,4 +1301,3 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
-

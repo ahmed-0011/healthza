@@ -1,10 +1,13 @@
 package com.example.healthza;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.app.DatePickerDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
@@ -16,19 +19,27 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import com.google.android.material.textfield.TextInputEditText;
 import java.util.Calendar;
-
 public class MainActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+@RequiresApi(api = Build.VERSION_CODES.R)
+protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
+
+       Intent I = new Intent(this, addNewTestAppointment.class);
+        startActivity(I);
+   /* if(!(I.getBooleanExtra(Functions.loginSUC,false)))
+      {
+
         showWelcomeDialog();
-    }
+     }*/
+
+}
 
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     void showWelcomeDialog() {
         LayoutInflater inflater = LayoutInflater.from(this);
 
@@ -39,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog welcomeDialog = new AlertDialog.Builder(this)
                 .setView(view)
                 .create();
-        welcomeDialog.show();
+             welcomeDialog.show();
 
 
         DisplayMetrics metrics = new DisplayMetrics(); //get metrics of screen
@@ -51,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         welcomeDialog.setContentView(R.layout.activity_welcome_dialog);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     void showPatientDialog1()
     {
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -59,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
         CheckBox diabeticCheckBox, hypertensionCheckBox ,cholestrolCheckBox;
         TextInputEditText diabeticTypeInputEditText, hypertensionTypeInputEditText,
-                          cholestrolTypeInputEditText;
+                cholestrolTypeInputEditText;
 
         diabeticCheckBox = view.findViewById(R.id.diabeticCheckBox);
         hypertensionCheckBox =view.findViewById(R.id.hypertensionCheckBox);
@@ -96,65 +108,66 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     void showPatientDialog2()
-            {
-                LayoutInflater inflater = LayoutInflater.from(this);
+    {
+        LayoutInflater inflater = LayoutInflater.from(this);
 
-                View view =  inflater.inflate(R.layout.activity_patient_dialog2,null);
+        View view =  inflater.inflate(R.layout.activity_patient_dialog2,null);
 
-                Button selectDiabeticDetectionDateButton, selectHypertensionDetectionDateButton
-                        ,selectCholestrolDetectionDateButton;
+        Button selectDiabeticDetectionDateButton, selectHypertensionDetectionDateButton
+                ,selectCholestrolDetectionDateButton;
 
-                TextView selectedDiabeticDetectionDateTextView, selectedHypertensionDetectionDateTextView
-                        ,selectedCholestrolDetectionDateTextView;
+        TextView selectedDiabeticDetectionDateTextView, selectedHypertensionDetectionDateTextView
+                ,selectedCholestrolDetectionDateTextView;
 
-                selectDiabeticDetectionDateButton = view.findViewById(R.id.selectDiabeticDetectionDateButton);
-                selectHypertensionDetectionDateButton =view.findViewById(R.id.selectHypertensionDetectionDateButton);
-                selectCholestrolDetectionDateButton = view.findViewById(R.id.selectCholestrolDateButton);
-
-
-                selectedDiabeticDetectionDateTextView = view.findViewById(R.id.selectedDiabeticDetectionDateTextView);
-                selectedHypertensionDetectionDateTextView = view.findViewById(R.id.selectedHypertensionDetectionDateTextView);
-                selectedCholestrolDetectionDateTextView = view.findViewById(R.id.selectedCholestrolDetectionDateTextView);
+        selectDiabeticDetectionDateButton = view.findViewById(R.id.selectDiabeticDetectionDateButton);
+        selectHypertensionDetectionDateButton =view.findViewById(R.id.selectHypertensionDetectionDateButton);
+        selectCholestrolDetectionDateButton = view.findViewById(R.id.selectCholestrolDateButton);
 
 
-
-                selectDiabeticDetectionDateButton.setOnClickListener(v -> {
-                    showDateDialog(selectedDiabeticDetectionDateTextView);
-                });
-
-                selectHypertensionDetectionDateButton.setOnClickListener(v -> {
-                    showDateDialog(selectedHypertensionDetectionDateTextView);
-                });
-
-                selectCholestrolDetectionDateButton .setOnClickListener(v -> {
-                    showDateDialog(selectedCholestrolDetectionDateTextView);
-                });
-
-                AlertDialog patientDialog2 = new AlertDialog.Builder(this)
-                        .setView(view)
-                        .setTitle("Welcome, patientName")
-                        .setPositiveButton(R.string.finish_text, (dialog, which) -> {
-
-                            /* check if all field filled */
+        selectedDiabeticDetectionDateTextView = view.findViewById(R.id.selectedDiabeticDetectionDateTextView);
+        selectedHypertensionDetectionDateTextView = view.findViewById(R.id.selectedHypertensionDetectionDateTextView);
+        selectedCholestrolDetectionDateTextView = view.findViewById(R.id.selectedCholestrolDetectionDateTextView);
 
 
-                            /* if all required field filled */
-                            dialog.dismiss();
 
-                            /* else show error dialog */
-                        })
-                        .create();
-                patientDialog2.show();
+        selectDiabeticDetectionDateButton.setOnClickListener(v -> {
+            showDateDialog(selectedDiabeticDetectionDateTextView);
+        });
 
-                DisplayMetrics metrics = new DisplayMetrics(); //get metrics of screen
-                getDisplay().getRealMetrics(metrics);
-                int height = (int) (metrics.heightPixels * 0.95); //set height to 90% of total
-                int width = (int) (metrics.widthPixels * 0.95); //set width to 90% of total
+        selectHypertensionDetectionDateButton.setOnClickListener(v -> {
+            showDateDialog(selectedHypertensionDetectionDateTextView);
+        });
 
-                patientDialog2.getWindow().setLayout(width, height); //set layout
-                patientDialog2.setContentView(R.layout.activity_welcome_dialog);
-            }
+        selectCholestrolDetectionDateButton .setOnClickListener(v -> {
+            showDateDialog(selectedCholestrolDetectionDateTextView);
+        });
+
+        AlertDialog patientDialog2 = new AlertDialog.Builder(this)
+                .setView(view)
+                .setTitle("Welcome, patientName")
+                .setPositiveButton(R.string.finish_text, (dialog, which) -> {
+
+                    /* check if all field filled */
+
+
+                    /* if all required field filled */
+                    dialog.dismiss();
+
+                    /* else show error dialog */
+                })
+                .create();
+        patientDialog2.show();
+
+        DisplayMetrics metrics = new DisplayMetrics(); //get metrics of screen
+        getDisplay().getRealMetrics(metrics);
+        int height = (int) (metrics.heightPixels * 0.95); //set height to 90% of total
+        int width = (int) (metrics.widthPixels * 0.95); //set width to 90% of total
+
+        patientDialog2.getWindow().setLayout(width, height); //set layout
+        patientDialog2.setContentView(R.layout.activity_welcome_dialog);
+    }
 
 
     void showDoctorDialog1()
@@ -165,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         TextInputEditText specialityInputEditText, yearsOfExperienceInputEditText,
-                          workplaceInputEditText;
+                workplaceInputEditText;
 
         specialityInputEditText = view.findViewById(R.id.specialityInputEditText);
         yearsOfExperienceInputEditText = view.findViewById(R.id.yearsOfExperienceInputEditText);
@@ -221,5 +234,18 @@ public class MainActivity extends AppCompatActivity {
 
 
         datePickerDialog.show();
+    }
+
+    //rotate
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
     }
 }

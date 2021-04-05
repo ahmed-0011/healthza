@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/ManageAppointmentsDM"
+        android:icon="@drawable/scheduleicon"
+        android:title="Manage Appointments">
+        <menu>
+            <item
+                android:id="@+id/newAppointmentsDM"
+                android:icon="@drawable/appointmenicon"
+                android:title="Schedule new Appointment" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/ManagePatientsComplicationsDM"
+        android:icon="@drawable/compier"
+        android:title="Manage Patients Complications">
+        <menu>
+            <item
+                android:id="@+id/newComplicationDM"
+                android:icon="@drawable/icocomp"
+                android:title="Add new Complication" />
+
+            <item
+                android:id="@+id/updateComplicationDM"
+                android:icon="@drawable/updatecomp"
+                android:title="UPDATE Complication Status" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/logOutDM"
+        android:icon="@drawable/logoutm"
+        android:title="LogOut" />
+
+
+</menu>

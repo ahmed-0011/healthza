@@ -31,8 +31,10 @@
                 android:id="@+id/innerLDLCholesterolPercent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autofillHints=""
                 android:background="@drawable/round"
                 android:drawableStart="@drawable/cholesterolfattest"
+                android:drawablePadding="?attr/actionBarSize"
                 android:ems="10"
                 android:focusableInTouchMode="true"
                 android:fontFamily="@font/bubblegum_sans"
@@ -40,8 +42,7 @@
                 android:inputType="numberDecimal"
                 android:paddingStart="10dp"
                 android:selectAllOnFocus="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:autofillHints="" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -61,8 +62,10 @@
                 android:id="@+id/innerTriglyceridepercent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autofillHints=""
                 android:background="@drawable/round"
                 android:drawableStart="@drawable/cholesterolfattest"
+                android:drawablePadding="?attr/actionBarSize"
                 android:ems="10"
                 android:focusableInTouchMode="true"
                 android:fontFamily="@font/bubblegum_sans"
@@ -70,8 +73,7 @@
                 android:inputType="numberDecimal"
                 android:paddingStart="10dp"
                 android:selectAllOnFocus="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:autofillHints="" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,15 +95,16 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/round"
                 android:drawableStart="@drawable/cholesterolfattest"
+                android:drawablePadding="?attr/actionBarSize"
                 android:ems="10"
                 android:focusableInTouchMode="true"
                 android:fontFamily="@font/bubblegum_sans"
                 android:hint="@string/cholesterol_total_percent"
+                android:importantForAutofill="no"
                 android:inputType="numberDecimal"
                 android:paddingStart="10dp"
                 android:selectAllOnFocus="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:importantForAutofill="no" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -127,27 +130,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginBottom="5dp"
+            android:contentDescription="@string/todo"
             app:layout_constraintBottom_toTopOf="@+id/divider2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/timeText5"
             app:layout_constraintTop_toBottomOf="@+id/DateIcon5"
-            app:srcCompat="@drawable/timeicon"
-            android:contentDescription="@string/todo" />
+            app:srcCompat="@drawable/timeicon" />
 
         <ImageView
             android:id="@+id/DateIcon5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="10dp"
+            android:contentDescription="@string/todo"
             app:layout_constraintBottom_toTopOf="@+id/TimeIcon5"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/dateText5"
             app:layout_constraintTop_toBottomOf="@+id/divider"
-            app:srcCompat="@drawable/dateicon"
-            android:contentDescription="@string/todo" />
+            app:srcCompat="@drawable/dateicon" />
 
         <TextView
             android:id="@+id/textView"
@@ -184,9 +185,9 @@
 
         <TextView
             android:id="@+id/timeText5"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="1dp"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="13dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="5dp"
@@ -205,9 +206,9 @@
 
         <TextView
             android:id="@+id/dateText5"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="1dp"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="43dp"
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/bubblegum_sans"
@@ -219,7 +220,7 @@
             android:textStyle="bold|italic"
             app:layout_constraintBottom_toTopOf="@+id/timeText5"
             app:layout_constraintEnd_toStartOf="@+id/DateIcon5"
-            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintStart_toEndOf="@+id/TimeDateAuto5"
             app:layout_constraintTop_toBottomOf="@+id/divider"
             tools:ignore="MissingConstraints" />
 
@@ -279,15 +280,16 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/round"
                 android:drawableStart="@drawable/cholesterolfattest"
+                android:drawablePadding="?attr/actionBarSize"
                 android:ems="10"
                 android:focusableInTouchMode="true"
                 android:fontFamily="@font/bubblegum_sans"
                 android:hint="@string/hdl_cholesterol_percent"
+                android:importantForAutofill="no"
                 android:inputType="numberDecimal"
                 android:paddingStart="10dp"
                 android:selectAllOnFocus="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:importantForAutofill="no" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

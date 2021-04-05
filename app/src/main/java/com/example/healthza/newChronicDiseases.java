@@ -1,15 +1,17 @@
 package com.example.healthza;
 
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.core.app.NotificationCompat;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -17,6 +19,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -47,6 +52,137 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
     private  String name_ = "";
     private String type_ = "";
     private String itemTemp="";
+
+    //
+    @SuppressLint("RestrictedApi")
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inf=getMenuInflater ();
+        inf.inflate (R.menu.patient_menu,menu);
+        if (menu!=null && menu instanceof MenuBuilder)
+            ((MenuBuilder)menu).setOptionalIconsVisible ( true );
+        return super.onCreateOptionsMenu ( menu );
+    }
+    //
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) { return super.onPrepareOptionsMenu ( menu ); }
+    //
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) { return super.onMenuOpened ( featureId, menu ); }
+    //
+    @Override
+    public void onOptionsMenuClosed(Menu menu) { super.onOptionsMenuClosed ( menu ); }
+    //
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        //getSupportActionBar ().setTitle ( item.getTitle ()+ "  is pressed" );
+        switch(item.getItemId())
+        {
+            case R.id.newIdentifierPM:
+            {
+                Intent I = new Intent(this, AddPatientIdentifier.class);
+                startActivity(I);
+                break;
+            }
+
+            case R.id.newChronicDiseasesPM:
+            {
+               /* Intent I = new Intent(this, newChronicDiseases.class);
+                startActivity(I);*/
+                break;
+            }
+
+            case R.id.GlucoseTestPM:
+            {
+                Intent I = new Intent(this, AddGlucoseTest.class);
+                startActivity(I);
+                break;
+            }
+
+            case R.id.FBStestPM:
+            {
+                Intent I = new Intent(this, AddFBStest.class);
+                startActivity(I);
+                break;
+            }
+
+            case R.id.HypertensionTestPM:
+            {
+                Intent I = new Intent(this, AddHypertensionTest.class);
+                startActivity(I);
+                break;
+            }
+
+            case R.id.CumulativeTestPM:
+            {
+                Intent I = new Intent(this, HbAlc.class);
+                startActivity(I);
+                break;
+            }
+
+            case R.id.KidneysTestPM:
+            {
+                Intent I = new Intent(this, AddKidneysTest .class);
+                startActivity(I);
+                break;
+            }
+
+            case R.id.LiverTestPM:
+            {
+                Intent I = new Intent(this, AddLiverTest.class);
+                startActivity(I);
+                break;
+            }
+
+            case R.id.CholesterolAndFatsTestPM:
+            {
+                Intent I = new Intent(this, AddCholesterolAndFatsTest.class);
+                startActivity(I);
+                break;
+            }
+
+            case R.id.ComprehensiveTestPM:
+            {
+                Intent I = new Intent(this, ComprehensiveTest.class);
+                startActivity(I);
+                break;
+            }
+
+            case R.id.logOutPM:
+            {
+
+                AlertDialog.Builder   x= new AlertDialog.Builder ( this );
+                x.setMessage ( "DO YOU WANT TO LogOut?" ).setTitle ( "Patient LogOut" )
+
+                        .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getApplicationContext(), "LogedOut...", Toast.LENGTH_SHORT).show();
+                                //complet
+                                // finish();
+                                finishAffinity();
+                            }
+                        } )
+
+                        .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) { }
+                        })
+
+                        .setIcon(R.drawable.qus)
+                        .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
+                        .setNegativeButtonIcon(getDrawable ( R.drawable.no))
+                        .show ();
+
+                break;
+            }
+            default:{}
+        }
+        return super.onOptionsItemSelected ( item );
+    }
+    //
 
     @SuppressLint("LongLogTag")
     public boolean onSupportNavigateUp()
@@ -120,6 +256,7 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
         spinner1 = findViewById(R.id.spinner);
         flagChronicDiseases();
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @SuppressLint("LongLogTag")
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -217,7 +354,6 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
 
     }
 
-
     void flagChronicDiseases()
     {
         Resources res = getResources();
@@ -229,7 +365,6 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
         spinner1.setAdapter(adapter1);
 
     }
-
 
     private void createChannel() {
 
@@ -245,7 +380,6 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
 
         }
     }
-
 
     void notification(String text,String date)
     {
@@ -285,14 +419,12 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
 
     }
 
-
    /* //Empty Fields
     boolean ifEmptyFields()
     {
         //complet
         return data.size() <= 0 ;
     }*/
-
 
     void adD()
     {
@@ -338,7 +470,6 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
                 .show ();
     }
 
-
     @SuppressLint("LongLogTag")
     void do_()
     {
@@ -372,9 +503,21 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
         Toast.makeText(getApplicationContext(),"new Chronic Disease is added :"+itemTemp+" \n\nDate:"+date_,Toast.LENGTH_LONG).show();
 
     }
-
     @Override
     public void onClick(View v) {
         if (v == add) { adD(); return; }
+    }
+
+    //rotate
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
     }
 }

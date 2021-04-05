@@ -101,7 +101,10 @@ public class LoginActivity extends AppCompatActivity {
                 firebaseAuth.signInWithEmailAndPassword(email.trim(), password).addOnCompleteListener(task -> {
 
                     if(task.isComplete() && task.isSuccessful()) {
-                        startActivity(new Intent(this, MainActivity.class));
+
+                        Intent I = new Intent(this, MainActivity.class);
+                        I.putExtra(Functions.loginSUC,Functions.loginSUCV);
+                        startActivity(I);
                         Toast.makeText(this, "welcome" + firebaseAuth.getCurrentUser().getDisplayName()
                                 , Toast.LENGTH_LONG).show();
                     }
@@ -152,6 +155,19 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) { }
         });
+    }
+
+    //rotate
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
     }
 
 }
