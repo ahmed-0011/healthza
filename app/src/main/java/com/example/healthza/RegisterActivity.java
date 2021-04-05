@@ -469,7 +469,6 @@ public class RegisterActivity extends AppCompatActivity {
         textSizeAnimator.start();
     }
 
-
     private void progressButtonReverseAnimation()
     {
         for(int i = 0; i < animations.size(); i++)

@@ -9,24 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Theme.Healthza">
+
         <activity
-            android:name=".updateComplicationStatus"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:name=".PatientHomeActivity"
+            android:theme="@style/noActionBarTheme" />
+
         <activity
-            android:name=".addComplications"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:name=".EmailVerificationCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/noActionBarTheme" />
+
         <activity
-            android:name=".addNewTestAppointment"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity
-            android:name=".AddPatientIdentifier"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity
-            android:name=".newChronicDiseases"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity
-            android:name=".MainActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:name=".SplashScreenActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/splashScreenStyle">
@@ -36,28 +30,50 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".WelcomeActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:theme="@style/noActionBarTheme" />
+
         <activity
             android:name=".RegisterActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:theme="@style/noActionBarTheme" />
+
         <activity
             android:name=".LoginActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:theme="@style/noActionBarTheme" />
+
+        <activity
+            android:name=".OTPCodeMessageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/noActionBarTheme" />
 
         <activity
             android:name=".ResetPasswordMessageActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:screenOrientation="portrait"
+            android:theme="@style/noActionBarTheme" />
+
         <activity
             android:name=".ResetPasswordActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:screenOrientation="portrait"
+            android:theme="@style/noActionBarTheme" />
+
+        <activity
+            android:name=".OTPCodeActivity"
+            android:theme="@style/noActionBarTheme" />
+
         <activity
             android:name=".ForgotPasswordActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:theme="@style/noActionBarTheme" />
+
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".MainActivity"
+            android:theme="@style/noActionBarTheme" />
+
+        <activity
+            android:name=".newChronicDiseases"
             android:configChanges="orientation|screenSize|keyboardHidden" />
+
         <activity
             android:name=".HbAlc"
             android:configChanges="orientation|screenSize|keyboardHidden" />
@@ -82,24 +98,23 @@
         <activity
             android:name=".AddCholesterolAndFatsTest"
             android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity
-            android:name=".PatientHomeActivity"
-            android:theme="@style/noActionBarTheme" />
+
 
         <activity
-            android:name=".EmailVerificationCodeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/noActionBarTheme" />
-
+            android:name=".updateComplicationStatus"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name=".OTPCodeMessageActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/noActionBarTheme" />
-
+            android:name=".addComplications"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name=".OTPCodeActivity"
-            android:theme="@style/noActionBarTheme" />
+            android:name=".addNewTestAppointment"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".AddPatientIdentifier"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+
+
+
     </application>
-
 
 </manifest>
