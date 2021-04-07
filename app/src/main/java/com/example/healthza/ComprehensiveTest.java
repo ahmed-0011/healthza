@@ -40,8 +40,22 @@ import android.widget.ViewFlipper;
 
 import android.os.Bundle;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.example.healthza.Functions.TAG_CT;
 
 public class ComprehensiveTest extends AppCompatActivity implements View.OnClickListener
         ,CompoundButton.OnCheckedChangeListener
@@ -65,6 +79,11 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
 
     private Button clear;
     private Button add;
+
+    private static final String TAG = "AddKidneysTest";
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
+    int ct = 0;
 
     //
     @SuppressLint("RestrictedApi")
@@ -265,6 +284,9 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
         bar.setHomeAsUpIndicator ( R.drawable.ex);
         bar.setTitle("Add Comprehensive test.");
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
         datE = findViewById(R.id.dateText7);
         timE = findViewById(R.id.timeText7);
         td = findViewById(R.id.textView);
@@ -402,6 +424,39 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
 
         //complet
 
+
+        //<!--get tests Count
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            // User is signed in
+            String userId = user.getUid();
+            DocumentReference docRef = db.collection("patients") // table
+                    .document(userId) // patient id
+                    .collection("tests")// table inside patient table
+                    .document("count");
+
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            String cte = "" + document.getData().toString();
+                            ct = Integer.parseInt(cte.substring(7,cte.length()-1));
+                        } else {
+                            Log.d(TAG, "No such document");
+                            ct = 0;
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                        ct = 0;
+                    }
+                }
+            });
+        }
+        //end get tests Count-->
+
         viewFlipper = findViewById(R.id.view_flipper);
        /* TextView textView = new TextView(this);
         textView.setText("Dynamically added TextView");
@@ -458,7 +513,7 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/mm/dd hh:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
                 Functions.timeS = now.getHour()+":"+now.getMinute();
-                Functions.dateS = now.getYear()+"/"+now.getMonthValue()+"/"+now.getDayOfMonth();
+                Functions.dateS = now.getYear()+"-"+now.getMonthValue()+"-"+now.getDayOfMonth();
                 timE.setText(Functions.timeS);
                 datE.setText(Functions.dateS);
             } else {
@@ -516,6 +571,8 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
                         Log.w ("ADD TEST", "ADD Comprehensive TEST");
                         // functions and codes
                         //complet
+
+                        addTest();
 
                         notification("Comprehensive Test");
                         Toast.makeText(getApplicationContext(), "Comprehensive TEST IS ADD...", Toast.LENGTH_SHORT).show();
@@ -693,5 +750,220 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
         super.onRestoreInstanceState(savedInstanceState);
         //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
     }
+
+    // db code;
+
+    private void addTest()
+    {
+
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            // User is signed in
+
+            String userId = user.getUid();
+
+            //<!--update tests Count
+
+            Map<String, Object> Count = new HashMap<>();
+            Count.put("count", ++ct);
+
+            db.collection("patients") // table
+                    .document(userId) // patient id
+                    .collection("tests")// table inside patient table
+                    .document("count")
+                    .set(Count)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG_CT, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG_CT, "Error writing document", e);
+                        }
+                    });
+
+            //ende update tests Count-->
+
+            //<!-- add test
+
+            Map<String, Object> dataTest = new HashMap<>();
+            dataTest.put("date_add", datE.getText().toString());
+            dataTest.put("time_add", timE.getText().toString());
+            dataTest.put("fbs_percent", Float.parseFloat(inputField[0].getText().toString()));
+
+            db.collection("patients") // table
+                    .document(userId) // patient id
+                    .collection("tests")// table inside patient table
+                    .document(datE.getText().toString())
+                    .collection("fbs_test")
+                    .document("test# : "+ct)
+                    .set(dataTest)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+
+            //
+
+            dataTest = new HashMap<>();
+            dataTest.put("date_add", datE.getText().toString());
+            dataTest.put("time_add", timE.getText().toString());
+            dataTest.put("SGOT_percent", Float.parseFloat(inputField[4].getText().toString()));
+            dataTest.put("SGPT_percent", Float.parseFloat(inputField[3].getText().toString()));
+            dataTest.put("GGT_percent", Float.parseFloat(inputField[2].getText().toString()));
+            dataTest.put("AlkPhosphatese_percent", Float.parseFloat(inputField[1].getText().toString()));
+
+            db.collection("patients") // table
+                    .document(userId) // patient id
+                    .collection("tests")// table inside patient table
+                    .document(datE.getText().toString())
+                    .collection("liver_test")
+                    .document("test# : "+ct)
+                    .set(dataTest)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @SuppressLint("LongLogTag")
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @SuppressLint("LongLogTag")
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+
+            //
+
+            dataTest = new HashMap<>();
+            dataTest.put("date_add", datE.getText().toString());
+            dataTest.put("time_add", timE.getText().toString());
+            dataTest.put("UricAcid_percent", Float.parseFloat(inputField[5].getText().toString()));
+            dataTest.put("Urea_percent", Float.parseFloat(inputField[6].getText().toString()));
+            dataTest.put("Creatinine_percent", Float.parseFloat(inputField[7].getText().toString()));
+
+            db.collection("patients") // table
+                    .document(userId) // patient id
+                    .collection("tests")// table inside patient table
+                    .document(datE.getText().toString())
+                    .collection("Kidneys_test")
+                    .document("test# : "+ct)
+                    .set(dataTest)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @SuppressLint("LongLogTag")
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @SuppressLint("LongLogTag")
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+
+            //
+
+            dataTest = new HashMap<>();
+            dataTest.put("date_add", datE.getText().toString());
+            dataTest.put("time_add", timE.getText().toString());
+            dataTest.put("Triglycerid_percent", Float.parseFloat(inputField[8].getText().toString()));
+            dataTest.put("LDLCholesterol_percent", Float.parseFloat(inputField[9].getText().toString()));
+            dataTest.put("HDLCholesterol_percent", Float.parseFloat(inputField[10].getText().toString()));
+            dataTest.put("CholesterolTotal_percent", Float.parseFloat(inputField[11].getText().toString()));
+
+            db.collection("patients") // table
+                    .document(userId) // patient id
+                    .collection("tests")// table inside patient table
+                    .document(datE.getText().toString())
+                    .collection("cholesterolAndFats_test")
+                    .document("test# : "+ct)
+                    .set(dataTest)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @SuppressLint("LongLogTag")
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @SuppressLint("LongLogTag")
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+
+            //
+            dataTest = new HashMap<>();
+            dataTest.put("date_add", datE.getText().toString());
+            dataTest.put("time_add", timE.getText().toString());
+            dataTest.put("albumin_percent", Float.parseFloat(inputField[12].getText().toString()));
+            dataTest.put("acpTotal_percent", Float.parseFloat(inputField[13].getText().toString()));
+            dataTest.put("calcium_percent", Float.parseFloat(inputField[14].getText().toString()));
+            dataTest.put("chloride_percent", Float.parseFloat(inputField[15].getText().toString()));
+            dataTest.put("sIron_percent", Float.parseFloat(inputField[16].getText().toString()));
+            dataTest.put("tibc_percent", Float.parseFloat(inputField[17].getText().toString()));
+            dataTest.put("acpProstatic_percent", Float.parseFloat(inputField[18].getText().toString()));
+            dataTest.put("amylase_percent", Float.parseFloat(inputField[19].getText().toString()));
+            dataTest.put("potassium_percent", Float.parseFloat(inputField[20].getText().toString()));
+            dataTest.put("sodium_percent", Float.parseFloat(inputField[21].getText().toString()));
+            dataTest.put("2hpps_percent", Float.parseFloat(inputField[22].getText().toString()));
+            dataTest.put("rbs_percent", Float.parseFloat(inputField[23].getText().toString()));
+            dataTest.put("bilirubinTotal_percent", Float.parseFloat(inputField[24].getText().toString()));
+            dataTest.put("bilirubinDirect_percent", Float.parseFloat(inputField[25].getText().toString()));
+            dataTest.put("psa_percent", Float.parseFloat(inputField[26].getText().toString()));
+            dataTest.put("phosphours_percent", Float.parseFloat(inputField[27].getText().toString()));
+            dataTest.put("ldh_percent", Float.parseFloat(inputField[28].getText().toString()));
+            dataTest.put("ckMb_percent", Float.parseFloat(inputField[29].getText().toString()));
+            dataTest.put("cpk_percent", Float.parseFloat(inputField[30].getText().toString()));
+            dataTest.put("tProtein_percent", Float.parseFloat(inputField[31].getText().toString()));
+            dataTest.put("magnesium_percent", Float.parseFloat(inputField[32].getText().toString()));
+
+            db.collection("patients") // table
+                    .document(userId) // patient id
+                    .collection("tests")// table inside patient table
+                    .document(datE.getText().toString())
+                    .collection("other_test")
+                    .document("test# : "+ct)
+                    .set(dataTest)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @SuppressLint("LongLogTag")
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @SuppressLint("LongLogTag")
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+            //end add test -->
+
+
+        } else {
+            // No user is signed in
+        }
+
+    }
+
 
 }

@@ -12,7 +12,7 @@
 
         <activity
             android:name=".PatientHomeActivity"
-            android:theme="@style/noActionBarTheme" />
+            android:theme="@style/AppTheme" />
 
         <activity
             android:name=".EmailVerificationCodeActivity"

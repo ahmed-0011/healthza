@@ -17,6 +17,8 @@ import java.util.Calendar;
 
 public class Functions extends AppCompatActivity{
 
+    public static final String TAG_CT = "countIsUpdated";
+
     public static String dateS = "";
     public static String timeS = "";
 

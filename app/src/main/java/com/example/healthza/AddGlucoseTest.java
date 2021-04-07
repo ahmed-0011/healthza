@@ -36,8 +36,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.example.healthza.Functions.TAG_CT;
 
 public class AddGlucoseTest extends AppCompatActivity implements View.OnClickListener
         ,CompoundButton.OnCheckedChangeListener
@@ -58,6 +72,12 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
 
     private Button clear;
     private Button add;
+
+
+    private static final String TAG = "AddGlucoseTest";
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
+    int ct = 0;
 
     //
     @SuppressLint("RestrictedApi")
@@ -256,6 +276,9 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
         bar.setHomeAsUpIndicator ( R.drawable.ex);
         bar.setTitle("Add Glucose test.");
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
         datE = findViewById(R.id.dateText0);
         timE = findViewById(R.id.timeText0);
         td = findViewById(R.id.textView);
@@ -295,6 +318,38 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
         add = findViewById(R.id.AddGlucoseTest); add.setOnClickListener(this);
 
         //complet
+
+        //<!--get tests Count
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            // User is signed in
+            String userId = user.getUid();
+            DocumentReference docRef = db.collection("patients") // table
+                    .document(userId) // patient id
+                    .collection("tests")// table inside patient table
+                    .document("count");
+
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            String cte = "" + document.getData().toString();
+                            ct = Integer.parseInt(cte.substring(7,cte.length()-1));
+                        } else {
+                            Log.d(TAG, "No such document");
+                            ct = 0;
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                        ct = 0;
+                    }
+                }
+            });
+        }
+        //end get tests Count-->
     }
 
     //Date Picker
@@ -329,7 +384,7 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/mm/dd hh:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
                 Functions.timeS = now.getHour()+":"+now.getMinute();
-                Functions.dateS = now.getYear()+"/"+now.getMonthValue()+"/"+now.getDayOfMonth();
+                Functions.dateS = now.getYear()+"-"+now.getMonthValue()+"-"+now.getDayOfMonth();
                 timE.setText(Functions.timeS);
                 datE.setText(Functions.dateS);
             } else {
@@ -386,6 +441,8 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                         Log.w ("ADD TEST", "ADD Glucose TEST");
                         // functions and codes
                         //complet
+
+                        addTest();
 
                         notification("Glucose Test");
                         Toast.makeText(getApplicationContext(), "Glucose TEST IS ADD...", Toast.LENGTH_SHORT).show();
@@ -562,5 +619,77 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
+
+    // db code;
+
+    private void addTest()
+    {
+
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            // User is signed in
+
+            String userId = user.getUid();
+
+            //<!--update tests Count
+
+            Map<String, Object> Count = new HashMap<>();
+            Count.put("count", ++ct);
+
+            db.collection("patients") // table
+                    .document(userId) // patient id
+                    .collection("tests")// table inside patient table
+                    .document("count")
+                    .set(Count)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG_CT, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG_CT, "Error writing document", e);
+                        }
+                    });
+
+            //ende update tests Count-->
+
+            //<!-- add test
+
+            Map<String, Object> dataTest = new HashMap<>();
+            dataTest.put("date_add", datE.getText().toString());
+            dataTest.put("time_add", timE.getText().toString());
+            dataTest.put("glucose_percent", Float.parseFloat(glucose.getText().toString()));
+
+            db.collection("patients") // table
+                    .document(userId) // patient id
+                    .collection("tests")// table inside patient table
+                    .document(datE.getText().toString())
+                    .collection("glucose_test")
+                    .document("test# : "+ct)
+                    .set(dataTest)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+
+            //end add test -->
+
+
+        } else {
+            // No user is signed in
+        }
+
     }
 }
