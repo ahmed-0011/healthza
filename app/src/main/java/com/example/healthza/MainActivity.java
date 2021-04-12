@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
@@ -173,6 +175,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        Log.w ("DoctorHome.", "start");
+        Toast.makeText(getApplicationContext(), "Doctor Home....", Toast.LENGTH_SHORT).show();
+
+        ActionBar bar = getSupportActionBar ();
+        bar.setHomeButtonEnabled ( true );
+        bar.setDisplayHomeAsUpEnabled ( true );
+        bar.setHomeAsUpIndicator ( R.drawable.ex);
+        bar.setTitle("Doctor Home.");
+
 
 
         firebaseAuth = FirebaseAuth.getInstance();
