@@ -36,7 +36,8 @@ public class EmailVerificationCodeActivity extends AppCompatActivity {
                 intent = new Intent(this, PatientHomeActivity.class);
             else
                 intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            intent.putExtra("Flagre",true);
             startActivity(intent);
         });
     }

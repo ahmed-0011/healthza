@@ -31,9 +31,19 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.example.healthza.Functions.TAG_CT;
 
 public class newChronicDiseases extends AppCompatActivity  implements View.OnClickListener{
 
@@ -52,6 +62,10 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
     private  String name_ = "";
     private String type_ = "";
     private String itemTemp="";
+
+    private static final String TAG = "newChronicDiseases";
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
 
     //
     @SuppressLint("RestrictedApi")
@@ -162,7 +176,10 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
                                 Toast.makeText(getApplicationContext(), "LogedOut...", Toast.LENGTH_SHORT).show();
                                 //complet
                                 // finish();
+                                firebaseAuth.signOut();
                                 finishAffinity();
+                                Intent I = new Intent(getApplicationContext(),WelcomeActivity.class);
+                                startActivity(I);
                             }
                         } )
 
@@ -242,6 +259,9 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_chronic_diseases);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         Log.w ("Add New Chronic Diseases.", "start");
         Toast.makeText(getApplicationContext(), "Add New Chronic Diseases....", Toast.LENGTH_SHORT).show();
@@ -496,8 +516,8 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
         int year_ = datePicker.getYear();
         int month_ = datePicker.getMonth();
         int day_ = datePicker.getDayOfMonth();
-        String date_=""+year_+"/"+month_+"/"+day_;
-
+        String date_=""+year_+"-"+month_+"-"+day_;
+        newChronicDiseases_(date_);
         notification(itemTemp,date_);
 
         Toast.makeText(getApplicationContext(),"new Chronic Disease is added :"+itemTemp+" \n\nDate:"+date_,Toast.LENGTH_LONG).show();
@@ -519,5 +539,50 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
+
+    private  void newChronicDiseases_(String date)
+    {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            // User is signed in
+
+            String userId = user.getUid();
+
+            //<!-- add newChronicDiseases
+            if(type_.equals("null"))type_="";
+            String d = name_ + (type_.isEmpty()? "" : ("("+type_+")"));
+            Map<String, Object> dataTest = new HashMap<>();
+            dataTest.put("diagnosisDate", date);
+            dataTest.put("diseaseName", name_);
+            dataTest.put("diseaseType",type_);
+            dataTest.put("inherited", false);
+            db.collection("patients") // table
+                    .document(userId) // patient id
+                    .collection("diseases")// table inside patient table
+                    .document(d)
+                    .set(dataTest)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @SuppressLint("LongLogTag")
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @SuppressLint("LongLogTag")
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+
+            //end newChronicDiseases add  -->
+
+
+        } else {
+            // No user is signed in
+        }
+
     }
 }

@@ -32,110 +32,121 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.example.healthza.Functions.TAG_CT;
+
 public class AddPatientIdentifier extends AppCompatActivity implements View.OnClickListener
         ,CompoundButton.OnCheckedChangeListener
-        , View.OnFocusChangeListener
-{
+        , View.OnFocusChangeListener {
 
-    private static final  String ChannelID= "AddPatientIdentifierNote";
+    private static final String ChannelID = "AddPatientIdentifierNote";
 
-    private EditText inputField [];
+    private EditText inputField[];
 
     private Button clear;
     private Button add;
 
+    private static final String TAG = "AddPatientIdentifier";
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
+
     //
     @SuppressLint("RestrictedApi")
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inf=getMenuInflater ();
-        inf.inflate (R.menu.patient_menu,menu);
-        if (menu!=null && menu instanceof MenuBuilder)
-            ((MenuBuilder)menu).setOptionalIconsVisible ( true );
-        return super.onCreateOptionsMenu ( menu );
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inf = getMenuInflater();
+        inf.inflate(R.menu.patient_menu, menu);
+        if (menu != null && menu instanceof MenuBuilder)
+            ((MenuBuilder) menu).setOptionalIconsVisible(true);
+        return super.onCreateOptionsMenu(menu);
     }
+
     //
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) { return super.onPrepareOptionsMenu ( menu ); }
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
+    }
+
     //
     @Override
-    public boolean onMenuOpened(int featureId, Menu menu) { return super.onMenuOpened ( featureId, menu ); }
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        return super.onMenuOpened(featureId, menu);
+    }
+
     //
     @Override
-    public void onOptionsMenuClosed(Menu menu) { super.onOptionsMenuClosed ( menu ); }
+    public void onOptionsMenuClosed(Menu menu) {
+        super.onOptionsMenuClosed(menu);
+    }
+
     //
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item)
-    {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         //getSupportActionBar ().setTitle ( item.getTitle ()+ "  is pressed" );
-        switch(item.getItemId())
-        {
-            case R.id.newIdentifierPM:
-            {
+        switch (item.getItemId()) {
+            case R.id.newIdentifierPM: {
                /* Intent I = new Intent(this, AddPatientIdentifier.class);
                 startActivity(I);*/
                 break;
             }
 
-            case R.id.newChronicDiseasesPM:
-            {
+            case R.id.newChronicDiseasesPM: {
                 Intent I = new Intent(this, newChronicDiseases.class);
                 startActivity(I);
                 break;
             }
 
-            case R.id.GlucoseTestPM:
-            {
+            case R.id.GlucoseTestPM: {
                 Intent I = new Intent(this, AddGlucoseTest.class);
                 startActivity(I);
                 break;
             }
 
-            case R.id.FBStestPM:
-            {
+            case R.id.FBStestPM: {
                 Intent I = new Intent(this, AddFBStest.class);
                 startActivity(I);
                 break;
             }
 
-            case R.id.HypertensionTestPM:
-            {
+            case R.id.HypertensionTestPM: {
                 Intent I = new Intent(this, AddHypertensionTest.class);
                 startActivity(I);
                 break;
             }
 
-            case R.id.CumulativeTestPM:
-            {
+            case R.id.CumulativeTestPM: {
                 Intent I = new Intent(this, HbAlc.class);
                 startActivity(I);
                 break;
             }
 
-            case R.id.KidneysTestPM:
-            {
-                Intent I = new Intent(this, AddKidneysTest .class);
+            case R.id.KidneysTestPM: {
+                Intent I = new Intent(this, AddKidneysTest.class);
                 startActivity(I);
                 break;
             }
 
-            case R.id.LiverTestPM:
-            {
+            case R.id.LiverTestPM: {
                 Intent I = new Intent(this, AddLiverTest.class);
                 startActivity(I);
                 break;
             }
 
-            case R.id.CholesterolAndFatsTestPM:
-            {
+            case R.id.CholesterolAndFatsTestPM: {
                 Intent I = new Intent(this, AddCholesterolAndFatsTest.class);
                 startActivity(I);
                 break;
             }
 
-            case R.id.ComprehensiveTestPM:
-            {
+            case R.id.ComprehensiveTestPM: {
                 Intent I = new Intent(this, ComprehensiveTest.class);
                 startActivity(I);
                 break;
@@ -153,7 +164,10 @@ public class AddPatientIdentifier extends AppCompatActivity implements View.OnCl
                                 Toast.makeText(getApplicationContext(), "LogedOut...", Toast.LENGTH_SHORT).show();
                                 //complet
                                 // finish();
+                                firebaseAuth.signOut();
                                 finishAffinity();
+                                Intent I = new Intent(getApplicationContext(),WelcomeActivity.class);
+                                startActivity(I);
                             }
                         } )
 
@@ -169,77 +183,85 @@ public class AddPatientIdentifier extends AppCompatActivity implements View.OnCl
 
                 break;
             }
-            default:{}
+            default: {
+            }
         }
-        return super.onOptionsItemSelected ( item );
+        return super.onOptionsItemSelected(item);
     }
     //
 
-    public boolean onSupportNavigateUp()
-    {
-        Log.w ("Add Patient Identifier.", "onSupportNavigateUp is calll");
-        onBackPressed ();
-        return super.onSupportNavigateUp ();
+    public boolean onSupportNavigateUp() {
+        Log.w("Add Patient Identifier.", "onSupportNavigateUp is calll");
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
+
     //
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
         //complet
-        for(int i=0;i<inputField.length;i++){ inputField[i].clearFocus(); }
+        for (int i = 0; i < inputField.length; i++) {
+            inputField[i].clearFocus();
+        }
         return super.onKeyDown(keyCode, event);
     }
+
     //
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         //super.onBackPressed ();
-        Log.w ("Add Patient Identifier.", "this onbackpress is calll");
+        Log.w("Add Patient Identifier.", "this onbackpress is calll");
 
-        AlertDialog.Builder   x= new AlertDialog.Builder ( this );
-        x.setMessage ( "DO YOU WANT TO EXIT?" ).setTitle ( "Exit Activity'Add Patient Identifier'" )
+        AlertDialog.Builder x = new AlertDialog.Builder(this);
+        x.setMessage("DO YOU WANT TO EXIT?").setTitle("Exit Activity'Add Patient Identifier'")
 
-                .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
+                .setPositiveButton("YES_EXIT", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.w ("Add Patient Identifier.", "end");
+                        Log.w("Add Patient Identifier.", "end");
                         Toast.makeText(getApplicationContext(), "Back...", Toast.LENGTH_SHORT).show();
                         //complet
                         finish();
                     }
-                } )
+                })
 
-                .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
+                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) { }
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
                 })
 
                 .setIcon(R.drawable.qus)
-                .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
-                .setNegativeButtonIcon(getDrawable ( R.drawable.no))
-                .show ();
+                .setPositiveButtonIcon(getDrawable(R.drawable.yes))
+                .setNegativeButtonIcon(getDrawable(R.drawable.no))
+                .show();
         return;
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         //complet
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_patient_identifier);
 
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
         inputField = new EditText[3];
 
-        Log.w ("Add Patient Identifier.", "start");
+        Log.w("Add Patient Identifier.", "start");
         Toast.makeText(getApplicationContext(), "Add Patient Identifier....", Toast.LENGTH_SHORT).show();
 
-        ActionBar bar = getSupportActionBar ();
-        bar.setHomeButtonEnabled ( true );
-        bar.setDisplayHomeAsUpEnabled ( true );
-        bar.setHomeAsUpIndicator ( R.drawable.ex);
+        ActionBar bar = getSupportActionBar();
+        bar.setHomeButtonEnabled(true);
+        bar.setDisplayHomeAsUpEnabled(true);
+        bar.setHomeAsUpIndicator(R.drawable.ex);
         bar.setTitle("Add Patient Identifier.");
 
         inputField[0] = findViewById(R.id.innerIdentifierName);
@@ -252,27 +274,28 @@ public class AddPatientIdentifier extends AppCompatActivity implements View.OnCl
         inputField[2].setOnFocusChangeListener(this);
 
 
-        clear = findViewById(R.id.clearIdentifierInfo); clear.setOnClickListener (this);
-        add = findViewById(R.id.addIdentifierInfo); add.setOnClickListener(this);
+        clear = findViewById(R.id.clearIdentifierInfo);
+        clear.setOnClickListener(this);
+        add = findViewById(R.id.addIdentifierInfo);
+        add.setOnClickListener(this);
     }
 
 
     //Empty Fields
-    boolean ifEmptyFields()
-    {
+    boolean ifEmptyFields() {
         //complet
-        boolean empty=false;
-        for(int i=0; i<inputField.length;i++) { empty = empty || inputField[i].getText().toString().isEmpty(); }
+        boolean empty = false;
+        for (int i = 0; i < inputField.length; i++) {
+            empty = empty || inputField[i].getText().toString().isEmpty();
+        }
         return empty;
 
     }
 
     // do
-    void adD()
-    {
+    void adD() {
         //complet
-        if(ifEmptyFields())
-        {
+        if (ifEmptyFields()) {
             AlertDialog.Builder x = new AlertDialog.Builder(this);
             x.setMessage("Please complete fill the form data.").setTitle("incomplete data")
 
@@ -291,64 +314,69 @@ public class AddPatientIdentifier extends AppCompatActivity implements View.OnCl
         }
 
 
-        AlertDialog.Builder   x= new AlertDialog.Builder ( this );
-        x.setMessage ( "DO YOU WANT TO Add Patient Identifier?" ).setTitle ( "Add Patient Identifier." )
+        AlertDialog.Builder x = new AlertDialog.Builder(this);
+        x.setMessage("DO YOU WANT TO Add Patient Identifier?").setTitle("Add Patient Identifier.")
 
-                .setPositiveButton ( "YES_ADD", new DialogInterface.OnClickListener () {
+                .setPositiveButton("YES_ADD", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.w ("ADD Patient Identifier", "Add Patient Identifier.");
+                        Log.w("ADD Patient Identifier", "Add Patient Identifier.");
                         // functions and codes
                         //complet
 
-                        notification( );
+                        addIDentifier();
+
+                        notification();
                         Toast.makeText(getApplicationContext(), "Patient Identifier IS ADD...", Toast.LENGTH_SHORT).show();
 
 
                     }
-                } )
+                })
 
-                .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
+                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) { }
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
                 })
 
                 .setIcon(R.drawable.qus)
-                .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
-                .setNegativeButtonIcon(getDrawable ( R.drawable.no))
-                .show ();
+                .setPositiveButtonIcon(getDrawable(R.drawable.yes))
+                .setNegativeButtonIcon(getDrawable(R.drawable.no))
+                .show();
 
     }
 
     // clear
-    void cleaR()
-    {
+    void cleaR() {
         //complet
 
-        AlertDialog.Builder   x= new AlertDialog.Builder ( this );
-        x.setMessage ( "DO YOU WANT TO CLEAR FIELDS?" ).setTitle ( "Clear Fields" )
+        AlertDialog.Builder x = new AlertDialog.Builder(this);
+        x.setMessage("DO YOU WANT TO CLEAR FIELDS?").setTitle("Clear Fields")
 
-                .setPositiveButton ( "YES_CLEAR", new DialogInterface.OnClickListener () {
+                .setPositiveButton("YES_CLEAR", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.w ("CLEAR FIELDS", "Add Patient Identifier CLEAR FIELDS");
+                        Log.w("CLEAR FIELDS", "Add Patient Identifier CLEAR FIELDS");
                         Toast.makeText(getApplicationContext(), "FIELDS IS CLEARD...", Toast.LENGTH_SHORT).show();
                         // functions and codes
                         //complet
-                        for(int i=0;i<inputField.length;i++){inputField[i].setText("");}
+                        for (int i = 0; i < inputField.length; i++) {
+                            inputField[i].setText("");
+                        }
 
                     }
-                } )
+                })
 
-                .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
+                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) { }
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
                 })
 
                 .setIcon(R.drawable.qus)
-                .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
-                .setNegativeButtonIcon(getDrawable ( R.drawable.no))
-                .show ();
+                .setPositiveButtonIcon(getDrawable(R.drawable.yes))
+                .setNegativeButtonIcon(getDrawable(R.drawable.no))
+                .show();
 
     }
 
@@ -356,15 +384,21 @@ public class AddPatientIdentifier extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
 
-        if (v == add) { adD(); return; }
-        if (v == clear) { cleaR(); return; }
+        if (v == add) {
+            adD();
+            return;
+        }
+        if (v == clear) {
+            cleaR();
+            return;
+        }
 
     }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
 
-        for(int i=0; i<inputField.length;i++) {
+        for (int i = 0; i < inputField.length; i++) {
             if (v == inputField[i]) {
                 if (!hasFocus) {
                     Log.d("focus", "focus lost");
@@ -395,14 +429,14 @@ public class AddPatientIdentifier extends AppCompatActivity implements View.OnCl
             if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent( event );
+        return super.dispatchTouchEvent(event);
     }
 // "Clear focus input" -->
 
@@ -430,7 +464,7 @@ public class AddPatientIdentifier extends AppCompatActivity implements View.OnCl
         createChannel();
 
         NotificationCompat.BigTextStyle bigtext = new NotificationCompat.BigTextStyle();
-        bigtext.setBigContentTitle("Identifier Name:" + inputField[0].getText().toString() );
+        bigtext.setBigContentTitle("Identifier Name:" + inputField[0].getText().toString());
         bigtext.bigText("Identifier Phone:" + inputField[1].getText().toString());
         bigtext.setSummaryText("New Identifier,t Relationship:" + inputField[2].getText().toString());
 
@@ -471,4 +505,45 @@ public class AddPatientIdentifier extends AppCompatActivity implements View.OnCl
         //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
     }
 
+    void addIDentifier() {
+
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        if (user != null) {
+            // User is signed in
+
+
+            String userId = user.getUid();
+
+            //<!-- add test
+
+            Map<String, Object> dataTest = new HashMap<>();
+            dataTest.put("name",inputField[0].getText().toString());
+            dataTest.put("phone",inputField[1].getText().toString());
+            dataTest.put("relationship", inputField[2].getText().toString());
+
+            db.collection("patients") // table
+                    .document(userId) // patient id
+                    .collection("identifier")// table inside patient table
+                    .document(((""+inputField[0].getText().toString())
+                            + " : "+inputField[1].getText().toString()))
+                    .set(dataTest)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @SuppressLint("LongLogTag")
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @SuppressLint("LongLogTag")
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+
+            //end add test -->
+        }
+    }
 }

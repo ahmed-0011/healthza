@@ -39,8 +39,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class addComplications extends AppCompatActivity implements View.OnClickListener
         , CompoundButton.OnCheckedChangeListener
@@ -64,10 +76,15 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
     EditText statusC;
 
     List<String> dataP;
+    List<String> idsP;
 
     private String patientName = "";
     private String patientId = "";
     int patientPOS = 0;
+
+    private static final String TAG = "addNewComplicationNote";
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
 
     //
     @SuppressLint("RestrictedApi")
@@ -146,6 +163,38 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
                 break;
             }
 
+            case R.id.logOutPM:
+            {
+
+                AlertDialog.Builder   x= new AlertDialog.Builder ( this );
+                x.setMessage ( "DO YOU WANT TO LogOut?" ).setTitle ( "Patient LogOut" )
+
+                        .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getApplicationContext(), "LogedOut...", Toast.LENGTH_SHORT).show();
+                                //complet
+                                // finish();
+                                firebaseAuth.signOut();
+                                finishAffinity();
+                                Intent I = new Intent(getApplicationContext(),WelcomeActivity.class);
+                                startActivity(I);
+                            }
+                        } )
+
+                        .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) { }
+                        })
+
+                        .setIcon(R.drawable.qus)
+                        .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
+                        .setNegativeButtonIcon(getDrawable ( R.drawable.no))
+                        .show ();
+
+                break;
+            }
+
             default:{}
         }
         return super.onOptionsItemSelected ( item );
@@ -214,6 +263,9 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_complications);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
         Log.w("Add New Complication.", "start");
         Toast.makeText(getApplicationContext(), "Add New Complication....", Toast.LENGTH_SHORT).show();
 
@@ -269,8 +321,10 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
 
     void flagPatient() {
         List<String> patient = new ArrayList<String>();
-        getPatient(patient);
+        List<String> patientId = new ArrayList<String>();
+        getPatient(patient,patientId);
         dataP = patient;
+        idsP = patientId;
         ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
                 android.R.layout.simple_dropdown_item_1line, dataP);
         //complet
@@ -279,15 +333,40 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
 
     }
 
-    void getPatient(List<String> p) {
+    void getPatient(List<String> p,List<String> idse) {
         //sample of virtual Patients  for test 'should comment it after writing db code'
         //<!--
-        p.add("zoew dorar awwad : 1025878963");
+       /* p.add("zoew dorar awwad : 1025878963");
         p.add("keko ashraf hmayel : 1047823622");
         p.add("aaa bbb ccc : 123456789");
         p.add("yassein fareid ghanm : 1025748965");
-        p.add("omar shafeq hady : 1000557458");
+        p.add("omar shafeq hady : 1000557458");*/
         //-->
+
+        FirebaseFirestore db1 = FirebaseFirestore.getInstance();
+        CollectionReference collRef = db1.collection("doctors").document(FirebaseAuth.getInstance().getUid()).collection("patients");
+        collRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<DocumentSnapshot> myListOfDocuments = task.getResult().getDocuments();
+                    for(int i=0;i<myListOfDocuments.size();i++)
+                    {
+                        DocumentSnapshot document = myListOfDocuments.get(i);
+                        if (document.exists()) {
+                            if ((document.get("name")!=null)&&
+                                    (document.get("patient_id")!=null)) {
+                                String name_ = document.get("name").toString();
+                                String pid_ = document.get("patient_id").toString();
+                                String id_ = document.getId();
+                                p.add(name_ + " : " + pid_);
+                                idse.add(id_);
+                            }
+                        }
+                    }
+                }
+            }
+        });
 
         // complet db code to get Patient Name and ID
         // code ...
@@ -429,7 +508,9 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
         int year_ = datePicker.getYear();
         int month_ = datePicker.getMonth();
         int day_ = datePicker.getDayOfMonth();
-        String date_=""+year_+"/"+month_+"/"+day_;
+        String date_=""+year_+"-"+month_+"-"+day_;
+
+        add_O(date_,nameC.getText().toString(),statusC.getText().toString());
 
         String s3 = "Patient Name: "+patientName
                 +"\nPatient Id: "+patientId
@@ -443,6 +524,57 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
         //-->
 
         notification("New Complication added",nameC.getText().toString(),s3);
+
+    }
+
+    void add_O(String d,String n ,String c)
+    {
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("diagnosticDate", d);
+        data.put("ComplicationName", n);
+
+        db.collection("patients") // table
+                .document(idsP.get(patientPOS)) // patient id
+                .collection("complications")// table inside patient table
+                .document(n)
+                .set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+        db.collection("patients") // table
+                .document(idsP.get(patientPOS)) // patient id
+                .collection("complications")// table inside patient table
+                .document(n)
+                .collection("Status")
+                .document("c").set(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @SuppressLint("LongLogTag")
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "DocumentSnapshot successfully written!");
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+
+
 
     }
 

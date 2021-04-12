@@ -188,7 +188,10 @@ public class AddKidneysTest extends AppCompatActivity implements View.OnClickLis
                                 Toast.makeText(getApplicationContext(), "LogedOut...", Toast.LENGTH_SHORT).show();
                                 //complet
                                 // finish();
+                                firebaseAuth.signOut();
                                 finishAffinity();
+                                Intent I = new Intent(getApplicationContext(),WelcomeActivity.class);
+                                startActivity(I);
                             }
                         } )
 
@@ -267,6 +270,9 @@ public class AddKidneysTest extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_kidneys_test);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
         inputField = new EditText[3];
 
         Log.w ("Add Kidneys test.", "start");
@@ -277,9 +283,6 @@ public class AddKidneysTest extends AppCompatActivity implements View.OnClickLis
         bar.setDisplayHomeAsUpEnabled ( true );
         bar.setHomeAsUpIndicator ( R.drawable.ex);
         bar.setTitle("Add Kidneys test.");
-
-        firebaseAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
 
         datE = findViewById(R.id.dateText6);
         timE = findViewById(R.id.timeText6);

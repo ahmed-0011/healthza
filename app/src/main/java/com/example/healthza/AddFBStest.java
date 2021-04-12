@@ -189,7 +189,10 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
                                 Toast.makeText(getApplicationContext(), "LogedOut...", Toast.LENGTH_SHORT).show();
                                 //complet
                                 // finish();
+                                firebaseAuth.signOut();
                                 finishAffinity();
+                                Intent I = new Intent(getApplicationContext(),WelcomeActivity.class);
+                                startActivity(I);
                             }
                         } )
 
@@ -270,6 +273,9 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_f_b_stest);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
         Log.w ("Add F.B.S test.", "start");
         Toast.makeText(getApplicationContext(), "Add F.B.S test....", Toast.LENGTH_SHORT).show();
 
@@ -278,9 +284,6 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
         bar.setDisplayHomeAsUpEnabled ( true );
         bar.setHomeAsUpIndicator ( R.drawable.ex);
         bar.setTitle("Add F.B.S test.");
-
-        firebaseAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
 
         datE = findViewById(R.id.dateText1);
         timE = findViewById(R.id.timeText1);
