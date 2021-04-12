@@ -204,7 +204,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:selectAllOnFocus="true"
                 android:textColorHint="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -229,7 +229,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/heightInputEditText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@color/white"
                 android:inputType="numberDecimal"
                 android:selectAllOnFocus="true"
