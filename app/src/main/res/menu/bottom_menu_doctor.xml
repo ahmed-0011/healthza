@@ -2,25 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/home"
+        android:id="@+id/homeItem"
         android:icon="@drawable/ic_home"
         android:title="@string/home"
-        app:cnb_iconColor="@color/colorPrimaryDark"/>
+        app:cnb_iconColor="@color/colorPrimaryDark" />
 
     <item
+        android:id="@+id/paitentsItem"
         android:icon="@drawable/ic_patients"
-        android:id="@+id/paitents"
         android:title="@string/patients"
         app:cnb_iconColor="@color/colorPrimaryDark" />
 
     <item
+        android:id="@+id/appointmentsItem"
         android:icon="@drawable/ic_appointments"
-        android:id="@+id/appointments"
         android:title="@string/appointments"
         app:cnb_iconColor="@color/colorPrimaryDark" />
     <item
-        android:id="@+id/chat"
-        android:title="@string/chat"
+        android:id="@+id/chatItem"
         android:icon="@drawable/ic_chat"
+        android:title="@string/chat"
         app:cnb_iconColor="@color/colorPrimaryDark" />
 </menu>

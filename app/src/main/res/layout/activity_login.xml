@@ -24,6 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login_text"
+            android:fontFamily="@font/sfpro_display_medium"
             android:textColor="@color/txt_black"
             android:textSize="50sp"
             app:layout_constraintEnd_toEndOf="parent"

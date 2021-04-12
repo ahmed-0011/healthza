@@ -6,6 +6,7 @@
     <color name="txt_black">#323232</color>
     <color name="subtxt_black">#4B4B4B</color>
     <color name="hint_color">#33373b</color>
+    <color name="seperator_color">#CCCCCC</color>
     <color name="background_color">#f8f7fb</color>
     <color name="colorSecondary">#efefef</color>
     <color name="purple_200">#FFBB86FC</color>
@@ -15,5 +16,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="red">#FFFF0000</color>
+    <color name="green">#FF00FF00</color>
+    <color name="yellow">#FFE500</color>
+    <color name="remove_request_color">#FA8445</color>
 
 </resources>

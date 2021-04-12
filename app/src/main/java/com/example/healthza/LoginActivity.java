@@ -1,5 +1,7 @@
 package com.example.healthza;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.ActionBar;
@@ -133,7 +135,7 @@ public class LoginActivity extends AppCompatActivity
 
                                 if (document1.exists())              // if the user exist in patients collection
                                 {                                    // then userType is patient,
-                                    // it's impossible to be doctor
+                                                                     // it's impossible to be doctor
 
                                     boolean completeInfo = document1.getBoolean("completeInfo");
                                     editor.putString("user_type", "patient");
@@ -179,6 +181,7 @@ public class LoginActivity extends AppCompatActivity
                         Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
                     progressButtonReverseAnimation();
                 });
+
             }
         });
 
@@ -262,6 +265,13 @@ public class LoginActivity extends AppCompatActivity
             loginButton.setTextSize(textSizeSp);
         });
 
+        textSizeAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                loginButton.setEnabled(false);    // maybe call login here on the listener
+            }
+        });
+
         progressBar.setAlpha(0f);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -274,6 +284,17 @@ public class LoginActivity extends AppCompatActivity
         cornerAnimator.start();
         progressBarAlphaANimator.start();
         textSizeAnimator.start();
+
+
+        /* this listener will be used when the animation is reversed */
+        textSizeAnimator.addListener(new AnimatorListenerAdapter()
+        {
+        @Override
+        public void onAnimationEnd(Animator animation)
+        {
+            loginButton.setEnabled(true);
+        }
+        });
     }
 
 
@@ -281,6 +302,7 @@ public class LoginActivity extends AppCompatActivity
     {
         for(int i = 0; i < animations.size(); i++)
             animations.get(i).reverse();
+
 
         animations.clear();
     }

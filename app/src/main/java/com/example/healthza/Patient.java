@@ -2,18 +2,21 @@ package com.example.healthza;
 
 public class Patient {
 
-    private String patient_id;
+    private String patientId;
     private String name;
+    private String identificationNumber;
     private String email;
     private String phoneNumber;
     private String birthDate;
     private String sex;
+    private double weight, height, bmi;
     private boolean completeInfo;
 
 
-    public Patient(String patient_id, String name, String email, String phoneNumber, String birthDate, String sex, boolean completeInfo) {
-        this.patient_id = patient_id;
+    public Patient(String patientId, String name, String identificationNumber, String email, String phoneNumber, String birthDate, String sex, boolean completeInfo) {
+        this.patientId = patientId;
         this.name = name;
+        this.identificationNumber = identificationNumber;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.birthDate = birthDate;
@@ -25,12 +28,12 @@ public class Patient {
 
     }
 
-    public String getPatient_id() {
-        return patient_id;
+    public String getPatientId() {
+        return patientId;
     }
 
-    public void setPatient_id(String patient_id) {
-        this.patient_id = patient_id;
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
     }
 
     public String getPhoneNumber() {
@@ -74,4 +77,43 @@ public class Patient {
         this.sex = sex;
     }
 
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public double getBmi() {
+        return bmi;
+    }
+
+    public void setBmi(double bmi) {
+        this.bmi = bmi;
+    }
+
+    public boolean isCompleteInfo() {
+        return completeInfo;
+    }
+
+    public void setCompleteInfo(boolean completeInfo) {
+        this.completeInfo = completeInfo;
+    }
+
+    public String getIdentificationNumber() {
+        return identificationNumber;
+    }
+
+    public void setIdentificationNumber(String identificationNumber) {
+        this.identificationNumber = identificationNumber;
+    }
 }

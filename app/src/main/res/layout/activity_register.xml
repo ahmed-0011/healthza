@@ -13,10 +13,7 @@
         android:background="@color/background_color"
         android:clickable="true"
         android:focusable="true"
-        android:paddingLeft="16dp"
-        android:paddingTop="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="16dp"
+        android:padding="16dp"
         tools:context=".RegisterActivity">
 
         <TextView
@@ -216,20 +213,51 @@
             app:layout_constraintStart_toEndOf="@id/selectedBirthDateTextView"
             app:layout_constraintTop_toBottomOf="@id/sexRadioGroup" />
 
+
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/emailInputLayout"
+            android:id="@+id/identificationNumberInputLayout"
             style="@style/textInputLayoutFilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="8dp"
-            android:hint="@string/email_hint"
+            android:hint="@string/identification_number_hint"
             app:endIconMode="clear_text"
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/birthDateTextView"
+            app:startIconContentDescription="@string/content_description_email_icon">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/identificationNumberInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:inputType="number"
+                android:selectAllOnFocus="true"
+                android:textColorHint="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailInputLayout"
+            style="@style/textInputLayoutFilledBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:hint="@string/email_hint"
+            app:endIconMode="clear_text"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/identificationNumberInputLayout"
             app:startIconContentDescription="@string/content_description_email_icon"
             app:startIconDrawable="@drawable/ic_email">
 

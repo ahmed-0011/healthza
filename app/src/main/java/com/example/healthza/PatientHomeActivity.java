@@ -3,6 +3,7 @@ package com.example.healthza;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -28,7 +29,10 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,8 +67,18 @@ public class PatientHomeActivity extends AppCompatActivity {
 
         if(!userCompleteInfo)
             showWelcomeDialog();
-    }
 
+
+        ChipNavigationBar chipNavigationBar = findViewById(R.id.bottomNavigationBar);
+        chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(int i)
+            {
+                Intent intent = new Intent(PatientHomeActivity.this, PatientReceiveRequestActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 
     @SuppressLint("SetTextI18n")
     void showWelcomeDialog() {
@@ -104,18 +118,20 @@ public class PatientHomeActivity extends AppCompatActivity {
         if (weight.isEmpty())
             return false;
 
-        double weight1 = Integer.parseInt(weight);
+        int weight1 = Integer.parseInt(weight);
 
         return weight1 <= 300;
     }
 
     private boolean isValidHeight(String height) // No need to check if the field is empty
     {                                            // because Regex won't match empty strings
-        Pattern pattern;
-        Matcher matcher;
-        pattern = Pattern.compile("[0-2](\\.[6-9][0-9])?");
-        matcher = pattern.matcher(height);
-        return matcher.matches();
+        if(height.isEmpty())
+            return false;
+
+        double height1 = Double.parseDouble(height);
+
+        return height1 <= 2.5;
+
     }
 
     private void showPatientDialog1() {
@@ -413,14 +429,22 @@ public class PatientHomeActivity extends AppCompatActivity {
             }
             else
                 {
-                double height = Double.parseDouble(heightString);
-                double weight = Double.parseDouble(weightString);
 
+                double weight = Double.parseDouble(weightString);
+                double height = Double.parseDouble(heightString);
+                double bmi = weight / Math.pow(height, 2);
+
+                BigDecimal bd = new BigDecimal(weight).setScale(2, RoundingMode.HALF_UP);
+                weight = bd.doubleValue();
+                bd = new BigDecimal(height).setScale(2, RoundingMode.HALF_UP);
+                height = bd.doubleValue();
+                bd = new BigDecimal(bmi).setScale(2, RoundingMode.HALF_UP);
+                bmi = bd.doubleValue();
 
                 Map<String, Object> additionalInfo = new HashMap<>();
                 additionalInfo.put("weight", weight);
                 additionalInfo.put("height", height);
-                additionalInfo.put("bmi", weight / Math.pow(height, 2));
+                additionalInfo.put("bmi", bmi);
                 additionalInfo.put("completeInfo", true);
 
                 DocumentReference patientRef = db.collection("patients").document(userId);

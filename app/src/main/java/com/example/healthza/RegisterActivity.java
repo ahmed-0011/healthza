@@ -1,5 +1,7 @@
 package com.example.healthza;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.DatePickerDialog;
@@ -40,6 +42,7 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.auth.User;
@@ -56,11 +59,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     private Button registerButton, selectBirthDateButton, alreadyHaveAccountButton;
 
-    private TextInputEditText nameInputEditText, emailInputEditText, phoneNumberInputEditText,
+    private TextInputEditText nameInputEditText, identificationNumberInputEditText, emailInputEditText, phoneNumberInputEditText,
             passwordInputEditText, confirmPasswordInputEditText;
 
-    private TextInputLayout nameInputLayout, emailInputLayout, phoneNumberInputLayout,
+    private TextInputLayout nameInputLayout, identificationNumberInputLayout, emailInputLayout, phoneNumberInputLayout,
             passwordInputLayout, confirmPasswordInputLayout;
+
+    RadioGroup userTypeRadioGroup;
 
     private TextView selectedBirthDateTextView ;
     private ArrayList<ValueAnimator> animations;
@@ -80,6 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         /* InputEditLayout's */
         nameInputLayout = findViewById(R.id.nameInputLayout);
+        identificationNumberInputEditText = findViewById(R.id.identificationNumberInputEditText);
         emailInputLayout = findViewById(R.id.emailInputLayout);
         phoneNumberInputLayout = findViewById(R.id.phoneNumberInputLayout);
         passwordInputLayout = findViewById(R.id.passwordInputLayout);
@@ -87,6 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         /* InputEditText's */
         nameInputEditText = findViewById(R.id.nameInputEditText);
+        identificationNumberInputLayout = findViewById(R.id.identificationNumberInputLayout);
         emailInputEditText = findViewById(R.id.emailInputEditText);
         phoneNumberInputEditText = findViewById(R.id.phoneNumberInputEditText);
         passwordInputEditText = findViewById(R.id.passwordInputEditText);
@@ -126,6 +133,12 @@ public class RegisterActivity extends AppCompatActivity {
         matcher = pattern.matcher(name);
         return matcher.matches();
     }
+
+    private boolean isValidIdentificationNumber(String id)
+    {
+        return id.length() == 16;
+    }
+
 
     private boolean isValidEmail(String email) // No need to check if the field is empty
     {                                          // because regex won't match empty strings
@@ -167,13 +180,14 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void signUp()
     {
-        RadioGroup userTypeRadioGroup = findViewById(R.id.userTypeRadioGroup);
+        userTypeRadioGroup = findViewById(R.id.userTypeRadioGroup);
         RadioGroup sexRadioGroup = findViewById(R.id.sexRadioGroup);
 
 
         String name = nameInputEditText.getText().toString().trim();
+        String identificationNumber = identificationNumberInputEditText.getText().toString().trim();
         String userType = userTypeRadioGroup.getCheckedRadioButtonId() ==
-                R.id.patientRadioButton ? "patient" : "doctor";
+            R.id.patientRadioButton ? "patient" : "doctor";
         String sex = sexRadioGroup.getCheckedRadioButtonId() ==
                 R.id.maleRadioButton ? "male" : "female";
         String birthDate = selectedBirthDateTextView.getText().toString();
@@ -191,6 +205,11 @@ public class RegisterActivity extends AppCompatActivity {
             //TODO
         else if(sexRadioGroup.getCheckedRadioButtonId() == -1);
             //TODO
+        else if(userType.equals("patient") && !isValidIdentificationNumber(identificationNumber))
+        {
+            identificationNumberInputLayout.setError(getString(R.string.enter_a_valid_id));
+            identificationNumberInputEditText.requestFocus();
+        }
         else if(birthDate.isEmpty());
             //TODO
         else if(!isValidEmail(email))
@@ -229,10 +248,12 @@ public class RegisterActivity extends AppCompatActivity {
 
                             FirebaseUser user = firebaseAuth.getCurrentUser();
 
+
                             // set display name for the user and update user profile
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(name)
                                     .build();
+
                             firebaseAuth.getCurrentUser().updateProfile(profileUpdates);
 
                             String userId = firebaseAuth.getCurrentUser().getUid();
@@ -240,52 +261,27 @@ public class RegisterActivity extends AppCompatActivity {
                             Doctor newDoctor;
                             Patient newPatient;
 
-                            if(userType.equals("patient"))
-                            {
-                                editor.putString("user_type","patient");
+                            if(userType.equals("patient")) {
+                                editor.putString("user_type", "patient");
                                 editor.apply();
 
-                                newPatient = new Patient(user.getUid(), name, email, phoneNumber, birthDate, sex, false);
+                                newPatient = new Patient(user.getUid(), name, identificationNumber, email, phoneNumber, birthDate, sex, false);
 
                                 DocumentReference patientRef = db.collection("patients").document(userId);
 
-                                patientRef.set(newPatient).addOnCompleteListener(task1 -> {
-
-                                    if(task1.isSuccessful())
-                                    {
-                                        Log.d(TAG, "DocumentSnapshot added with ID: " + patientRef.getId());
-                                    }
-
-                                    else
-                                    {
-                                        Log.w(TAG, "Error adding document", task.getException());
-                                    }
-
-                                });
-
+                                patientRef.set(newPatient);
                             }
                             else
                             {
                                 editor.putString("user_type","doctor");
                                 editor.apply();
 
-                                newDoctor = new Doctor(userId, name, email, phoneNumber, birthDate, sex, false);
+                                newDoctor = new Doctor(userId, name, identificationNumber, email, phoneNumber, birthDate, sex, false);
 
-                                DocumentReference documentReference = db.collection("doctors").document(userId);
+                                DocumentReference doctorReference = db.collection("doctors").document(userId);
 
-                                documentReference.set(newDoctor).addOnCompleteListener(task1 -> {
+                                doctorReference.set(newDoctor);
 
-                                    if(task1.isSuccessful())
-                                    {
-                                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                    }
-
-                                    else
-                                    {
-                                        Log.w(TAG, "Error adding document", task.getException());
-                                    }
-
-                                });
                             }
 
 
@@ -293,12 +289,11 @@ public class RegisterActivity extends AppCompatActivity {
                             intent.putExtra("userType", userType);
                             startActivity(intent);
                         }
+
                         else
-                        {
-                            progressButtonReverseAnimation();
                             Toast.makeText(RegisterActivity.this, "Something went wrong"
                                     ,Toast.LENGTH_LONG).show();
-                        }
+                        progressButtonReverseAnimation();
                     });
         }
     }
@@ -319,6 +314,23 @@ public class RegisterActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) { }
         });
 
+        identificationNumberInputEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(isValidIdentificationNumber(identificationNumberInputEditText.getText().toString()))
+                    identificationNumberInputLayout.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         emailInputEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -380,6 +392,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void clearInputsErrors()
     {
+        identificationNumberInputLayout.setError(null);
         nameInputLayout.setError(null);
         emailInputLayout.setError(null);
         phoneNumberInputLayout.setError(null);
@@ -406,9 +419,9 @@ public class RegisterActivity extends AppCompatActivity {
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.YEAR, year);
 
-                String dateText = DateFormat.format("MM/dd/yyyy",calendar).toString();
+                String todayDate = DateFormat.format("MM/dd/yyyy",calendar).toString();
 
-                selectedBirthDateTextView.setText(dateText);
+                selectedBirthDateTextView.setText(todayDate);
                 selectedBirthDateTextView.setVisibility(TextView.VISIBLE);
             }
         }, year, month, date);
@@ -442,7 +455,8 @@ public class RegisterActivity extends AppCompatActivity {
             registerButton.setBackground(drawable);
         });
 
-        widthAnimator.addUpdateListener(animation -> {
+        widthAnimator.addUpdateListener(animation ->
+        {
             ViewGroup.LayoutParams layoutParams = registerButton.getLayoutParams();
             layoutParams.width = (int)animation.getAnimatedValue();
             registerButton.setLayoutParams(layoutParams);
@@ -453,6 +467,13 @@ public class RegisterActivity extends AppCompatActivity {
             // to get text size in scale pixel
             float textSizeSp = (float) animation.getAnimatedValue() /  getResources().getDisplayMetrics().density;
             registerButton.setTextSize(textSizeSp);
+        });
+
+        textSizeAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                registerButton.setEnabled(false);    // maybe call login here on the listener
+            }
         });
 
         progressBar.setAlpha(0f);
@@ -467,6 +488,16 @@ public class RegisterActivity extends AppCompatActivity {
         cornerAnimator.start();
         progressBarAlphaANimator.start();
         textSizeAnimator.start();
+
+        /*this listener will be used when the animation is reversed*/
+        textSizeAnimator.addListener(new AnimatorListenerAdapter()
+        {
+            @Override
+            public void onAnimationEnd(Animator animation)
+            {
+                registerButton.setEnabled(true);
+            }
+        });
     }
 
     private void progressButtonReverseAnimation()

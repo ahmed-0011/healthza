@@ -19,8 +19,8 @@
     <string name="confirm_password_hint">Confirm password</string>
     <string name="name_hint">Name</string>
     <string name="name_text">Name</string>
-    <string name="height_hint">Height</string>
-    <string name="weight_hint">Weight</string>
+    <string name="height_hint">Height(M)</string>
+    <string name="weight_hint">Weight(KG)</string>
     <string name="start_text">Start</string>
     <string name="welcome_dialog_message">Hello,</string>
     <string name="welcome_dialog_text">before start using our app we need you to fill some useful information
@@ -171,5 +171,34 @@
     <string name="patients">Patients</string>
     <string name="appointments">Appointments</string>
     <string name="chat">chat</string>
+    <string name="pending">Pending</string>
+    <string name="cancel">Cancel</string>
+    <string name="patient_email">Patient Email:</string>
+    <string name="patient_name">Patient Name:</string>
+    <string name="identification_number_hint">ID</string>
+    <string name="enter_a_valid_id">Enter a valid identification number</string>
+    <string name="name_or_id_or_phone_number_hint">name or ID or phone number</string>
+    <string name="email">Email:</string>
+    <string name="weight">Weight:</string>
+    <string name="height">Height:</string>
+    <string name="bmi">BMI:</string>
+    <string name="diseases">Diseases:</string>
+    <string name="complications">Complications:</string>
+    <string name="save">Save</string>
+    <string name="phonenumber">Phonenumber:</string>
+    <string name="id">ID:</string>
+    <string name="delete">Delete</string>
+    <string name="profile">Profile</string>
+    <string name="accept">Accept</string>
+    <string name="doctor_name">Doctor Name:</string>
+    <string name="add_patient">Add patient</string>
+    <string name="request_date">request date:</string>
+    <string name="remove">Remove</string>
+    <string name="request_status">Request status:</string>
+    <string name="speciality">Speciality:</string>
+    <string name="years_of_experience">Years of Experience:</string>
+    <string name="workplace">Workplace:</string>
+    <string name="workdays">Workdays:</string>
+
 
 </resources>
