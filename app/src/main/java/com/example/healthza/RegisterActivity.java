@@ -3,19 +3,27 @@ package com.example.healthza;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Rect;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -40,27 +48,33 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.auth.User;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements
+        CompoundButton.OnCheckedChangeListener
+        , View.OnFocusChangeListener {
 
     private Button registerButton, selectBirthDateButton, alreadyHaveAccountButton;
 
     private TextInputEditText nameInputEditText, emailInputEditText, phoneNumberInputEditText,
-            passwordInputEditText, confirmPasswordInputEditText;
+            passwordInputEditText, confirmPasswordInputEditText,IDp;
 
     private TextInputLayout nameInputLayout, emailInputLayout, phoneNumberInputLayout,
-            passwordInputLayout, confirmPasswordInputLayout;
+            passwordInputLayout, confirmPasswordInputLayout,idI;
 
     private TextView selectedBirthDateTextView ;
     private ArrayList<ValueAnimator> animations;
@@ -68,6 +82,8 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     ProgressBar progressBar;
+
+    boolean bol = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,13 +100,15 @@ public class RegisterActivity extends AppCompatActivity {
         phoneNumberInputLayout = findViewById(R.id.phoneNumberInputLayout);
         passwordInputLayout = findViewById(R.id.passwordInputLayout);
         confirmPasswordInputLayout = findViewById(R.id.confirmPasswordInputLayout);
+        idI = findViewById(R.id.idInputLayout);
 
         /* InputEditText's */
-        nameInputEditText = findViewById(R.id.nameInputEditText);
-        emailInputEditText = findViewById(R.id.emailInputEditText);
-        phoneNumberInputEditText = findViewById(R.id.phoneNumberInputEditText);
-        passwordInputEditText = findViewById(R.id.passwordInputEditText);
-        confirmPasswordInputEditText = findViewById(R.id.confirmPasswordInputEditText);
+        nameInputEditText = findViewById(R.id.nameInputEditText); nameInputEditText.setOnFocusChangeListener(this);
+        emailInputEditText = findViewById(R.id.emailInputEditText); emailInputEditText.setOnFocusChangeListener(this);
+        phoneNumberInputEditText = findViewById(R.id.phoneNumberInputEditText); phoneNumberInputEditText.setOnFocusChangeListener(this);
+        passwordInputEditText = findViewById(R.id.passwordInputEditText); passwordInputEditText .setOnFocusChangeListener(this);
+        confirmPasswordInputEditText = findViewById(R.id.confirmPasswordInputEditText); confirmPasswordInputEditText.setOnFocusChangeListener(this);
+        IDp = findViewById(R.id.idInputEditText); IDp.setOnFocusChangeListener(this);
 
         /* Buttons */
         selectBirthDateButton = findViewById(R.id.selectBirthDateButton);
@@ -112,6 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
         TextInputEditTextFocusListenerHelper.add(this, phoneNumberInputEditText);
         TextInputEditTextFocusListenerHelper.add(this, passwordInputEditText);
         TextInputEditTextFocusListenerHelper.add(this, confirmPasswordInputEditText);
+        TextInputEditTextFocusListenerHelper.add(this, IDp);
         addOnTextChangeListenersForInputEditText();
 
 
@@ -167,6 +186,19 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void signUp()
     {
+        final Handler handler2 = new Handler(Looper.getMainLooper());
+        handler2.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 100ms
+                signUp_();
+            }
+        }, 100);
+        //signUp_();
+    }
+
+    private synchronized void signUp_()
+    {
         RadioGroup userTypeRadioGroup = findViewById(R.id.userTypeRadioGroup);
         RadioGroup sexRadioGroup = findViewById(R.id.sexRadioGroup);
 
@@ -181,6 +213,7 @@ public class RegisterActivity extends AppCompatActivity {
         String phoneNumber = phoneNumberInputEditText.getText().toString().trim();
         String password = passwordInputEditText.getText().toString();
         String confirmPassword = confirmPasswordInputEditText.getText().toString();
+        String id_ = IDp.getText().toString();
 
         if(!isValidName(name))
         {
@@ -193,6 +226,20 @@ public class RegisterActivity extends AppCompatActivity {
             //TODO
         else if(birthDate.isEmpty());
             //TODO
+
+        else if(IDp.getText().toString().isEmpty())
+        {
+            idI.setError("Please Fill the field.");
+            IDp.requestFocus();
+            return;
+        }
+
+        else if(bol==true) {
+            idI.setError("Used ID, This Id has an account, must enter id have not used.");
+            IDp.requestFocus();
+            return;
+        }
+
         else if(!isValidEmail(email))
         {
             emailInputLayout.setError(getString(R.string.enter_a_valid_email));
@@ -245,7 +292,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 editor.putString("user_type","patient");
                                 editor.apply();
 
-                                newPatient = new Patient(user.getUid(), name, email, phoneNumber, birthDate, sex, false);
+                                newPatient = new Patient(id_, name, email, phoneNumber, birthDate, sex, false);
 
                                 DocumentReference patientRef = db.collection("patients").document(userId);
 
@@ -269,7 +316,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 editor.putString("user_type","doctor");
                                 editor.apply();
 
-                                newDoctor = new Doctor(userId, name, email, phoneNumber, birthDate, sex, false);
+                                newDoctor = new Doctor(id_, name, email, phoneNumber, birthDate, sex, false);
 
                                 DocumentReference documentReference = db.collection("doctors").document(userId);
 
@@ -296,12 +343,13 @@ public class RegisterActivity extends AppCompatActivity {
                         else
                         {
                             progressButtonReverseAnimation();
-                            Toast.makeText(RegisterActivity.this, "Something went wrong"
+                            Toast.makeText(RegisterActivity.this, "Email is used in another account"
                                     ,Toast.LENGTH_LONG).show();
                         }
                     });
         }
     }
+
     private void addOnTextChangeListenersForInputEditText()
     {
 
@@ -375,8 +423,78 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) { }
         });
+
+        IDp.addTextChangedListener(new TextWatcher() {
+            @Override
+            public synchronized void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public synchronized void onTextChanged(CharSequence s, int start, int before, int count) {
+                existsID(IDp.getText().toString(),0);
+                if(bol)return;
+                boolean temp = bol;
+                existsID(IDp.getText().toString(), 1);
+                bol = bol || temp;
+               /* final Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(bol)return;
+                        else
+                        {
+                            boolean temp = bol;
+                            existsID(IDp.getText().toString(), 1);
+                            final Handler handler2 = new Handler(Looper.getMainLooper());
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //Do something after 100ms
+                                    bol = bol || temp;
+                                }
+                            }, 100);
+                        }
+                    }
+                }, 100);*/
+            }
+
+            @Override
+            public synchronized void afterTextChanged(Editable s) { }
+        });
     }
 
+
+    private  synchronized void existsID(String idd,int type)
+    {
+        bol =false;
+        if( idd.isEmpty() ) return;
+        final String c[]={"patients","doctors"},ids[]={"patient_id","doctor_id"};
+        if(type > 1)return;
+
+        FirebaseFirestore db1 = FirebaseFirestore.getInstance();
+        CollectionReference collRef = db1.collection(c[type]);
+        collRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<DocumentSnapshot> myListOfDocuments = task.getResult().getDocuments();
+                    for(int i=0;((i<myListOfDocuments.size())&&(bol==false));i++)
+                    {
+                        DocumentSnapshot document = myListOfDocuments.get(i);
+                        if (document.exists()) {
+                            if(document.get(ids[type])!=null)
+                                if (document.get(ids[type]).toString().equals(idd)){
+                                    //Toast.makeText(getApplicationContext(),document.get(ids[type]).toString()+" : "+i,Toast.LENGTH_LONG).show();
+                                    bol = true;  return;}
+                        }
+                    }
+                }
+            }
+        });
+
+        if(bol)return;
+        bol =false;
+        return;
+    }
 
     private void clearInputsErrors()
     {
@@ -385,6 +503,7 @@ public class RegisterActivity extends AppCompatActivity {
         phoneNumberInputLayout.setError(null);
         passwordInputLayout.setError(null);
         confirmPasswordInputLayout.setError(null);
+        idI.setError(null);
     }
 
 
@@ -475,5 +594,61 @@ public class RegisterActivity extends AppCompatActivity {
             animations.get(i).reverse();
 
         animations.clear();
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+
+        if(v==v)
+        {
+            if (!hasFocus) {
+                Log.d("focus", "focus lost");
+                // Do whatever you want here
+            } else {
+                Toast.makeText(getApplicationContext(), " Tap outside edittext to lose focus ", Toast.LENGTH_SHORT).show();
+                Log.d("focus", "focused");
+            }
+
+            return;
+        }
+
+    }
+
+    //
+    // <!-- Clear focus on touch outside for all EditText inputs. "Clear focus input"
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
+    }
+// "Clear focus input" -->
+
+    //rotate
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
     }
 }

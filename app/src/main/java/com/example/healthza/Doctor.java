@@ -28,7 +28,7 @@ public class Doctor {
         this.completeInfo = completeInfo;
     }
 
-    public Doctor() {
+    public Doctor(String id_, String name, String email, String phoneNumber, String birthDate, String sex, boolean b) {
 
     }
 

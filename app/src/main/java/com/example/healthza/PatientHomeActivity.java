@@ -145,8 +145,8 @@ public class PatientHomeActivity extends AppCompatActivity {
 
             case R.id.ComprehensiveTestPM:
             {
-                /*Intent I = new Intent(this, ComprehensiveTest.class);
-                startActivity(I);*/
+                Intent I = new Intent(this, ComprehensiveTest.class);
+                startActivity(I);
                 break;
             }
 
@@ -162,7 +162,10 @@ public class PatientHomeActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "LogedOut...", Toast.LENGTH_SHORT).show();
                                 //complet
                                 // finish();
+                                firebaseAuth.signOut();
                                 finishAffinity();
+                                Intent I = new Intent(getApplicationContext(),WelcomeActivity.class);
+                                startActivity(I);
                             }
                         } )
 
@@ -209,7 +212,8 @@ public class PatientHomeActivity extends AppCompatActivity {
 
         boolean userCompleteInfo = sharedPreferences.getBoolean("user_complete_info", false);
 
-        if(!userCompleteInfo)
+        if((!userCompleteInfo)
+                ||(getIntent().getBooleanExtra("Flagre",false)))
             showWelcomeDialog();
     }
 
@@ -261,7 +265,7 @@ public class PatientHomeActivity extends AppCompatActivity {
     {                                            // because Regex won't match empty strings
         Pattern pattern;
         Matcher matcher;
-        pattern = Pattern.compile("[0-2](\\.[6-9][0-9])?");
+        pattern = Pattern.compile("[0-2]+(\\.[6-9]*[0-9]*)?");
         matcher = pattern.matcher(height);
         return matcher.matches();
     }
@@ -560,7 +564,7 @@ public class PatientHomeActivity extends AppCompatActivity {
                 heightInputEditText.requestFocus();
             }
             else
-                {
+            {
                 double height = Double.parseDouble(heightString);
                 double weight = Double.parseDouble(weightString);
 
@@ -601,7 +605,7 @@ public class PatientHomeActivity extends AppCompatActivity {
                     {
                         Toast.makeText(PatientHomeActivity.this, "Your profile updated successfully", Toast.LENGTH_LONG).show();
                         /* this shared oeferences is used when the user is using the app right after register
-                        *  and update his information */
+                         *  and update his information */
                         SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putBoolean("user_complete_info", true);
@@ -615,7 +619,7 @@ public class PatientHomeActivity extends AppCompatActivity {
                 });
             }
         });
-}
+    }
 
 
     private void addOnTextChangeListenersForInputEditText()
