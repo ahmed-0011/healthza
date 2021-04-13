@@ -17,6 +17,18 @@ import java.util.Calendar;
 
 public class Functions extends AppCompatActivity{
 
+   static boolean threead=false;
+    static void wait_()
+    {
+        threead=true;
+        while (threead);
+    }
+
+   static void signal_()
+    {
+        threead=false;
+    }
+
     public static final String TAG_CT = "countIsUpdated";
 
     public static String dateS = "";

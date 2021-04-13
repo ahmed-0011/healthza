@@ -292,7 +292,7 @@ public class RegisterActivity extends AppCompatActivity implements
                                 editor.putString("user_type","patient");
                                 editor.apply();
 
-                                newPatient = new Patient(id_, name, email, phoneNumber, birthDate, sex, false);
+                                newPatient = new Patient(userId, name, id_, email, phoneNumber, birthDate, sex, false);
 
                                 DocumentReference patientRef = db.collection("patients").document(userId);
 
@@ -316,7 +316,7 @@ public class RegisterActivity extends AppCompatActivity implements
                                 editor.putString("user_type","doctor");
                                 editor.apply();
 
-                                newDoctor = new Doctor(id_, name, email, phoneNumber, birthDate, sex, false);
+                                newDoctor = new Doctor(userId, name,id_, email, phoneNumber, birthDate, sex, false);
 
                                 DocumentReference documentReference = db.collection("doctors").document(userId);
 
@@ -435,7 +435,7 @@ public class RegisterActivity extends AppCompatActivity implements
                 boolean temp = bol;
                 existsID(IDp.getText().toString(), 1);
                 bol = bol || temp;
-               /* final Handler handler = new Handler(Looper.getMainLooper());
+                final Handler handler = new Handler(Looper.getMainLooper());
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -454,7 +454,7 @@ public class RegisterActivity extends AppCompatActivity implements
                             }, 100);
                         }
                     }
-                }, 100);*/
+                }, 100);
             }
 
             @Override
@@ -466,8 +466,8 @@ public class RegisterActivity extends AppCompatActivity implements
     private  synchronized void existsID(String idd,int type)
     {
         bol =false;
-        if( idd.isEmpty() ) return;
-        final String c[]={"patients","doctors"},ids[]={"patient_id","doctor_id"};
+       /* if( idd.isEmpty() ) return;
+        final String c[]={"patients","doctors"},ids[]={"identificationNumber","identificationNumber"};
         if(type > 1)return;
 
         FirebaseFirestore db1 = FirebaseFirestore.getInstance();
@@ -489,7 +489,7 @@ public class RegisterActivity extends AppCompatActivity implements
                     }
                 }
             }
-        });
+        });*/
 
         if(bol)return;
         bol =false;

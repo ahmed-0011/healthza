@@ -2,6 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/ManagePatientsDM"
+        android:icon="@drawable/mngp"
+        android:title="Manage Patients">
+        <menu>
+            <item
+                android:id="@+id/add_PatientsDM"
+                android:icon="@drawable/addpatient"
+                android:title="Add Patients" />
+
+            <item
+                android:id="@+id/list_PatientsDM"
+                android:icon="@drawable/patientsi"
+                android:title="Patients List" />
+        </menu>
+    </item>
+
+    <item
         android:id="@+id/ManageAppointmentsDM"
         android:icon="@drawable/scheduleicon"
         android:title="Manage Appointments">

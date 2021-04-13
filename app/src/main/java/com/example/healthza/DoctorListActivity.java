@@ -1,5 +1,6 @@
 package com.example.healthza;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,10 +27,15 @@ public class DoctorListActivity extends AppCompatActivity implements  RecyclerVi
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_list);
+
+        ActionBar bar = getSupportActionBar ();
+        bar.setHomeButtonEnabled ( true );
+        bar.setDisplayHomeAsUpEnabled ( true );
+        bar.setHomeAsUpIndicator ( R.drawable.ex);
+        bar.setTitle("Doctors List.");
 
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -37,15 +43,13 @@ public class DoctorListActivity extends AppCompatActivity implements  RecyclerVi
 
         doctors = new ArrayList<>();
 
-        recyclerView = findViewById(R.id.patientsRecyclerView);
+        recyclerView = findViewById(R.id.doctorsRecyclerView);
 
-        CollectionReference doctorsRef = db.collection("patients").document(patientId)
+        CollectionReference patientsRefs = db.collection("patients").document(patientId)
                 .collection("doctors");
-
-        doctorsRef.get().addOnCompleteListener(task ->
+        patientsRefs.get().addOnCompleteListener(task ->
         {
-            if (task.isSuccessful())
-            {
+            if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult())
                     doctors.add(document.toObject(Doctor.class));
 

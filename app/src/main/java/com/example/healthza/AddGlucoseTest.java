@@ -176,6 +176,12 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                 break;
             }
 
+            case R.id.requestDoctorPm:
+            {
+                startActivity(new Intent(this, PatientReceiveRequestActivity.class));
+                break;
+            }
+
             case R.id.logOutPM:
             {
 
@@ -270,6 +276,9 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_glucose_test);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
         Log.w ("Add Glucose test.", "start");
         Toast.makeText(getApplicationContext(), "Add Glucose test....", Toast.LENGTH_SHORT).show();
 
@@ -279,8 +288,6 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
         bar.setHomeAsUpIndicator ( R.drawable.ex);
         bar.setTitle("Add Glucose test.");
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
 
         datE = findViewById(R.id.dateText0);
         timE = findViewById(R.id.timeText0);
@@ -670,8 +677,8 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
             db.collection("patients") // table
                     .document(userId) // patient id
                     .collection("tests")// table inside patient table
-                    .document(datE.getText().toString())
-                    .collection("glucose_test")
+                    .document("glucose_test")
+                    .collection(datE.getText().toString())
                     .document("test# : "+ct)
                     .set(dataTest)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {

@@ -797,8 +797,8 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
             db.collection("patients") // table
                     .document(userId) // patient id
                     .collection("tests")// table inside patient table
-                    .document(datE.getText().toString())
-                    .collection("fbs_test")
+                    .document("fbs_test")
+                    .collection(datE.getText().toString())
                     .document("test# : "+ct)
                     .set(dataTest)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -827,8 +827,8 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
             db.collection("patients") // table
                     .document(userId) // patient id
                     .collection("tests")// table inside patient table
-                    .document(datE.getText().toString())
-                    .collection("liver_test")
+                    .document("liver_test")
+                    .collection(datE.getText().toString())
                     .document("test# : "+ct)
                     .set(dataTest)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -858,8 +858,8 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
             db.collection("patients") // table
                     .document(userId) // patient id
                     .collection("tests")// table inside patient table
-                    .document(datE.getText().toString())
-                    .collection("Kidneys_test")
+                    .document("Kidneys_test")
+                    .collection(datE.getText().toString())
                     .document("test# : "+ct)
                     .set(dataTest)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -890,8 +890,8 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
             db.collection("patients") // table
                     .document(userId) // patient id
                     .collection("tests")// table inside patient table
-                    .document(datE.getText().toString())
-                    .collection("cholesterolAndFats_test")
+                    .document("cholesterolAndFats_test")
+                    .collection(datE.getText().toString())
                     .document("test# : "+ct)
                     .set(dataTest)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -938,8 +938,8 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
             db.collection("patients") // table
                     .document(userId) // patient id
                     .collection("tests")// table inside patient table
-                    .document(datE.getText().toString())
-                    .collection("other_test")
+                    .document("other_test")
+                    .collection(datE.getText().toString())
                     .document("test# : "+ct)
                     .set(dataTest)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {

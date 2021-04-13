@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -101,7 +102,10 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "LogedOut...", Toast.LENGTH_SHORT).show();
                                 //complet
                                 // finish();
+                                firebaseAuth.signOut();
                                 finishAffinity();
+                                Intent I = new Intent(getApplicationContext(),WelcomeActivity.class);
+                                startActivity(I);
                             }
                         } )
 
@@ -132,43 +136,76 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
 
-            case R.id.logOutPM:
+            case R.id.add_PatientsDM:
             {
 
-                AlertDialog.Builder   x= new AlertDialog.Builder ( this );
-                x.setMessage ( "DO YOU WANT TO LogOut?" ).setTitle ( "Patient LogOut" )
-
-                        .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getApplicationContext(), "LogedOut...", Toast.LENGTH_SHORT).show();
-                                //complet
-                                // finish();
-                                firebaseAuth.signOut();
-                                finishAffinity();
-                                Intent I = new Intent(getApplicationContext(),WelcomeActivity.class);
-                                startActivity(I);
-                            }
-                        } )
-
-                        .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) { }
-                        })
-
-                        .setIcon(R.drawable.qus)
-                        .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
-                        .setNegativeButtonIcon(getDrawable ( R.drawable.no))
-                        .show ();
-
+                startActivity(new Intent(this, DoctorSendRequestActivity.class));
                 break;
             }
+
+            case R.id.list_PatientsDM:
+            {
+
+                startActivity(new Intent(this, PatientListActivity.class));
+                break;
+            }
+
 
             default:{}
         }
         return super.onOptionsItemSelected ( item );
     }
     //
+
+    //
+    @Override
+    public boolean onSupportNavigateUp()
+    {
+        onBackPressed ();
+        return super.onSupportNavigateUp ();
+    }
+    //
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        //complet
+        return super.onKeyDown(keyCode, event);
+    }
+    //
+    @Override
+    public void onBackPressed()
+    {
+        //super.onBackPressed ();
+
+        AlertDialog.Builder   x= new AlertDialog.Builder ( this );
+        x.setMessage ( "DO YOU WANT TO EXIT?" ).setTitle ( "Exit Activity'Doctor Home'" )
+
+                .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), "Back...", Toast.LENGTH_SHORT).show();
+                        //complet
+                        finish();
+                    }
+                } )
+
+                .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) { }
+                })
+
+                .setIcon(R.drawable.qus)
+                .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
+                .setNegativeButtonIcon(getDrawable ( R.drawable.no))
+                .show ();
+        return;
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        //complet
+    }
 
 
     @Override
@@ -242,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
     {                                                                   // because regex won't match empty strings
         Pattern pattern;
         Matcher matcher;
-        pattern = Pattern.compile("[1-5][0-9]?");
+        pattern = Pattern.compile("[1-9]+[0-9]*?");
         matcher = pattern.matcher(yearsOfExperience);
         return matcher.matches();
     }

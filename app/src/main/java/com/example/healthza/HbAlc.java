@@ -672,8 +672,8 @@ public class HbAlc extends AppCompatActivity implements View.OnClickListener
             db.collection("patients") // table
                     .document(userId) // patient id
                     .collection("tests")// table inside patient table
-                    .document(datE.getText().toString())
-                    .collection("diabetes_cumulative_test")
+                    .document("diabetes_cumulative_test")
+                    .collection(datE.getText().toString())
                     .document("test# : "+ct)
                     .set(dataTest)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {

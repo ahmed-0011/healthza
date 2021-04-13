@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.core.app.NotificationCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
@@ -45,9 +46,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,7 +62,6 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
         , CompoundButton.OnCheckedChangeListener
         , View.OnFocusChangeListener
 {
-
     public final int holo_green_dark = 17170453;
     private static final String ChannelID = "addNewComplicationNote";
 
@@ -163,6 +166,14 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
                 break;
             }
 
+
+            case R.id.add_PatientsDM:
+            {
+
+                startActivity(new Intent(this, DoctorSendRequestActivity.class));
+                break;
+            }
+
             case R.id.logOutPM:
             {
 
@@ -257,6 +268,8 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
         //complet
     }
 
+    ArrayAdapter<String> adapter1;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -294,83 +307,83 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
 
         spinnerP = findViewById(R.id.spinnerPatientComp);
         flagPatient();
-        spinnerP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                String temp = "" + parent.getItemAtPosition(position).toString();
-                patientName = temp.substring(0,temp.indexOf(" : "));
-                patientId = temp.substring((temp.indexOf(" : ")+3),temp.length());
-                patientPOS = position;
-                ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
-                //!complet
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                String temp = "" + parent.getItemAtPosition(patientPOS).toString();
-                patientName = temp.substring(0,temp.indexOf(" : "));
-                patientId = temp.substring((temp.indexOf(" : ")+3),temp.length());
-                ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
-                //!complet
-            }
-        });
-    }
-
-
-    void flagPatient() {
-        List<String> patient = new ArrayList<String>();
-        List<String> patientId = new ArrayList<String>();
-        getPatient(patient,patientId);
-        dataP = patient;
-        idsP = patientId;
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, dataP);
-        //complet
-        // ........... When create db [add this code]: 'pre check and drop 'remove' Chronic Diseases added in past'
-        spinnerP.setAdapter(adapter1);
 
     }
 
-    void getPatient(List<String> p,List<String> idse) {
+
+     void flagPatient() {
+
+            dataP = new ArrayList<String>();
+            idsP = new ArrayList<String>();
+            getPatient(dataP,idsP);
+    }
+
+    synchronized void getPatient(List<String> p,List<String> idse) {
         //sample of virtual Patients  for test 'should comment it after writing db code'
         //<!--
-       /* p.add("zoew dorar awwad : 1025878963");
-        p.add("keko ashraf hmayel : 1047823622");
+        /*p.add("keko ashraf hmayel : 1047823622");
         p.add("aaa bbb ccc : 123456789");
         p.add("yassein fareid ghanm : 1025748965");
-        p.add("omar shafeq hady : 1000557458");*/
+        p.add("omar shafeq hady : 1000557458");
+        p.add("zoew dorar awwad : 1025878963");*/
         //-->
-
-        FirebaseFirestore db1 = FirebaseFirestore.getInstance();
-        CollectionReference collRef = db1.collection("doctors").document(FirebaseAuth.getInstance().getUid()).collection("patients");
-        collRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    List<DocumentSnapshot> myListOfDocuments = task.getResult().getDocuments();
-                    for(int i=0;i<myListOfDocuments.size();i++)
-                    {
-                        DocumentSnapshot document = myListOfDocuments.get(i);
-                        if (document.exists()) {
-                            if ((document.get("name")!=null)&&
-                                    (document.get("patient_id")!=null)) {
-                                String name_ = document.get("name").toString();
-                                String pid_ = document.get("patient_id").toString();
-                                String id_ = document.getId();
-                                p.add(name_ + " : " + pid_);
-                                idse.add(id_);
-                            }
-                        }
-                    }
-                }
-            }
-        });
 
         // complet db code to get Patient Name and ID
         // code ...
 
+        db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        String doctorId = firebaseAuth.getCurrentUser().getUid();
+
+        CollectionReference patientsRefs = db.collection("doctors").document(doctorId)
+                .collection("patients");
+        patientsRefs.get().addOnCompleteListener(task ->
+        {
+            if (task.isSuccessful()) {
+
+                if( task.getResult().size() == 0)
+                {
+                    spinnerP.setAdapter(null);
+                    return;
+                }
+
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Patient patient = document.toObject(Patient.class);
+                    p.add(patient.getName()+ " : " + patient.getIdentificationNumber());
+                    idse.add(patient.getPatientId());
+                }
+
+                //<!--
+                adapter1 = new ArrayAdapter<>(this,
+                        android.R.layout.simple_dropdown_item_1line, dataP);
+                spinnerP.setAdapter(adapter1);
+
+                spinnerP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                       // if(true)return;
+                        String temp = "" + parent.getItemAtPosition(position).toString();
+                        patientName = temp.substring(0,temp.indexOf(" : "));
+                        patientId = temp.substring((temp.indexOf(" : ")+3),temp.length());
+                        patientPOS = position;
+                        ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                        //!complet
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        String temp = "" + parent.getItemAtPosition(patientPOS).toString();
+                        patientName = temp.substring(0,temp.indexOf(" : "));
+                        patientId = temp.substring((temp.indexOf(" : ")+3),temp.length());
+                        ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                        //!complet
+                    }
+                });
+
+                //-->
+
+            }
+        });
     }
 
     int searcH(String pd)
@@ -461,7 +474,9 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
     void adD(){
 
         //complet
-        if(ifEmptyFields())
+        if( ifEmptyFields()
+        || dataP == null
+        || dataP.size() == 0 )
         {
             AlertDialog.Builder x = new AlertDialog.Builder(this);
             x.setMessage("Please complete fill the form data.").setTitle("incomplete data")
@@ -533,12 +548,16 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
         Map<String, Object> data = new HashMap<>();
         data.put("diagnosticDate", d);
         data.put("ComplicationName", n);
+        List<String> status = new ArrayList<String>();
+        status.add(0,d+" : "+ c);
+        data.put("status",status);
 
-        db.collection("patients") // table
+        DocumentReference dec =db.collection("patients") // table
                 .document(idsP.get(patientPOS)) // patient id
                 .collection("complications")// table inside patient table
-                .document(n)
-                .set(data)
+                .document(n);
+
+            dec.set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @SuppressLint("LongLogTag")
                     @Override
@@ -553,29 +572,6 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
-
-        db.collection("patients") // table
-                .document(idsP.get(patientPOS)) // patient id
-                .collection("complications")// table inside patient table
-                .document(n)
-                .collection("Status")
-                .document("c").set(null).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @SuppressLint("LongLogTag")
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "DocumentSnapshot successfully written!");
-            }
-        })
-                .addOnFailureListener(new OnFailureListener() {
-                    @SuppressLint("LongLogTag")
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error writing document", e);
-                    }
-                });
-
-
-
     }
 
     @Override

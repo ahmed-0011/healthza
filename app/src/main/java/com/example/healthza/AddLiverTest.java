@@ -175,6 +175,12 @@ public class AddLiverTest extends AppCompatActivity implements View.OnClickListe
                 break;
             }
 
+            case R.id.requestDoctorPm:
+            {
+                startActivity(new Intent(this, PatientReceiveRequestActivity.class));
+                break;
+            }
+
             case R.id.logOutPM:
             {
 
@@ -684,8 +690,8 @@ public class AddLiverTest extends AppCompatActivity implements View.OnClickListe
             db.collection("patients") // table
                     .document(userId) // patient id
                     .collection("tests")// table inside patient table
-                    .document(datE.getText().toString())
-                    .collection("liver_test")
+                    .document("liver_test")
+                    .collection(datE.getText().toString())
                     .document("test# : "+ct)
                     .set(dataTest)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {

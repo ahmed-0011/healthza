@@ -175,6 +175,12 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
                 break;
             }
 
+            case R.id.requestDoctorPm:
+            {
+                startActivity(new Intent(this, PatientReceiveRequestActivity.class));
+                break;
+            }
+
             case R.id.logOutPM:
             {
 
@@ -668,8 +674,8 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
             db.collection("patients") // table
                     .document(userId) // patient id
                     .collection("tests")// table inside patient table
-                    .document(datE.getText().toString())
-                    .collection("hypertension_test")
+                    .document("hypertension_test")
+                    .collection(datE.getText().toString())
                     .document("test# : "+ct)
                     .set(dataTest)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {

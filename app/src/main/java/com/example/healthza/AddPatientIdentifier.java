@@ -152,6 +152,12 @@ public class AddPatientIdentifier extends AppCompatActivity implements View.OnCl
                 break;
             }
 
+            case R.id.requestDoctorPm:
+            {
+                startActivity(new Intent(this, PatientReceiveRequestActivity.class));
+                break;
+            }
+
             case R.id.logOutPM:
             {
 

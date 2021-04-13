@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -150,6 +151,19 @@ public class PatientHomeActivity extends AppCompatActivity {
                 break;
             }
 
+            case R.id.listDoctorPm:
+            {
+                Intent I = new Intent(this, DoctorListActivity.class);
+                startActivity(I);
+                break;
+            }
+
+            case R.id.requestDoctorPm:
+            {
+                startActivity(new Intent(this, PatientReceiveRequestActivity.class));
+                break;
+            }
+
             case R.id.logOutPM:
             {
 
@@ -186,6 +200,56 @@ public class PatientHomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected ( item );
     }
     //
+
+    //
+    @Override
+    public boolean onSupportNavigateUp()
+    {
+        onBackPressed ();
+        return super.onSupportNavigateUp ();
+    }
+    //
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        //complet
+        return super.onKeyDown(keyCode, event);
+    }
+    //
+    @Override
+    public void onBackPressed()
+    {
+        //super.onBackPressed ();
+
+        AlertDialog.Builder   x= new AlertDialog.Builder ( this );
+        x.setMessage ( "DO YOU WANT TO EXIT?" ).setTitle ( "Exit Activity'Patient Home'" )
+
+                .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), "Back...", Toast.LENGTH_SHORT).show();
+                        //complet
+                        finish();
+                    }
+                } )
+
+                .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) { }
+                })
+
+                .setIcon(R.drawable.qus)
+                .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
+                .setNegativeButtonIcon(getDrawable ( R.drawable.no))
+                .show ();
+        return;
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        //complet
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

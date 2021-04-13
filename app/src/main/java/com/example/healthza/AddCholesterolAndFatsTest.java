@@ -171,6 +171,12 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
                 break;
             }
 
+            case R.id.requestDoctorPm:
+            {
+                startActivity(new Intent(this, PatientReceiveRequestActivity.class));
+                break;
+            }
+
             case R.id.logOutPM:
             {
 
@@ -695,8 +701,8 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
             db.collection("patients") // table
                     .document(userId) // patient id
                     .collection("tests")// table inside patient table
-                    .document(datE.getText().toString())
-                    .collection("cholesterolAndFats_test")
+                    .document("cholesterolAndFats_test")
+                    .collection(datE.getText().toString())
                     .document("test# : "+ct)
                     .set(dataTest)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {

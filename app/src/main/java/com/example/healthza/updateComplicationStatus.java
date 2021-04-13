@@ -40,10 +40,25 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class updateComplicationStatus extends AppCompatActivity implements View.OnClickListener
         , CompoundButton.OnCheckedChangeListener
@@ -68,6 +83,7 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
 
     List<String> dataC;
     List<String> dataP;
+    List<String> idsP;
 
     private String complicationName = "";
     private String complicationDate = "";
@@ -82,6 +98,10 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
     TextView tog;
 
     boolean dt = false;
+
+    private static final String TAG = "updateNewComplicationNote";
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
 
     //
     @SuppressLint("RestrictedApi")
@@ -114,6 +134,13 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
             {
                 Intent I = new Intent(this, addNewTestAppointment.class);
                 startActivity(I);
+                break;
+            }
+
+            case R.id.add_PatientsDM:
+            {
+
+                startActivity(new Intent(this, DoctorSendRequestActivity.class));
                 break;
             }
 
@@ -221,11 +248,17 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
         //complet
     }
 
+    ArrayAdapter<String> adapter1;
+
+    @SuppressLint("LongLogTag")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_complication_status);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         Log.w("Update Complication Status.", "start");
         Toast.makeText(getApplicationContext(), "Update Complication Status....", Toast.LENGTH_SHORT).show();
@@ -256,54 +289,10 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
 
         spinnerP = findViewById(R.id.spinnerPatientCompU);
         flagPatient();
-        spinnerP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                String temp = "" + parent.getItemAtPosition(position).toString();
-                patientName = temp.substring(0,temp.indexOf(" : "));
-                patientId = temp.substring((temp.indexOf(" : ")+3),temp.length());
-                patientPOS = position;
-                ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
-                //!complet
-                //flagComplication();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                String temp = "" + parent.getItemAtPosition(patientPOS).toString();
-                patientName = temp.substring(0,temp.indexOf(" : "));
-                patientId = temp.substring((temp.indexOf(" : ")+3),temp.length());
-                ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
-                //!complet
-            }
-        });
 
         spinnerC = findViewById(R.id.spinnerComplicationU);
         flagComplication();
-        spinnerC.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                String temp = "" + parent.getItemAtPosition(position).toString();
-                complicationName = temp.substring(0,temp.indexOf(" : "));
-                complicationDate = temp.substring((temp.indexOf(" : ")+3),temp.length());
-                compPOS = position;
-                ((TextView) spinnerC.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
-                //!complet
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                String temp = "" + parent.getItemAtPosition(compPOS).toString();
-                complicationName = temp.substring(0,temp.indexOf(" : "));
-                complicationDate = temp.substring((temp.indexOf(" : ")+3),temp.length());
-                ((TextView) spinnerC.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
-                //!complet
-            }
-        });
 
         autoTD = findViewById(R.id.TimeDateAutoCU);
         autoTD.setChecked(false);
@@ -312,58 +301,154 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
 
 
     void flagPatient() {
-        List<String> patient = new ArrayList<String>();
-        getPatient(patient);
-        dataP = patient;
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, dataP);
-        //complet
-        // ........... When create db [add code]:
-        spinnerP.setAdapter(adapter1);
 
+            dataP = new ArrayList<String>();
+            idsP = new ArrayList<String>();
+            getPatient(dataP,idsP);
     }
 
-    void getPatient(List<String> p) {
+    synchronized void getPatient(List<String> p,List<String> idse) {
         //sample of virtual Patients  for test 'should comment it after writing db code'
         //<!--
-        p.add("zoew dorar awwad : 1025878963");
-        p.add("keko ashraf hmayel : 1047823622");
+        /*p.add("keko ashraf hmayel : 1047823622");
         p.add("aaa bbb ccc : 123456789");
         p.add("yassein fareid ghanm : 1025748965");
         p.add("omar shafeq hady : 1000557458");
+        p.add("zoew dorar awwad : 1025878963");*/
         //-->
 
         // complet db code to get Patient Name and ID
         // code ...
 
+        db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        String doctorId = firebaseAuth.getCurrentUser().getUid();
+
+        CollectionReference patientsRefs = db.collection("doctors").document(doctorId)
+                .collection("patients");
+        patientsRefs.get().addOnCompleteListener(task ->
+        {
+            if (task.isSuccessful()) {
+
+                if( task.getResult().size() == 0)
+                {
+                    spinnerP.setAdapter(null);
+                    return;
+                }
+
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Patient patient = document.toObject(Patient.class);
+                    p.add(patient.getName()+ " : " + patient.getIdentificationNumber());
+                    idse.add(patient.getPatientId());
+                }
+
+                //<!--
+                adapter1 = new ArrayAdapter<>(this,
+                        android.R.layout.simple_dropdown_item_1line, dataP);
+                spinnerP.setAdapter(adapter1);
+
+                spinnerP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        // if(true)return;
+                        String temp = "" + parent.getItemAtPosition(position).toString();
+                        patientName = temp.substring(0,temp.indexOf(" : "));
+                        patientId = temp.substring((temp.indexOf(" : ")+3),temp.length());
+                        patientPOS = position;
+                        ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                         flagComplication();
+                        //!complet
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        String temp = "" + parent.getItemAtPosition(patientPOS).toString();
+                        patientName = temp.substring(0,temp.indexOf(" : "));
+                        patientId = temp.substring((temp.indexOf(" : ")+3),temp.length());
+                        ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                        //!complet
+                    }
+                });
+
+                //-->
+
+            }
+        });
     }
 
     void flagComplication() {
 
-        if(spinnerC == null){spinnerC = findViewById(R.id.spinnerComplicationU);}
+        if ( (idsP==null || idsP.size()==0) )return;
 
-        List<String> complication = new ArrayList<String>();
-        getComplication(complication);
-        dataC = complication;
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, dataC);
-        //complet
-        // ........... When create db [add code]:
-        spinnerC.setAdapter(adapter1);
-
+            dataC = new ArrayList<String>();
+            getComplication(dataC);
     }
 
-    void getComplication(List<String> p) {
+    synchronized void getComplication(List<String> p) {
         //sample of virtual Patients  for test 'should comment it after writing db code'
         //<!--
-        p.add("Eye damage : 2020/09/10");
+        /*p.add("Eye damage : 2020/09/10");
         p.add("Cardiovascular disease : 2019/07/12");
         p.add("Foot damage : 2011/08/29");
         p.add("Hearing impairment : 2008/12/12");
         p.add("Alzheimer's disease : 2003/02/28");
         p.add("Depression : 2011/01/26");
-        p.add("Nerve damage (neuropathy) : 2020/08/08");
+        p.add("Nerve damage (neuropathy) : 2020/08/08");*/
         //-->
+
+        db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        CollectionReference patientsRefs = db.collection("patients")
+                .document(idsP.get(patientPOS))
+                .collection("complications");
+        patientsRefs.get().addOnCompleteListener(task ->
+        {
+            if (task.isSuccessful()) {
+                if( task.getResult().size() == 0)
+                {
+                    spinnerC.setAdapter(null);
+                    return;
+                }
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                   String n = document.get("ComplicationName").toString();
+                   String d = document.get("diagnosticDate").toString();
+                    p.add(n+ " : " + d);
+                }
+
+                //<!--
+
+                adapter1 = new ArrayAdapter<>(this,
+                        android.R.layout.simple_dropdown_item_1line, dataC);
+                spinnerC.setAdapter(adapter1);
+
+                spinnerC.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        String temp = "" + parent.getItemAtPosition(position).toString();
+                        complicationName = temp.substring(0,temp.indexOf(" : "));
+                        complicationDate = temp.substring((temp.indexOf(" : ")+3),temp.length());
+                        compPOS = position;
+                        // ((TextView) spinnerC.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                        //!complet
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        String temp = "" + parent.getItemAtPosition(compPOS).toString();
+                        complicationName = temp.substring(0,temp.indexOf(" : "));
+                        complicationDate = temp.substring((temp.indexOf(" : ")+3),temp.length());
+                        ((TextView) spinnerC.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                        //!complet
+                    }
+                });
+
+                //-->
+            }
+
+        });
 
         // complet db code to get Complication
         // code ...
@@ -456,7 +541,11 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
     void updateD(){
 
         //complet
-        if(ifEmptyFields())
+        if( ifEmptyFields()
+        || dataP == null
+        || dataP.size() == 0
+        || dataC == null
+        || dataC.size() == 0 )
         {
             AlertDialog.Builder x = new AlertDialog.Builder(this);
             x.setMessage("Please complete fill the form data.").setTitle("incomplete data")
@@ -503,7 +592,7 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
         int year_ = datePicker.getYear();
         int month_ = datePicker.getMonth();
         int day_ = datePicker.getDayOfMonth();
-        String date_=""+year_+"/"+month_+"/"+day_;
+        String date_=""+year_+"-"+month_+"-"+day_;
 
         String s3 = "Patient Name: "+patientName
                 +"\nPatient Id: "+patientId
@@ -513,10 +602,59 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
 
         // add code dd
         //<!--
-
+        updateC(describeC.getText().toString(),date_);
         //-->
 
         notification("UPDATE Status Describe of Complication",complicationName+"is UPDATED",s3);
+
+    }
+
+    void updateC(String c, String d)
+    {
+
+        Map<String, Object> datac = new HashMap<>();
+
+        DocumentReference dec =db.collection("patients") // table
+                .document(idsP.get(patientPOS)) // patient id
+                .collection("complications")// table inside patient table
+                .document(complicationName);
+
+        dec.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @SuppressLint("LongLogTag")
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    DocumentSnapshot document = task.getResult();
+                    List<String> status = (List<String>) document.get("status");
+                    status.add(d+" : "+c);
+
+                   // Toast.makeText(getApplicationContext(),d+" : "+c,Toast.LENGTH_SHORT).show();
+
+                    dec
+                       .update("status", status)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error updating document", e);
+                                   // Toast.makeText(getApplicationContext(),d+" 11 "+c,Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+
+                }
+            }
+        });
+
 
     }
 
