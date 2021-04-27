@@ -1,20 +1,14 @@
-package com.example.healthza;
+package com.example.healthza.ui;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.AsyncQueryHandler;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,21 +19,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.example.healthza.R;
+import com.example.healthza.adapters.RecordsAdapter;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,20 +35,13 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.Source;
-import com.google.firebase.firestore.core.SyncEngine;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 
-public class medicalRecords extends AppCompatActivity implements RecyclerViewInterface, View.OnClickListener
+public class medicalRecords extends AppCompatActivity implements RecordsAdapter.OnRecordItemClickListener  ,View.OnClickListener
         , View.OnFocusChangeListener
 {
 
@@ -220,21 +200,6 @@ public class medicalRecords extends AppCompatActivity implements RecyclerViewInt
         }
 
         if(v == clear){cls();}
-    }
-
-    @Override
-    public void onItemClick(int position) {
-        //
-    }
-
-    @Override
-    public void onItemLongClick(int position) {
-
-    }
-
-    @Override
-    public void onNoItems() {
-
     }
 
     //
@@ -1140,5 +1105,25 @@ public class medicalRecords extends AppCompatActivity implements RecyclerViewInt
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
+    }
+
+    @Override
+    public void onItemLongClick(int position) {
+
+    }
+
+    @Override
+    public void onRemoveButtonClick(int position) {
+
+    }
+
+    @Override
+    public void onViewButtonClick(int position) {
+
     }
 }

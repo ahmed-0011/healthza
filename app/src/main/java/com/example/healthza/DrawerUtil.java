@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 
-import com.example.healthza.ui.DoctorHomeActivity;
-import com.example.healthza.ui.DoctorListActivity;
 import com.example.healthza.ui.DoctorSendRequestActivity;
 import com.example.healthza.ui.PatientListActivity;
 import com.example.healthza.ui.PatientReceiveRequestActivity;

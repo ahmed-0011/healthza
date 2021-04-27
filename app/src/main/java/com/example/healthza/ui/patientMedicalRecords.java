@@ -1,4 +1,4 @@
-package com.example.healthza;
+package com.example.healthza.ui;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
@@ -29,6 +29,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.healthza.R;
+import com.example.healthza.adapters.RecordsAdapter;
+import com.example.healthza.models.Patient;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,7 +46,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class patientMedicalRecords extends AppCompatActivity  implements RecyclerViewInterface, View.OnClickListener
+public class patientMedicalRecords extends AppCompatActivity  implements RecordsAdapter.OnRecordItemClickListener, View.OnClickListener
 , View.OnFocusChangeListener
 {
 
@@ -320,22 +323,7 @@ public class patientMedicalRecords extends AppCompatActivity  implements Recycle
 
     }
 
-    @Override
-    public void onItemClick(int position) {
 
-    }
-
-    @Override
-    public void onItemLongClick(int position) {
-
-    }
-
-    @Override
-    public void onNoItems() {
-
-    }
-
-    //
     void viwe_() throws InterruptedException {
 
         if(idsP.size()==0)
@@ -1318,5 +1306,25 @@ public class patientMedicalRecords extends AppCompatActivity  implements Recycle
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
+    }
+
+    @Override
+    public void onItemLongClick(int position) {
+
+    }
+
+    @Override
+    public void onRemoveButtonClick(int position) {
+
+    }
+
+    @Override
+    public void onViewButtonClick(int position) {
+
     }
 }

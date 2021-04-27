@@ -1,9 +1,8 @@
-package com.example.healthza;
+package com.example.healthza.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.healthza.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,17 +32,28 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.ViewHold
     Map<String, Object> record;
     List<Map<String, Object>> recordsList;
     private Context context;
-    private RecyclerViewInterface recyclerViewInterface;
+    private OnRecordItemClickListener onRecordItemClickListener;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
 
-    public RecordsAdapter(Context context, List<Map<String, Object>> recordsList , RecyclerViewInterface recyclerViewInterface)
+    public RecordsAdapter(Context context, List<Map<String, Object>> recordsList , OnRecordItemClickListener onRecordItemClickListener)
     {
         this.context = context;
         this.recordsList = recordsList;
-        this.recyclerViewInterface = recyclerViewInterface;
+        this.onRecordItemClickListener = onRecordItemClickListener;
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+    }
+
+    public interface OnRecordItemClickListener
+    {
+        void onItemClick(int position);
+
+        void onItemLongClick(int position);
+
+        void onRemoveButtonClick(int position);
+
+        void onViewButtonClick(int position);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder
@@ -69,7 +80,7 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.ViewHold
                 @Override
                 public void onClick(View v)
                 {
-                    recyclerViewInterface.onItemClick(getBindingAdapterPosition());
+                    onRecordItemClickListener.onItemClick(getBindingAdapterPosition());
                 }
             });
 
@@ -77,7 +88,7 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.ViewHold
                 @Override
                 public boolean onLongClick(View v)
                 {
-                    recyclerViewInterface.onItemLongClick(getBindingAdapterPosition());
+                    onRecordItemClickListener.onItemLongClick(getBindingAdapterPosition());
                     return true;
                 }
             });

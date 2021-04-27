@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:background="@color/background_color"
         android:padding="8dp"
-        tools:context=".patientMedicalRecords">
+        tools:context=".ui.patientMedicalRecords">
 
         <Spinner
             android:id="@+id/spinnerPatient"
