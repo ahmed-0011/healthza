@@ -40,6 +40,7 @@ import android.widget.ViewFlipper;
 
 import android.os.Bundle;
 
+import com.example.healthza.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -57,7 +58,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.healthza.Functions.TAG_CT;
+import static com.example.healthza.ui.Functions.TAG_CT;
 
 public class ComprehensiveTest extends AppCompatActivity implements View.OnClickListener
         ,CompoundButton.OnCheckedChangeListener

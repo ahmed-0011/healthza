@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 
+import com.example.healthza.ui.DoctorListActivity;
 import com.example.healthza.ui.DoctorSendRequestActivity;
 import com.example.healthza.ui.PatientListActivity;
 import com.example.healthza.ui.PatientReceiveRequestActivity;
@@ -38,17 +39,13 @@ public class DrawerUtil
                                 new SecondaryDrawerItem().withIdentifier(2)
                                         .withName("Add Patients").withIcon(R.drawable.ic_add_patient)
                                         .withIconTintingEnabled(true),
-                        new SecondaryDrawerItem().withIdentifier(3)
-                                .withName("My Patients").withIcon(R.drawable.ic_patient)
-                                .withIconTintingEnabled(true),
-                                new SecondaryDrawerItem().withIdentifier(4)
+                                new SecondaryDrawerItem().withIdentifier(3)
                                         .withName("Patients Medical History").withIcon(R.drawable.ic_medical_history)
                                         .withIconTintingEnabled(true),
-                        new SecondaryDrawerItem().withIdentifier(5)
+                        new SecondaryDrawerItem().withIdentifier(4)
                                 .withName("Patients Charts").withIcon(R.drawable.ic_barchart)
                                 .withIconTintingEnabled(true)
                 )
-
 
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener()
                 {
@@ -69,9 +66,7 @@ public class DrawerUtil
                             }
                             case 3:
                             {
-                                Intent intent = new Intent(activity, PatientListActivity.class);
-                                view.getContext().startActivity(intent);
-                                break;
+
                             }
                             case 4:
                             {

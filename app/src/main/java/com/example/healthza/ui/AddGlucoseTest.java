@@ -36,11 +36,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.healthza.AddCholesterolAndFatsTest;
-import com.example.healthza.AddHypertensionTest;
-import com.example.healthza.AddKidneysTest;
-import com.example.healthza.AddPatientIdentifier;
-import com.example.healthza.Functions;
+import com.example.healthza.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -58,7 +54,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.healthza.Functions.TAG_CT;
+import static com.example.healthza.ui.Functions.TAG_CT;
 
 public class AddGlucoseTest extends AppCompatActivity implements View.OnClickListener
         ,CompoundButton.OnCheckedChangeListener
