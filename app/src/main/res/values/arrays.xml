@@ -17,6 +17,10 @@
         <item>Cholesterol and Fats</item>
     </string-array>
 
+    <string-array name="arrayTestRecords">
+        <item>Glucose Test</item>
+     </string-array>
+
     <string-array name="arrayTests">
         <item>Doctor Appointment</item>
         <item>Glucose Test</item>

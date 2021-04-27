@@ -41,6 +41,11 @@
     </item>
 
     <item
+        android:id="@+id/medicalRecordsPm"
+        android:icon="@drawable/cc"
+        android:title="Medical Records" />
+
+    <item
         android:id="@+id/logOutPM"
         android:icon="@drawable/logoutm"
         android:title="LogOut" />

@@ -164,6 +164,12 @@ public class PatientHomeActivity extends AppCompatActivity {
                 break;
             }
 
+            case R.id.medicalRecordsPm:
+            {
+                startActivity(new Intent(this, medicalRecords.class));
+                break;
+            }
+
             case R.id.logOutPM:
             {
 

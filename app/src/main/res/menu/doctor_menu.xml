@@ -15,6 +15,11 @@
                 android:id="@+id/list_PatientsDM"
                 android:icon="@drawable/patientsi"
                 android:title="Patients List" />
+
+            <item
+                android:id="@+id/medicalRecordsDM"
+                android:icon="@drawable/cc"
+                android:title="Medical Records" />
         </menu>
     </item>
 

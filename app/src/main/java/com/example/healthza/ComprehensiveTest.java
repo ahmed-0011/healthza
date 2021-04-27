@@ -52,7 +52,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.example.healthza.Functions.TAG_CT;
@@ -793,27 +795,97 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
             dataTest.put("date_add", datE.getText().toString());
             dataTest.put("time_add", timE.getText().toString());
             dataTest.put("fbs_percent", Float.parseFloat(inputField[0].getText().toString()));
+            dataTest.put("sub", true);
 
-            db.collection("patients") // table
+            DocumentReference DRC = db.collection("patients") // table
                     .document(userId) // patient id
                     .collection("tests")// table inside patient table
-                    .document("fbs_test")
-                    .collection(datE.getText().toString())
-                    .document("test# : "+ct)
-                    .set(dataTest)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "DocumentSnapshot successfully written!");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error writing document", e);
-                        }
-                    });
+                    .document("fbs_test");
 
+            Map<String, Object> finalDataTest = dataTest;
+            DocumentReference finalDRC4 = DRC;
+            DRC.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+
+                        DocumentSnapshot document = task.getResult();
+                        List<String> dates = (List<String>) document.get("dates");
+                        if((dates==null)||(dates.size()==0))
+                        {
+                            Map<String, Object> datae = new HashMap<>();
+                            dates = new ArrayList<>();
+                            dates.add(datE.getText().toString());
+                            datae.put("dates",dates);
+                            finalDRC4.set(datae)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error writing document", e);
+                                        }
+                                    });
+                        }
+
+                        else {
+                            boolean bool =false;
+                            for(int i=0;((i<dates.size())&&(!bool));i++) {
+                                if (dates.get(i).equals(datE.getText().toString()))
+                                {  bool = true; }
+                            }
+                            if(!bool)
+                            {
+                                dates.add(datE.getText().toString());
+                                finalDRC4.update("dates", dates)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error updating document", e);
+                                                // Toast.makeText(getApplicationContext(),d+" 11 "+c,Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+                        }
+                        //
+                        finalDRC4.collection(datE.getText().toString())
+                                .document("test# : "+ct)
+                                .set(finalDataTest)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+
+                    }
+                }
+            });
+
+            //end add test -->
+
+
+            //
             //
 
             dataTest = new HashMap<>();
@@ -823,29 +895,97 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
             dataTest.put("SGPT_percent", Float.parseFloat(inputField[3].getText().toString()));
             dataTest.put("GGT_percent", Float.parseFloat(inputField[2].getText().toString()));
             dataTest.put("AlkPhosphatese_percent", Float.parseFloat(inputField[1].getText().toString()));
+            dataTest.put("sub", true);
 
-            db.collection("patients") // table
+           DRC = db.collection("patients") // table
                     .document(userId) // patient id
                     .collection("tests")// table inside patient table
-                    .document("liver_test")
-                    .collection(datE.getText().toString())
-                    .document("test# : "+ct)
-                    .set(dataTest)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @SuppressLint("LongLogTag")
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "DocumentSnapshot successfully written!");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @SuppressLint("LongLogTag")
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error writing document", e);
-                        }
-                    });
+                    .document("liver_test");
 
+            Map<String, Object> finalDataTest1 = dataTest;
+            DocumentReference finalDRC = DRC;
+            DRC.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+
+                        DocumentSnapshot document = task.getResult();
+                        List<String> dates = (List<String>) document.get("dates");
+                        if((dates==null)||(dates.size()==0))
+                        {
+                            Map<String, Object> datae = new HashMap<>();
+                            dates = new ArrayList<>();
+                            dates.add(datE.getText().toString());
+                            datae.put("dates",dates);
+                            finalDRC.set(datae)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error writing document", e);
+                                        }
+                                    });
+                        }
+
+                        else {
+                            boolean bool =false;
+                            for(int i=0;((i<dates.size())&&(!bool));i++) {
+                                if (dates.get(i).equals(datE.getText().toString()))
+                                {  bool = true; }
+                            }
+                            if(!bool)
+                            {
+                                dates.add(datE.getText().toString());
+                                finalDRC.update("dates", dates)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error updating document", e);
+                                                // Toast.makeText(getApplicationContext(),d+" 11 "+c,Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+                        }
+                        //
+                        finalDRC.collection(datE.getText().toString())
+                                .document("test# : "+ct)
+                                .set(finalDataTest1)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+
+                    }
+                }
+            });
+
+            //end add test -->
+
+
+            //
             //
 
             dataTest = new HashMap<>();
@@ -854,29 +994,97 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
             dataTest.put("UricAcid_percent", Float.parseFloat(inputField[5].getText().toString()));
             dataTest.put("Urea_percent", Float.parseFloat(inputField[6].getText().toString()));
             dataTest.put("Creatinine_percent", Float.parseFloat(inputField[7].getText().toString()));
+            dataTest.put("sub", true);
 
-            db.collection("patients") // table
+            DRC = db.collection("patients") // table
                     .document(userId) // patient id
                     .collection("tests")// table inside patient table
-                    .document("Kidneys_test")
-                    .collection(datE.getText().toString())
-                    .document("test# : "+ct)
-                    .set(dataTest)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @SuppressLint("LongLogTag")
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "DocumentSnapshot successfully written!");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @SuppressLint("LongLogTag")
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error writing document", e);
-                        }
-                    });
+                    .document("Kidneys_test");
 
+            DocumentReference finalDRC1 = DRC;
+            Map<String, Object> finalDataTest2 = dataTest;
+            DRC.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+
+                        DocumentSnapshot document = task.getResult();
+                        List<String> dates = (List<String>) document.get("dates");
+                        if((dates==null)||(dates.size()==0))
+                        {
+                            Map<String, Object> datae = new HashMap<>();
+                            dates = new ArrayList<>();
+                            dates.add(datE.getText().toString());
+                            datae.put("dates",dates);
+                            finalDRC1.set(datae)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error writing document", e);
+                                        }
+                                    });
+                        }
+
+                        else {
+                            boolean bool =false;
+                            for(int i=0;((i<dates.size())&&(!bool));i++) {
+                                if (dates.get(i).equals(datE.getText().toString()))
+                                {  bool = true; }
+                            }
+                            if(!bool)
+                            {
+                                dates.add(datE.getText().toString());
+                                finalDRC1.update("dates", dates)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error updating document", e);
+                                                // Toast.makeText(getApplicationContext(),d+" 11 "+c,Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+                        }
+                        //
+                        finalDRC1.collection(datE.getText().toString())
+                                .document("test# : "+ct)
+                                .set(finalDataTest2)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+
+                    }
+                }
+            });
+
+            //end add test -->
+
+
+            //
             //
 
             dataTest = new HashMap<>();
@@ -886,30 +1094,99 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
             dataTest.put("LDLCholesterol_percent", Float.parseFloat(inputField[9].getText().toString()));
             dataTest.put("HDLCholesterol_percent", Float.parseFloat(inputField[10].getText().toString()));
             dataTest.put("CholesterolTotal_percent", Float.parseFloat(inputField[11].getText().toString()));
+            dataTest.put("sub", true);
 
-            db.collection("patients") // table
+            DRC = db.collection("patients") // table
                     .document(userId) // patient id
                     .collection("tests")// table inside patient table
-                    .document("cholesterolAndFats_test")
-                    .collection(datE.getText().toString())
-                    .document("test# : "+ct)
-                    .set(dataTest)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @SuppressLint("LongLogTag")
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                    .document("cholesterolAndFats_test");
+
+            Map<String, Object> finalDataTest3 = dataTest;
+            DocumentReference finalDRC2 = DRC;
+            DRC.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+
+                        DocumentSnapshot document = task.getResult();
+                        List<String> dates = (List<String>) document.get("dates");
+                        if((dates==null)||(dates.size()==0))
+                        {
+                            Map<String, Object> datae = new HashMap<>();
+                            dates = new ArrayList<>();
+                            dates.add(datE.getText().toString());
+                            datae.put("dates",dates);
+                            finalDRC2.set(datae)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error writing document", e);
+                                        }
+                                    });
                         }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @SuppressLint("LongLogTag")
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error writing document", e);
+
+                        else {
+                            boolean bool =false;
+                            for(int i=0;((i<dates.size())&&(!bool));i++) {
+                                if (dates.get(i).equals(datE.getText().toString()))
+                                {  bool = true; }
+                            }
+                            if(!bool)
+                            {
+                                dates.add(datE.getText().toString());
+                                finalDRC2.update("dates", dates)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error updating document", e);
+                                                // Toast.makeText(getApplicationContext(),d+" 11 "+c,Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
                         }
-                    });
+                        //
+                        finalDRC2.collection(datE.getText().toString())
+                                .document("test# : "+ct)
+                                .set(finalDataTest3)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+
+                    }
+                }
+            });
+
+            //end add test -->
+
 
             //
+            //
+
             dataTest = new HashMap<>();
             dataTest.put("date_add", datE.getText().toString());
             dataTest.put("time_add", timE.getText().toString());
@@ -935,27 +1212,93 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
             dataTest.put("tProtein_percent", Float.parseFloat(inputField[31].getText().toString()));
             dataTest.put("magnesium_percent", Float.parseFloat(inputField[32].getText().toString()));
 
-            db.collection("patients") // table
+           DRC = db.collection("patients") // table
                     .document(userId) // patient id
                     .collection("tests")// table inside patient table
-                    .document("other_test")
-                    .collection(datE.getText().toString())
-                    .document("test# : "+ct)
-                    .set(dataTest)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @SuppressLint("LongLogTag")
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                    .document("other_test");
+
+            DocumentReference finalDRC3 = DRC;
+            Map<String, Object> finalDataTest4 = dataTest;
+            DRC.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+
+                        DocumentSnapshot document = task.getResult();
+                        List<String> dates = (List<String>) document.get("dates");
+                        if((dates==null)||(dates.size()==0))
+                        {
+                            Map<String, Object> datae = new HashMap<>();
+                            dates = new ArrayList<>();
+                            dates.add(datE.getText().toString());
+                            datae.put("dates",dates);
+                            finalDRC3.set(datae)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error writing document", e);
+                                        }
+                                    });
                         }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @SuppressLint("LongLogTag")
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error writing document", e);
+
+                        else {
+                            boolean bool =false;
+                            for(int i=0;((i<dates.size())&&(!bool));i++) {
+                                if (dates.get(i).equals(datE.getText().toString()))
+                                {  bool = true; }
+                            }
+                            if(!bool)
+                            {
+                                dates.add(datE.getText().toString());
+                                finalDRC3.update("dates", dates)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error updating document", e);
+                                                // Toast.makeText(getApplicationContext(),d+" 11 "+c,Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
                         }
-                    });
+                        //
+                        finalDRC3.collection(datE.getText().toString())
+                                .document("test# : "+ct)
+                                .set(finalDataTest4)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+
+                    }
+                }
+            });
+
+            //end add test -->
+
             //end add test -->
 
 

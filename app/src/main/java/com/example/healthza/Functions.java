@@ -90,7 +90,7 @@ public class Functions extends AppCompatActivity{
             setYear(year);
             setMonth(month+1);
             setDay(day);
-            dateS = getYear()+"/"+getMonth()+"/"+getDay();
+            dateS = getYear()+"-"+getMonth()+"-"+getDay();
             f.setText(dateS);
             Toast.makeText(this.getContext(), "..."+getYear()+" "+getMonth()+" "+getDay()+"...", Toast.LENGTH_SHORT).show();
         }

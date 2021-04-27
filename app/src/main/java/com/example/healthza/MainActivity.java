@@ -145,8 +145,13 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.list_PatientsDM:
             {
-
                 startActivity(new Intent(this, PatientListActivity.class));
+                break;
+            }
+
+            case R.id.medicalRecordsDM:
+            {
+                startActivity(new Intent(this,patientMedicalRecords.class));
                 break;
             }
 
