@@ -1272,7 +1272,6 @@ public class patientMedicalRecords extends AppCompatActivity  implements Records
 
             return;
         }
-
     }
 
     //
