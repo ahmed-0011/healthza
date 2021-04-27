@@ -1,4 +1,4 @@
-package com.example.healthza.ui;
+package com.example.healthza;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -15,7 +15,19 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
 
-public class Functions extends AppCompatActivity {
+public class Functions extends AppCompatActivity{
+
+   static boolean threead=false;
+    static void wait_()
+    {
+        threead=true;
+        while (threead);
+    }
+
+   static void signal_()
+    {
+        threead=false;
+    }
 
     public static final String TAG_CT = "countIsUpdated";
 
@@ -23,9 +35,9 @@ public class Functions extends AppCompatActivity {
     public static String timeS = "";
 
     public static String loginSUC = "147";
-    public static boolean loginSUCV = true;
+    public  static  boolean loginSUCV = true;
 
-    public static int ne = 1;//  Notification ID"Counter"
+    static    int ne=1;//  Notification ID"Counter"
 
     //Date
     public static class DatePickerFragment extends DialogFragment
@@ -37,28 +49,24 @@ public class Functions extends AppCompatActivity {
 
         TextView f;
 
-        public DatePickerFragment(TextView g) {
-            f = g;
-        }
-
         public static int getYear() {
             return Year;
-        }
-
-        public static void setYear(int year) {
-            Year = year;
         }
 
         public static int getMonth() {
             return Month;
         }
 
-        public static void setMonth(int month) {
-            Month = month;
-        }
-
         public static int getDay() {
             return Day;
+        }
+
+        public static void setYear(int year) {
+            Year = year;
+        }
+
+        public static void setMonth(int month) {
+            Month = month;
         }
 
         public static void setDay(int day) {
@@ -80,11 +88,16 @@ public class Functions extends AppCompatActivity {
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
             setYear(year);
-            setMonth(month + 1);
+            setMonth(month+1);
             setDay(day);
-            dateS = getYear() + "/" + getMonth() + "/" + getDay();
+            dateS = getYear()+"-"+getMonth()+"-"+getDay();
             f.setText(dateS);
-            Toast.makeText(this.getContext(), "..." + getYear() + " " + getMonth() + " " + getDay() + "...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.getContext(), "..."+getYear()+" "+getMonth()+" "+getDay()+"...", Toast.LENGTH_SHORT).show();
+        }
+
+        public DatePickerFragment(TextView g)
+        {
+            f=g;
         }
     }
 
@@ -97,20 +110,16 @@ public class Functions extends AppCompatActivity {
 
         TextView f;
 
-        public TimePickerFragment(TextView g) {
-            f = g;
-        }
-
         public static int getHour() {
             return Hour;
         }
 
-        public static void setHour(int hour) {
-            Hour = hour;
-        }
-
         public static int getMinute() {
             return Minute;
+        }
+
+        public static void setHour(int hour) {
+            Hour = hour;
         }
 
         public static void setMinute(int minute) {
@@ -133,9 +142,14 @@ public class Functions extends AppCompatActivity {
             // Do something with the time chosen by the user
             setHour(hourOfDay);
             setMinute(minute);
-            timeS = TimePickerFragment.getHour() + ":" + TimePickerFragment.getMinute();
+            timeS = TimePickerFragment.getHour()+":"+TimePickerFragment.getMinute();
             f.setText(timeS);
             Toast.makeText(this.getContext(), "..." + getHour() + " " + getMinute() + "...", Toast.LENGTH_SHORT).show();
+        }
+
+        public TimePickerFragment(TextView g)
+        {
+            f=g;
         }
     }
 

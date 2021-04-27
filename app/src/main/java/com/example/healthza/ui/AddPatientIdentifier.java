@@ -1,4 +1,12 @@
-package com.example.healthza.ui;
+package com.example.healthza;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.core.app.NotificationCompat;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
@@ -24,26 +32,31 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.core.app.NotificationCompat;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-import com.example.healthza.R;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.example.healthza.Functions.TAG_CT;
 
 public class AddPatientIdentifier extends AppCompatActivity implements View.OnClickListener
-        , CompoundButton.OnCheckedChangeListener
+        ,CompoundButton.OnCheckedChangeListener
         , View.OnFocusChangeListener {
 
     private static final String ChannelID = "AddPatientIdentifierNote";
 
-    private EditText[] inputField;
+    private EditText inputField[];
 
     private Button clear;
     private Button add;
+
+    private static final String TAG = "AddPatientIdentifier";
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
 
     //
     @SuppressLint("RestrictedApi")
@@ -139,31 +152,40 @@ public class AddPatientIdentifier extends AppCompatActivity implements View.OnCl
                 break;
             }
 
-            case R.id.logOutPM: {
+            case R.id.requestDoctorPm:
+            {
+                startActivity(new Intent(this, PatientReceiveRequestActivity.class));
+                break;
+            }
 
-                AlertDialog.Builder x = new AlertDialog.Builder(this);
-                x.setMessage("DO YOU WANT TO LogOut?").setTitle("Patient LogOut")
+            case R.id.logOutPM:
+            {
 
-                        .setPositiveButton("YES_EXIT", new DialogInterface.OnClickListener() {
+                AlertDialog.Builder   x= new AlertDialog.Builder ( this );
+                x.setMessage ( "DO YOU WANT TO LogOut?" ).setTitle ( "Patient LogOut" )
+
+                        .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(getApplicationContext(), "LogedOut...", Toast.LENGTH_SHORT).show();
                                 //complet
                                 // finish();
+                                firebaseAuth.signOut();
                                 finishAffinity();
+                                Intent I = new Intent(getApplicationContext(),WelcomeActivity.class);
+                                startActivity(I);
                             }
-                        })
+                        } )
 
-                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
+                            public void onClick(DialogInterface dialog, int which) { }
                         })
 
                         .setIcon(R.drawable.qus)
-                        .setPositiveButtonIcon(getDrawable(R.drawable.yes))
-                        .setNegativeButtonIcon(getDrawable(R.drawable.no))
-                        .show();
+                        .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
+                        .setNegativeButtonIcon(getDrawable ( R.drawable.no))
+                        .show ();
 
                 break;
             }
@@ -232,6 +254,10 @@ public class AddPatientIdentifier extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_patient_identifier);
+
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         inputField = new EditText[3];
 
@@ -303,6 +329,8 @@ public class AddPatientIdentifier extends AppCompatActivity implements View.OnCl
                         Log.w("ADD Patient Identifier", "Add Patient Identifier.");
                         // functions and codes
                         //complet
+
+                        addIDentifier();
 
                         notification();
                         Toast.makeText(getApplicationContext(), "Patient Identifier IS ADD...", Toast.LENGTH_SHORT).show();
@@ -474,13 +502,54 @@ public class AddPatientIdentifier extends AppCompatActivity implements View.OnCl
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //Log.i(COMMON_TAG,"DoctorHomeActivity onSaveInstanceState");
+        //Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        //  Log.i(COMMON_TAG,"DoctorHomeActivity onSaveInstanceState");
+        //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
     }
 
+    void addIDentifier() {
+
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        if (user != null) {
+            // User is signed in
+
+
+            String userId = user.getUid();
+
+            //<!-- add test
+
+            Map<String, Object> dataTest = new HashMap<>();
+            dataTest.put("name",inputField[0].getText().toString());
+            dataTest.put("phone",inputField[1].getText().toString());
+            dataTest.put("relationship", inputField[2].getText().toString());
+
+            db.collection("patients") // table
+                    .document(userId) // patient id
+                    .collection("identifier")// table inside patient table
+                    .document(((""+inputField[0].getText().toString())
+                            + " : "+inputField[1].getText().toString()))
+                    .set(dataTest)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @SuppressLint("LongLogTag")
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @SuppressLint("LongLogTag")
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
+
+            //end add test -->
+        }
+    }
 }

@@ -15,6 +15,16 @@
         android:title="Add Chronic Diseases" />
 
     <item
+        android:id="@+id/requestDoctorPm"
+        android:icon="@drawable/addr"
+        android:title="Add Request" />
+
+    <item
+        android:id="@+id/listDoctorPm"
+        android:icon="@drawable/docii"
+        android:title="My Doctors" />
+
+    <item
         android:id="@+id/newTestPM"
         android:icon="@drawable/iconat"
         android:title="Add Test Result">
@@ -29,6 +39,11 @@
             <item android:title="Comprehensive Test" android:id="@+id/ComprehensiveTestPM" />
         </menu>
     </item>
+
+    <item
+        android:id="@+id/medicalRecordsPm"
+        android:icon="@drawable/cc"
+        android:title="Medical Records" />
 
     <item
         android:id="@+id/logOutPM"

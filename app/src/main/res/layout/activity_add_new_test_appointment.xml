@@ -98,10 +98,11 @@
             android:text="@string/or_search_on_patient"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
             android:textSize="18sp"
+            app:drawableStartCompat="@android:drawable/arrow_down_float"
             app:layout_constraintBottom_toTopOf="@+id/outerPatient"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerPatient"
-            app:drawableStartCompat="@android:drawable/arrow_down_float" />
+            app:layout_constraintTop_toBottomOf="@+id/spinnerPatient" />
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/outerPatient"
@@ -118,6 +119,7 @@
                 android:id="@+id/innerPatient"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autofillHints=""
                 android:background="@drawable/round_empty"
                 android:ems="10"
                 android:focusableInTouchMode="true"
@@ -126,8 +128,7 @@
                 android:inputType="text"
                 android:paddingStart="10dp"
                 android:selectAllOnFocus="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:autofillHints="" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Spinner
@@ -155,22 +156,21 @@
             android:text="@string/select_patient"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
             android:textSize="18sp"
+            app:drawableStartCompat="@android:drawable/arrow_down_float"
             app:layout_constraintBottom_toTopOf="@+id/spinnerPatient"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider2"
-            app:drawableStartCompat="@android:drawable/arrow_down_float" />
+            app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
         <View
             android:id="@+id/divider2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:background="#ffff"
             android:backgroundTint="#CA1A1A"
-            app:layout_constraintBottom_toTopOf="@+id/textView4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerTest" />
+            app:layout_constraintTop_toBottomOf="@+id/outerDescribe" />
 
         <Spinner
             android:id="@+id/spinnerTest"
@@ -183,7 +183,7 @@
             android:foreground="@drawable/round_empty"
             android:prompt="@string/TypeTestPrompt"
             android:spinnerMode="dropdown"
-            app:layout_constraintBottom_toTopOf="@+id/divider2"
+            app:layout_constraintBottom_toTopOf="@+id/outerDescribe"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -197,10 +197,10 @@
             android:text="@string/set_test"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
             android:textSize="18sp"
+            app:drawableStartCompat="@android:drawable/ic_input_get"
             app:layout_constraintBottom_toTopOf="@+id/spinnerTest"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/datePicker"
-            app:drawableStartCompat="@android:drawable/ic_input_get" />
+            app:layout_constraintTop_toBottomOf="@+id/datePicker" />
 
         <DatePicker
             android:id="@+id/datePicker"
@@ -208,15 +208,15 @@
             android:layout_height="95dp"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
+            android:background="@drawable/round_empty"
+            android:calendarTextColor="@color/purple_700"
             android:calendarViewShown="false"
             android:datePickerMode="spinner"
             android:drawSelectorOnTop="true"
-            android:background="@drawable/round_empty"
             app:layout_constraintBottom_toTopOf="@+id/textView3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2"
-            tools:ignore="MissingConstraints"
-            android:calendarTextColor="@color/purple_700" />
+            tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/textView2"
@@ -228,10 +228,10 @@
             android:text="@string/set_date_of_appointment"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
             android:textSize="18sp"
+            app:drawableStartCompat="@android:drawable/ic_menu_agenda"
             app:layout_constraintBottom_toTopOf="@+id/datePicker"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
-            app:drawableStartCompat="@android:drawable/ic_menu_agenda" />
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
 
         <View
             android:id="@+id/divider"
@@ -255,12 +255,38 @@
             android:text="@string/new_test_appointment"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
             android:textSize="40sp"
+            app:drawableEndCompat="@android:drawable/ic_menu_my_calendar"
             app:layout_constraintBottom_toTopOf="@+id/divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:drawableEndCompat="@android:drawable/ic_menu_my_calendar" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/outerDescribe"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/divider2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerTest">
+
+            <EditText
+                android:id="@+id/innerDescribe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:background="@drawable/round_empty"
+                android:ems="10"
+                android:focusableInTouchMode="true"
+                android:fontFamily="@font/bubblegum_sans"
+                android:hint="Enter Appointment Description:"
+                android:inputType="text"
+                android:paddingStart="10dp"
+                android:selectAllOnFocus="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

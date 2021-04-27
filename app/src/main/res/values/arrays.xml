@@ -17,6 +17,10 @@
         <item>Cholesterol and Fats</item>
     </string-array>
 
+    <string-array name="arrayTestRecords">
+        <item>Glucose Test</item>
+     </string-array>
+
     <string-array name="arrayTests">
         <item>Doctor Appointment</item>
         <item>Glucose Test</item>
@@ -30,7 +34,7 @@
     </string-array>
 
     <string-array name="SelectPatient">
-        <item>Select Patient:</item>
+        <item>wait to get Patient List...</item>
     </string-array>
 
     <string name="SelectComplicationPrompt">Select a Complication:</string>

@@ -1,4 +1,13 @@
-package com.example.healthza.ui;
+package com.example.healthza;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.core.app.NotificationCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
@@ -31,85 +40,96 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.core.app.NotificationCompat;
-
-import com.example.healthza.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class addComplications extends AppCompatActivity implements View.OnClickListener
         , CompoundButton.OnCheckedChangeListener
-        , View.OnFocusChangeListener {
-
-    private static final String ChannelID = "addNewComplicationNote";
+        , View.OnFocusChangeListener
+{
     public final int holo_green_dark = 17170453;
-    EditText searchP;
-    EditText nameC;
-    EditText statusC;
-    List<String> dataP;
-    int patientPOS = 0;
+    private static final String ChannelID = "addNewComplicationNote";
+
     private Button add;
     private Button clear;
     private Button clearC;
     private Button search;
+
     private Spinner spinnerP;
+
     private DatePicker datePicker;
+
+    EditText searchP;
+    EditText nameC;
+    EditText statusC;
+
+    List<String> dataP;
+    List<String> idsP;
+
     private String patientName = "";
     private String patientId = "";
+    int patientPOS = 0;
+
+    private static final String TAG = "addNewComplicationNote";
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
 
     //
     @SuppressLint("RestrictedApi")
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inf = getMenuInflater();
-        inf.inflate(R.menu.doctor_menu, menu);
-        if (menu != null && menu instanceof MenuBuilder)
-            ((MenuBuilder) menu).setOptionalIconsVisible(true);
-        return super.onCreateOptionsMenu(menu);
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inf=getMenuInflater ();
+        inf.inflate (R.menu.doctor_menu,menu);
+        if (menu!=null && menu instanceof MenuBuilder)
+            ((MenuBuilder)menu).setOptionalIconsVisible ( true );
+        return super.onCreateOptionsMenu ( menu );
     }
-
     //
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return super.onPrepareOptionsMenu(menu);
-    }
-
+    public boolean onPrepareOptionsMenu(Menu menu) { return super.onPrepareOptionsMenu ( menu ); }
     //
     @Override
-    public boolean onMenuOpened(int featureId, Menu menu) {
-        return super.onMenuOpened(featureId, menu);
-    }
-
+    public boolean onMenuOpened(int featureId, Menu menu) { return super.onMenuOpened ( featureId, menu ); }
     //
     @Override
-    public void onOptionsMenuClosed(Menu menu) {
-        super.onOptionsMenuClosed(menu);
-    }
-
+    public void onOptionsMenuClosed(Menu menu) { super.onOptionsMenuClosed ( menu ); }
     //
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
         //getSupportActionBar ().setTitle ( item.getTitle ()+ "  is pressed" );
-        switch (item.getItemId()) {
-            case R.id.newAppointmentsDM: {
-                Intent I = new Intent(this, addNewTestAppointment.class);
+        switch(item.getItemId())
+        {
+            case R.id.newAppointmentsDM:
+            {
+               Intent I = new Intent(this, addNewTestAppointment.class);
                 startActivity(I);
                 break;
             }
 
-            case R.id.logOutDM: {
+            case R.id.logOutDM:
+            {
 
-                AlertDialog.Builder x = new AlertDialog.Builder(this);
-                x.setMessage("DO YOU WANT TO LogOut?").setTitle("Doctor LogOut")
+                AlertDialog.Builder   x= new AlertDialog.Builder ( this );
+                x.setMessage ( "DO YOU WANT TO LogOut?" ).setTitle ( "Doctor LogOut" )
 
-                        .setPositiveButton("YES_EXIT", new DialogInterface.OnClickListener() {
+                        .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(getApplicationContext(), "LogedOut...", Toast.LENGTH_SHORT).show();
@@ -117,102 +137,147 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
                                 // finish();
                                 finishAffinity();
                             }
-                        })
+                        } )
 
-                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
+                            public void onClick(DialogInterface dialog, int which) { }
                         })
 
                         .setIcon(R.drawable.qus)
-                        .setPositiveButtonIcon(getDrawable(R.drawable.yes))
-                        .setNegativeButtonIcon(getDrawable(R.drawable.no))
-                        .show();
+                        .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
+                        .setNegativeButtonIcon(getDrawable ( R.drawable.no))
+                        .show ();
 
                 break;
             }
 
-            case R.id.newComplicationDM: {
+            case R.id.newComplicationDM:
+            {
                 /*Intent I = new Intent(this, addComplications.class);
                 startActivity(I);*/
                 break;
             }
 
-            case R.id.updateComplicationDM: {
+            case R.id.updateComplicationDM:
+            {
                 Intent I = new Intent(this, updateComplicationStatus.class);
                 startActivity(I);
                 break;
             }
 
-            default: {
+
+            case R.id.add_PatientsDM:
+            {
+
+                startActivity(new Intent(this, DoctorSendRequestActivity.class));
+                break;
             }
+
+            case R.id.logOutPM:
+            {
+
+                AlertDialog.Builder   x= new AlertDialog.Builder ( this );
+                x.setMessage ( "DO YOU WANT TO LogOut?" ).setTitle ( "Patient LogOut" )
+
+                        .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getApplicationContext(), "LogedOut...", Toast.LENGTH_SHORT).show();
+                                //complet
+                                // finish();
+                                firebaseAuth.signOut();
+                                finishAffinity();
+                                Intent I = new Intent(getApplicationContext(),WelcomeActivity.class);
+                                startActivity(I);
+                            }
+                        } )
+
+                        .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) { }
+                        })
+
+                        .setIcon(R.drawable.qus)
+                        .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
+                        .setNegativeButtonIcon(getDrawable ( R.drawable.no))
+                        .show ();
+
+                break;
+            }
+
+            default:{}
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected ( item );
     }
     //
 
     @SuppressLint("LongLogTag")
-    public boolean onSupportNavigateUp() {
-        Log.w("Add New Complication.", "onSupportNavigateUp is calll");
-        onBackPressed();
-        return super.onSupportNavigateUp();
+    public boolean onSupportNavigateUp()
+    {
+        Log.w ("Add New Complication.", "onSupportNavigateUp is calll");
+        onBackPressed ();
+        return super.onSupportNavigateUp ();
     }
-
     //
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
         //complet
         searchP.clearFocus();
         nameC.clearFocus();
         statusC.clearFocus();
         return super.onKeyDown(keyCode, event);
     }
-
     //
     @SuppressLint("LongLogTag")
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         //super.onBackPressed ();
-        Log.w("Add New Complication.", "this onbackpress is calll");
+        Log.w ("Add New Complication.", "this onbackpress is calll");
 
-        AlertDialog.Builder x = new AlertDialog.Builder(this);
-        x.setMessage("DO YOU WANT TO EXIT?").setTitle("Exit Activity'Add New Complication'")
+        AlertDialog.Builder   x= new AlertDialog.Builder ( this );
+        x.setMessage ( "DO YOU WANT TO EXIT?" ).setTitle ( "Exit Activity'Add New Complication'" )
 
-                .setPositiveButton("YES_EXIT", new DialogInterface.OnClickListener() {
+                .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.w("Add New Complication.", "end");
+                        Log.w ("Add New Complication.", "end");
                         Toast.makeText(getApplicationContext(), "Back...", Toast.LENGTH_SHORT).show();
                         //complet
                         finish();
                     }
-                })
+                } )
 
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
+                    public void onClick(DialogInterface dialog, int which) { }
                 })
 
                 .setIcon(R.drawable.qus)
-                .setPositiveButtonIcon(getDrawable(R.drawable.yes))
-                .setNegativeButtonIcon(getDrawable(R.drawable.no))
-                .show();
+                .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
+                .setNegativeButtonIcon(getDrawable ( R.drawable.no))
+                .show ();
         return;
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy(){
         super.onDestroy();
         //complet
     }
+
+    ArrayAdapter<String> adapter1;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_complications);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         Log.w("Add New Complication.", "start");
         Toast.makeText(getApplicationContext(), "Add New Complication....", Toast.LENGTH_SHORT).show();
@@ -231,83 +296,104 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
             }
         });
 
-        searchP = findViewById(R.id.innerPatientComp);
-        searchP.setOnFocusChangeListener(this);
-        nameC = findViewById(R.id.innerComplicationName);
-        nameC.setOnFocusChangeListener(this);
-        statusC = findViewById(R.id.innerComplicationStatusDescribe);
-        statusC.setOnFocusChangeListener(this);
+        searchP = findViewById(R.id.innerPatientComp); searchP.setOnFocusChangeListener(this);
+        nameC = findViewById(R.id.innerComplicationName); nameC.setOnFocusChangeListener(this);
+        statusC = findViewById(R.id.innerComplicationStatusDescribe); statusC.setOnFocusChangeListener(this);
 
-        add = findViewById(R.id.addComplication);
-        add.setOnClickListener(this);
-        clear = findViewById(R.id.clearSearchComp);
-        clear.setOnClickListener(this);
-        clearC = findViewById(R.id.clearComp);
-        clearC.setOnClickListener(this);
-        search = findViewById(R.id.SearchPatientComp);
-        search.setOnClickListener(this);
+        add = findViewById(R.id.addComplication); add.setOnClickListener(this);
+        clear = findViewById(R.id.clearSearchComp); clear.setOnClickListener(this);
+        clearC = findViewById(R.id.clearComp); clearC.setOnClickListener(this);
+        search = findViewById(R.id.SearchPatientComp); search.setOnClickListener(this);
 
         spinnerP = findViewById(R.id.spinnerPatientComp);
         flagPatient();
-        spinnerP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                String temp = "" + parent.getItemAtPosition(position).toString();
-                patientName = temp.substring(0, temp.indexOf(" : "));
-                patientId = temp.substring((temp.indexOf(" : ") + 3));
-                patientPOS = position;
-                ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
-                //!complet
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                String temp = "" + parent.getItemAtPosition(patientPOS).toString();
-                patientName = temp.substring(0, temp.indexOf(" : "));
-                patientId = temp.substring((temp.indexOf(" : ") + 3));
-                ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
-                //!complet
-            }
-        });
-    }
-
-
-    void flagPatient() {
-        List<String> patient = new ArrayList<String>();
-        getPatient(patient);
-        dataP = patient;
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, dataP);
-        //complet
-        // ........... When create db [add this code]: 'pre check and drop 'remove' Chronic Diseases added in past'
-        spinnerP.setAdapter(adapter1);
 
     }
 
-    void getPatient(List<String> p) {
+
+     void flagPatient() {
+
+            dataP = new ArrayList<String>();
+            idsP = new ArrayList<String>();
+            getPatient(dataP,idsP);
+    }
+
+    synchronized void getPatient(List<String> p,List<String> idse) {
         //sample of virtual Patients  for test 'should comment it after writing db code'
         //<!--
-        p.add("zoew dorar awwad : 1025878963");
-        p.add("keko ashraf hmayel : 1047823622");
+        /*p.add("keko ashraf hmayel : 1047823622");
         p.add("aaa bbb ccc : 123456789");
         p.add("yassein fareid ghanm : 1025748965");
         p.add("omar shafeq hady : 1000557458");
+        p.add("zoew dorar awwad : 1025878963");*/
         //-->
 
         // complet db code to get Patient Name and ID
         // code ...
 
+        db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        String doctorId = firebaseAuth.getCurrentUser().getUid();
+
+        CollectionReference patientsRefs = db.collection("doctors").document(doctorId)
+                .collection("patients");
+        patientsRefs.get().addOnCompleteListener(task ->
+        {
+            if (task.isSuccessful()) {
+
+                if( task.getResult().size() == 0)
+                {
+                    spinnerP.setAdapter(null);
+                    return;
+                }
+
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Patient patient = document.toObject(Patient.class);
+                    p.add(patient.getName()+ " : " + patient.getIdentificationNumber());
+                    idse.add(patient.getPatientId());
+                }
+
+                //<!--
+                adapter1 = new ArrayAdapter<>(this,
+                        android.R.layout.simple_dropdown_item_1line, dataP);
+                spinnerP.setAdapter(adapter1);
+
+                spinnerP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                       // if(true)return;
+                        String temp = "" + parent.getItemAtPosition(position).toString();
+                        patientName = temp.substring(0,temp.indexOf(" : "));
+                        patientId = temp.substring((temp.indexOf(" : ")+3),temp.length());
+                        patientPOS = position;
+                        ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                        //!complet
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        String temp = "" + parent.getItemAtPosition(patientPOS).toString();
+                        patientName = temp.substring(0,temp.indexOf(" : "));
+                        patientId = temp.substring((temp.indexOf(" : ")+3),temp.length());
+                        ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                        //!complet
+                    }
+                });
+
+                //-->
+
+            }
+        });
     }
 
-    int searcH(String pd) {
-        int i = -1, j = -1;
+    int searcH(String pd)
+    {
+        int i=-1,j=-1;
 
-        for (String dada : dataP) {
-            j++;
-            if (dada.contains(pd) || dada.equals(pd)) {
-                i = j;
+        for(String dada : dataP)
+        { j++;
+            if(dada.contains(pd)||dada.equals(pd)){
+                i=j;
                 return i;
             }
         }
@@ -315,10 +401,12 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
         return i;
     }
 
-    void searchDO() {
+    void searchDO()
+    {
         String text = searchP.getText().toString();
 
-        if (text.isEmpty()) {
+        if(text.isEmpty())
+        {
             AlertDialog.Builder x = new AlertDialog.Builder(this);
             x.setMessage("Please complete fill the form data.").setTitle("incomplete data")
 
@@ -336,9 +424,10 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
             return;
         }
 
-        int index = searcH(text);
+        int index=searcH(text);
 
-        if (index == -1) {
+        if(index == -1)
+        {
             AlertDialog.Builder x = new AlertDialog.Builder(this);
             x.setMessage("The Patient is not Exist, or you are enter the wrong name or Id.").setTitle("Patient not Exist")
 
@@ -365,9 +454,9 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
                 //Do something after 100ms
 
                 System.out.print("\b");
-                Toast.makeText(getApplicationContext(), ""
-                        + (((TextView) spinnerP.getSelectedView()).getText().toString()
-                        + " is Selected"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),""
+                        +( ((TextView) spinnerP.getSelectedView()).getText().toString()
+                        +" is Selected"),Toast.LENGTH_SHORT).show();
 
             }
         }, 100);
@@ -375,16 +464,20 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
     }
 
     //Empty Fields
-    boolean ifEmptyFields() {
+    boolean ifEmptyFields()
+    {
         //complet
-        return statusC.getText().toString().isEmpty()
+        return  statusC.getText().toString().isEmpty()
                 || nameC.getText().toString().isEmpty();
     }
 
-    void adD() {
+    void adD(){
 
         //complet
-        if (ifEmptyFields()) {
+        if( ifEmptyFields()
+        || dataP == null
+        || dataP.size() == 0 )
+        {
             AlertDialog.Builder x = new AlertDialog.Builder(this);
             x.setMessage("Please complete fill the form data.").setTitle("incomplete data")
 
@@ -402,73 +495,109 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
             return;
         }
 
-        AlertDialog.Builder x = new AlertDialog.Builder(this);
-        x.setMessage("DO YOU WANT TO Add New Complication?").setTitle("Add New Complication.")
+        AlertDialog.Builder   x= new AlertDialog.Builder ( this );
+        x.setMessage ( "DO YOU WANT TO Add New Complication?" ).setTitle ( "Add New Complication." )
 
-                .setPositiveButton("YES_ADD", new DialogInterface.OnClickListener() {
+                .setPositiveButton ( "YES_ADD", new DialogInterface.OnClickListener () {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         addDo();
-                        return;
-                    }
-                })
+                        return; }
+                } )
 
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        return;
-                    }
+                    public void onClick(DialogInterface dialog, int which) { return; }
                 })
 
                 .setIcon(R.drawable.qus)
-                .setPositiveButtonIcon(getDrawable(R.drawable.yes))
-                .setNegativeButtonIcon(getDrawable(R.drawable.no))
-                .show();
+                .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
+                .setNegativeButtonIcon(getDrawable ( R.drawable.no))
+                .show ();
     }
 
 
-    void addDo() {
+    void addDo()
+    {
 
         int year_ = datePicker.getYear();
         int month_ = datePicker.getMonth();
         int day_ = datePicker.getDayOfMonth();
-        String date_ = "" + year_ + "/" + month_ + "/" + day_;
+        String date_=""+year_+"-"+month_+"-"+day_;
 
-        String s3 = "Patient Name: " + patientName
-                + "\nPatient Id: " + patientId
-                + "\nComplication Name: " + nameC.getText().toString()
-                + "\nStatus Describe: " + statusC.getText().toString()
-                + "\nDetection Date: " + date_;
+        add_O(date_,nameC.getText().toString(),statusC.getText().toString());
+
+        String s3 = "Patient Name: "+patientName
+                +"\nPatient Id: "+patientId
+                +"\nComplication Name: "+nameC.getText().toString()
+                +"\nStatus Describe: "+statusC.getText().toString()
+                +"\nDetection Date: "+date_;
 
         // add code dd
         //<!--
 
         //-->
 
-        notification("New Complication added", nameC.getText().toString(), s3);
+        notification("New Complication added",nameC.getText().toString(),s3);
 
+    }
+
+    void add_O(String d,String n ,String c)
+    {
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("diagnosticDate", d);
+        data.put("ComplicationName", n);
+        List<String> status = new ArrayList<String>();
+        status.add(0,d+" : "+ c);
+        data.put("status",status);
+
+        DocumentReference dec =db.collection("patients") // table
+                .document(idsP.get(patientPOS)) // patient id
+                .collection("complications")// table inside patient table
+                .document(n);
+
+            dec.set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @SuppressLint("LongLogTag")
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
     }
 
     @Override
     public void onClick(View v) {
 
-        if (v == add) {
+        if(v == add)
+        {
             adD();
             return;
         }
 
-        if (v == clear) {
+        if(v == clear)
+        {
             searchP.setText("");
             return;
         }
 
-        if (v == clearC) {
+        if(v == clearC)
+        {
             nameC.setText("");
             statusC.setText("");
             return;
         }
 
-        if (v == search) {
+        if(v == search)
+        {
             searchDO();
             return;
         }
@@ -490,7 +619,7 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
     }
 
     //
-    void notification(String s1, String s2, String s3) {
+    void notification(String s1,String s2 ,String s3) {
         NotificationManager man = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         NotificationCompat.Builder note = null;
 
@@ -521,7 +650,8 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
 
-        if (v == searchP) {
+        if(v==searchP)
+        {
             if (!hasFocus) {
                 Log.d("focus", "focus lost");
                 // Do whatever you want here
@@ -544,14 +674,14 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
             if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent(event);
+        return super.dispatchTouchEvent( event );
     }
 // "Clear focus input" -->
 
@@ -559,13 +689,13 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //Log.i(COMMON_TAG,"DoctorHomeActivity onSaveInstanceState");
+        //Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        //  Log.i(COMMON_TAG,"DoctorHomeActivity onSaveInstanceState");
+        //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
     }
 
     @Override

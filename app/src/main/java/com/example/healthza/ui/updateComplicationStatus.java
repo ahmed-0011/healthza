@@ -1,4 +1,12 @@
-package com.example.healthza.ui;
+package com.example.healthza;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.core.app.NotificationCompat;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
@@ -32,97 +40,117 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.core.app.NotificationCompat;
-
-import com.example.healthza.R;
-import com.example.healthza.ui.Functions;
-import com.example.healthza.ui.addComplications;
-import com.example.healthza.ui.addNewTestAppointment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class updateComplicationStatus extends AppCompatActivity implements View.OnClickListener
         , CompoundButton.OnCheckedChangeListener
-        , View.OnFocusChangeListener {
+        , View.OnFocusChangeListener
+{
 
-    private static final String ChannelID = "updateComplicationStatusNote";
     public final int holo_green_dark = 17170453;
-    EditText searchP;
-    EditText describeC;
-    List<String> dataC;
-    List<String> dataP;
-    int compPOS = 0;
-    int patientPOS = 0;
-    CheckBox autoTD;
-    TextView tog;
-    boolean dt = false;
+    private static final  String ChannelID= "updateComplicationStatusNote";
+
     private Button update;
     private Button clear;
     private Button clearC;
     private Button search;
+
     private Spinner spinnerC;
     private Spinner spinnerP;
+
     private DatePicker datePicker;
+
+    EditText searchP;
+    EditText describeC;
+
+    List<String> dataC;
+    List<String> dataP;
+    List<String> idsP;
+
     private String complicationName = "";
     private String complicationDate = "";
+    int compPOS = 0;
+
     private String patientName = "";
     private String patientId = "";
+    int patientPOS = 0;
+
+    CheckBox autoTD;
+
+    TextView tog;
+
+    boolean dt = false;
+
+    private static final String TAG = "updateNewComplicationNote";
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
 
     //
     @SuppressLint("RestrictedApi")
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inf = getMenuInflater();
-        inf.inflate(R.menu.doctor_menu, menu);
-        if (menu != null && menu instanceof MenuBuilder)
-            ((MenuBuilder) menu).setOptionalIconsVisible(true);
-        return super.onCreateOptionsMenu(menu);
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inf=getMenuInflater ();
+        inf.inflate (R.menu.doctor_menu,menu);
+        if (menu!=null && menu instanceof MenuBuilder)
+            ((MenuBuilder)menu).setOptionalIconsVisible ( true );
+        return super.onCreateOptionsMenu ( menu );
     }
-
     //
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return super.onPrepareOptionsMenu(menu);
-    }
-
+    public boolean onPrepareOptionsMenu(Menu menu) { return super.onPrepareOptionsMenu ( menu ); }
     //
     @Override
-    public boolean onMenuOpened(int featureId, Menu menu) {
-        return super.onMenuOpened(featureId, menu);
-    }
-
+    public boolean onMenuOpened(int featureId, Menu menu) { return super.onMenuOpened ( featureId, menu ); }
     //
     @Override
-    public void onOptionsMenuClosed(Menu menu) {
-        super.onOptionsMenuClosed(menu);
-    }
-
+    public void onOptionsMenuClosed(Menu menu) { super.onOptionsMenuClosed ( menu ); }
     //
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
         //getSupportActionBar ().setTitle ( item.getTitle ()+ "  is pressed" );
-        switch (item.getItemId()) {
-            case R.id.newAppointmentsDM: {
+        switch(item.getItemId())
+        {
+            case R.id.newAppointmentsDM:
+            {
                 Intent I = new Intent(this, addNewTestAppointment.class);
                 startActivity(I);
                 break;
             }
 
-            case R.id.logOutDM: {
+            case R.id.add_PatientsDM:
+            {
 
-                AlertDialog.Builder x = new AlertDialog.Builder(this);
-                x.setMessage("DO YOU WANT TO LogOut?").setTitle("Doctor LogOut")
+                startActivity(new Intent(this, DoctorSendRequestActivity.class));
+                break;
+            }
 
-                        .setPositiveButton("YES_EXIT", new DialogInterface.OnClickListener() {
+            case R.id.logOutDM:
+            {
+
+                AlertDialog.Builder   x= new AlertDialog.Builder ( this );
+                x.setMessage ( "DO YOU WANT TO LogOut?" ).setTitle ( "Doctor LogOut" )
+
+                        .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(getApplicationContext(), "LogedOut...", Toast.LENGTH_SHORT).show();
@@ -130,101 +158,107 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
                                 // finish();
                                 finishAffinity();
                             }
-                        })
+                        } )
 
-                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
+                            public void onClick(DialogInterface dialog, int which) { }
                         })
 
                         .setIcon(R.drawable.qus)
-                        .setPositiveButtonIcon(getDrawable(R.drawable.yes))
-                        .setNegativeButtonIcon(getDrawable(R.drawable.no))
-                        .show();
+                        .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
+                        .setNegativeButtonIcon(getDrawable ( R.drawable.no))
+                        .show ();
 
                 break;
             }
 
-            case R.id.newComplicationDM: {
+            case R.id.newComplicationDM:
+            {
                 Intent I = new Intent(this, addComplications.class);
                 startActivity(I);
                 break;
             }
 
-            case R.id.updateComplicationDM: {
+            case R.id.updateComplicationDM:
+            {
                /* Intent I = new Intent(this, updateComplicationStatus.class);
                 startActivity(I);*/
                 break;
             }
 
-            default: {
-            }
+            default:{}
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected ( item );
     }
     //
 
     @SuppressLint("LongLogTag")
-    public boolean onSupportNavigateUp() {
-        Log.w("Add New Complication.", "onSupportNavigateUp is calll");
-        onBackPressed();
-        return super.onSupportNavigateUp();
+    public boolean onSupportNavigateUp()
+    {
+        Log.w ("Add New Complication.", "onSupportNavigateUp is calll");
+        onBackPressed ();
+        return super.onSupportNavigateUp ();
     }
-
     //
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
         //complet
         searchP.clearFocus();
         describeC.clearFocus();
         return super.onKeyDown(keyCode, event);
     }
-
     //
     @SuppressLint("LongLogTag")
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         //super.onBackPressed ();
-        Log.w("Update Complication Status.", "this onbackpress is calll");
+        Log.w ("Update Complication Status.", "this onbackpress is calll");
 
-        AlertDialog.Builder x = new AlertDialog.Builder(this);
-        x.setMessage("DO YOU WANT TO EXIT?").setTitle("Exit Activity'Update Complication Status'")
+        AlertDialog.Builder   x= new AlertDialog.Builder ( this );
+        x.setMessage ( "DO YOU WANT TO EXIT?" ).setTitle ( "Exit Activity'Update Complication Status'" )
 
-                .setPositiveButton("YES_EXIT", new DialogInterface.OnClickListener() {
+                .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.w("Update Complication Status.", "end");
+                        Log.w ("Update Complication Status.", "end");
                         Toast.makeText(getApplicationContext(), "Back...", Toast.LENGTH_SHORT).show();
                         //complet
                         finish();
                     }
-                })
+                } )
 
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
+                    public void onClick(DialogInterface dialog, int which) { }
                 })
 
                 .setIcon(R.drawable.qus)
-                .setPositiveButtonIcon(getDrawable(R.drawable.yes))
-                .setNegativeButtonIcon(getDrawable(R.drawable.no))
-                .show();
+                .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
+                .setNegativeButtonIcon(getDrawable ( R.drawable.no))
+                .show ();
         return;
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy(){
         super.onDestroy();
         //complet
     }
 
+    ArrayAdapter<String> adapter1;
+
+    @SuppressLint("LongLogTag")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_complication_status);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         Log.w("Update Complication Status.", "start");
         Toast.makeText(getApplicationContext(), "Update Complication Status....", Toast.LENGTH_SHORT).show();
@@ -235,8 +269,7 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
         bar.setHomeAsUpIndicator(R.drawable.ex);
         bar.setTitle("Update Complication Status.");
 
-        tog = findViewById(R.id.textView2);
-        tog.setVisibility(View.VISIBLE);
+        tog = findViewById(R.id.textView2); tog.setVisibility(View.VISIBLE);
 
         datePicker = findViewById(R.id.datePickerCU);
         datePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
@@ -246,70 +279,20 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
             }
         });
 
-        searchP = findViewById(R.id.innerPatientCompU);
-        searchP.setOnFocusChangeListener(this);
-        describeC = findViewById(R.id.innerComplicationStatusDescribeU);
-        describeC.setOnFocusChangeListener(this);
+        searchP = findViewById(R.id.innerPatientCompU); searchP.setOnFocusChangeListener(this);
+        describeC = findViewById(R.id.innerComplicationStatusDescribeU); describeC.setOnFocusChangeListener(this);
 
-        update = findViewById(R.id.updateComplicationS);
-        update.setOnClickListener(this);
-        clear = findViewById(R.id.clearSearchCompU);
-        clear.setOnClickListener(this);
-        clearC = findViewById(R.id.clearCompDES);
-        clearC.setOnClickListener(this);
-        search = findViewById(R.id.SearchPatientCompU);
-        search.setOnClickListener(this);
+        update = findViewById(R.id.updateComplicationS); update.setOnClickListener(this);
+        clear = findViewById(R.id.clearSearchCompU); clear.setOnClickListener(this);
+        clearC = findViewById(R.id.clearCompDES); clearC.setOnClickListener(this);
+        search = findViewById(R.id.SearchPatientCompU); search.setOnClickListener(this);
 
         spinnerP = findViewById(R.id.spinnerPatientCompU);
         flagPatient();
-        spinnerP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                String temp = "" + parent.getItemAtPosition(position).toString();
-                patientName = temp.substring(0, temp.indexOf(" : "));
-                patientId = temp.substring((temp.indexOf(" : ") + 3));
-                patientPOS = position;
-                ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
-                //!complet
-                //flagComplication();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                String temp = "" + parent.getItemAtPosition(patientPOS).toString();
-                patientName = temp.substring(0, temp.indexOf(" : "));
-                patientId = temp.substring((temp.indexOf(" : ") + 3));
-                ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
-                //!complet
-            }
-        });
 
         spinnerC = findViewById(R.id.spinnerComplicationU);
         flagComplication();
-        spinnerC.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                String temp = "" + parent.getItemAtPosition(position).toString();
-                complicationName = temp.substring(0, temp.indexOf(" : "));
-                complicationDate = temp.substring((temp.indexOf(" : ") + 3));
-                compPOS = position;
-                ((TextView) spinnerC.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
-                //!complet
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                String temp = "" + parent.getItemAtPosition(compPOS).toString();
-                complicationName = temp.substring(0, temp.indexOf(" : "));
-                complicationDate = temp.substring((temp.indexOf(" : ") + 3));
-                ((TextView) spinnerC.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
-                //!complet
-            }
-        });
 
         autoTD = findViewById(R.id.TimeDateAutoCU);
         autoTD.setChecked(false);
@@ -318,73 +301,168 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
 
 
     void flagPatient() {
-        List<String> patient = new ArrayList<String>();
-        getPatient(patient);
-        dataP = patient;
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, dataP);
-        //complet
-        // ........... When create db [add code]:
-        spinnerP.setAdapter(adapter1);
 
+            dataP = new ArrayList<String>();
+            idsP = new ArrayList<String>();
+            getPatient(dataP,idsP);
     }
 
-    void getPatient(List<String> p) {
+    synchronized void getPatient(List<String> p,List<String> idse) {
         //sample of virtual Patients  for test 'should comment it after writing db code'
         //<!--
-        p.add("zoew dorar awwad : 1025878963");
-        p.add("keko ashraf hmayel : 1047823622");
+        /*p.add("keko ashraf hmayel : 1047823622");
         p.add("aaa bbb ccc : 123456789");
         p.add("yassein fareid ghanm : 1025748965");
         p.add("omar shafeq hady : 1000557458");
+        p.add("zoew dorar awwad : 1025878963");*/
         //-->
 
         // complet db code to get Patient Name and ID
         // code ...
 
+        db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        String doctorId = firebaseAuth.getCurrentUser().getUid();
+
+        CollectionReference patientsRefs = db.collection("doctors").document(doctorId)
+                .collection("patients");
+        patientsRefs.get().addOnCompleteListener(task ->
+        {
+            if (task.isSuccessful()) {
+
+                if( task.getResult().size() == 0)
+                {
+                    spinnerP.setAdapter(null);
+                    return;
+                }
+
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Patient patient = document.toObject(Patient.class);
+                    p.add(patient.getName()+ " : " + patient.getIdentificationNumber());
+                    idse.add(patient.getPatientId());
+                }
+
+                //<!--
+                adapter1 = new ArrayAdapter<>(this,
+                        android.R.layout.simple_dropdown_item_1line, dataP);
+                spinnerP.setAdapter(adapter1);
+
+                spinnerP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        // if(true)return;
+                        String temp = "" + parent.getItemAtPosition(position).toString();
+                        patientName = temp.substring(0,temp.indexOf(" : "));
+                        patientId = temp.substring((temp.indexOf(" : ")+3),temp.length());
+                        patientPOS = position;
+                        ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                         flagComplication();
+                        //!complet
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        String temp = "" + parent.getItemAtPosition(patientPOS).toString();
+                        patientName = temp.substring(0,temp.indexOf(" : "));
+                        patientId = temp.substring((temp.indexOf(" : ")+3),temp.length());
+                        ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                        //!complet
+                    }
+                });
+
+                //-->
+
+            }
+        });
     }
 
     void flagComplication() {
 
-        if (spinnerC == null) {
-            spinnerC = findViewById(R.id.spinnerComplicationU);
-        }
+        if ( (idsP==null || idsP.size()==0) )return;
 
-        List<String> complication = new ArrayList<String>();
-        getComplication(complication);
-        dataC = complication;
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, dataC);
-        //complet
-        // ........... When create db [add code]:
-        spinnerC.setAdapter(adapter1);
-
+            dataC = new ArrayList<String>();
+            getComplication(dataC);
     }
 
-    void getComplication(List<String> p) {
+    synchronized void getComplication(List<String> p) {
         //sample of virtual Patients  for test 'should comment it after writing db code'
         //<!--
-        p.add("Eye damage : 2020/09/10");
+        /*p.add("Eye damage : 2020/09/10");
         p.add("Cardiovascular disease : 2019/07/12");
         p.add("Foot damage : 2011/08/29");
         p.add("Hearing impairment : 2008/12/12");
         p.add("Alzheimer's disease : 2003/02/28");
         p.add("Depression : 2011/01/26");
-        p.add("Nerve damage (neuropathy) : 2020/08/08");
+        p.add("Nerve damage (neuropathy) : 2020/08/08");*/
         //-->
+
+        db = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        CollectionReference patientsRefs = db.collection("patients")
+                .document(idsP.get(patientPOS))
+                .collection("complications");
+        patientsRefs.get().addOnCompleteListener(task ->
+        {
+            if (task.isSuccessful()) {
+                if( task.getResult().size() == 0)
+                {
+                    spinnerC.setAdapter(null);
+                    return;
+                }
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                   String n = document.get("ComplicationName").toString();
+                   String d = document.get("diagnosticDate").toString();
+                    p.add(n+ " : " + d);
+                }
+
+                //<!--
+
+                adapter1 = new ArrayAdapter<>(this,
+                        android.R.layout.simple_dropdown_item_1line, dataC);
+                spinnerC.setAdapter(adapter1);
+
+                spinnerC.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        String temp = "" + parent.getItemAtPosition(position).toString();
+                        complicationName = temp.substring(0,temp.indexOf(" : "));
+                        complicationDate = temp.substring((temp.indexOf(" : ")+3),temp.length());
+                        compPOS = position;
+                        // ((TextView) spinnerC.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                        //!complet
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        String temp = "" + parent.getItemAtPosition(compPOS).toString();
+                        complicationName = temp.substring(0,temp.indexOf(" : "));
+                        complicationDate = temp.substring((temp.indexOf(" : ")+3),temp.length());
+                        ((TextView) spinnerC.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                        //!complet
+                    }
+                });
+
+                //-->
+            }
+
+        });
 
         // complet db code to get Complication
         // code ...
 
     }
 
-    int searcH(String pd) {
-        int i = -1, j = -1;
+    int searcH(String pd)
+    {
+        int i=-1,j=-1;
 
-        for (String dada : dataP) {
-            j++;
-            if (dada.contains(pd) || dada.equals(pd)) {
-                i = j;
+        for(String dada : dataP)
+        { j++;
+            if(dada.contains(pd)||dada.equals(pd)){
+                i=j;
                 return i;
             }
         }
@@ -392,10 +470,12 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
         return i;
     }
 
-    void searchDO() {
+    void searchDO()
+    {
         String text = searchP.getText().toString();
 
-        if (text.isEmpty()) {
+        if(text.isEmpty())
+        {
             AlertDialog.Builder x = new AlertDialog.Builder(this);
             x.setMessage("Please complete fill the form data.").setTitle("incomplete data")
 
@@ -413,9 +493,10 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
             return;
         }
 
-        int index = searcH(text);
+        int index=searcH(text);
 
-        if (index == -1) {
+        if(index == -1)
+        {
             AlertDialog.Builder x = new AlertDialog.Builder(this);
             x.setMessage("The Patient is not Exist, or you are enter the wrong name or Id.").setTitle("Patient not Exist")
 
@@ -442,24 +523,30 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
                 //Do something after 100ms
 
                 System.out.print("\b");
-                Toast.makeText(getApplicationContext(), ""
-                        + (((TextView) spinnerP.getSelectedView()).getText().toString()
-                        + " is Selected"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),""
+                        +( ((TextView) spinnerP.getSelectedView()).getText().toString()
+                        +" is Selected"),Toast.LENGTH_SHORT).show();
 
             }
         }, 100);
 
     }
 
-    boolean ifEmptyFields() {
+    boolean ifEmptyFields()
+    {
         //complet
-        return describeC.getText().toString().isEmpty();
+        return  describeC.getText().toString().isEmpty();
     }
 
-    void updateD() {
+    void updateD(){
 
         //complet
-        if (ifEmptyFields()) {
+        if( ifEmptyFields()
+        || dataP == null
+        || dataP.size() == 0
+        || dataC == null
+        || dataC.size() == 0 )
+        {
             AlertDialog.Builder x = new AlertDialog.Builder(this);
             x.setMessage("Please complete fill the form data.").setTitle("incomplete data")
 
@@ -477,50 +564,97 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
             return;
         }
 
-        AlertDialog.Builder x = new AlertDialog.Builder(this);
-        x.setMessage("DO YOU WANT TO Update Status describe of Complication'" + complicationName + "'?").setTitle("Update Status Complication.")
+        AlertDialog.Builder   x= new AlertDialog.Builder ( this );
+        x.setMessage ( "DO YOU WANT TO Update Status describe of Complication'"+complicationName+"'?" ).setTitle ( "Update Status Complication." )
 
-                .setPositiveButton("YES_UPDATE", new DialogInterface.OnClickListener() {
+                .setPositiveButton ( "YES_UPDATE", new DialogInterface.OnClickListener () {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         updateDo();
-                        return;
-                    }
-                })
+                        return; }
+                } )
 
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        return;
-                    }
+                    public void onClick(DialogInterface dialog, int which) { return; }
                 })
 
                 .setIcon(R.drawable.qus)
-                .setPositiveButtonIcon(getDrawable(R.drawable.yes))
-                .setNegativeButtonIcon(getDrawable(R.drawable.no))
-                .show();
+                .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
+                .setNegativeButtonIcon(getDrawable ( R.drawable.no))
+                .show ();
     }
 
 
-    void updateDo() {
+    void updateDo()
+    {
 
         int year_ = datePicker.getYear();
         int month_ = datePicker.getMonth();
         int day_ = datePicker.getDayOfMonth();
-        String date_ = "" + year_ + "/" + month_ + "/" + day_;
+        String date_=""+year_+"-"+month_+"-"+day_;
 
-        String s3 = "Patient Name: " + patientName
-                + "\nPatient Id: " + patientId
-                + "\nComplication: " + complicationName
-                + "\nNew Describe of Status: " + describeC.getText().toString()
-                + "\nUPDATE Date: " + date_;
+        String s3 = "Patient Name: "+patientName
+                +"\nPatient Id: "+patientId
+                +"\nComplication: "+complicationName
+                +"\nNew Describe of Status: "+describeC.getText().toString()
+                +"\nUPDATE Date: "+date_;
 
         // add code dd
         //<!--
-
+        updateC(describeC.getText().toString(),date_);
         //-->
 
-        notification("UPDATE Status Describe of Complication", complicationName + "is UPDATED", s3);
+        notification("UPDATE Status Describe of Complication",complicationName+"is UPDATED",s3);
+
+    }
+
+    void updateC(String c, String d)
+    {
+
+        Map<String, Object> datac = new HashMap<>();
+
+        DocumentReference dec =db.collection("patients") // table
+                .document(idsP.get(patientPOS)) // patient id
+                .collection("complications")// table inside patient table
+                .document(complicationName);
+
+        dec.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @SuppressLint("LongLogTag")
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    DocumentSnapshot document = task.getResult();
+                    List<String> status = (List<String>) document.get("status");
+                    status.add(d+" : "+c);
+
+                   // Toast.makeText(getApplicationContext(),d+" : "+c,Toast.LENGTH_SHORT).show();
+
+                    dec
+                       .update("status", status)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error updating document", e);
+                                   // Toast.makeText(getApplicationContext(),d+" 11 "+c,Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+
+                }
+            }
+        });
+
 
     }
 
@@ -529,30 +663,15 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
     @Override
     public void onClick(View v) {
 
-        if (v == update) {
-            updateD();
-            return;
-        }
+        if(v == update) { updateD(); return;  }
 
-        if (v == clear) {
-            searchP.setText("");
-            return;
-        }
+        if(v == clear) {  searchP.setText(""); return; }
 
-        if (v == clearC) {
-            describeC.setText("");
-            return;
-        }
+        if(v == clearC) {  describeC.setText(""); return; }
 
-        if (v == search) {
-            searchDO();
-            return;
-        }
+        if(v == search) { searchDO(); return; }
 
-        if (v == autoTD) {
-            onCheckboxClicked(v);
-            return;
-        }
+        if (v == autoTD) { onCheckboxClicked(v); return; }
     }
 
     //time and date auto
@@ -566,9 +685,9 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
             if (checked) {
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/mm/dd hh:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
-                Functions.timeS = now.getHour() + ":" + now.getMinute();
-                Functions.dateS = now.getYear() + "/" + now.getMonthValue() + "/" + now.getDayOfMonth();
-                datePicker.init(now.getYear(), now.getMonthValue(), now.getDayOfMonth(), null);
+                Functions.timeS = now.getHour()+":"+now.getMinute();
+                Functions.dateS = now.getYear()+"/"+now.getMonthValue()+"/"+now.getDayOfMonth();
+                datePicker.init(now.getYear(),now.getMonthValue(),now.getDayOfMonth(),null);
                 datePicker.setEnabled(false);
                 tog.setVisibility(View.INVISIBLE);
 
@@ -598,7 +717,7 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
     }
 
     //
-    void notification(String s1, String s2, String s3) {
+    void notification(String s1,String s2 ,String s3) {
         NotificationManager man = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         NotificationCompat.Builder note = null;
 
@@ -629,7 +748,8 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
 
-        if (v == searchP) {
+        if(v==searchP)
+        {
             if (!hasFocus) {
                 Log.d("focus", "focus lost");
                 // Do whatever you want here
@@ -652,14 +772,14 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
             if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent(event);
+        return super.dispatchTouchEvent( event );
     }
 // "Clear focus input" -->
 
@@ -667,13 +787,13 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //Log.i(COMMON_TAG,"DoctorHomeActivity onSaveInstanceState");
+        //Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        //  Log.i(COMMON_TAG,"DoctorHomeActivity onSaveInstanceState");
+        //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
     }
 
     @Override

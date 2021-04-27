@@ -1,4 +1,13 @@
-package com.example.healthza.ui;
+package com.example.healthza;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.core.app.NotificationCompat;
+import androidx.fragment.app.DialogFragment;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
@@ -27,20 +36,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.core.app.NotificationCompat;
-import androidx.fragment.app.DialogFragment;
-
-import com.example.healthza.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -49,209 +49,229 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import static com.example.healthza.ui.Functions.TAG_CT;
+import static com.example.healthza.Functions.TAG_CT;
 
 public class AddFBStest extends AppCompatActivity implements View.OnClickListener
-        , CompoundButton.OnCheckedChangeListener
-        , View.OnFocusChangeListener {
+        ,CompoundButton.OnCheckedChangeListener
+        , View.OnFocusChangeListener
+{
 
-    private static final String ChannelID = "ADDfbsNote";
-    private static final String TAG = "AddFBSTest";
+    private static final  String ChannelID= "ADDfbsNote";
+
     CheckBox autoTD;
     ImageView dateI;
     ImageView timeI;
+
     TextView datE;
     TextView timE;
     TextView td;
-    int ct = 0;
+
     private EditText fbs;
+
     private Button clear;
     private Button add;
+
+    private static final String TAG = "AddFBSTest";
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
+    int ct = 0;
 
     //
     @SuppressLint("RestrictedApi")
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inf = getMenuInflater();
-        inf.inflate(R.menu.patient_menu, menu);
-        if (menu != null && menu instanceof MenuBuilder)
-            ((MenuBuilder) menu).setOptionalIconsVisible(true);
-        return super.onCreateOptionsMenu(menu);
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inf=getMenuInflater ();
+        inf.inflate (R.menu.patient_menu,menu);
+        if (menu!=null && menu instanceof MenuBuilder)
+            ((MenuBuilder)menu).setOptionalIconsVisible ( true );
+        return super.onCreateOptionsMenu ( menu );
     }
-
     //
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return super.onPrepareOptionsMenu(menu);
-    }
-
+    public boolean onPrepareOptionsMenu(Menu menu) { return super.onPrepareOptionsMenu ( menu ); }
     //
     @Override
-    public boolean onMenuOpened(int featureId, Menu menu) {
-        return super.onMenuOpened(featureId, menu);
-    }
-
+    public boolean onMenuOpened(int featureId, Menu menu) { return super.onMenuOpened ( featureId, menu ); }
     //
     @Override
-    public void onOptionsMenuClosed(Menu menu) {
-        super.onOptionsMenuClosed(menu);
-    }
-
+    public void onOptionsMenuClosed(Menu menu) { super.onOptionsMenuClosed ( menu ); }
     //
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
         //getSupportActionBar ().setTitle ( item.getTitle ()+ "  is pressed" );
-        switch (item.getItemId()) {
-            case R.id.newIdentifierPM: {
+        switch(item.getItemId())
+        {
+            case R.id.newIdentifierPM:
+            {
                 Intent I = new Intent(this, AddPatientIdentifier.class);
                 startActivity(I);
                 break;
             }
 
-            case R.id.newChronicDiseasesPM: {
+            case R.id.newChronicDiseasesPM:
+            {
                 Intent I = new Intent(this, newChronicDiseases.class);
                 startActivity(I);
                 break;
             }
 
-            case R.id.GlucoseTestPM: {
+            case R.id.GlucoseTestPM:
+            {
                 Intent I = new Intent(this, AddGlucoseTest.class);
                 startActivity(I);
                 break;
             }
 
-            case R.id.FBStestPM: {
+            case R.id.FBStestPM:
+            {
                /* Intent I = new Intent(this, AddFBStest.class);
                 startActivity(I);*/
                 break;
             }
 
-            case R.id.HypertensionTestPM: {
+            case R.id.HypertensionTestPM:
+            {
                 Intent I = new Intent(this, AddHypertensionTest.class);
                 startActivity(I);
                 break;
             }
 
-            case R.id.CumulativeTestPM: {
+            case R.id.CumulativeTestPM:
+            {
                 Intent I = new Intent(this, HbAlc.class);
                 startActivity(I);
                 break;
             }
 
-            case R.id.KidneysTestPM: {
-                Intent I = new Intent(this, AddKidneysTest.class);
+            case R.id.KidneysTestPM:
+            {
+                Intent I = new Intent(this, AddKidneysTest .class);
                 startActivity(I);
                 break;
             }
 
-            case R.id.LiverTestPM: {
+            case R.id.LiverTestPM:
+            {
                 Intent I = new Intent(this, AddLiverTest.class);
                 startActivity(I);
                 break;
             }
 
-            case R.id.CholesterolAndFatsTestPM: {
+            case R.id.CholesterolAndFatsTestPM:
+            {
                 Intent I = new Intent(this, AddCholesterolAndFatsTest.class);
                 startActivity(I);
                 break;
             }
 
-            case R.id.ComprehensiveTestPM: {
+            case R.id.ComprehensiveTestPM:
+            {
                 Intent I = new Intent(this, ComprehensiveTest.class);
                 startActivity(I);
                 break;
             }
 
-            case R.id.logOutPM: {
+            case R.id.requestDoctorPm:
+            {
+                startActivity(new Intent(this, PatientReceiveRequestActivity.class));
+                break;
+            }
 
-                AlertDialog.Builder x = new AlertDialog.Builder(this);
-                x.setMessage("DO YOU WANT TO LogOut?").setTitle("Patient LogOut")
+            case R.id.logOutPM:
+            {
 
-                        .setPositiveButton("YES_EXIT", new DialogInterface.OnClickListener() {
+                AlertDialog.Builder   x= new AlertDialog.Builder ( this );
+                x.setMessage ( "DO YOU WANT TO LogOut?" ).setTitle ( "Patient LogOut" )
+
+                        .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(getApplicationContext(), "LogedOut...", Toast.LENGTH_SHORT).show();
                                 //complet
                                 // finish();
+                                firebaseAuth.signOut();
                                 finishAffinity();
+                                Intent I = new Intent(getApplicationContext(),WelcomeActivity.class);
+                                startActivity(I);
                             }
-                        })
+                        } )
 
-                        .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
+                            public void onClick(DialogInterface dialog, int which) { }
                         })
 
                         .setIcon(R.drawable.qus)
-                        .setPositiveButtonIcon(getDrawable(R.drawable.yes))
-                        .setNegativeButtonIcon(getDrawable(R.drawable.no))
-                        .show();
+                        .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
+                        .setNegativeButtonIcon(getDrawable ( R.drawable.no))
+                        .show ();
 
                 break;
             }
-            default: {
-            }
+            default:{}
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected ( item );
     }
     //
 
     //
     @Override
-    public boolean onSupportNavigateUp() {
-        Log.w("Add F.B.S test.", "onSupportNavigateUp is calll");
-        onBackPressed();
-        return super.onSupportNavigateUp();
+    public boolean onSupportNavigateUp()
+    {
+        Log.w ("Add F.B.S test.", "onSupportNavigateUp is calll");
+        onBackPressed ();
+        return super.onSupportNavigateUp ();
     }
-
     //
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
         //complet
         fbs.clearFocus();
         return super.onKeyDown(keyCode, event);
     }
-
     //
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         //super.onBackPressed ();
-        Log.w("Add F.B.S test.", "this onbackpress is calll");
+        Log.w ("Add F.B.S test.", "this onbackpress is calll");
 
-        AlertDialog.Builder x = new AlertDialog.Builder(this);
-        x.setMessage("DO YOU WANT TO EXIT?").setTitle("Exit Activity'Add F.B.S test'")
+        AlertDialog.Builder   x= new AlertDialog.Builder ( this );
+        x.setMessage ( "DO YOU WANT TO EXIT?" ).setTitle ( "Exit Activity'Add F.B.S test'" )
 
-                .setPositiveButton("YES_EXIT", new DialogInterface.OnClickListener() {
+                .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.w("Add F.B.S test.", "end");
+                        Log.w ("Add F.B.S test.", "end");
                         Toast.makeText(getApplicationContext(), "Back...", Toast.LENGTH_SHORT).show();
                         //complet
                         finish();
                     }
-                })
+                } )
 
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
+                    public void onClick(DialogInterface dialog, int which) { }
                 })
 
                 .setIcon(R.drawable.qus)
-                .setPositiveButtonIcon(getDrawable(R.drawable.yes))
-                .setNegativeButtonIcon(getDrawable(R.drawable.no))
-                .show();
+                .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
+                .setNegativeButtonIcon(getDrawable ( R.drawable.no))
+                .show ();
         return;
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroy(){
         super.onDestroy();
         //complet
     }
@@ -261,17 +281,17 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_f_b_stest);
 
-        Log.w("Add F.B.S test.", "start");
-        Toast.makeText(getApplicationContext(), "Add F.B.S test....", Toast.LENGTH_SHORT).show();
-
-        ActionBar bar = getSupportActionBar();
-        bar.setHomeButtonEnabled(true);
-        bar.setDisplayHomeAsUpEnabled(true);
-        bar.setHomeAsUpIndicator(R.drawable.ex);
-        bar.setTitle("Add F.B.S test.");
-
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+
+        Log.w ("Add F.B.S test.", "start");
+        Toast.makeText(getApplicationContext(), "Add F.B.S test....", Toast.LENGTH_SHORT).show();
+
+        ActionBar bar = getSupportActionBar ();
+        bar.setHomeButtonEnabled ( true );
+        bar.setDisplayHomeAsUpEnabled ( true );
+        bar.setHomeAsUpIndicator ( R.drawable.ex);
+        bar.setTitle("Add F.B.S test.");
 
         datE = findViewById(R.id.dateText1);
         timE = findViewById(R.id.timeText1);
@@ -309,10 +329,8 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
         fbs = findViewById(R.id.innerFBSpercent);
         fbs.setOnFocusChangeListener(this);
 
-        clear = findViewById(R.id.ClearFBStest);
-        clear.setOnClickListener(this);
-        add = findViewById(R.id.AddFBStest);
-        add.setOnClickListener(this);
+        clear = findViewById(R.id.ClearFBStest);  clear.setOnClickListener (this);
+        add = findViewById(R.id.AddFBStest); add.setOnClickListener (this);
 
         //complet
 
@@ -334,7 +352,7 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
                         if (document.exists()) {
                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                             String cte = "" + document.getData().toString();
-                            ct = Integer.parseInt(cte.substring(7, cte.length() - 1));
+                            ct = Integer.parseInt(cte.substring(7,cte.length()-1));
                         } else {
                             Log.d(TAG, "No such document");
                             ct = 0;
@@ -351,7 +369,8 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
     }
 
     //Empty Fields
-    boolean ifEmptyFields() {
+    boolean ifEmptyFields()
+    {
         //complet
         boolean empty = false;
         empty = empty || timE.getText().toString().equals("HH:MM");
@@ -360,9 +379,11 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
     }
 
     // do
-    void adD() {
+    void adD()
+    {
         //complet
-        if (ifEmptyFields()) {
+        if(ifEmptyFields())
+        {
             AlertDialog.Builder x = new AlertDialog.Builder(this);
             x.setMessage("Please complete fill the form data.").setTitle("incomplete data")
 
@@ -381,13 +402,13 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
         }
 
 
-        AlertDialog.Builder x = new AlertDialog.Builder(this);
-        x.setMessage("DO YOU WANT TO ADD F.B.S TEST?").setTitle("Add F.B.S test")
+        AlertDialog.Builder   x= new AlertDialog.Builder ( this );
+        x.setMessage ( "DO YOU WANT TO ADD F.B.S TEST?" ).setTitle ( "Add F.B.S test" )
 
-                .setPositiveButton("YES_ADD", new DialogInterface.OnClickListener() {
+                .setPositiveButton ( "YES_ADD", new DialogInterface.OnClickListener () {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.w("ADD TEST", "ADD F.B.S TEST");
+                        Log.w ("ADD TEST", "ADD F.B.S TEST");
                         // functions and codes
                         //complet
                         addTest();
@@ -397,32 +418,32 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
 
 
                     }
-                })
+                } )
 
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
+                    public void onClick(DialogInterface dialog, int which) { }
                 })
 
                 .setIcon(R.drawable.qus)
-                .setPositiveButtonIcon(getDrawable(R.drawable.yes))
-                .setNegativeButtonIcon(getDrawable(R.drawable.no))
-                .show();
+                .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
+                .setNegativeButtonIcon(getDrawable ( R.drawable.no))
+                .show ();
 
     }
 
     // clear
-    void cleaR() {
+    void cleaR()
+    {
         //complet
 
-        AlertDialog.Builder x = new AlertDialog.Builder(this);
-        x.setMessage("DO YOU WANT TO CLEAR FIELDS?").setTitle("Clear Fields")
+        AlertDialog.Builder   x= new AlertDialog.Builder ( this );
+        x.setMessage ( "DO YOU WANT TO CLEAR FIELDS?" ).setTitle ( "Clear Fields" )
 
-                .setPositiveButton("YES_CLEAR", new DialogInterface.OnClickListener() {
+                .setPositiveButton ( "YES_CLEAR", new DialogInterface.OnClickListener () {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.w("CLEAR FIELDS", "F.B.S TEST CLEAR FIELDS");
+                        Log.w ("CLEAR FIELDS", "F.B.S TEST CLEAR FIELDS");
                         Toast.makeText(getApplicationContext(), "FIELDS IS CLEARD...", Toast.LENGTH_SHORT).show();
                         // functions and codes
                         //complet
@@ -433,26 +454,23 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
                         fbs.setText("");
 
                     }
-                })
+                } )
 
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
+                    public void onClick(DialogInterface dialog, int which) { }
                 })
 
                 .setIcon(R.drawable.qus)
-                .setPositiveButtonIcon(getDrawable(R.drawable.yes))
-                .setNegativeButtonIcon(getDrawable(R.drawable.no))
-                .show();
+                .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
+                .setNegativeButtonIcon(getDrawable ( R.drawable.no))
+                .show ();
 
     }
 
     //Date Picker
     public void showDatePickerDialog() {
-        Functions.DatePickerFragment.setYear(0);
-        Functions.DatePickerFragment.setMonth(0);
-        Functions.DatePickerFragment.setDay(0);
+        Functions.DatePickerFragment.setYear(0); Functions.DatePickerFragment.setMonth(0); Functions.DatePickerFragment.setDay(0);
         DialogFragment newFragment = new Functions.DatePickerFragment(datE);
         newFragment.show(getSupportFragmentManager(), "datePicker");
         newFragment = null;
@@ -460,8 +478,7 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
 
     //Time Picker
     public void showTimePickerDialog() {
-        Functions.TimePickerFragment.setHour(0);
-        Functions.TimePickerFragment.setMinute(0);
+        Functions.TimePickerFragment.setHour(0); Functions.TimePickerFragment.setMinute(0);
         DialogFragment newFragment = new Functions.TimePickerFragment(timE);
         newFragment.show(getSupportFragmentManager(), "timePicker");
         newFragment = null;
@@ -482,8 +499,8 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
 
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/mm/dd hh:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
-                Functions.timeS = now.getHour() + ":" + now.getMinute();
-                Functions.dateS = now.getYear() + "-" + now.getMonthValue() + "-" + now.getDayOfMonth();
+                Functions.timeS = now.getHour()+":"+now.getMinute();
+                Functions.dateS = now.getYear()+"-"+now.getMonthValue()+"-"+now.getDayOfMonth();
                 timE.setText(Functions.timeS);
                 datE.setText(Functions.dateS);
             } else {
@@ -500,25 +517,17 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.AddFBStest) {
-            adD();
-            return;
-        }
-        if (v.getId() == R.id.ClearFBStest) {
-            cleaR();
-            return;
-        }
-        if (v == autoTD) {
-            onCheckboxClicked(v);
-            return;
-        }
+        if (v.getId() == R.id.AddFBStest) { adD(); return; }
+        if (v.getId() == R.id.ClearFBStest) { cleaR(); return; }
+        if (v == autoTD) { onCheckboxClicked(v); return; }
 
     }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
 
-        if (v == fbs) {
+        if(v==fbs)
+        {
             if (!hasFocus) {
                 Log.d("focus", "focus lost");
                 // Do whatever you want here
@@ -547,14 +556,14 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
             if (v instanceof EditText) {
                 Rect outRect = new Rect();
                 v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
                     v.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         }
-        return super.dispatchTouchEvent(event);
+        return super.dispatchTouchEvent( event );
     }
 // "Clear focus input" -->
 
@@ -574,40 +583,41 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
         }
     }
 
-    void notification(String text) {
-        NotificationManager man = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        NotificationCompat.Builder note = null;
+    void notification(String text)
+    {
+        NotificationManager man= (NotificationManager)getSystemService ( NOTIFICATION_SERVICE );
+        NotificationCompat.Builder  note=null;
 
 
         createChannel();
 
-        NotificationCompat.BigTextStyle bigtext = new NotificationCompat.BigTextStyle();
-        bigtext.setBigContentTitle("Test Type:" + text);
-        bigtext.bigText("Test Date:" + datE.getText().toString() + " && Test Time:" + timE.getText().toString());
-        bigtext.setSummaryText("New  Test ADD");
+        NotificationCompat.BigTextStyle bigtext = new NotificationCompat.BigTextStyle ();
+        bigtext.setBigContentTitle ("Test Type:"+text);
+        bigtext.bigText ("Test Date:"+ datE.getText().toString()+ " && Test Time:"+timE.getText().toString() );
+        bigtext.setSummaryText ("New  Test ADD");
 
-        note = new NotificationCompat.Builder(getApplicationContext(), ChannelID)
+        note = new NotificationCompat.Builder ( getApplicationContext(),ChannelID )
                 /*.setContentTitle ( "New  Test ADD"  )
                 .setSubText ( "Test Type:"+text
                         +"\nTest Date:"+ datE.getText().toString()
                         +"\nTest Time:"+timE.getText().toString()  )
                 .setContentText ("")*/
-                .setOngoing(false)
-                .setColor(Color.RED)
-                .setColorized(true)
-                .setPriority(NotificationManager.IMPORTANCE_HIGH)
+                .setOngoing ( false )
+                .setColor ( Color.RED  )
+                .setColorized ( true )
+                .setPriority ( NotificationManager.IMPORTANCE_HIGH )
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setShowWhen(true)
-                .setUsesChronometer(true)
-                .setSmallIcon(R.drawable.icof)
-                .setStyle(bigtext)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.icof))
-                .setAutoCancel(true)
+                .setShowWhen ( true )
+                .setUsesChronometer ( true )
+                .setSmallIcon ( R.drawable.icof)
+                .setStyle ( bigtext )
+                .setLargeIcon ( BitmapFactory.decodeResource ( getResources (),R.drawable.icof ) )
+                .setAutoCancel ( true )
         //.setOnlyAlertOnce(true)
         //.addAction ( R.drawable.no,"Mark Complete", markCompleteIntent);
         ;
 
-        man.notify(++Functions.ne, note.build());
+        man.notify (++Functions.ne, note.build ());
 
     }
 
@@ -615,18 +625,19 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //Log.i(COMMON_TAG,"DoctorHomeActivity onSaveInstanceState");
+        //Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        //  Log.i(COMMON_TAG,"DoctorHomeActivity onSaveInstanceState");
+        //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
     }
 
     // db code;
 
-    private void addTest() {
+    private void addTest()
+    {
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {
@@ -665,26 +676,90 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
             dataTest.put("date_add", datE.getText().toString());
             dataTest.put("time_add", timE.getText().toString());
             dataTest.put("fbs_percent", Float.parseFloat(fbs.getText().toString()));
+            dataTest.put("sub", false);
 
-            db.collection("patients") // table
+            DocumentReference DRC = db.collection("patients") // table
                     .document(userId) // patient id
                     .collection("tests")// table inside patient table
-                    .document(datE.getText().toString())
-                    .collection("fbs_test")
-                    .document("test# : " + ct)
-                    .set(dataTest)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                    .document("fbs_test");
+
+            DRC.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+
+                        DocumentSnapshot document = task.getResult();
+                        List<String> dates = (List<String>) document.get("dates");
+                        if((dates==null)||(dates.size()==0))
+                        {
+                            Map<String, Object> datae = new HashMap<>();
+                            dates = new ArrayList<>();
+                            dates.add(datE.getText().toString());
+                            datae.put("dates",dates);
+                            DRC.set(datae)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error writing document", e);
+                                        }
+                                    });
                         }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error writing document", e);
+
+                        else {
+                            boolean bool =false;
+                            for(int i=0;((i<dates.size())&&(!bool));i++) {
+                                if (dates.get(i).equals(datE.getText().toString()))
+                                {  bool = true; }
+                            }
+                            if(!bool)
+                            {
+                            dates.add(datE.getText().toString());
+                            DRC.update("dates", dates)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error updating document", e);
+                                            // Toast.makeText(getApplicationContext(),d+" 11 "+c,Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                         }
-                    });
+                        }
+                        //
+                        DRC.collection(datE.getText().toString())
+                                .document("test# : "+ct)
+                                .set(dataTest)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+
+                    }
+                }
+            });
 
             //end add test -->
 
