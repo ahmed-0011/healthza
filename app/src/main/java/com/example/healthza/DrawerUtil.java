@@ -6,7 +6,6 @@ import android.view.View;
 
 import com.example.healthza.ui.DoctorListActivity;
 import com.example.healthza.ui.DoctorSendRequestActivity;
-import com.example.healthza.ui.PatientListActivity;
 import com.example.healthza.ui.PatientReceiveRequestActivity;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
