@@ -1,4 +1,4 @@
-package com.example.healthza;
+package com.example.healthza.ui;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -31,17 +31,16 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import com.example.healthza.AddCholesterolAndFatsTest;
+import com.example.healthza.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.healthza.Functions.TAG_CT;
 
 public class AddPatientIdentifier extends AppCompatActivity implements View.OnClickListener
         ,CompoundButton.OnCheckedChangeListener

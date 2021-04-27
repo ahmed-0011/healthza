@@ -1,4 +1,4 @@
-package com.example.healthza;
+package com.example.healthza.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -31,6 +31,14 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
+import com.example.healthza.AddCholesterolAndFatsTest;
+import com.example.healthza.AddFBStest;
+import com.example.healthza.AddGlucoseTest;
+import com.example.healthza.AddHypertensionTest;
+import com.example.healthza.AddKidneysTest;
+import com.example.healthza.AddLiverTest;
+import com.example.healthza.AddPatientIdentifier;
+import com.example.healthza.Functions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -138,7 +146,7 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
 
             case R.id.KidneysTestPM:
             {
-                Intent I = new Intent(this, AddKidneysTest .class);
+                Intent I = new Intent(this, AddKidneysTest.class);
                 startActivity(I);
                 break;
             }

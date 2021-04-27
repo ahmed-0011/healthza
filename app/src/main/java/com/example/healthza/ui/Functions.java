@@ -1,4 +1,4 @@
-package com.example.healthza;
+package com.example.healthza.ui;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

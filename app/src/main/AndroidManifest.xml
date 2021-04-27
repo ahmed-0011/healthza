@@ -19,25 +19,25 @@
         <activity
             android:name=".ui.DoctorListActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/noActionBarTheme" />
         <activity
             android:name=".ui.PatientReceiveRequestActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/noActionBarTheme" />
         <activity
             android:name=".ui.DoctorSendRequestActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/noActionBarTheme" />
 
         <activity
             android:name=".ui.PatientListActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/noActionBarTheme" />
 
         <activity
             android:name=".ui.PatientHomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/noActionBarTheme" />
         <activity
             android:name=".ui.EmailVerificationCodeActivity"
             android:screenOrientation="portrait"

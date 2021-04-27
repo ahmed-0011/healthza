@@ -1,4 +1,4 @@
-package com.example.healthza;
+package com.example.healthza.ui;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;

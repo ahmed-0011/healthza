@@ -1,4 +1,4 @@
-package com.example.healthza;
+package com.example.healthza.ui;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -36,6 +36,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.healthza.AddCholesterolAndFatsTest;
+import com.example.healthza.AddPatientIdentifier;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
