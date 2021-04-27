@@ -4,60 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
     android:background="@color/background_color"
-    tools:context=".DoctorListActivity">
+    android:padding="6dp"
+    tools:context=".ui.DoctorListActivity">
+
+    <SearchView
+        android:id="@+id/doctorsSearchView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/search_background"
+        android:iconifiedByDefault="false"
+        android:queryHint="@string/doctor_name_or_phonenumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/doctorssRecyclerView"
+        android:id="@+id/doctorsRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_recyclerview"
         android:padding="4dp"
-        app:layout_constraintBottom_toTopOf="@id/patientKeyWordInputLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/doctorsSearchView"
+        tools:itemCount="5"
+        tools:listitem="@layout/list_item_doctor" />
+
+    <ImageView
+        android:id="@+id/emptyDoctorListImageView"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:itemCount="4"
-        tools:listitem="@layout/list_item_doctor" />
+        app:srcCompat="@drawable/ic_doctor" />
 
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/patientKeyWordInputLayout"
-        style="@style/textInputLayoutFilledBox"
+    <TextView
+        android:id="@+id/emptyDoctorListTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
-        android:hint="@string/name_or_id_or_phone_number_hint"
-        app:layout_constraintBottom_toTopOf="@id/searchButton"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/empty_doctor_list"
+        android:textSize="22sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/doctorKeyWordInputEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:inputType="textPersonName"
-            android:selectAllOnFocus="true"
-            android:textColorHint="@color/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="parent" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/searchButton"
-        style="@style/buttonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/search"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emptyDoctorListImageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

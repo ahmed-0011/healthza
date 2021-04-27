@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".addComplications">
+        tools:context=".ui.addComplications">
 
         <Button
             android:id="@+id/addComplication"

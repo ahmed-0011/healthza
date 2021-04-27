@@ -61,6 +61,8 @@
         <item name="strokeColor">@color/colorPrimaryDark</item>
         <item name="strokeWidth">2dp</item>
     </style>
+
+
     <style name="listItemButtonStyle" parent="@style/Widget.MaterialComponents.Button">
     <item name="android:minWidth">0dp</item>
     <item name="android:minHeight">0dp</item>
@@ -84,18 +86,6 @@
         <item name="startIconTint">@color/hint_color</item>
         <item name="endIconTint">@color/hint_color</item>
         <item name="hintAnimationEnabled">true</item>
-    </style>
-
-
-    <style name="materialDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorSecondary">@color/colorPrimaryDark</item>
-        <item name="colorSurface">@color/colorAccent</item>
-        <item name="colorOnSurface">@color/purple_200</item>
-        <item name="alertDialogStyle">@style/MaterialAlertDialog.MaterialComponents.Title.Text</item>
-        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.MaterialComponents.Title.Text</item>
-        <item name="buttonBarPositiveButtonStyle">@style/Widget.MaterialComponents.Button.UnelevatedButton</item>
-        <item name="buttonBarNeutralButtonStyle">@style/Widget.MaterialComponents.Button.UnelevatedButton</item>
     </style>
 
 </resources>

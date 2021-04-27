@@ -11,7 +11,7 @@
     android:layout_height="wrap_content"
     android:background="#FAE6F0"
     android:foregroundGravity="center"
-    tools:context=".newChronicDiseases">
+    tools:context=".ui.newChronicDiseases">
 
     <View
         android:id="@+id/divider2"

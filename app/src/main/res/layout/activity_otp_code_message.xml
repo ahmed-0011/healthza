@@ -17,7 +17,7 @@
         android:paddingTop="8dp"
         android:paddingRight="8dp"
         android:paddingBottom="8dp"
-        tools:context=".OTPCodeMessageActivity">
+        tools:context=".ui.OTPCodeMessageActivity">
 
         <ImageView
             android:id="@+id/codeVerificationMessageImageView"

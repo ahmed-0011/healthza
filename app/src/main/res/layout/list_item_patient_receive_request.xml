@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="6dp">
+    android:paddingBottom="8dp">
 
 
     <com.google.android.material.card.MaterialCardView
@@ -25,14 +25,19 @@
 
             <TextView
                 android:id="@+id/requestDateTextView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
+                android:background="@drawable/request_date_rounded_textview"
                 android:gravity="center"
+                android:paddingStart="25dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="25dp"
+                android:paddingBottom="4dp"
                 android:text="@string/request_date"
-                android:textColor="@color/txt_black"
-                android:textSize="16sp"
+                android:textColor="#0f486b"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -79,6 +84,7 @@
                 android:layout_marginEnd="8dp"
                 android:backgroundTint="@color/green"
                 android:text="@string/accept"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/cancelButton"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -94,6 +100,7 @@
                 android:layout_marginEnd="16dp"
                 android:backgroundTint="@color/red"
                 android:text="@string/cancel"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/requestSeperatorView" />

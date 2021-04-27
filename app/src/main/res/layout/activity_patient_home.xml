@@ -8,7 +8,7 @@
     android:background="@color/background_color"
     android:clickable="true"
     android:focusable="true"
-    tools:context=".PatientHomeActivity">
+    tools:context=".ui.PatientHomeActivity">
 
 
     <com.ismaeldivita.chipnavigation.ChipNavigationBar

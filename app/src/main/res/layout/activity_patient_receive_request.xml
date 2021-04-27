@@ -5,34 +5,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    android:padding="8dp"
-    tools:context=".PatientReceiveRequestActivity">
+    android:padding="6dp"
+    tools:context=".ui.PatientReceiveRequestActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/receiveRequestsRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="4dp"
         android:background="@drawable/rounded_recyclerview"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         tools:itemCount="6"
-        tools:listitem="@layout/list_item_patient_receive_request"/>
+        tools:listitem="@layout/list_item_patient_receive_request" />
+
+    <ImageView
+        android:id="@+id/emptyReceiveRequestListImageView"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_patient_add_request" />
 
     <TextView
-        android:id="@+id/emptyRequestListTextView"
+        android:id="@+id/emptyReceiveRequestListTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="There is no add requests yet!"
-        android:textSize="24sp"
+        android:layout_marginTop="16dp"
         android:gravity="center"
+        android:text="@string/empty_receive_request_list"
+        android:textSize="22sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
+        app:layout_constraintTop_toBottomOf="@id/emptyReceiveRequestListImageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,7 +14,7 @@
         android:clickable="true"
         android:focusable="true"
         android:padding="16dp"
-        tools:context=".RegisterActivity">
+        tools:context=".ui.RegisterActivity">
 
         <TextView
             android:id="@+id/registerTextView"
@@ -83,7 +83,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/nameInputLayout">
 
-
             <TextView
                 android:id="@+id/userTypeTextView"
                 android:layout_width="wrap_content"
@@ -94,9 +93,9 @@
                 android:text="@string/you_are_text"
                 android:textColor="@color/hint_color"
                 android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/emailInputLayout"
+                app:layout_constraintBottom_toBottomOf="@+id/nameInputLayout"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nameInputLayout" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <RadioButton
                 android:id="@+id/patientRadioButton"
@@ -134,7 +133,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/userTypeRadioGroup">
 
-
             <TextView
                 android:id="@+id/sexTextView"
                 android:layout_width="wrap_content"
@@ -144,9 +142,9 @@
                 android:text="@string/sex_text"
                 android:textColor="@color/hint_color"
                 android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/emailInputLayout"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nameInputLayout" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <RadioButton
                 android:id="@+id/maleRadioButton"
@@ -284,7 +282,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
-            android:hint="@string/phone_number_hint"
+            android:hint="@string/phonenumber_hint"
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

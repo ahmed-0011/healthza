@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:paddingBottom="6dp">
 
-
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,19 +34,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/patientPhoneNumberTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:padding="4dp"
-                android:text="@string/phonenumber"
-                android:textColor="@color/hint_color"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/patientNameTextView" />
-
-            <TextView
                 android:id="@+id/patientIdentificationNumberTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -58,7 +44,20 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/patientPhoneNumberTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/patientNameTextView" />
+
+            <TextView
+                android:id="@+id/patientPhoneNumberTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:padding="4dp"
+                android:text="@string/phonenumber"
+                android:textColor="@color/hint_color"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/patientIdentificationNumberTextView" />
 
             <View
                 android:id="@+id/patientSeperatorView"
@@ -68,7 +67,7 @@
                 android:background="@color/seperator_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/patientIdentificationNumberTextView" />
+                app:layout_constraintTop_toBottomOf="@id/patientPhoneNumberTextView" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/profileButton"
@@ -94,6 +93,7 @@
                 android:layout_marginEnd="8dp"
                 android:backgroundTint="@color/red"
                 android:text="@string/remove"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/patientSeperatorView" />

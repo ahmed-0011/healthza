@@ -13,7 +13,7 @@
         android:background="@drawable/background"
         android:textAlignment="center"
         android:textDirection="firstStrong"
-        tools:context=".AddKidneysTest">
+        tools:context=".ui.AddKidneysTest">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/outerUreaPercent"

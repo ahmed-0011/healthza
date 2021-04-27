@@ -5,61 +5,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    android:padding="8dp"
-    tools:context=".PatientListActivity">
+    android:padding="6dp"
+    tools:context=".ui.PatientListActivity">
 
+    <SearchView
+        android:id="@+id/patientsSearchView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/search_background"
+        android:iconifiedByDefault="false"
+        android:queryHint="@string/patient_name_or_id_or_phonenumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/patientsRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_recyclerview"
         android:padding="4dp"
-        app:layout_constraintBottom_toTopOf="@id/patientKeyWordInputLayout"
+        app:layout_constraintTop_toBottomOf="@id/patientsSearchView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:itemCount="4"
+        tools:listitem="@layout/list_item_patient" />
+
+    <ImageView
+        android:id="@+id/emptyPatientListImageView"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:itemCount="5"
-        tools:listitem="@layout/list_item_patient" />
+        app:srcCompat="@drawable/ic_patient" />
 
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/patientKeyWordInputLayout"
-        style="@style/textInputLayoutFilledBox"
+    <TextView
+        android:id="@+id/emptyPatientListTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
-        android:hint="@string/name_or_id_or_phone_number_hint"
-        app:layout_constraintBottom_toTopOf="@id/searchButton"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/empty_patient_list"
+        android:textSize="22sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/patientKeyWordInputEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:inputType="textPersonName"
-            android:selectAllOnFocus="true"
-            android:textColorHint="@color/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="parent" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/searchButton"
-        style="@style/buttonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/search"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emptyPatientListImageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

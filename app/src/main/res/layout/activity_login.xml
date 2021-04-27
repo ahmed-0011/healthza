@@ -17,7 +17,7 @@
         android:paddingTop="16dp"
         android:paddingRight="16dp"
         android:paddingBottom="16dp"
-        tools:context=".LoginActivity">
+        tools:context=".ui.LoginActivity">
 
         <TextView
             android:id="@+id/loginTextView"

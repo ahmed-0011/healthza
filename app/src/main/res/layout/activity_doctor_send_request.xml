@@ -1,78 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/doctorSendRequestConstraintLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/doctorSendRequestConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
     android:background="@color/background_color"
-    tools:context=".DoctorSendRequestActivity">
+    android:padding="6dp"
+    tools:context=".ui.DoctorSendRequestActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sendRequestsRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
-        android:padding="4dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_recyclerview"
-        app:layout_constraintBottom_toTopOf="@+id/patientEmailInputLayout"
+        android:padding="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/addPatientButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="4"
-        tools:listitem="@layout/list_item_doctor_send_request"/>
+        tools:listitem="@layout/list_item_doctor_send_request_pending" />
+
+    <Button
+        android:id="@+id/addPatientButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_add_button"
+        android:elevation="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/add_patient"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:shapeAppearanceOverlay="@style/roundedButtonStyle" />
+
+    <ImageView
+        android:id="@+id/emptySendRequestListImageView"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_patient_add_request" />
 
     <TextView
-        android:id="@+id/emptyRequestListTextView"
+        android:id="@+id/emptySendRequestListTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="request list is empty!"
-        android:textSize="24sp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
         android:gravity="center"
+        android:text="@string/empty_send_request_list"
+        android:textSize="22sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/patientEmailInputLayout"
-        style="@style/textInputLayoutFilledBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
-        android:hint="email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/addPatientButton">
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/patientEmailInputEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        android:inputType="text"
-        android:selectAllOnFocus="true"
-        android:textColorHint="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/addPatientButton"
-        style="@style/buttonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_patient"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
+        app:layout_constraintTop_toBottomOf="@id/emptySendRequestListImageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

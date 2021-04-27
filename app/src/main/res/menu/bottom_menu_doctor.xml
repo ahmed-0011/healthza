@@ -8,7 +8,7 @@
         app:cnb_iconColor="@color/colorPrimaryDark" />
 
     <item
-        android:id="@+id/paitentsItem"
+        android:id="@+id/patientsItem"
         android:icon="@drawable/ic_patients"
         android:title="@string/patients"
         app:cnb_iconColor="@color/colorPrimaryDark" />

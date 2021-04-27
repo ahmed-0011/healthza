@@ -13,7 +13,7 @@
         android:background="@drawable/background"
         android:textAlignment="center"
         android:textDirection="firstStrong"
-        tools:context=".AddFBStest">
+        tools:context=".ui.AddFBStest">
 
         <ImageView
             android:id="@+id/TimeIcon1"

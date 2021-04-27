@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <RadioButton
+        android:id="@+id/identificationNumberRadioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:backgroundTint="@color/background_color"
+        android:buttonTint="@color/colorPrimaryDark"
+        android:checked="true"
+        android:elevation="4dp"
+        android:paddingEnd="8dp"
+        android:text="@string/identification_number"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/identificationNumberEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rounded_edittext"
+        android:hint="@string/enter_identification_number"
+        android:inputType="number"
+        android:padding="10dp"
+        android:textColor="@color/txt_black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/identificationNumberRadioButton" />
+
+    <RadioButton
+        android:id="@+id/emailRadioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:buttonTint="@color/colorPrimaryDark"
+        android:elevation="4dp"
+        android:paddingEnd="8dp"
+        android:text="@string/email_hint"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/identificationNumberEditText" />
+
+    <EditText
+        android:id="@+id/patientEmailEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rounded_edittext"
+        android:enabled="false"
+        android:hint="@string/enter_email"
+        android:inputType="textEmailAddress"
+        android:padding="10dp"
+        android:textColor="@color/txt_black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emailRadioButton" />
+
+    <RadioButton
+        android:id="@+id/phoneNumberRadioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:buttonTint="@color/colorPrimaryDark"
+        android:elevation="4dp"
+        android:paddingEnd="8dp"
+        android:text="@string/phonenumber_hint"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/patientEmailEditText" />
+
+    <EditText
+        android:id="@+id/phoneNumberEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rounded_edittext"
+        android:enabled="false"
+        android:hint="@string/enter_phonenumber"
+        android:inputType="phone"
+        android:padding="10dp"
+        android:textColor="@color/txt_black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/phoneNumberRadioButton" />
+
+    <Button
+        android:id="@+id/addPatientButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/background_color"
+        android:drawableLeft="@drawable/ic_add_button"
+        android:drawableTint="@color/colorPrimary"
+        android:elevation="10dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="20dp"
+        android:text="@string/add1"
+        android:textAllCaps="false"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/phoneNumberEditText"
+        app:shapeAppearanceOverlay="@style/roundedButtonStyle" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

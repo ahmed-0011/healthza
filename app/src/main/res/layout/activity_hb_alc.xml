@@ -13,7 +13,7 @@
         android:background="@drawable/background"
         android:textAlignment="center"
         android:textDirection="firstStrong"
-        tools:context=".HbAlc">
+        tools:context=".ui.HbAlc">
 
         <ImageView
             android:id="@+id/TimeIcon2"

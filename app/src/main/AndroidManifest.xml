@@ -9,25 +9,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Theme.Healthza">
-        <activity android:name=".DoctorListActivity"
-            android:theme="@style/noActionBarTheme"/>
+        <activity android:name=".ui.DoctorChatListActivity"></activity>
+        <activity android:name=".ui.ChatMessagesActivity" />
+        <activity android:name=".ui.PatientChatListActivity" />
         <activity
-            android:name=".PatientReceiveRequestActivity"
+            android:name=".ui.DoctorListActivity"
             android:theme="@style/noActionBarTheme" />
         <activity
-            android:name=".DoctorSendRequestActivity"
-            android:theme="@style/noActionBarTheme" />
-        <activity android:name=".PatientListActivity"
-            android:theme="@style/noActionBarTheme"/>
-        <activity
-            android:name=".PatientHomeActivity"
+            android:name=".ui.PatientReceiveRequestActivity"
             android:theme="@style/noActionBarTheme" />
         <activity
-            android:name=".EmailVerificationCodeActivity"
+            android:name=".ui.DoctorSendRequestActivity"
+            android:theme="@style/noActionBarTheme" />
+        <activity
+            android:name=".ui.PatientListActivity"
+            android:theme="@style/noActionBarTheme" />
+        <activity
+            android:name=".ui.PatientHomeActivity"
+            android:theme="@style/noActionBarTheme" />
+        <activity
+            android:name=".ui.EmailVerificationCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/noActionBarTheme" />
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".ui.SplashScreenActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/splashScreenStyle">
@@ -38,73 +43,73 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".ui.WelcomeActivity"
             android:theme="@style/noActionBarTheme" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".ui.RegisterActivity"
             android:theme="@style/noActionBarTheme" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.LoginActivity"
             android:theme="@style/noActionBarTheme" />
         <activity
-            android:name=".OTPCodeMessageActivity"
+            android:name=".ui.OTPCodeMessageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/noActionBarTheme" />
         <activity
-            android:name=".ResetPasswordMessageActivity"
+            android:name=".ui.ResetPasswordMessageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/noActionBarTheme" />
         <activity
-            android:name=".ResetPasswordActivity"
+            android:name=".ui.ResetPasswordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/noActionBarTheme" />
         <activity
-            android:name=".OTPCodeActivity"
+            android:name=".ui.OTPCodeActivity"
             android:theme="@style/noActionBarTheme" />
         <activity
-            android:name=".ForgotPasswordActivity"
+            android:name=".ui.ForgotPasswordActivity"
             android:theme="@style/noActionBarTheme" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.DoctorHomeActivity"
             android:theme="@style/noActionBarTheme" />
         <activity
-            android:name=".newChronicDiseases"
+            android:name=".ui.newChronicDiseases"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name=".HbAlc"
+            android:name=".ui.HbAlc"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name=".ComprehensiveTest"
+            android:name=".ui.ComprehensiveTest"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name=".AddLiverTest"
+            android:name=".ui.AddLiverTest"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name=".AddKidneysTest"
+            android:name=".ui.AddKidneysTest"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name=".AddHypertensionTest"
+            android:name=".ui.AddHypertensionTest"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name=".AddGlucoseTest"
+            android:name=".ui.AddGlucoseTest"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name=".AddFBStest"
+            android:name=".ui.AddFBStest"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name=".AddCholesterolAndFatsTest"
+            android:name=".ui.AddCholesterolAndFatsTest"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name=".updateComplicationStatus"
+            android:name=".ui.updateComplicationStatus"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name=".addComplications"
+            android:name=".ui.addComplications"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name=".addNewTestAppointment"
+            android:name=".ui.addNewTestAppointment"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name=".AddPatientIdentifier"
+            android:name=".ui.AddPatientIdentifier"
             android:configChanges="orientation|screenSize|keyboardHidden" />
     </application>
 

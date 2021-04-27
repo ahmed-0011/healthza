@@ -13,7 +13,7 @@
         android:background="@drawable/background"
         android:textAlignment="center"
         android:textDirection="firstStrong"
-        tools:context=".AddHypertensionTest">
+        tools:context=".ui.AddHypertensionTest">
 
         <ImageView
             android:id="@+id/TimeIcon3"

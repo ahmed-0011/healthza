@@ -3,153 +3,199 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:clickable="true"
     android:focusable="true"
-    android:padding="4dp">
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/patientEmailTextView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="24dp"
-        android:padding="3dp"
+        android:layout_marginTop="16dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
         android:text="@string/email"
         android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/patientEmailEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_edittext"
+        android:inputType="textEmailAddress"
+        android:padding="10dp"
+        android:textColor="@color/txt_black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/patientEmailTextView"
+        app:layout_constraintTop_toTopOf="@id/patientEmailTextView" />
+
     <TextView
         android:id="@+id/patientSexTextView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
-        android:padding="3dp"
-        android:text="@string/sex_text"
+        android:layout_marginTop="12dp"
+        android:paddingTop="9dp"
+        android:paddingBottom="9dp"
+        android:text="@string/sex"
         android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/patientEmailTextView" />
+
+    <RadioGroup
+        android:id="@+id/patientSexRadioGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/patientSexTextView"
+        app:layout_constraintTop_toTopOf="@id/patientSexTextView">
+
+        <RadioButton
+            android:id="@+id/maleRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:buttonTint="@color/colorPrimaryDark"
+            android:drawableStart="@drawable/ic_male"
+            android:elevation="4dp"
+            android:paddingEnd="8dp"
+            android:text="@string/male_text"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/femaleRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:buttonTint="@color/colorPrimaryDark"
+            android:drawableStart="@drawable/ic_female"
+            android:elevation="4dp"
+            android:paddingEnd="8dp"
+            android:text="@string/female_text"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </RadioGroup>
 
     <TextView
         android:id="@+id/patientWeightTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
-        android:padding="3dp"
+        android:layout_marginTop="12dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
         android:text="@string/weight"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/patientSexTextView" />
 
-    <ImageButton
-        android:id="@+id/editWeightImageButton"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/patientWeightEditText"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/ic_edit"
+        android:background="@drawable/rounded_edittext"
+        android:inputType="numberDecimal"
+        android:padding="10dp"
+        android:textColor="@color/txt_black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.08"
-        app:layout_constraintStart_toEndOf="@+id/patientWeightTextView"
-        app:layout_constraintTop_toBottomOf="@+id/patientSexTextView" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/patientWeightTextView"
+        app:layout_constraintTop_toTopOf="@id/patientWeightTextView" />
 
     <TextView
         android:id="@+id/patientHeightTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
-        android:padding="3dp"
+        android:layout_marginTop="12dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
         android:text="@string/height"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/patientWeightTextView" />
 
-    <ImageButton
-        android:id="@+id/editHeightImageButton"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/patientHeightEditText"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/ic_edit"
+        android:background="@drawable/rounded_edittext"
+        android:inputType="numberDecimal"
+        android:padding="10dp"
+        android:textColor="@color/txt_black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.08"
-        app:layout_constraintStart_toEndOf="@+id/patientHeightTextView"
-        app:layout_constraintTop_toBottomOf="@+id/editWeightImageButton" />
-
-    <TextView
-        android:id="@+id/patientBMITextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
-        android:padding="3dp"
-        android:text="@string/bmi"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/patientHeightTextView" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/patientHeightTextView"
+        app:layout_constraintTop_toTopOf="@id/patientHeightTextView" />
 
     <TextView
         android:id="@+id/patientDiseasesTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="36dp"
-        android:padding="3dp"
+        android:layout_marginTop="20dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
         android:text="@string/diseases"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/patientBMITextView" />
+        app:layout_constraintTop_toBottomOf="@id/patientHeightTextView" />
 
-    <ImageButton
-        android:id="@+id/editDiseasesImageButton"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/patientDiseasesEditText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:background="@drawable/ic_edit"
+        android:background="@drawable/rounded_edittext"
+        android:inputType="text"
+        android:padding="10dp"
+        android:textColor="@color/txt_black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.08"
-        app:layout_constraintStart_toEndOf="@+id/patientDiseasesTextView"
-        app:layout_constraintTop_toBottomOf="@+id/patientBMITextView" />
-
+        app:layout_constraintStart_toEndOf="@id/patientDiseasesTextView"
+        app:layout_constraintTop_toTopOf="@id/patientDiseasesTextView" />
 
     <TextView
         android:id="@+id/patientComplicationsTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
         android:layout_marginTop="36dp"
-        android:padding="3dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
         android:text="@string/complications"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/patientDiseasesTextView" />
 
-    <ImageButton
-        android:id="@+id/editComplicationsImageButton"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/complicationsEditText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:background="@drawable/ic_edit"
+        android:background="@drawable/rounded_edittext"
+        android:inputType="text"
+        android:padding="10dp"
+        android:textColor="@color/txt_black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintStart_toEndOf="@id/patientComplicationsTextView"
-        app:layout_constraintTop_toBottomOf="@id/editDiseasesImageButton" />
+        app:layout_constraintTop_toTopOf="@id/patientComplicationsTextView" />
 
-
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/saveButton"
-        style="@style/buttonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/colorAccent"
+        android:drawableLeft="@drawable/ic_save"
+        android:elevation="10dp"
+        android:gravity="center"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
         android:text="@string/save"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/patientComplicationsTextView" />
+        app:layout_constraintTop_toBottomOf="@id/patientComplicationsTextView"
+        app:shapeAppearanceOverlay="@style/roundedButtonStyle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

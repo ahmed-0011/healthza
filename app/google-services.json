@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:391707742247:android:4049da14d8afd44229be02",
+        "mobilesdk_app_id": "1:391707742247:android:9238a4ea4f63608229be02",
         "android_client_info": {
           "package_name": "com.example.healthza"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "391707742247-mtrv6mtcuu9oshakl1cdfv71s9ouqal3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.healthza",
+            "certificate_hash": "f9762d3d83d55b298e27d13d665bcb6708d46337"
+          }
+        },
         {
           "client_id": "391707742247-ku7ai1ucgg0mih2b2emcc57lnh6r5ql1.apps.googleusercontent.com",
           "client_type": 3

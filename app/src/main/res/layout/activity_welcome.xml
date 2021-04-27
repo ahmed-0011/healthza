@@ -16,7 +16,7 @@
         android:paddingTop="8dp"
         android:paddingRight="8dp"
         android:paddingBottom="8dp"
-        tools:context=".WelcomeActivity">
+        tools:context=".ui.WelcomeActivity">
 
         <TextView
             android:id="@+id/welcomeTextView"
