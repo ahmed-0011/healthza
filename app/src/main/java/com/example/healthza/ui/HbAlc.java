@@ -1,46 +1,34 @@
 package com.example.healthza.ui;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.core.app.NotificationCompat;
-import androidx.fragment.app.DialogFragment;
-
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.fragment.app.DialogFragment;
 
 import com.example.healthza.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -56,7 +44,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,137 +76,6 @@ public class HbAlc extends AppCompatActivity implements View.OnClickListener
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     int ct = 0;
-
-    //
-    @SuppressLint("RestrictedApi")
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inf=getMenuInflater ();
-        inf.inflate (R.menu.patient_menu,menu);
-        if (menu!=null && menu instanceof MenuBuilder)
-            ((MenuBuilder)menu).setOptionalIconsVisible ( true );
-        return super.onCreateOptionsMenu ( menu );
-    }
-    //
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) { return super.onPrepareOptionsMenu ( menu ); }
-    //
-    @Override
-    public boolean onMenuOpened(int featureId, Menu menu) { return super.onMenuOpened ( featureId, menu ); }
-    //
-    @Override
-    public void onOptionsMenuClosed(Menu menu) { super.onOptionsMenuClosed ( menu ); }
-    //
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item)
-    {
-        //getSupportActionBar ().setTitle ( item.getTitle ()+ "  is pressed" );
-        switch(item.getItemId())
-        {
-            case R.id.newIdentifierPM:
-            {
-                Intent I = new Intent(this, AddPatientIdentifier.class);
-                startActivity(I);
-                break;
-            }
-
-            case R.id.newChronicDiseasesPM:
-            {
-                Intent I = new Intent(this, newChronicDiseases.class);
-                startActivity(I);
-                break;
-            }
-
-            case R.id.GlucoseTestPM:
-            {
-                Intent I = new Intent(this, AddGlucoseTest.class);
-                startActivity(I);
-                break;
-            }
-
-            case R.id.FBStestPM:
-            {
-                Intent I = new Intent(this, AddFBStest.class);
-                startActivity(I);
-                break;
-            }
-
-            case R.id.HypertensionTestPM:
-            {
-                Intent I = new Intent(this, AddHypertensionTest.class);
-                startActivity(I);
-                break;
-            }
-
-            case R.id.CumulativeTestPM:
-            {
-                /*Intent I = new Intent(this, HbAlc.class);
-                startActivity(I);*/
-                break;
-            }
-
-            case R.id.KidneysTestPM:
-            {
-                Intent I = new Intent(this, AddKidneysTest.class);
-                startActivity(I);
-                break;
-            }
-
-            case R.id.LiverTestPM:
-            {
-                Intent I = new Intent(this, AddLiverTest.class);
-                startActivity(I);
-                break;
-            }
-
-            case R.id.CholesterolAndFatsTestPM:
-            {
-                Intent I = new Intent(this, AddCholesterolAndFatsTest.class);
-                startActivity(I);
-                break;
-            }
-
-            case R.id.ComprehensiveTestPM:
-            {
-                Intent I = new Intent(this, ComprehensiveTest.class);
-                startActivity(I);
-                break;
-            }
-
-            case R.id.logOutPM:
-            {
-
-                AlertDialog.Builder   x= new AlertDialog.Builder ( this );
-                x.setMessage ( "DO YOU WANT TO LogOut?" ).setTitle ( "Patient LogOut" )
-
-                        .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getApplicationContext(), "LogedOut...", Toast.LENGTH_SHORT).show();
-                                //complet
-                                // finish();
-                                finishAffinity();
-                            }
-                        } )
-
-                        .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) { }
-                        })
-
-                        .setIcon(R.drawable.qus)
-                        .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
-                        .setNegativeButtonIcon(getDrawable ( R.drawable.no))
-                        .show ();
-
-                break;
-            }
-            default:{}
-        }
-        return super.onOptionsItemSelected ( item );
-    }
-    //
 
     public boolean onSupportNavigateUp()
     {
@@ -270,6 +126,7 @@ public class HbAlc extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onDestroy(){
         super.onDestroy();
+       // Functions.pact=-999;
         //complet
     }
 
@@ -278,14 +135,14 @@ public class HbAlc extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hb_alc);
 
+        /*Functions.pact=8;
+        LayoutInflater inflater1_ = LayoutInflater.from(this);
+        View view1_ = inflater1_.inflate(R.layout.drawer_header, null);
+        DrawerUtil.headerView = view1_;
+        DrawerUtil.getPatientDrawer(this, -1);*/
+
         Log.w ("Add HbAlc test.", "start");
         Toast.makeText(getApplicationContext(), "Add HbAlc test....", Toast.LENGTH_SHORT).show();
-
-        ActionBar bar = getSupportActionBar ();
-        bar.setHomeButtonEnabled ( true );
-        bar.setDisplayHomeAsUpEnabled ( true );
-        bar.setHomeAsUpIndicator ( R.drawable.ex);
-        bar.setTitle("Add HbAlc test.");
 
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();

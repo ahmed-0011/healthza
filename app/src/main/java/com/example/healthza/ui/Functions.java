@@ -31,6 +31,11 @@ public class Functions extends AppCompatActivity{
 
     public static final String TAG_CT = "countIsUpdated";
 
+    public static PatientHomeActivity PatientHomeActivity_;
+
+    public static int pact = -999;
+    public static int pact2 = -999;
+
     public static String dateS = "";
     public static String timeS = "";
 

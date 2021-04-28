@@ -1,19 +1,10 @@
 package com.example.healthza.ui;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.core.app.NotificationCompat;
-
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -24,21 +15,23 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import com.example.healthza.R;
 import com.example.healthza.models.Patient;
@@ -92,96 +85,6 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
     private static final String TAG = "addNewTestAppointmen";
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
-
-    //
-    @SuppressLint("RestrictedApi")
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inf=getMenuInflater ();
-        inf.inflate (R.menu.doctor_menu,menu);
-        if (menu!=null && menu instanceof MenuBuilder)
-            ((MenuBuilder)menu).setOptionalIconsVisible ( true );
-        return super.onCreateOptionsMenu ( menu );
-    }
-    //
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) { return super.onPrepareOptionsMenu ( menu ); }
-    //
-    @Override
-    public boolean onMenuOpened(int featureId, Menu menu) { return super.onMenuOpened ( featureId, menu ); }
-    //
-    @Override
-    public void onOptionsMenuClosed(Menu menu) { super.onOptionsMenuClosed ( menu ); }
-    //
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item)
-    {
-        //getSupportActionBar ().setTitle ( item.getTitle ()+ "  is pressed" );
-        switch(item.getItemId())
-        {
-            case R.id.newAppointmentsDM:
-            {
-               /* Intent I = new Intent(this, addNewTestAppointment.class);
-                startActivity(I);*/
-                break;
-            }
-
-            case R.id.logOutDM:
-            {
-
-                AlertDialog.Builder   x= new AlertDialog.Builder ( this );
-                x.setMessage ( "DO YOU WANT TO LogOut?" ).setTitle ( "Doctor LogOut" )
-
-                        .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getApplicationContext(), "LogedOut...", Toast.LENGTH_SHORT).show();
-                                //complet
-                                // finish();
-                                finishAffinity();
-                            }
-                        } )
-
-                        .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) { }
-                        })
-
-                        .setIcon(R.drawable.qus)
-                        .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
-                        .setNegativeButtonIcon(getDrawable ( R.drawable.no))
-                        .show ();
-
-                break;
-            }
-
-            case R.id.newComplicationDM:
-            {
-                Intent I = new Intent(this, addComplications.class);
-                startActivity(I);
-                break;
-            }
-
-            case R.id.updateComplicationDM:
-            {
-                Intent I = new Intent(this, updateComplicationStatus.class);
-                startActivity(I);
-                break;
-            }
-
-            case R.id.add_PatientsDM:
-            {
-
-                startActivity(new Intent(this, DoctorSendRequestActivity.class));
-                break;
-            }
-
-            default:{}
-        }
-        return super.onOptionsItemSelected ( item );
-    }
-    //
 
     @SuppressLint("LongLogTag")
     public boolean onSupportNavigateUp()
@@ -252,12 +155,6 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
 
         Log.w ("Add New Test Appointment.", "start");
         Toast.makeText(getApplicationContext(), "Add New Test Appointment....", Toast.LENGTH_SHORT).show();
-
-        ActionBar bar = getSupportActionBar ();
-        bar.setHomeButtonEnabled ( true );
-        bar.setDisplayHomeAsUpEnabled ( true );
-        bar.setHomeAsUpIndicator ( R.drawable.ex);
-        bar.setTitle("Add New Test Appointment.");
 
         datePicker = findViewById(R.id.datePicker);
         datePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {

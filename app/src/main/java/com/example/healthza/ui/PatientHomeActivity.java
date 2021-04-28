@@ -82,7 +82,8 @@ public class PatientHomeActivity extends AppCompatActivity
             public void onItemSelected(int i)
             {
                 if (i == R.id.homeItem);
-                else if (i == R.id.medicalHistoryItem);
+                else if (i == R.id.medicalHistoryItem)
+                    startActivity(new Intent(PatientHomeActivity.this, medicalRecords.class));
                 else if (i == R.id.chartsItem) ;
                 else if (i == R.id.appointmentsItem) ;
                     //TODO
@@ -588,5 +589,34 @@ public class PatientHomeActivity extends AppCompatActivity
         }, year, month, date);
 
         datePickerDialog.show();
+    }
+
+    public void logOut()
+    {
+        AlertDialog.Builder   x= new AlertDialog.Builder ( this );
+        x.setMessage ( "DO YOU WANT TO LogOut?" ).setTitle ( "Patient LogOut" )
+
+                .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), "LogedOut...", Toast.LENGTH_SHORT).show();
+                        //complet
+                        // finish();
+                        firebaseAuth.signOut();
+                        finishAffinity();
+                        Intent I = new Intent(getApplicationContext(),WelcomeActivity.class);
+                        startActivity(I);
+                    }
+                } )
+
+                .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) { }
+                })
+
+                .setIcon(R.drawable.qus)
+                .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
+                .setNegativeButtonIcon(getDrawable ( R.drawable.no))
+                .show ();
     }
 }

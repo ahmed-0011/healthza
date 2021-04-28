@@ -146,6 +146,7 @@
     <string name="f_b_s_percent">F.B.S Percent:</string>
     <string name="s_got_percent">S.GOT Percent:</string>
     <string name="comprehensive_test">Comprehensive Test</string>
+    <string name="phone_number_hint">Phone Number</string>
     <string name="new_test_appointment">New Test Appointment</string>
     <string name="set_date_of_appointment">Set Date of Appointment:</string>
     <string name="select_patient">Select Patient:</string>
