@@ -1,17 +1,9 @@
 package com.example.healthza.ui;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.core.app.NotificationCompat;
-
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -19,17 +11,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import com.example.healthza.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -66,139 +61,8 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
 
-    //
-    @SuppressLint("RestrictedApi")
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inf=getMenuInflater ();
-        inf.inflate (R.menu.patient_menu,menu);
-        if (menu!=null && menu instanceof MenuBuilder)
-            ((MenuBuilder)menu).setOptionalIconsVisible ( true );
-        return super.onCreateOptionsMenu ( menu );
-    }
-    //
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) { return super.onPrepareOptionsMenu ( menu ); }
-    //
-    @Override
-    public boolean onMenuOpened(int featureId, Menu menu) { return super.onMenuOpened ( featureId, menu ); }
-    //
-    @Override
-    public void onOptionsMenuClosed(Menu menu) { super.onOptionsMenuClosed ( menu ); }
-    //
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item)
-    {
-        //getSupportActionBar ().setTitle ( item.getTitle ()+ "  is pressed" );
-        switch(item.getItemId())
-        {
-            case R.id.newIdentifierPM:
-            {
-                Intent I = new Intent(this, AddPatientIdentifier.class);
-                startActivity(I);
-                break;
-            }
-
-            case R.id.newChronicDiseasesPM:
-            {
-               /* Intent I = new Intent(this, newChronicDiseases.class);
-                startActivity(I);*/
-                break;
-            }
-
-            case R.id.GlucoseTestPM:
-            {
-                Intent I = new Intent(this, AddGlucoseTest.class);
-                startActivity(I);
-                break;
-            }
-
-            case R.id.FBStestPM:
-            {
-                Intent I = new Intent(this, AddFBStest.class);
-                startActivity(I);
-                break;
-            }
-
-            case R.id.HypertensionTestPM:
-            {
-                Intent I = new Intent(this, AddHypertensionTest.class);
-                startActivity(I);
-                break;
-            }
-
-            case R.id.CumulativeTestPM:
-            {
-                Intent I = new Intent(this, HbAlc.class);
-                startActivity(I);
-                break;
-            }
-
-            case R.id.KidneysTestPM:
-            {
-                Intent I = new Intent(this, AddKidneysTest.class);
-                startActivity(I);
-                break;
-            }
-
-            case R.id.LiverTestPM:
-            {
-                Intent I = new Intent(this, AddLiverTest.class);
-                startActivity(I);
-                break;
-            }
-
-            case R.id.CholesterolAndFatsTestPM:
-            {
-                Intent I = new Intent(this, AddCholesterolAndFatsTest.class);
-                startActivity(I);
-                break;
-            }
-
-            case R.id.ComprehensiveTestPM:
-            {
-                Intent I = new Intent(this, ComprehensiveTest.class);
-                startActivity(I);
-                break;
-            }
-
-            case R.id.logOutPM:
-            {
-
-                AlertDialog.Builder   x= new AlertDialog.Builder ( this );
-                x.setMessage ( "DO YOU WANT TO LogOut?" ).setTitle ( "Patient LogOut" )
-
-                        .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getApplicationContext(), "LogedOut...", Toast.LENGTH_SHORT).show();
-                                //complet
-                                // finish();
-                                firebaseAuth.signOut();
-                                finishAffinity();
-                                Intent I = new Intent(getApplicationContext(),WelcomeActivity.class);
-                                startActivity(I);
-                            }
-                        } )
-
-                        .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) { }
-                        })
-
-                        .setIcon(R.drawable.qus)
-                        .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
-                        .setNegativeButtonIcon(getDrawable ( R.drawable.no))
-                        .show ();
-
-                break;
-            }
-            default:{}
-        }
-        return super.onOptionsItemSelected ( item );
-    }
-    //
+    CheckBox Inherited;
+    boolean inherited;
 
     @SuppressLint("LongLogTag")
     public boolean onSupportNavigateUp()
@@ -265,11 +129,10 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
         Log.w ("Add New Chronic Diseases.", "start");
         Toast.makeText(getApplicationContext(), "Add New Chronic Diseases....", Toast.LENGTH_SHORT).show();
 
-        ActionBar bar = getSupportActionBar ();
-        bar.setHomeButtonEnabled ( true );
-        bar.setDisplayHomeAsUpEnabled ( true );
-        bar.setHomeAsUpIndicator ( R.drawable.ex);
-        bar.setTitle("Add New Chronic Diseases.");
+        inherited = false;
+        Inherited = findViewById(R.id.checkBox);
+        Inherited .setChecked(false);
+        Inherited .setOnClickListener(this);
 
         add = findViewById(R.id.addNewChronicDiseases); add.setOnClickListener(this);
         spinner1 = findViewById(R.id.spinner);
@@ -522,9 +385,12 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
         Toast.makeText(getApplicationContext(),"new Chronic Disease is added :"+itemTemp+" \n\nDate:"+date_,Toast.LENGTH_LONG).show();
 
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View v) {
         if (v == add) { adD(); return; }
+        if (v == Inherited) { onCheckboxClicked(v); return; }
     }
 
     //rotate
@@ -555,7 +421,7 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
             dataTest.put("diagnosisDate", date);
             dataTest.put("diseaseName", name_);
             dataTest.put("diseaseType",type_);
-            dataTest.put("inherited", false);
+            dataTest.put("inherited", inherited);
             db.collection("patients") // table
                     .document(userId) // patient id
                     .collection("diseases")// table inside patient table
@@ -583,5 +449,18 @@ public class newChronicDiseases extends AppCompatActivity  implements View.OnCli
             // No user is signed in
         }
 
+    }
+
+    //time and date auto
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void onCheckboxClicked(View view) {
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+
+        // Check which checkbox was clicked
+        if (Inherited.equals(view)) {
+            inherited = checked;
+            // TODO: Veggie sandwich
+        }
     }
 }
