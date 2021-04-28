@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.healthza.DrawerUtil;
+import com.example.healthza.Toasty;
 import com.example.healthza.models.Doctor;
 import com.example.healthza.adapters.DoctorAdapter;
 import com.example.healthza.R;
@@ -186,11 +187,11 @@ public class DoctorListActivity extends AppCompatActivity implements DoctorAdapt
                         emptyDoctorListTextView                 // check if there is no item and
                                 .setVisibility(View.VISIBLE);   // show text view that there is no doctors
                     }
-                    Toast.makeText(this, "Patient " + "\"" + doctor.getName()
-                            + "\" " + "has been removed successfully.", Toast.LENGTH_LONG).show();
+                    Toasty.showText(this, "patient " + "\"" + doctor.getName()
+                            + "\" " + "has been removed successfully.", Toasty.SUCCESS, Toast.LENGTH_LONG);
             }
             else
-                Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+                Toasty.showText(this, "something went wrong...", Toasty.ERROR, Toast.LENGTH_LONG);
         });
     }
 }

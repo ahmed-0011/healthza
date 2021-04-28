@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.healthza.DrawerUtil;
+import com.example.healthza.Toasty;
 import com.example.healthza.models.Doctor;
 import com.example.healthza.models.Patient;
 import com.example.healthza.R;
@@ -80,7 +81,7 @@ public class PatientReceiveRequestActivity extends AppCompatActivity implements 
     @Override
     public void onItemClick(int position)
     {
-        if(!receiveRequests.isEmpty())
+        if(position != -1)
             Toast.makeText(this, receiveRequests.get(position).getDoctorName(), Toast.LENGTH_SHORT).show();
     }
 
@@ -161,11 +162,11 @@ public class PatientReceiveRequestActivity extends AppCompatActivity implements 
                                 receiveRequests.remove(position);
                                 receiveRequestAdapter.notifyItemRemoved(position);
 
-                                Toast.makeText(this, "Add request from "
+                                Toasty.showText(this, "add request from "
                                         + receiveRequest.getDoctorName() +
-                                        " Accepted successfully", Toast.LENGTH_LONG).show();
+                                        " accepted successfully", Toasty.SUCCESS, Toast.LENGTH_LONG);
                             } else
-                                Toast.makeText(this, "Something went wrong...", Toast.LENGTH_LONG).show();
+                                Toasty.showText(this, "something went wrong...", Toasty.ERROR,Toast.LENGTH_LONG);
                         }
                     });
                 }
@@ -205,10 +206,12 @@ public class PatientReceiveRequestActivity extends AppCompatActivity implements 
                         emptyReceiveRequestListTextView         // check if there is no item and
                                 .setVisibility(View.VISIBLE);   // show text view that there is no requests
                     }
-                    Toast.makeText(this, "request from " + receiveRequest.getDoctorName() + " cancelled successfully", Toast.LENGTH_LONG).show();
+                    Toasty.showText(this, "request from " + receiveRequest.getDoctorName() + " cancelled successfully", Toasty.SUCCESS,
+                            Toast.LENGTH_LONG);
             }
             else
-                Toast.makeText(this, "Something went wrong...", Toast.LENGTH_LONG).show();
+                Toasty.showText(this, "something went wrong...", Toasty.ERROR,
+                        Toast.LENGTH_LONG);
         });
     }
 }

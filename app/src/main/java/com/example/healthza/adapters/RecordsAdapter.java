@@ -154,7 +154,7 @@ public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.ViewHold
                         recordsList.remove(holder.getLayoutPosition());
                         notifyDataSetChanged();
                         notifyItemRemoved(holder.getAdapterPosition());
-                       // Toast.makeText(context, "Patient " + "\"" + patient.getName() + "\" " + "has beed deleted successfully.",Toast.LENGTH_LONG).show();
+                       // Toasty.makeText(context, "Patient " + "\"" + patient.getName() + "\" " + "has beed deleted successfully.",Toasty.LENGTH_LONG).show();
                     }
                     else
                         Toast.makeText(context, "Error", Toast.LENGTH_LONG).show();

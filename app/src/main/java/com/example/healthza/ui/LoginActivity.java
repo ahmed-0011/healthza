@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
@@ -13,6 +14,7 @@ import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -21,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.healthza.R;
 import com.example.healthza.TextInputEditTextFocusListenerHelper;
+import com.example.healthza.Toasty;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +33,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity
+{
 
     ProgressBar progressBar;
     private Button loginButton, newUserButton, forgotPasswordButton;
@@ -41,7 +45,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseFirestore db;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -86,88 +91,25 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    private void hideKeyboard()
+    {
+        View view = this.getCurrentFocus();
+        if (view != null)
+        {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+
     /* set on click listeners for Buttons to navigate to other activity */
     private void setOnClickListenersForButtons() {
         loginButton.setOnClickListener(v ->
         {
-
             emailInputLayout.setError(null);
             passwordInputLayout.setError(null);
 
-            String email = emailInputEditText.getText().toString().trim();
-            String password = passwordInputEditText.getText().toString();
-
-
-            if (!isValidEmail(email)) {
-                emailInputLayout.setError(getString(R.string.enter_a_valid_email));
-                emailInputEditText.requestFocus();
-            } else if (!isValidPassword(password)) {
-                passwordInputLayout.setError(getString(R.string.password_length_error));
-                passwordInputEditText.requestFocus();
-            } else {
-                progressButtonAnimation();
-                firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task ->
-                {
-                    if (task.isSuccessful()) {
-                        progressButtonReverseAnimation();
-
-                        SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-                        String userId = firebaseAuth.getCurrentUser().getUid();
-
-                        DocumentReference patientRef = db.collection("patients").document(userId);
-
-                        patientRef.get().addOnCompleteListener(task1 ->
-                        {
-                            if (task1.isSuccessful()) {
-                                DocumentSnapshot document1 = task1.getResult();
-
-                                if (document1.exists())              // if the user exist in patients collection
-                                {                                    // then userType is patient,
-                                    // it's impossible to be doctor
-
-                                    boolean completeInfo = document1.getBoolean("completeInfo");
-                                    editor.putString("user_type", "patient");
-                                    editor.putBoolean("user_complete_info", completeInfo);
-                                    editor.apply();
-                                    Intent intent;
-                                    intent = new Intent(this, PatientHomeActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                } else {
-                                    DocumentReference doctorRef = db.collection("doctors").document(userId);
-
-                                    doctorRef.get().addOnCompleteListener(task2 ->
-                                    {
-                                        if (task2.isSuccessful()) {
-                                            DocumentSnapshot document2 = task2.getResult();
-
-                                            if (document2.exists()) {
-                                                boolean completeProfile = document2.getBoolean("completeInfo");
-                                                editor.putString("user_type", "doctor");
-                                                editor.putBoolean("user_complete_info", completeProfile);
-                                                editor.apply();
-                                                Intent intent;
-                                                intent = new Intent(this, DoctorHomeActivity.class);
-                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                startActivity(intent);
-                                            }
-                                        }
-                                    });
-                                }
-
-
-                                Toast.makeText(this, "welcome " + firebaseAuth.getCurrentUser().getDisplayName()
-                                        , Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    } else
-                        Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
-                    progressButtonReverseAnimation();
-                });
-
-            }
+            signIn();
         });
 
         newUserButton.setOnClickListener(view ->
@@ -175,6 +117,89 @@ public class LoginActivity extends AppCompatActivity {
 
         forgotPasswordButton.setOnClickListener(view ->
                 startActivity(new Intent(this, ForgotPasswordActivity.class)));
+    }
+
+
+    private void signIn()
+    {
+
+        String email = emailInputEditText.getText().toString().trim();
+        String password = passwordInputEditText.getText().toString();
+
+        if (!isValidEmail(email)) {
+            emailInputLayout.setError(getString(R.string.enter_a_valid_email));
+            emailInputEditText.requestFocus();
+        } else if (!isValidPassword(password)) {
+            passwordInputLayout.setError(getString(R.string.password_length_error));
+            passwordInputEditText.requestFocus();
+        } else
+        {
+
+            hideKeyboard();
+            progressButtonAnimation();
+            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task ->
+            {
+                if (task.isSuccessful()) {
+                    progressButtonReverseAnimation();
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                    String userId = firebaseAuth.getCurrentUser().getUid();
+
+                    DocumentReference patientRef = db.collection("patients").document(userId);
+
+                    patientRef.get().addOnCompleteListener(task1 ->
+                    {
+                        if (task1.isSuccessful())
+                        {
+                            DocumentSnapshot document1 = task1.getResult();
+
+                            if (document1.exists())              // if the user exist in patients collection
+                            {                                    // then userType is patient,
+                                // it's impossible to be doctor
+
+                                boolean completeInfo = document1.getBoolean("completeInfo");
+                                editor.putString("user_type", "patient");
+                                editor.putBoolean("user_complete_info", completeInfo);
+                                editor.apply();
+                                Intent intent;
+                                intent = new Intent(this, PatientHomeActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                            else
+                            {
+                                DocumentReference doctorRef = db.collection("doctors").document(userId);
+
+                                doctorRef.get().addOnCompleteListener(task2 ->
+                                {
+                                    if (task2.isSuccessful()) {
+                                        DocumentSnapshot document2 = task2.getResult();
+
+                                        if (document2.exists()) {
+                                            boolean completeProfile = document2.getBoolean("completeInfo");
+                                            editor.putString("user_type", "doctor");
+                                            editor.putBoolean("user_complete_info", completeProfile);
+                                            editor.apply();
+                                            Intent intent;
+                                            intent = new Intent(this, DoctorHomeActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intent);
+                                        }
+                                    }
+                                });
+                            }
+
+                            Toasty.showText(this, "successfully logged in!"
+                                    ,Toasty.INFORMATION, Toast.LENGTH_LONG);
+                        }
+                    });
+                } else
+                    Toasty.showText(this, "account is not found",Toasty.ERROR, Toast.LENGTH_LONG);
+                progressButtonReverseAnimation();
+            });
+        }
     }
 
     private void addOnTextChangeListenersForInputEditText() {
@@ -296,9 +321,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
         super.onRestoreInstanceState(savedInstanceState);
         //  Log.i(COMMON_TAG,"DoctorHomeActivity onSaveInstanceState");
     }
-
 }

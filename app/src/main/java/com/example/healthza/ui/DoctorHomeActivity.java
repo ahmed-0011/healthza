@@ -33,6 +33,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.healthza.DrawerUtil;
 import com.example.healthza.LoadingDialog;
 import com.example.healthza.R;
+import com.example.healthza.Toasty;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -255,7 +256,8 @@ public class DoctorHomeActivity extends AppCompatActivity
                                 public void run()
                                 {
                                     loadingDialog.dismissLoadingDialog();
-                                    Toast.makeText(DoctorHomeActivity.this, "profile updated successfully", Toast.LENGTH_LONG).show();
+                                    Toasty.showText(DoctorHomeActivity.this, "your profile updated successfully"
+                                            , Toasty.INFORMATION, Toast.LENGTH_LONG);
                                 }
                             },3000);
 
@@ -265,7 +267,8 @@ public class DoctorHomeActivity extends AppCompatActivity
                             editor.apply();
                         }
                         else
-                            Toast.makeText(DoctorHomeActivity.this, "an error occurred during updating your profile", Toast.LENGTH_LONG).show();
+                            Toasty.showText(DoctorHomeActivity.this, "an error occurred while trying to update your profile",
+                                    Toasty.ERROR, Toast.LENGTH_LONG);
                     }
                 });
             }

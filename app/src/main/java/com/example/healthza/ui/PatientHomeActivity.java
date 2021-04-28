@@ -25,6 +25,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.healthza.DrawerUtil;
 import com.example.healthza.LoadingDialog;
+import com.example.healthza.Toasty;
 import com.example.healthza.models.Disease;
 import com.example.healthza.R;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -504,7 +505,8 @@ public class PatientHomeActivity extends AppCompatActivity
                             public void run()
                             {
                                 loadingDialog.dismissLoadingDialog();
-                                Toast.makeText(PatientHomeActivity.this, "Your profile updated successfully", Toast.LENGTH_LONG).show();
+                                Toasty.showText(PatientHomeActivity.this, "your profile updated successfully",
+                                        Toasty.INFORMATION, Toast.LENGTH_LONG);
                             }
                         },3000);
                         /* this shared oeferences is used when the user is using the app right after register
@@ -516,8 +518,9 @@ public class PatientHomeActivity extends AppCompatActivity
                     }
                     else
                         {
-                        Toast.makeText(PatientHomeActivity.this,
-                                "an error occurred while trying to update your profile", Toast.LENGTH_LONG).show();
+                        Toasty.showText(PatientHomeActivity.this,
+                                "an error occurred while trying to update your profile",
+                                Toasty.ERROR, Toast.LENGTH_LONG);
                     }
                 });
             }

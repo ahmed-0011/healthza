@@ -20,5 +20,9 @@
     <color name="green">#FF00FF00</color>
     <color name="yellow">#FFE500</color>
     <color name="remove_request_color">#FA8445</color>
-
+    <color name="toast_color">#121212</color>
+    <color name="success_color">#23CD00</color>
+    <color name="warning_color">#F5C206</color>
+    <color name="error_color">#DD0000</color>
+    <color name="info_color">#077BCD</color>
 </resources>

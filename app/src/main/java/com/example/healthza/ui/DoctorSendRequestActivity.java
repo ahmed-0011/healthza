@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.healthza.DrawerUtil;
 import com.example.healthza.R;
+import com.example.healthza.Toasty;
 import com.example.healthza.adapters.SendRequestAdapter;
 import com.example.healthza.models.Doctor;
 import com.example.healthza.models.Patient;
@@ -190,7 +191,8 @@ public class DoctorSendRequestActivity extends AppCompatActivity implements Send
                                     {
                                         if (patientDocument.exists())
                                         {
-                                            // dialog patients exist
+                                            Toasty.showText(this, "this patient is already on your list",
+                                                    Toasty.WARNING, Toast.LENGTH_LONG);
                                         }
                                         else
                                         {
@@ -200,7 +202,8 @@ public class DoctorSendRequestActivity extends AppCompatActivity implements Send
                                                     .get().addOnSuccessListener(sendRequestDocument ->
                                             {
                                                 if (sendRequestDocument.exists())
-                                                    Toast.makeText(this, "You already sent a request for that patient", Toast.LENGTH_LONG).show();
+                                                    Toasty.showText(this, "you already sent a request to this patient",
+                                                            Toasty.WARNING, Toast.LENGTH_LONG);
                                                 else
                                                 {
                                                     doctorRef.get().addOnSuccessListener(doctorDocument ->
@@ -222,7 +225,8 @@ public class DoctorSendRequestActivity extends AppCompatActivity implements Send
                                                             emptySendRequestListImageView.setVisibility(View.GONE);
                                                             emptySendRequestListTextView.setVisibility(View.GONE);
 
-                                                            Toast.makeText(this, "Add request was sent to " + patient.getName(), Toast.LENGTH_LONG).show();
+                                                            Toasty.showText(this, "add request was sent to " + patient.getName(),
+                                                                    Toasty.INFORMATION, Toast.LENGTH_LONG);
                                                         }
                                                     });
                                                 }
@@ -231,7 +235,8 @@ public class DoctorSendRequestActivity extends AppCompatActivity implements Send
                                     });
                         }
                         else
-                            Toast.makeText(this, "Patient not found", Toast.LENGTH_LONG).show();
+                            Toasty.showText(this, "patient not found",
+                                    Toasty.ERROR, Toast.LENGTH_LONG);
                     });
                 addPatientDialog.dismiss();
             });
@@ -304,7 +309,8 @@ public class DoctorSendRequestActivity extends AppCompatActivity implements Send
                     emptySendRequestListTextView            // check if there is no item and
                             .setVisibility(View.VISIBLE);   // show text view that there is no requests
                 }
-                Toast.makeText(this, "request to " + sendRequest.getPatientName() + " has been cancelled successfully", Toast.LENGTH_LONG).show();
+                Toasty.showText(this, "request to " + sendRequest.getPatientName() + " has been cancelled successfully",
+                        Toasty.SUCCESS, Toast.LENGTH_LONG);
 
             }
         });
@@ -333,7 +339,8 @@ public class DoctorSendRequestActivity extends AppCompatActivity implements Send
                             .setVisibility(View.VISIBLE);   // show text view that there is no requests
                 }
 
-                Toast.makeText(this, "completed request removed", Toast.LENGTH_LONG).show();
+                Toasty.showText(this, "completed request removed",
+                        Toasty.SUCCESS, Toast.LENGTH_LONG);
             }
         });
     }

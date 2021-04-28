@@ -848,7 +848,7 @@ public class medicalRecords extends AppCompatActivity implements RecordsAdapter.
             public void onClick(View v) {
                 change[0] =true;
                 bttn[6]=!bttn[6];
-               // Toast.makeText(getApplicationContext(),"GGGGG  : "+bttn[6],Toast.LENGTH_SHORT).show();
+               // Toasty.makeText(getApplicationContext(),"GGGGG  : "+bttn[6],Toasty.LENGTH_SHORT).show();
             }
         });
 
@@ -858,7 +858,7 @@ public class medicalRecords extends AppCompatActivity implements RecordsAdapter.
             public void onClick(View v) {
                 change[0] =true;
                 bttn[7]=!bttn[7];
-                //Toast.makeText(getApplicationContext(),"GGGGG  : "+bttn[7],Toast.LENGTH_SHORT).show();
+                //Toasty.makeText(getApplicationContext(),"GGGGG  : "+bttn[7],Toasty.LENGTH_SHORT).show();
             }
         });
 

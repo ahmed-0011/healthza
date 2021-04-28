@@ -37,10 +37,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-
-            Toast.makeText(this, "welcome " + firebaseAuth.getCurrentUser().getDisplayName()
-                    , Toast.LENGTH_LONG).show();
-        } else
+        }
+        else
             startActivity(new Intent(this, WelcomeActivity.class));
     }
 

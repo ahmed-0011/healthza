@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
@@ -15,6 +16,7 @@ import android.text.format.DateFormat;
 import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ProgressBar;
@@ -24,6 +26,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.healthza.Toasty;
 import com.example.healthza.models.Doctor;
 import com.example.healthza.models.Patient;
 import com.example.healthza.R;
@@ -99,6 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
         /*Class TextInputEditTextFocusListenerHelper has add() function
          which will set focus listener for TextInputEditText to change start and end icon color tint*/
         TextInputEditTextFocusListenerHelper.add(this, nameInputEditText);
+        TextInputEditTextFocusListenerHelper.add(this, identificationNumberInputEditText);
         TextInputEditTextFocusListenerHelper.add(this, emailInputEditText);
         TextInputEditTextFocusListenerHelper.add(this, phoneNumberInputEditText);
         TextInputEditTextFocusListenerHelper.add(this, passwordInputEditText);
@@ -158,7 +162,19 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-    private void signUp() {
+    private void hideKeyboard()
+    {
+        View view = this.getCurrentFocus();
+        if (view != null)
+        {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+
+    private void signUp()
+    {
         userTypeRadioGroup = findViewById(R.id.userTypeRadioGroup);
         RadioGroup sexRadioGroup = findViewById(R.id.sexRadioGroup);
 
@@ -177,18 +193,22 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (!isValidName(name))
         {
-            nameInputLayout.setError("Invalid name, name must contains alphapetic and spaces only");
+            nameInputLayout.setError("Invalid name, name must contains alphabetic and spaces only");
             nameInputEditText.requestFocus();
-        } else if (userTypeRadioGroup.getCheckedRadioButtonId() == -1) ;
-            //TODO
-        else if (sexRadioGroup.getCheckedRadioButtonId() == -1) ;
-            //TODO
-        else if (userType.equals("patient") && !isValidIdentificationNumber(identificationNumber)) {
+        }
+        else if (userTypeRadioGroup.getCheckedRadioButtonId() == -1)
+            Toasty.showText(this, "please select account type", Toasty.WARNING, Toast.LENGTH_LONG);
+        else if (sexRadioGroup.getCheckedRadioButtonId() == -1)
+            Toasty.showText(this, "please select your sex", Toasty.WARNING, Toast.LENGTH_LONG);
+        else if (birthDate.isEmpty())
+            Toasty.showText(this, "please select your birthdate", Toasty.WARNING, Toast.LENGTH_LONG);
+        else if (!isValidIdentificationNumber(identificationNumber))
+        {
             identificationNumberInputLayout.setError(getString(R.string.enter_a_valid_id));
             identificationNumberInputEditText.requestFocus();
-        } else if (birthDate.isEmpty()) ;
-            //TODO
-        else if (!isValidEmail(email)) {
+        }
+        else if (!isValidEmail(email))
+        {
             emailInputLayout.setError(getString(R.string.enter_a_valid_email));
             emailInputEditText.requestFocus();
         } else if (!isValidPhoneNumber(phoneNumber)) {
@@ -205,14 +225,15 @@ public class RegisterActivity extends AppCompatActivity {
 
         else
         {
+
+            hideKeyboard();
             progressButtonAnimation();
             db.collection("ids").document(identificationNumber)
                     .get().addOnSuccessListener(idDcument ->
             {
                 if(idDcument.exists())
                 {
-                    Toast.makeText(RegisterActivity.this, "id .................."
-                            , Toast.LENGTH_LONG).show();
+                    Toasty.showText(this, "ID is already used", Toasty.ERROR, Toast.LENGTH_LONG);
                 }
                 else
                 {
@@ -222,8 +243,8 @@ public class RegisterActivity extends AppCompatActivity {
                     {
                         if(phoneNumberDocument.exists())
                         {
-                            Toast.makeText(RegisterActivity.this, "phonenumber.................."
-                                    , Toast.LENGTH_LONG).show();
+                            Toasty.showText(this, "phonenumber is already used",
+                                    Toasty.ERROR, Toast.LENGTH_LONG);
                         }
                         else
                         {
@@ -278,7 +299,6 @@ public class RegisterActivity extends AppCompatActivity {
                                                 DocumentReference doctorReference = db.collection("doctors").document(userId);
 
                                                 doctorReference.set(newDoctor);
-
                                             }
 
 
@@ -287,19 +307,14 @@ public class RegisterActivity extends AppCompatActivity {
                                             startActivity(intent);
                                         }
                                         else
-                                            Toast.makeText(RegisterActivity.this, "Something went wrong"
-                                                    , Toast.LENGTH_LONG).show();
+                                            Toasty.showText(this, "email is already used", Toasty.ERROR, Toast.LENGTH_LONG);
+;
                                     });
                         }
                     });
                 }
                 progressButtonReverseAnimation();
             });
-
-
-
-
-
         }
     }
 
@@ -341,7 +356,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         emailInputEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
+
             }
 
             @Override

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.healthza.R;
 import com.example.healthza.TextInputEditTextFocusListenerHelper;
+import com.example.healthza.Toasty;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -56,8 +57,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     if (task.isComplete() && task.isSuccessful())
                         startActivity(new Intent(this, OTPCodeMessageActivity.class));
                     else
-                        Toast.makeText(ForgotPasswordActivity.this, "Email is not registered"
-                                , Toast.LENGTH_LONG).show();
+                        Toasty.showText(ForgotPasswordActivity.this, "Email is not registered"
+                                , Toasty.ERROR, Toast.LENGTH_LONG);
                 });
             }
         });

@@ -277,7 +277,7 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
         datePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                // Toast.makeText(getApplicationContext()," You are changed date is : "+dayOfMonth +" - "+monthOfYear+ " - "+year,Toast.LENGTH_SHORT).show();
+                // Toasty.makeText(getApplicationContext()," You are changed date is : "+dayOfMonth +" - "+monthOfYear+ " - "+year,Toasty.LENGTH_SHORT).show();
             }
         });
 
@@ -631,7 +631,7 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
                     List<String> status = (List<String>) document.get("status");
                     status.add(d+" : "+c);
 
-                   // Toast.makeText(getApplicationContext(),d+" : "+c,Toast.LENGTH_SHORT).show();
+                   // Toasty.makeText(getApplicationContext(),d+" : "+c,Toasty.LENGTH_SHORT).show();
 
                     dec
                        .update("status", status)
@@ -645,7 +645,7 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Log.w(TAG, "Error updating document", e);
-                                   // Toast.makeText(getApplicationContext(),d+" 11 "+c,Toast.LENGTH_SHORT).show();
+                                   // Toasty.makeText(getApplicationContext(),d+" 11 "+c,Toasty.LENGTH_SHORT).show();
                                 }
                             });
 
