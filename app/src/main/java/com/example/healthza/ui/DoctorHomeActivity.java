@@ -90,8 +90,7 @@ public class DoctorHomeActivity extends AppCompatActivity
             @Override
             public void onItemSelected(int i)
             {
-                if (i == R.id.homeItem)
-                    startActivity(new Intent(DoctorHomeActivity.this, DoctorAccountActivity.class));
+                if (i == R.id.homeItem);
                 else if (i == R.id.patientsItem)
                     startActivity(new Intent(DoctorHomeActivity.this, PatientListActivity.class));
                 else if (i == R.id.appointmentsItem) ;
