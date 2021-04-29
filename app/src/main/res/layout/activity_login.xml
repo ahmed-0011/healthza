@@ -2,10 +2,10 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:scrollbarThumbVertical="@color/colorAccent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:scrollbarThumbVertical="@color/colorAccent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -13,18 +13,15 @@
         android:background="@color/background_color"
         android:clickable="true"
         android:focusable="true"
-        android:paddingLeft="16dp"
-        android:paddingTop="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="16dp"
+        android:padding="16dp"
         tools:context=".ui.LoginActivity">
 
         <TextView
             android:id="@+id/loginTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login_text"
             android:fontFamily="@font/sfpro_display_medium"
+            android:text="@string/login_text"
             android:textColor="@color/txt_black"
             android:textSize="50sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,10 +65,7 @@
                 android:backgroundTint="@color/white"
                 android:hint="@string/email_hint"
                 android:inputType="textEmailAddress"
-                android:selectAllOnFocus="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="parent" />
+                android:selectAllOnFocus="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,23 +92,20 @@
                 android:backgroundTint="@color/white"
                 android:hint="@string/password_hint"
                 android:inputType="textPassword"
-                android:selectAllOnFocus="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="parent" />
+                android:selectAllOnFocus="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/signInButton"
             style="@style/buttonStyle"
-            android:background="@drawable/rounded_button"
             android:layout_width="0dp"
             android:layout_height="56dp"
             android:layout_gravity="center"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="64dp"
+            android:background="@drawable/rounded_button"
             android:padding="10dp"
             android:text="@string/sign_in_text"
             app:layout_constraintBottom_toBottomOf="parent"

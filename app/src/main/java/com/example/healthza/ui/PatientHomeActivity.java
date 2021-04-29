@@ -68,7 +68,6 @@ public class PatientHomeActivity extends AppCompatActivity
 
 
         SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
-
         boolean userCompleteInfo = sharedPreferences.getBoolean("user_complete_info", false);
 
         if (!userCompleteInfo)
@@ -84,7 +83,8 @@ public class PatientHomeActivity extends AppCompatActivity
                 if (i == R.id.homeItem);
                 else if (i == R.id.medicalHistoryItem)
                     startActivity(new Intent(PatientHomeActivity.this, medicalRecords.class));
-                else if (i == R.id.chartsItem) ;
+                else if (i == R.id.chartsItem)
+                    startActivity(new Intent(PatientHomeActivity.this, PatientAccountActivity.class));
                 else if (i == R.id.appointmentsItem) ;
                     //TODO
                 else if (i == R.id.chatItem)
@@ -145,7 +145,7 @@ public class PatientHomeActivity extends AppCompatActivity
         if (weight.isEmpty())
             return false;
 
-        int weight1 = Integer.parseInt(weight);
+        double weight1 = Double.parseDouble(weight);
 
         return weight1 <= 300;
     }
@@ -164,7 +164,7 @@ public class PatientHomeActivity extends AppCompatActivity
     private void showPatientDialog1() {
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View view = inflater.inflate(R.layout.activity_patient_dialog1, null);
+        View view = inflater.inflate(R.layout.patient_dialog1, null);
 
         CheckBox diabetesCheckBox, hypertensionCheckBox, cholestrolCheckBox;
         TextInputLayout diabetesTypeInputLayout, hypertensionTypeInputLayout, cholestrolTypeInputLayout;
@@ -332,7 +332,7 @@ public class PatientHomeActivity extends AppCompatActivity
     {
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View view = inflater.inflate(R.layout.activity_patient_dialog2, null);
+        View view = inflater.inflate(R.layout.patient_dialog2, null);
 
         Button selectDiabetesDetectionDateButton, selectHypertensionDetectionDateButton, selectCholestrolDetectionDateButton;
 

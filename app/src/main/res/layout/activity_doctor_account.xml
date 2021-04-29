@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbarThumbVertical="@color/colorAccent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        tools:context=".ui.DoctorAccountActivity">
+
+        <TextView
+            android:id="@+id/accountInformationTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/account_information"
+            android:textColor="@color/txt_black"
+            android:textSize="28sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/doctorNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:text="@string/name"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/accountInformationTextView" />
+
+        <EditText
+            android:id="@+id/doctorNameEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:inputType="textPersonName"
+            android:padding="10dp"
+            android:textColor="@color/txt_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/doctorNameTextView"
+            app:layout_constraintTop_toTopOf="@id/doctorNameTextView" />
+
+        <TextView
+            android:id="@+id/doctorSexTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:paddingTop="9dp"
+            android:paddingBottom="9dp"
+            android:text="@string/sex"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/doctorNameTextView" />
+
+        <RadioGroup
+            android:id="@+id/doctorSexRadioGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/doctorSexTextView"
+            app:layout_constraintTop_toTopOf="@id/doctorSexTextView">
+
+
+            <RadioButton
+                android:id="@+id/maleRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:buttonTint="@color/colorPrimaryDark"
+                android:drawableStart="@drawable/ic_male"
+                android:elevation="4dp"
+                android:paddingEnd="8dp"
+                android:text="@string/male_text"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:id="@+id/femaleRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:buttonTint="@color/colorPrimaryDark"
+                android:drawableStart="@drawable/ic_female"
+                android:elevation="4dp"
+                android:paddingEnd="8dp"
+                android:text="@string/female_text"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/doctorBirthDateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingEnd="8dp"
+            android:text="@string/birth_date_text"
+            android:textColor="@color/hint_color"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/doctorSexTextView" />
+
+        <TextView
+            android:id="@+id/selectedBirthDateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="6dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@id/doctorBirthDateTextView"
+            app:layout_constraintTop_toTopOf="@id/doctorBirthDateTextView" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/selectBirthDateButton"
+            style="@style/selectButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="6dp"
+            android:backgroundTint="@color/white"
+            android:text="@string/select_text"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toEndOf="@id/selectedBirthDateTextView"
+            app:layout_constraintTop_toTopOf="@id/doctorBirthDateTextView" />
+
+        <TextView
+            android:id="@+id/doctorIdentificationNumberTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:text="@string/id"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/doctorBirthDateTextView" />
+
+        <EditText
+            android:id="@+id/doctorIdentificationNumberEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:inputType="number"
+            android:padding="10dp"
+            android:textColor="@color/txt_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/doctorIdentificationNumberTextView"
+            app:layout_constraintTop_toTopOf="@id/doctorIdentificationNumberTextView" />
+
+
+        <TextView
+            android:id="@+id/doctorEmailTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:text="@string/email"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/doctorIdentificationNumberTextView" />
+
+        <EditText
+            android:id="@+id/doctorEmailEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:inputType="textEmailAddress"
+            android:padding="10dp"
+            android:textColor="@color/txt_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/doctorEmailTextView"
+            app:layout_constraintTop_toTopOf="@id/doctorEmailTextView" />
+
+        <Button
+            android:id="@+id/changeAccountPasswordButton"
+            style="@style/textButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/change_password"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/doctorEmailTextView" />
+
+        <TextView
+            android:id="@+id/doctorPhoneNumberTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:text="@string/phonenumber"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/changeAccountPasswordButton" />
+
+        <EditText
+            android:id="@+id/doctorPhoneNumberEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:inputType="phone"
+            android:padding="10dp"
+            android:textColor="@color/txt_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/doctorPhoneNumberTextView"
+            app:layout_constraintTop_toTopOf="@id/doctorPhoneNumberTextView" />
+
+        <TextView
+            android:id="@+id/doctorSpecialityTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:text="@string/speciality"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/doctorPhoneNumberTextView" />
+
+        <EditText
+            android:id="@+id/doctorSpecialityEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColor="@color/txt_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/doctorSpecialityTextView"
+            app:layout_constraintTop_toTopOf="@id/doctorSpecialityTextView" />
+
+        <TextView
+            android:id="@+id/doctorYearsOfExperienceTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:text="@string/years_of_experience"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/doctorSpecialityTextView" />
+
+        <EditText
+            android:id="@+id/doctorYearsOfExperienceEditText"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:inputType="number"
+            android:padding="10dp"
+            android:textColor="@color/txt_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/doctorYearsOfExperienceTextView"
+            app:layout_constraintTop_toTopOf="@id/doctorYearsOfExperienceTextView" />
+
+        <TextView
+            android:id="@+id/doctorWorkplaceTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:text="@string/workplace"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/doctorYearsOfExperienceTextView" />
+
+        <EditText
+            android:id="@+id/doctorWorkplaceEditText"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColor="@color/txt_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/doctorWorkplaceTextView"
+            app:layout_constraintTop_toTopOf="@id/doctorWorkplaceTextView" />
+
+
+        <TextView
+            android:id="@+id/doctorWorkdaysTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:text="@string/workdays"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/doctorWorkplaceTextView" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/doctorWorkdaysFirstToggleButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/doctorWorkdaysTextView">
+
+            <Button
+                android:id="@+id/saturdayButton"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/saturday" />
+
+            <Button
+                android:id="@+id/sundayButton"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/sunday" />
+
+            <Button
+                android:id="@+id/mondayButton"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/monday" />
+
+            <Button
+                android:id="@+id/tuesdayButton"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/tuesday" />
+
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/doctorWorkdaysSecondToggleButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="36dp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/doctorWorkdaysFirstToggleButton">
+
+            <Button
+                android:id="@+id/wednesdayButton"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/wednesday" />
+
+            <Button
+                android:id="@+id/thursdayButton"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/thursday" />
+
+            <Button
+                android:id="@+id/fridayButton"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/friday" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/colorAccent"
+            android:drawableLeft="@drawable/ic_save"
+            android:elevation="10dp"
+            android:gravity="center"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:text="@string/save"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/doctorWorkdaysSecondToggleButton"
+            app:layout_constraintVertical_bias="0.7"
+            app:shapeAppearanceOverlay="@style/roundedButtonStyle" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

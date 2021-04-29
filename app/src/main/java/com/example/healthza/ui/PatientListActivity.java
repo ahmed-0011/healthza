@@ -136,8 +136,6 @@ public class PatientListActivity extends AppCompatActivity implements PatientAda
         EditText patientHeightEditText = view.findViewById(R.id.patientHeightEditText);
         EditText patientDiseasesEditText = view.findViewById(R.id.patientDiseasesEditText);
         EditText complicationsEditText = view.findViewById(R.id.complicationsEditText);
-        RadioButton maleRadioButtonRadioButton= view.findViewById(R.id.maleRadioButton);
-        RadioButton femaleRadioButton = view.findViewById(R.id.femaleRadioButton);
         RadioGroup patientSexRadioGroup = view.findViewById(R.id.patientSexRadioGroup);
         Button saveButton = view.findViewById(R.id.saveButton);
 
@@ -151,9 +149,9 @@ public class PatientListActivity extends AppCompatActivity implements PatientAda
 
                 patientEmailEditText.setText(patient1.getEmail());
                 if(patient1.getSex().equals("male"))
-                    maleRadioButtonRadioButton.setChecked(true);
+                    patientSexRadioGroup.check(R.id.maleRadioButton);
                 else
-                    femaleRadioButton.setChecked(true);
+                    patientSexRadioGroup.check(R.id.femaleRadioButton);
                 patientWeightEditText.setText(patient1.getWeight() + "");
                 patientHeightEditText.setText(patient1.getHeight() + "");
 
@@ -182,7 +180,7 @@ public class PatientListActivity extends AppCompatActivity implements PatientAda
                     String email = patientEmailEditText.getText().toString().trim();
                     String weightString = patientWeightEditText.getText().toString();
                     String heightString = patientHeightEditText.getText().toString();
-                    if(maleRadioButtonRadioButton.isChecked())
+                    if(patientSexRadioGroup.getCheckedRadioButtonId() == R.id.maleRadioButton)
                         sex = "male";
                     else
                         sex = "female";

@@ -12,7 +12,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -25,10 +24,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.example.healthza.DrawerUtil;
 import com.example.healthza.LoadingDialog;
@@ -94,7 +90,8 @@ public class DoctorHomeActivity extends AppCompatActivity
             @Override
             public void onItemSelected(int i)
             {
-                if (i == R.id.homeItem);
+                if (i == R.id.homeItem)
+                    startActivity(new Intent(DoctorHomeActivity.this, DoctorAccountActivity.class));
                 else if (i == R.id.patientsItem)
                     startActivity(new Intent(DoctorHomeActivity.this, PatientListActivity.class));
                 else if (i == R.id.appointmentsItem) ;
@@ -149,13 +146,11 @@ public class DoctorHomeActivity extends AppCompatActivity
         return matcher.matches();
     }
 
-    private boolean isValidYearsOfExperience(String yearsOfExperience)  // No need to check if the field is empty
-    {                                                                   // because regex won't match empty strings
-        Pattern pattern;
-        Matcher matcher;
-        pattern = Pattern.compile("([1-9]|[1-5][0-9])");
-        matcher = pattern.matcher(yearsOfExperience);
-        return matcher.matches();
+    private boolean isValidYearsOfExperience(String yearsOfExperience)
+    {
+        int yearsOfExperience1 = Integer.parseInt(yearsOfExperience);
+
+        return yearsOfExperience1 <= 60;
     }
 
     private boolean isValidWorkplace(String workpalce) // No need to check if the field is empty
@@ -171,7 +166,7 @@ public class DoctorHomeActivity extends AppCompatActivity
     {
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View view = inflater.inflate(R.layout.activity_doctor_dialog1, null);
+        View view = inflater.inflate(R.layout.doctor_dialog1, null);
 
         specialityInputLayout = view.findViewById(R.id.specialityInputLayout);
         yearsOfExperienceInputLayout = view.findViewById(R.id.yearsOfExperienceInputLayout);
@@ -209,7 +204,7 @@ public class DoctorHomeActivity extends AppCompatActivity
             workDaysSecondToggleButton = view.findViewById(R.id.workDaysSecondToggleButton);
 
 
-            List<String> workdays = getWorkDays(workDaysFirstToggleButton, workDaysSecondToggleButton);
+            List<String> workdays = getWorkdays(workDaysFirstToggleButton, workDaysSecondToggleButton);
 
             if (!isValidSpeciality(speciality))
             {
@@ -233,7 +228,7 @@ public class DoctorHomeActivity extends AppCompatActivity
                 Map<String, Object> additionalData = new HashMap<>();
 
                 additionalData.put("speciality", speciality);
-                additionalData.put("yearsOfExperience", Double.parseDouble(yearsOfExperience));
+                additionalData.put("yearsOfExperience", Integer.parseInt(yearsOfExperience));
                 additionalData.put("workplace", workplace);
                 additionalData.put("workdays", workdays);
                 additionalData.put("completeInfo", true);
@@ -283,30 +278,31 @@ public class DoctorHomeActivity extends AppCompatActivity
     }
 
 
-    private List<String> getWorkDays(MaterialButtonToggleGroup workDaysFirstToggleButton,
-                                     MaterialButtonToggleGroup workDaysSecondToggleButton) {
-        List<Integer> workDaysGroup1 = workDaysFirstToggleButton.getCheckedButtonIds();
-        List<Integer> workDaysGroup2 = workDaysSecondToggleButton.getCheckedButtonIds();
+    private List<String> getWorkdays(MaterialButtonToggleGroup workdaysFirstToggleButton,
+                                     MaterialButtonToggleGroup workdaysSecondToggleButton)
+    {
+        List<Integer> workdaysGroup1 = workdaysFirstToggleButton.getCheckedButtonIds();
+        List<Integer> workdaysGroup2 = workdaysSecondToggleButton.getCheckedButtonIds();
 
-        List<String> workDays = new ArrayList<>();
+        List<String> workdays = new ArrayList<>();
 
-        if (workDaysGroup1.contains(R.id.saturdayButton))
-            workDays.add("saturday");
-        if (workDaysGroup1.contains(R.id.sundayButton))
-            workDays.add("sunday");
-        if (workDaysGroup1.contains(R.id.mondayButton))
-            workDays.add("monday");
-        if (workDaysGroup1.contains(R.id.tuesdayButton))
-            workDays.add("tuesday");
-        if (workDaysGroup2.contains(R.id.wednesdayButton))
-            workDays.add("wednesday");
-        if (workDaysGroup2.contains(R.id.thursdayButton))
-            workDays.add("thursday");
-        if (workDaysGroup2.contains(R.id.fridayButton))
-            workDays.add("friday");
+        if (workdaysGroup1.contains(R.id.saturdayButton))
+            workdays.add("saturday");
+        if (workdaysGroup1.contains(R.id.sundayButton))
+            workdays.add("sunday");
+        if (workdaysGroup1.contains(R.id.mondayButton))
+            workdays.add("monday");
+        if (workdaysGroup1.contains(R.id.tuesdayButton))
+            workdays.add("tuesday");
+        if (workdaysGroup2.contains(R.id.wednesdayButton))
+            workdays.add("wednesday");
+        if (workdaysGroup2.contains(R.id.thursdayButton))
+            workdays.add("thursday");
+        if (workdaysGroup2.contains(R.id.fridayButton))
+            workdays.add("friday");
 
 
-        return workDays;
+        return workdays;
     }
 
     private void addOnTextChangeListenersForInputEditText() {
@@ -361,7 +357,8 @@ public class DoctorHomeActivity extends AppCompatActivity
     }
 
 
-    private void showDateDialog(TextView textView) {
+    private void showDateDialog(TextView textView)
+    {
         Calendar calendar = Calendar.getInstance();
 
         /*  get current date  */

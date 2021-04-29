@@ -139,7 +139,8 @@ public class LoginActivity extends AppCompatActivity
             progressButtonAnimation();
             firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task ->
             {
-                if (task.isSuccessful()) {
+                if (task.isSuccessful())
+                {
                     progressButtonReverseAnimation();
 
                     SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
@@ -160,6 +161,7 @@ public class LoginActivity extends AppCompatActivity
                                 // it's impossible to be doctor
 
                                 boolean completeInfo = document1.getBoolean("completeInfo");
+                                editor.putString("password", password);
                                 editor.putString("user_type", "patient");
                                 editor.putBoolean("user_complete_info", completeInfo);
                                 editor.apply();
@@ -179,6 +181,7 @@ public class LoginActivity extends AppCompatActivity
 
                                         if (document2.exists()) {
                                             boolean completeProfile = document2.getBoolean("completeInfo");
+                                            editor.putString("password", password);
                                             editor.putString("user_type", "doctor");
                                             editor.putBoolean("user_complete_info", completeProfile);
                                             editor.apply();

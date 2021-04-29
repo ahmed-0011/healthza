@@ -280,6 +280,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                                             if (userType.equals("patient"))
                                             {
+                                                editor.putString("password", password);
                                                 editor.putString("user_type", "patient");
                                                 editor.apply();
 
@@ -291,6 +292,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             }
                                             else
                                             {
+                                                editor.putString("password", password);
                                                 editor.putString("user_type", "doctor");
                                                 editor.apply();
 

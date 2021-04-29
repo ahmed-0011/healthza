@@ -14,7 +14,7 @@ public class Doctor
     private String sex;
     private String speciality;
     private String workplace;
-    private double yearsOfExperience;
+    private int yearsOfExperience;
     private boolean completeInfo;
 
     public Doctor(String doctorId, String name, String identificationNumber, String email, String phoneNumber, String birthDate, String sex, boolean completeInfo)
@@ -123,11 +123,11 @@ public class Doctor
         this.workdays = workdays;
     }
 
-    public double getYearsOfExperience() {
+    public int getYearsOfExperience() {
         return yearsOfExperience;
     }
 
-    public void setYearsOfExperience(double yearsOfExperience) {
+    public void setYearsOfExperience(int yearsOfExperience) {
         this.yearsOfExperience = yearsOfExperience;
     }
 

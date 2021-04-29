@@ -221,5 +221,7 @@
     <string name="enter_name">enter name</string>
     <string name="patient_name_or_id_or_phonenumber">Patient Name OR ID OR Phonenumber</string>
     <string name="doctor_name_or_phonenumber">Doctor Name OR Phonenumber</string>
+    <string name="account_information">Account Information</string>
+    <string name="change_password">Change password?</string>
 
 </resources>
