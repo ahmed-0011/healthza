@@ -3,9 +3,11 @@ package com.example.healthza;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.healthza.ui.AddCholesterolAndFatsTest;
 import com.example.healthza.ui.AddFBStest;
@@ -37,6 +39,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 public class DrawerUtil
 {
     public static View headerView;
+    public static Toolbar toolbar;
 
     public static void getDoctorDrawer(final Activity activity, int identifier)
     {
@@ -178,10 +181,12 @@ public class DrawerUtil
                     }
                 })
                 .build();
+
+        result.getDrawerLayout().setStatusBarBackgroundColor(activity.getColor(R.color.primary_dark));
     }
 
 
-    public static PrimaryDrawerItem getPatientDrawer(final Activity activity, int identifier)
+    public static void getPatientDrawer(final Activity activity, int identifier)
     {
 
         Drawer result = new DrawerBuilder()
@@ -414,7 +419,7 @@ public class DrawerUtil
                     }
                 })
                 .build();
-        return null;
+        result.getDrawerLayout().setStatusBarBackgroundColor(activity.getColor(R.color.primary_dark));
     }
 
 }
