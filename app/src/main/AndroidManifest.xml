@@ -9,8 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Theme.Healthza">
-        <activity android:name=".PatientChartsActivity"
-            android:theme="@style/noActionBarTheme"/>
+        <activity android:name=".ui.ChangePasswordActivity"></activity>
+        <activity
+            android:name=".ui.PatientChartsActivity"
+            android:theme="@style/noActionBarTheme" />
         <activity
             android:name=".ui.DoctorAccountActivity"
             android:theme="@style/noActionBarTheme" />

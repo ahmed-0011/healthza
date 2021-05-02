@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -150,7 +151,7 @@ public class DoctorAccountActivity extends AppCompatActivity
 
         changeAccountPasswordButton.setOnClickListener(v ->
         {
-
+            startActivity(new Intent(this, ChangePasswordActivity.class));
         });
 
         saveButton.setOnClickListener(v ->

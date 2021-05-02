@@ -211,18 +211,26 @@ public class RegisterActivity extends AppCompatActivity {
         {
             emailInputLayout.setError(getString(R.string.enter_a_valid_email));
             emailInputEditText.requestFocus();
-        } else if (!isValidPhoneNumber(phoneNumber)) {
+        }
+        else if (!isValidPhoneNumber(phoneNumber))
+        {
             phoneNumberInputLayout.setError(getString(R.string.enter_a_valid_phonenumber));
             phoneNumberInputEditText.requestFocus();
-        } else if (!isValidPassword(password)) {
+        }
+        else if (!isValidPassword(password)) {
             passwordInputLayout.setError(getString(R.string.password_length_error));
             passwordInputEditText.requestFocus();
-        } else if (!isValidPassword(confirmPassword)) {
+        }
+        else if (!isValidPassword(confirmPassword))
+        {
             confirmPasswordInputLayout.setError(getString(R.string.password_length_error));
             confirmPasswordInputEditText.requestFocus();
-        } else if (!isPasswordMatched(password, confirmPassword))
+        }
+        else if (!isPasswordMatched(password, confirmPassword))
+        {
             confirmPasswordInputLayout.setError(getString(R.string.passwords_not_match_error));
-
+            confirmPasswordInputEditText.requestFocus();
+        }
         else
         {
 

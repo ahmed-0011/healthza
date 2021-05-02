@@ -2,6 +2,7 @@ package com.example.healthza.ui;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +14,7 @@ import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -104,6 +106,18 @@ public class PatientHomeActivity extends AppCompatActivity
         DrawerUtil.headerView = view;
         DrawerUtil.getPatientDrawer(this, -1);
     }
+
+
+    private void hideKeyboard()
+    {
+        View view = this.getCurrentFocus();
+        if (view != null)
+        {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
 
     @SuppressLint("SetTextI18n")
     void showWelcomeDialog()
@@ -453,6 +467,7 @@ public class PatientHomeActivity extends AppCompatActivity
             }
             else
                 {
+                    hideKeyboard();
 
                 double weight = Double.parseDouble(weightString);
                 double height = Double.parseDouble(heightString);
