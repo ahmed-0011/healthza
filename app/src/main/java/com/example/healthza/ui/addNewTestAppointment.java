@@ -401,7 +401,7 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
 
         // add code dd
         //<!--
-        addF(testName,date_,patientId);
+        addF(testName,date_,patientId,patientName);
         //-->
 
         notification("New Appointment added",testName,s3);
@@ -409,7 +409,7 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
 
     }
 
-    void addF(String type,String date,String patientId)
+    void addF(String type,String date,String patientId,String patientName)
     {
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -425,12 +425,15 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
 
                     DocumentSnapshot document = task.getResult();
                    String idD = (String) document.get("identificationNumber");
+                   String nmD =  (String) document.get("name");
+
                     Map<String, Object> data = new HashMap<>();
                     data.put("type",type);
                     data.put("date",date);
                     data.put("description",
                             descripeC.getText().toString().isEmpty()? "" : descripeC.getText().toString() );
                     data.put("patientId",patientId);
+                    data.put("patientName",patientName);
 
                     Task<Void> dec =db.collection("doctors")
                             .document(doctorId)
@@ -457,6 +460,7 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
                     data.put("description",
                             descripeC.getText().toString().isEmpty()? "" : descripeC.getText().toString() );
                     data.put("doctorId",idD);
+                    data.put("doctorName",nmD);
 
                      dec =db.collection("patients")
                             .document(idsP.get(patientPOS))

@@ -1,5 +1,6 @@
 package com.example.healthza.ui;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -12,6 +13,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
 import java.util.Calendar;
 
@@ -44,6 +48,74 @@ public class Functions extends AppCompatActivity{
 
     static    int ne=1;//  Notification ID"Counter"
 
+    public static class MDatePicker
+    {
+        private static int Year;
+        private static int Month;
+        private static int Day;
+
+        TextView f;
+
+        public static int getYear() {
+            return Year;
+        }
+
+        public static int getMonth() {
+            return Month;
+        }
+
+        public static int getDay() {
+            return Day;
+        }
+
+        public static void setYear(int year) {
+            Year = year;
+        }
+
+        public static void setMonth(int month) {
+            Month = month;
+        }
+
+        public static void setDay(int day) {
+            Day = day;
+        }
+
+       static void show(Object This) {
+            MaterialDatePicker.Builder materialDateBuilder = MaterialDatePicker.Builder.datePicker();
+
+            // now define the properties of the
+            // materialDateBuilder that is title text as SELECT A DATE
+            materialDateBuilder.setTitleText("SELECT A DATE");
+
+            // now create the instance of the material date
+            // picker
+            final MaterialDatePicker materialDatePicker = materialDateBuilder.build();
+
+            // handle select date button which opens the
+            materialDatePicker.show(((AddHypertensionTest)This).getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
+
+
+            // now handle the positive button click from the
+            // material design date picker
+            materialDatePicker.addOnPositiveButtonClickListener(
+                    new MaterialPickerOnPositiveButtonClickListener() {
+                        @SuppressLint("SetTextI18n")
+                        @Override
+                        public void onPositiveButtonClick(Object selection) {
+
+                            // if the user clicks on the positive
+                            // button that is ok button update the
+                            // selected date
+                            //mShowSelectedDateText.setText("Selected Date is : " + materialDatePicker.getHeaderText());
+                            // in the above statement, getHeaderText
+                            // is the selected date preview from the
+                            // dialog
+                        }
+                    });
+        }
+
+
+    }
     //Date
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {

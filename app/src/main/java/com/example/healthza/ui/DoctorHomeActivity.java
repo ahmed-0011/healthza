@@ -93,7 +93,7 @@ public class DoctorHomeActivity extends AppCompatActivity
                 if (i == R.id.homeItem);
                 else if (i == R.id.patientsItem)
                     startActivity(new Intent(DoctorHomeActivity.this, PatientListActivity.class));
-                else if (i == R.id.appointmentsItem) ;
+                else if (i == R.id.appointmentsItem){startActivity(new Intent(DoctorHomeActivity.this, DoctorAppointments.class));}
                     //TODO
                 else if (i == R.id.chatItem)
                     startActivity(new Intent(DoctorHomeActivity.this, DoctorChatListActivity.class));

@@ -37,17 +37,17 @@
         android:id="@+id/toggleButtonGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
         android:backgroundTint="#FFFFFF"
-        android:gravity="center_horizontal|center_vertical"
+        android:gravity="center_vertical"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="10dp"
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <Button
@@ -60,7 +60,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="10dp"
             android:text="Glucose Test"
-            app:icon="@android:drawable/ic_delete" />
+            app:icon="@drawable/checkmark" />
 
         <Button
             android:id="@+id/btn2"
@@ -72,7 +72,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="10dp"
             android:text="F.B.S test"
-            app:icon="@android:drawable/ic_delete" />
+            app:icon="@drawable/checkmark" />
 
         <Button
             android:id="@+id/btn3"
@@ -84,7 +84,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="10dp"
             android:text="Cumulative test"
-            app:icon="@android:drawable/ic_delete" />
+            app:icon="@drawable/checkmark" />
 
         <Button
             android:id="@+id/btn4"
@@ -96,7 +96,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="10dp"
             android:text="Hypertension test"
-            app:icon="@android:drawable/ic_delete" />
+            app:icon="@drawable/checkmark" />
 
         <Button
             android:id="@+id/btn5"
@@ -108,7 +108,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="10dp"
             android:text="Cholesterol and Fats test"
-            app:icon="@android:drawable/ic_delete" />
+            app:icon="@drawable/checkmark" />
 
         <Button
             android:id="@+id/btn6"
@@ -120,7 +120,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="10dp"
             android:text="Liver test"
-            app:icon="@android:drawable/ic_delete" />
+            app:icon="@drawable/checkmark" />
 
         <Button
             android:id="@+id/btn7"
@@ -132,7 +132,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="10dp"
             android:text="Kidneys Test"
-            app:icon="@android:drawable/ic_delete" />
+            app:icon="@drawable/checkmark" />
 
         <Button
             android:id="@+id/btn8"
@@ -144,7 +144,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="10dp"
             android:text="Comprehensive Test"
-            app:icon="@android:drawable/ic_delete" />
+            app:icon="@drawable/checkmark" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 

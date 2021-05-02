@@ -56,6 +56,7 @@ public class PatientHomeActivity extends AppCompatActivity
     TextInputLayout weightInputlayout, heightInputlayout;
     TextInputEditText weightInputEditText, heightInputEditText;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +85,7 @@ public class PatientHomeActivity extends AppCompatActivity
                 else if (i == R.id.medicalHistoryItem)
                     startActivity(new Intent(PatientHomeActivity.this, medicalRecords.class));
                 else if (i == R.id.chartsItem);
-                else if (i == R.id.appointmentsItem) ;
+                else if (i == R.id.appointmentsItem)startActivity(new Intent(PatientHomeActivity.this, PatientAppointments.class));
                     //TODO
                 else if (i == R.id.chatItem)
                     startActivity(new Intent(PatientHomeActivity.this, PatientChatListActivity.class));
@@ -617,5 +618,18 @@ public class PatientHomeActivity extends AppCompatActivity
                 .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
                 .setNegativeButtonIcon(getDrawable ( R.drawable.no))
                 .show ();
+    }
+
+    //rotate
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
     }
 }

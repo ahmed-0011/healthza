@@ -9,53 +9,62 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Theme.Healthza">
-        <activity android:name=".PatientChartsActivity"
+
+
+        <activity android:name=".ui.PatientAppointments"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/noActionBarTheme" />
+        <activity
+            android:name=".ui.DoctorAppointments"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/noActionBarTheme" />
+
+        <activity android:name=".ui.DoctorChatListActivity" android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name=".ui.ChatMessagesActivity" android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name=".ui.PatientChatListActivity" android:configChanges="orientation|screenSize|keyboardHidden"/>
+
+        <activity android:name=".ui.DoctorHomeActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme"/>
-        <activity
-            android:name=".ui.DoctorAccountActivity"
-            android:theme="@style/noActionBarTheme" />
-        <activity
-            android:name=".ui.PatientAccountActivity"
-            android:theme="@style/noActionBarTheme" />
-        <activity android:name=".ui.DoctorChatListActivity" />
-        <activity android:name=".ui.ChatMessagesActivity" />
-        <activity android:name=".ui.PatientChatListActivity" />
-        <activity
-            android:name=".ui.DoctorHomeActivity"
+
+        <activity android:name=".ui.patientMedicalRecords"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
-        <activity
-            android:name=".ui.patientMedicalRecords"
+            android:theme="@style/noActionBarTheme"/>
+
+        <activity android:name=".ui.medicalRecords"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
-        <activity
-            android:name=".ui.medicalRecords"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
+            android:theme="@style/noActionBarTheme"/>
+
         <activity
             android:name=".ui.DoctorListActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
+
         <activity
             android:name=".ui.PatientReceiveRequestActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
+
         <activity
             android:name=".ui.DoctorSendRequestActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
+
         <activity
             android:name=".ui.PatientListActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
+
         <activity
             android:name=".ui.PatientHomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
+
         <activity
             android:name=".ui.EmailVerificationCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/noActionBarTheme" />
+
         <activity
             android:name=".ui.SplashScreenActivity"
             android:noHistory="true"
@@ -99,47 +108,47 @@
         <activity
             android:name=".ui.newChronicDiseases"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
+            android:theme="@style/noActionBarTheme"/>
         <activity
             android:name=".ui.HbAlc"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
+            android:theme="@style/noActionBarTheme"/>
         <activity
             android:name=".ui.ComprehensiveTest"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
+            android:theme="@style/noActionBarTheme"/>
         <activity
             android:name=".ui.AddLiverTest"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
+            android:theme="@style/noActionBarTheme"/>
         <activity
             android:name=".ui.AddKidneysTest"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
+            android:theme="@style/noActionBarTheme"/>
         <activity
             android:name=".ui.AddHypertensionTest"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
+            android:theme="@style/noActionBarTheme"/>
         <activity
             android:name=".ui.AddGlucoseTest"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
+            android:theme="@style/noActionBarTheme"/>
         <activity
             android:name=".ui.AddFBStest"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
+            android:theme="@style/noActionBarTheme"/>
         <activity
             android:name=".ui.AddCholesterolAndFatsTest"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
+            android:theme="@style/noActionBarTheme"/>
         <activity
             android:name=".ui.updateComplicationStatus"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
+            android:theme="@style/noActionBarTheme"/>
         <activity
             android:name=".ui.addComplications"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
+            android:theme="@style/noActionBarTheme"/>
         <activity
             android:name=".ui.addNewTestAppointment"
             android:configChanges="orientation|screenSize|keyboardHidden"
