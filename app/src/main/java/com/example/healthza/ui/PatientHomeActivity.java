@@ -59,7 +59,8 @@ public class PatientHomeActivity extends AppCompatActivity
     TextInputEditText weightInputEditText, heightInputEditText;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_home);
 
