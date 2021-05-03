@@ -8,9 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-
+    <!-- splash screen-->
     <style name="splashScreenStyle" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen_background</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <!-- button style -->

@@ -223,5 +223,7 @@
     <string name="doctor_name_or_phonenumber">Doctor Name OR Phonenumber</string>
     <string name="account_information">Account Information</string>
     <string name="change_password">Change password?</string>
+    <string name="current_password">Current password</string>
+    <string name="change_password_hint">Change password</string>
 
 </resources>
