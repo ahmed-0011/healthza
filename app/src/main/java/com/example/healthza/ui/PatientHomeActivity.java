@@ -88,9 +88,8 @@ public class PatientHomeActivity extends AppCompatActivity
                     startActivity(new Intent(PatientHomeActivity.this, medicalRecords.class));
                 else if (i == R.id.chartsItem)
                     startActivity(new Intent(PatientHomeActivity.this, PatientChartsActivity.class));
-
-                else if (i == R.id.appointmentsItem) ;
-                    //TODO
+                else if (i == R.id.appointmentsItem)
+                    startActivity(new Intent(PatientHomeActivity.this, PatientAppointments.class));
                 else if (i == R.id.chatItem)
                     startActivity(new Intent(PatientHomeActivity.this, PatientChatListActivity.class));
 
@@ -635,5 +634,17 @@ public class PatientHomeActivity extends AppCompatActivity
                 .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
                 .setNegativeButtonIcon(getDrawable ( R.drawable.no))
                 .show ();
+    }
+    //rotate
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
     }
 }

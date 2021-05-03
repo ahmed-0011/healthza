@@ -6,24 +6,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.healthza.DrawerUtil;
+import com.example.healthza.R;
 import com.example.healthza.Toasty;
+import com.example.healthza.adapters.PatientAdapter;
 import com.example.healthza.models.Disease;
 import com.example.healthza.models.Patient;
-import com.example.healthza.adapters.PatientAdapter;
-import com.example.healthza.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -61,7 +59,7 @@ public class PatientListActivity extends AppCompatActivity implements PatientAda
         firebaseAuth = FirebaseAuth.getInstance();
         String doctorId = firebaseAuth.getCurrentUser().getUid();
 
-        DrawerUtil.getDoctorDrawer(this, 3);
+       // DrawerUtil.getDoctorDrawer(this, 3);
 
         patients = new ArrayList<>();
         patientsRecyclerView = findViewById(R.id.patientsRecyclerView);

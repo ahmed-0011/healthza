@@ -9,19 +9,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Theme.Healthza">
-        <activity android:name=".ui.ChangePasswordActivity"></activity>
+        <activity android:name=".ui.ViewIdentifiersP"></activity>
         <activity
-            android:name=".ui.PatientChartsActivity"
+            android:name=".ui.PatientAppointments"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
         <activity
-            android:name=".ui.DoctorAccountActivity"
+            android:name=".ui.DoctorAppointments"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
         <activity
-            android:name=".ui.PatientAccountActivity"
-            android:theme="@style/noActionBarTheme" />
-        <activity android:name=".ui.DoctorChatListActivity" />
-        <activity android:name=".ui.ChatMessagesActivity" />
-        <activity android:name=".ui.PatientChatListActivity" />
+            android:name=".ui.DoctorChatListActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".ui.ChatMessagesActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".ui.PatientChatListActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".ui.DoctorHomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

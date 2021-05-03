@@ -3,7 +3,6 @@ package com.example.healthza;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
@@ -22,6 +21,7 @@ import com.example.healthza.ui.DoctorSendRequestActivity;
 import com.example.healthza.ui.Functions;
 import com.example.healthza.ui.HbAlc;
 import com.example.healthza.ui.PatientReceiveRequestActivity;
+import com.example.healthza.ui.ViewIdentifiersP;
 import com.example.healthza.ui.WelcomeActivity;
 import com.example.healthza.ui.addComplications;
 import com.example.healthza.ui.addNewTestAppointment;
@@ -382,7 +382,11 @@ public class DrawerUtil
                             }
 
                             case 18:
+                            {
+                                Intent intent = new Intent(activity, ViewIdentifiersP.class);
+                                view.getContext().startActivity(intent);
                                 break;
+                            }
 
                             case 14:
                             {
