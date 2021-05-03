@@ -25,4 +25,5 @@
     <color name="warning_color">#F5C206</color>
     <color name="error_color">#DD0000</color>
     <color name="info_color">#077BCD</color>
+    <color name="glucose_color">#FF6B31</color>
 </resources>

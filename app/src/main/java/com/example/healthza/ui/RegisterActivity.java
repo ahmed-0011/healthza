@@ -432,7 +432,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-    private void clearInputsErrors() {
+    private void clearInputsErrors()
+    {
         identificationNumberInputLayout.setError(null);
         nameInputLayout.setError(null);
         emailInputLayout.setError(null);

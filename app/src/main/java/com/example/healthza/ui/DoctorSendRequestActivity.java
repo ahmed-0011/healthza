@@ -256,11 +256,6 @@ public class DoctorSendRequestActivity extends AppCompatActivity implements Send
     {
         Calendar calendar = Calendar.getInstance();
 
-        /*  get today date  */
-        int date = calendar.get(Calendar.DATE);
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
-
         return DateFormat.format("MM/dd/yyyy", calendar).toString();
     }
 
@@ -273,9 +268,7 @@ public class DoctorSendRequestActivity extends AppCompatActivity implements Send
 
     @Override
     public void onItemLongClick(int position) {
-        //setSnackBar(findViewById(R.id.doctorSendRequestConstraintLayout), "fehh");
-        //sendRequests.remove(position);
-        //sendRequestAdapter.notifyItemRemoved(position);
+
     }
 
     @Override

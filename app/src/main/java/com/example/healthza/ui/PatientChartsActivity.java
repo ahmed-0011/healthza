@@ -1,11 +1,15 @@
 package com.example.healthza.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.format.DateFormat;
+import android.widget.Toast;
 
 import com.example.healthza.R;
+import com.example.healthza.models.Patient;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -14,19 +18,42 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class PatientChartsActivity extends AppCompatActivity
 {
+    private LineChart chart;
+    private RecyclerView patientChartsRecyclerView;
+    private ArrayList<Entry> glucoseTests;
+    private FirebaseFirestore db;
+    private FirebaseAuth firebaseAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_charts);
 
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
+        String patientId = firebaseAuth.getCurrentUser().getUid();
+
         LineChart chart = (LineChart) findViewById(R.id.lineChart);
+
+        glucoseTests = new ArrayList<>();
 
         chart.getAxisRight().setEnabled(false);
         chart.setDragEnabled(true);
@@ -43,35 +70,122 @@ public class PatientChartsActivity extends AppCompatActivity
         yAxis.setGranularity(3f);
 
 
-        List<Entry> entries = new ArrayList<>();
+        List<Entry> glucoseEntries = new ArrayList<>();
+        List<Entry> hypertensionEntries = new ArrayList<>();
+        List<Entry> cholestrolEntries = new ArrayList<>();
 
-        entries.add(new Entry(0, 60));
-        entries.add(new Entry(0, 55));
-        entries.add(new Entry(1, 70));
-        entries.add(new Entry(2, 88));
-        entries.add(new Entry(3, 95));
-        entries.add(new Entry(4, 90));
-        entries.add(new Entry(5, 84));
-        entries.add(new Entry(6, 80));
-        entries.add(new Entry(7, 60));
-        entries.add(new Entry(8, 60));
-        entries.add(new Entry(9, 120));
+        CollectionReference testsRef = db.collection("patients")
+                .document(patientId)
+                .collection("tests");
 
-        LineDataSet dataSet = new LineDataSet(entries, "Glucose");
+        testsRef.document("glucose_test")
+                .collection(getTodayDate())
+                .get().addOnSuccessListener(glucoseDocuments ->
+        {
+            int i = 0;
+            for(DocumentSnapshot glucoseDocument : glucoseDocuments.getDocuments())
+            {
+                glucoseTests.add(new Entry(i++, (float) (1f * glucoseDocument.getDouble("glucose_percent"))));
+            }
 
-        dataSet.setFillAlpha(110);
+            glucoseEntries.addAll(glucoseTests);
 
-        dataSet.setColor(Color.GREEN);
-        dataSet.setLineWidth(3f);
-        dataSet.setValueTextSize(12f);
-        ArrayList<IDataSet> dataSets = new ArrayList<>();
+            /*
+            testsRef.document("hypertension_test")
+                    .collection(getTodayDate())
+                    .get().addOnSuccessListener(queryDocumentSnapshots ->
+            {
+                for(DocumentSnapshot glucoseDocument : glucoseDocuments.getDocuments())
+                {
+                    glucoseTests.add(new Entry(i++, (float) (1f * glucoseDocument.getDouble("glucose_percent"))));
+                }
+            });
+            */
 
-        dataSets.add(dataSet);
+            /*
+            testsRef.document("hypertension_test")
+                    .collection(getTodayDate())
+                    .get().addOnSuccessListener(queryDocumentSnapshots ->
+            {
+                for(DocumentSnapshot glucoseDocument : glucoseDocuments.getDocuments())
+                {
+                    glucoseTests.add(new Entry(i++, (float) (1f * glucoseDocument.getDouble("glucose_percent"))));
+                }
+            });
+            */
 
-        LineData lineData = new LineData(dataSet);
+            /*
+            testsRef.document("hypertension_test")
+                    .collection(getTodayDate())
+                    .get().addOnSuccessListener(queryDocumentSnapshots ->
+            {
+                for(DocumentSnapshot glucoseDocument : glucoseDocuments.getDocuments())
+                {
+                    glucoseTests.add(new Entry(i++, (float) (1f * glucoseDocument.getDouble("glucose_percent"))));
+                }
+            });
+            */
+
+            /*
+            testsRef.document("hypertension_test")
+                    .collection(getTodayDate())
+                    .get().addOnSuccessListener(queryDocumentSnapshots ->
+            {
+                for(DocumentSnapshot glucoseDocument : glucoseDocuments.getDocuments())
+                {
+                    glucoseTests.add(new Entry(i++, (float) (1f * glucoseDocument.getDouble("glucose_percent"))));
+                }
+            });
+            */
+
+            /*
+            testsRef.document("hypertension_test")
+                    .collection(getTodayDate())
+                    .get().addOnSuccessListener(queryDocumentSnapshots ->
+            {
+                for(DocumentSnapshot glucoseDocument : glucoseDocuments.getDocuments())
+                {
+                    glucoseTests.add(new Entry(i++, (float) (1f * glucoseDocument.getDouble("glucose_percent"))));
+                }
+            });
+            */
+
+            /*
+            testsRef.document("hypertension_test")
+                    .collection(getTodayDate())
+                    .get().addOnSuccessListener(queryDocumentSnapshots ->
+            {
+                for(DocumentSnapshot glucoseDocument : glucoseDocuments.getDocuments())
+                {
+                    glucoseTests.add(new Entry(i++, (float) (1f * glucoseDocument.getDouble("glucose_percent"))));
+                }
+            });
+            */
+
+            LineDataSet dataSet = new LineDataSet(glucoseEntries, "Glucose");
+
+            dataSet.setFillAlpha(110);
+
+            dataSet.setColor(getColor(R.color.glucose_color));
+            dataSet.setLineWidth(3f);
+            dataSet.setValueTextSize(12f);
+
+            ArrayList<IDataSet> dataSets = new ArrayList<>();
+            dataSets.add(dataSet);
+
+            LineData lineData = new LineData(dataSet);
 
 
-        chart.setData(lineData);
-        chart.invalidate();
+            chart.setData(lineData);
+            chart.invalidate();
+
+        });
+    }
+
+    public String getTodayDate()
+    {
+        Calendar calendar = Calendar.getInstance();
+
+        return DateFormat.format("yyyy-M-d", calendar).toString();
     }
 }
