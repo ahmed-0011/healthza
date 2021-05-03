@@ -527,10 +527,25 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
             //<!-- add test
 
             Map<String, Object> dataTest = new HashMap<>();
-            dataTest.put("date_add", datE.getText().toString());
-            dataTest.put("time_add", timE.getText().toString());
+
             dataTest.put("fbs_percent", Float.parseFloat(fbs.getText().toString()));
             dataTest.put("sub", false);
+            //Time Stamp
+            String Date =datE.getText().toString();
+            int i1 = Date.indexOf("-");
+            int i2 = Date.lastIndexOf("-");
+
+            String year = Date.substring(0,i1);
+            String month = Date.substring(i1+1,i2); if(month.length()==1)month = "0"+month;
+            String day = Date.substring(i2+1); if(day.length()==1)day= "0"+day;
+
+            String Time = timE.getText().toString();
+            String hour = Time.substring(0,Time.indexOf(":")); if(hour.length()==1)hour = "0"+hour;
+            String mnt = Time.substring(Time.indexOf(":")+1); if(day.length()==1)mnt = "0"+mnt;
+            System.out.println(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
+            java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
+            //year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0"
+            dataTest.put("timestamp", timestamp);
 
             DocumentReference DRC = db.collection("patients") // table
                     .document(userId) // patient id

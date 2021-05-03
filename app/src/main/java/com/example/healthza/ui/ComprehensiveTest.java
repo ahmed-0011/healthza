@@ -653,11 +653,30 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
 
             //<!-- add test
 
+            //Time Stamp
+            String Date =datE.getText().toString();
+            int i1 = Date.indexOf("-");
+            int i2 = Date.lastIndexOf("-");
+
+            String year = Date.substring(0,i1);
+            String month = Date.substring(i1+1,i2); if(month.length()==1)month = "0"+month;
+            String day = Date.substring(i2+1); if(day.length()==1)day= "0"+day;
+
+            String Time = timE.getText().toString();
+            String hour = Time.substring(0,Time.indexOf(":")); if(hour.length()==1)hour = "0"+hour;
+            String mnt = Time.substring(Time.indexOf(":")+1); if(day.length()==1)mnt = "0"+mnt;
+            System.out.println(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
+            java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
+            //year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0"
+
+
             Map<String, Object> dataTest = new HashMap<>();
             dataTest.put("date_add", datE.getText().toString());
             dataTest.put("time_add", timE.getText().toString());
             dataTest.put("fbs_percent", Float.parseFloat(inputField[0].getText().toString()));
             dataTest.put("sub", true);
+            dataTest.put("timestamp", timestamp);
+
 
             DocumentReference DRC = db.collection("patients") // table
                     .document(userId) // patient id
@@ -758,6 +777,7 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
             dataTest.put("GGT_percent", Float.parseFloat(inputField[2].getText().toString()));
             dataTest.put("AlkPhosphatese_percent", Float.parseFloat(inputField[1].getText().toString()));
             dataTest.put("sub", true);
+            dataTest.put("timestamp", timestamp);
 
            DRC = db.collection("patients") // table
                     .document(userId) // patient id
@@ -857,6 +877,7 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
             dataTest.put("Urea_percent", Float.parseFloat(inputField[6].getText().toString()));
             dataTest.put("Creatinine_percent", Float.parseFloat(inputField[7].getText().toString()));
             dataTest.put("sub", true);
+            dataTest.put("timestamp", timestamp);
 
             DRC = db.collection("patients") // table
                     .document(userId) // patient id
@@ -957,6 +978,7 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
             dataTest.put("HDLCholesterol_percent", Float.parseFloat(inputField[10].getText().toString()));
             dataTest.put("CholesterolTotal_percent", Float.parseFloat(inputField[11].getText().toString()));
             dataTest.put("sub", true);
+            dataTest.put("timestamp", timestamp);
 
             DRC = db.collection("patients") // table
                     .document(userId) // patient id
@@ -1073,6 +1095,7 @@ public class ComprehensiveTest extends AppCompatActivity implements View.OnClick
             dataTest.put("cpk_percent", Float.parseFloat(inputField[30].getText().toString()));
             dataTest.put("tProtein_percent", Float.parseFloat(inputField[31].getText().toString()));
             dataTest.put("magnesium_percent", Float.parseFloat(inputField[32].getText().toString()));
+            dataTest.put("timestamp", timestamp);
 
            DRC = db.collection("patients") // table
                     .document(userId) // patient id
