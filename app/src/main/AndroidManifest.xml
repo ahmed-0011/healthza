@@ -11,6 +11,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Healthza">
 
+        <activity android:name=".ui.PatientAccountActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/noActionBarTheme"/>
+
+        <activity android:name=".ui.DoctorAccountActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/noActionBarTheme"/>
+
         <activity android:name=".ui.DViewIdentifiersP"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme"/>

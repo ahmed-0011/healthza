@@ -17,10 +17,12 @@ import com.example.healthza.ui.AddLiverTest;
 import com.example.healthza.ui.AddPatientIdentifier;
 import com.example.healthza.ui.ComprehensiveTest;
 import com.example.healthza.ui.DViewIdentifiersP;
+import com.example.healthza.ui.DoctorAccountActivity;
 import com.example.healthza.ui.DoctorListActivity;
 import com.example.healthza.ui.DoctorSendRequestActivity;
 import com.example.healthza.ui.Functions;
 import com.example.healthza.ui.HbAlc;
+import com.example.healthza.ui.PatientAccountActivity;
 import com.example.healthza.ui.PatientReceiveRequestActivity;
 import com.example.healthza.ui.ViewIdentifiersP;
 import com.example.healthza.ui.WelcomeActivity;
@@ -109,7 +111,12 @@ public class DrawerUtil
                         switch ((int) drawerItem.getIdentifier())
                         {
                             case 0:
+                            {
+                                Intent intent = new Intent(activity,  DoctorAccountActivity.class);
+                                view.getContext().startActivity(intent);
                                 break;
+                            }
+
                             case 1:
                                 break;
                             case 2:
@@ -291,7 +298,11 @@ public class DrawerUtil
                         switch ((int) drawerItem.getIdentifier())
                         {
                             case 0:
+                            {
+                                Intent intent = new Intent(activity, PatientAccountActivity.class);
+                                view.getContext().startActivity(intent);
                                 break;
+                            }
                             case 1:
                                 break;
                             case 2:
