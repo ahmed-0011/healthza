@@ -155,6 +155,11 @@
             android:name=".ui.AddPatientIdentifier"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
+
+        <activity
+            android:name=".ui.PatientChartsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/noActionBarTheme" />
     </application>
 
 </manifest>

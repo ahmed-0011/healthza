@@ -22,7 +22,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
+            android:background="@color/accent"
             android:paddingBottom="6dp">
 
             <TextView
@@ -30,22 +30,22 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text=""
                 app:layout_constraintWidth_percent="0.45"
+                android:text="@string/test_type"
                 android:textColor="@color/txt_black"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="testType" />
+                tools:text="test type" />
 
             <TextView
                 android:id="@+id/testLevelTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text=""
+                android:text="@string/level"
                 app:layout_constraintWidth_percent="0.27"
                 android:textColor="@color/txt_black"
                 android:textSize="16sp"
@@ -60,16 +60,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text=""
+                android:text="@string/time"
+                app:layout_constraintWidth_percent="0.28"
                 android:textColor="@color/txt_black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintWidth_percent="0.28"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/testLevelTextView"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="testTime" />
+                tools:text="time" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

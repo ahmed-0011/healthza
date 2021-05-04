@@ -187,7 +187,7 @@ public class PatientHomeActivity extends AppCompatActivity
                 cholestrolTypeInputEditText;
 
         diabetesCheckBox = view.findViewById(R.id.diabetesCheckBox);
-        hypertensionCheckBox = view.findViewById(R.id.hypertensionCheckBox);
+        hypertensionCheckBox = view.findViewById(R.id.bloodPressureCheckBox);
         cholestrolCheckBox = view.findViewById(R.id.cholestrolCheckBox);
         diabetesTypeInputEditText = view.findViewById(R.id.diabetesTypeInputEditText);
         hypertensionTypeInputEditText = view.findViewById(R.id.hypertensionTypeInputEditText);
