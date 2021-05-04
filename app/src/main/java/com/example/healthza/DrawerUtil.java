@@ -16,10 +16,13 @@ import com.example.healthza.ui.AddKidneysTest;
 import com.example.healthza.ui.AddLiverTest;
 import com.example.healthza.ui.AddPatientIdentifier;
 import com.example.healthza.ui.ComprehensiveTest;
+import com.example.healthza.ui.DViewIdentifiersP;
+import com.example.healthza.ui.DoctorAccountActivity;
 import com.example.healthza.ui.DoctorListActivity;
 import com.example.healthza.ui.DoctorSendRequestActivity;
 import com.example.healthza.ui.Functions;
 import com.example.healthza.ui.HbAlc;
+import com.example.healthza.ui.PatientAccountActivity;
 import com.example.healthza.ui.PatientReceiveRequestActivity;
 import com.example.healthza.ui.ViewIdentifiersP;
 import com.example.healthza.ui.WelcomeActivity;
@@ -28,6 +31,8 @@ import com.example.healthza.ui.addNewTestAppointment;
 import com.example.healthza.ui.newChronicDiseases;
 import com.example.healthza.ui.patientMedicalRecords;
 import com.example.healthza.ui.updateComplicationStatus;
+import com.example.healthza.ui.viewComplications;
+import com.example.healthza.ui.viewComplicationsP;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -73,6 +78,10 @@ public class DrawerUtil
                                 .withName("Patients Charts").withIcon(R.drawable.ic_barchart)
                                 .withIconTintingEnabled(true),
 
+                        new PrimaryDrawerItem().withIdentifier(18)
+                        .withName("View Identifier").withIcon(R.drawable.mange_identfiers)
+                                .withIconTintingEnabled(true),
+
                         new PrimaryDrawerItem().withIdentifier(5)
                                 .withName("Schedule new Appointment").withIcon(R.drawable.appointmenicon)
                                 .withIconTintingEnabled(true),
@@ -86,6 +95,9 @@ public class DrawerUtil
                                                 .withIconTintingEnabled(true),
                                         new SecondaryDrawerItem().withIdentifier(8)
                                                 .withName("UPDATE Complication Status").withIcon(R.drawable.updatecomp)
+                                                .withIconTintingEnabled(true),
+                                        new SecondaryDrawerItem().withIdentifier(19)
+                                                .withName("View Complications").withIcon(R.drawable.compico)
                                                 .withIconTintingEnabled(true)
                                 ),
 
@@ -104,7 +116,12 @@ public class DrawerUtil
                         switch ((int) drawerItem.getIdentifier())
                         {
                             case 0:
+                            {
+                                Intent intent = new Intent(activity,  DoctorAccountActivity.class);
+                                view.getContext().startActivity(intent);
                                 break;
+                            }
+
                             case 1:
                                 break;
                             case 2:
@@ -144,6 +161,20 @@ public class DrawerUtil
                             case 8:
                             {
                                 Intent intent = new Intent(activity, updateComplicationStatus.class);
+                                view.getContext().startActivity(intent);
+                                break;
+                            }
+
+                            case 18:
+                            {
+                                Intent intent = new Intent(activity, DViewIdentifiersP.class);
+                                view.getContext().startActivity(intent);
+                                break;
+                            }
+
+                            case 19:
+                            {
+                                Intent intent = new Intent(activity, viewComplicationsP.class);
                                 view.getContext().startActivity(intent);
                                 break;
                             }
@@ -220,6 +251,10 @@ public class DrawerUtil
                                 .withName("Add Chronic Diseases").withIcon(R.drawable.iconchronic)
                                 .withIconTintingEnabled(true),
 
+                        new PrimaryDrawerItem().withIdentifier(19)
+                                .withName("View Complications").withIcon(R.drawable.compico)
+                                .withIconTintingEnabled(true),
+
                         new PrimaryDrawerItem().withIdentifier(16)
                                 .withName("Manage Identifier").withIcon(R.drawable.mange_identfiers)
                                 .withIconTintingEnabled(true)
@@ -279,7 +314,11 @@ public class DrawerUtil
                         switch ((int) drawerItem.getIdentifier())
                         {
                             case 0:
+                            {
+                                Intent intent = new Intent(activity, PatientAccountActivity.class);
+                                view.getContext().startActivity(intent);
                                 break;
+                            }
                             case 1:
                                 break;
                             case 2:
@@ -384,6 +423,13 @@ public class DrawerUtil
                             case 18:
                             {
                                 Intent intent = new Intent(activity, ViewIdentifiersP.class);
+                                view.getContext().startActivity(intent);
+                                break;
+                            }
+
+                            case 19:
+                            {
+                                Intent intent = new Intent(activity, viewComplications.class);
                                 view.getContext().startActivity(intent);
                                 break;
                             }

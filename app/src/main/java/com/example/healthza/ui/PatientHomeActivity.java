@@ -86,8 +86,8 @@ public class PatientHomeActivity extends AppCompatActivity
                 if (i == R.id.homeItem);
                 else if (i == R.id.medicalHistoryItem)
                     startActivity(new Intent(PatientHomeActivity.this, medicalRecords.class));
-                else if (i == R.id.chartsItem)
-                    startActivity(new Intent(PatientHomeActivity.this, PatientChartsActivity.class));
+                else if (i == R.id.chartsItem);
+                   // startActivity(new Intent(PatientHomeActivity.this, PatientChartsActivity.class));
                 else if (i == R.id.appointmentsItem)
                     startActivity(new Intent(PatientHomeActivity.this, PatientAppointments.class));
                 else if (i == R.id.chatItem)
