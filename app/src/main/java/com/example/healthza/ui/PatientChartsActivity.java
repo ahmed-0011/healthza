@@ -1,4 +1,4 @@
-package com.example.healthza.ui;
+/*package com.example.healthza.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -100,7 +100,43 @@ public class PatientChartsActivity extends AppCompatActivity
                     glucoseTests.add(new Entry(i++, (float) (1f * glucoseDocument.getDouble("glucose_percent"))));
                 }
             });
-            */
+
+
+            /*
+            testsRef.document("hypertension_test")
+                    .collection(getTodayDate())
+                    .get().addOnSuccessListener(queryDocumentSnapshots ->
+            {
+                for(DocumentSnapshot glucoseDocument : glucoseDocuments.getDocuments())
+                {
+                    glucoseTests.add(new Entry(i++, (float) (1f * glucoseDocument.getDouble("glucose_percent"))));
+                }
+            });
+
+
+            /*
+            testsRef.document("hypertension_test")
+                    .collection(getTodayDate())
+                    .get().addOnSuccessListener(queryDocumentSnapshots ->
+            {
+                for(DocumentSnapshot glucoseDocument : glucoseDocuments.getDocuments())
+                {
+                    glucoseTests.add(new Entry(i++, (float) (1f * glucoseDocument.getDouble("glucose_percent"))));
+                }
+            });
+
+
+            /*
+            testsRef.document("hypertension_test")
+                    .collection(getTodayDate())
+                    .get().addOnSuccessListener(queryDocumentSnapshots ->
+            {
+                for(DocumentSnapshot glucoseDocument : glucoseDocuments.getDocuments())
+                {
+                    glucoseTests.add(new Entry(i++, (float) (1f * glucoseDocument.getDouble("glucose_percent"))));
+                }
+            });
+
 
             /*
             testsRef.document("hypertension_test")
@@ -126,43 +162,7 @@ public class PatientChartsActivity extends AppCompatActivity
             });
             */
 
-            /*
-            testsRef.document("hypertension_test")
-                    .collection(getTodayDate())
-                    .get().addOnSuccessListener(queryDocumentSnapshots ->
-            {
-                for(DocumentSnapshot glucoseDocument : glucoseDocuments.getDocuments())
-                {
-                    glucoseTests.add(new Entry(i++, (float) (1f * glucoseDocument.getDouble("glucose_percent"))));
-                }
-            });
-            */
-
-            /*
-            testsRef.document("hypertension_test")
-                    .collection(getTodayDate())
-                    .get().addOnSuccessListener(queryDocumentSnapshots ->
-            {
-                for(DocumentSnapshot glucoseDocument : glucoseDocuments.getDocuments())
-                {
-                    glucoseTests.add(new Entry(i++, (float) (1f * glucoseDocument.getDouble("glucose_percent"))));
-                }
-            });
-            */
-
-            /*
-            testsRef.document("hypertension_test")
-                    .collection(getTodayDate())
-                    .get().addOnSuccessListener(queryDocumentSnapshots ->
-            {
-                for(DocumentSnapshot glucoseDocument : glucoseDocuments.getDocuments())
-                {
-                    glucoseTests.add(new Entry(i++, (float) (1f * glucoseDocument.getDouble("glucose_percent"))));
-                }
-            });
-            */
-
-            LineDataSet dataSet = new LineDataSet(glucoseEntries, "Glucose");
+         /*   LineDataSet dataSet = new LineDataSet(glucoseEntries, "Glucose");
 
             dataSet.setFillAlpha(110);
 
@@ -188,4 +188,4 @@ public class PatientChartsActivity extends AppCompatActivity
 
         return DateFormat.format("yyyy-M-d", calendar).toString();
     }
-}
+}*/

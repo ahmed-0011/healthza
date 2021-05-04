@@ -16,6 +16,7 @@ import com.example.healthza.ui.AddKidneysTest;
 import com.example.healthza.ui.AddLiverTest;
 import com.example.healthza.ui.AddPatientIdentifier;
 import com.example.healthza.ui.ComprehensiveTest;
+import com.example.healthza.ui.DViewIdentifiersP;
 import com.example.healthza.ui.DoctorListActivity;
 import com.example.healthza.ui.DoctorSendRequestActivity;
 import com.example.healthza.ui.Functions;
@@ -71,6 +72,10 @@ public class DrawerUtil
 
                         new PrimaryDrawerItem().withIdentifier(4)
                                 .withName("Patients Charts").withIcon(R.drawable.ic_barchart)
+                                .withIconTintingEnabled(true),
+
+                        new PrimaryDrawerItem().withIdentifier(18)
+                        .withName("View Identifier").withIcon(R.drawable.mange_identfiers)
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(5)
@@ -144,6 +149,13 @@ public class DrawerUtil
                             case 8:
                             {
                                 Intent intent = new Intent(activity, updateComplicationStatus.class);
+                                view.getContext().startActivity(intent);
+                                break;
+                            }
+
+                            case 18:
+                            {
+                                Intent intent = new Intent(activity, DViewIdentifiersP.class);
                                 view.getContext().startActivity(intent);
                                 break;
                             }

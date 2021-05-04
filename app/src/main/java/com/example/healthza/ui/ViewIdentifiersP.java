@@ -3,37 +3,37 @@ package com.example.healthza.ui;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
-import android.widget.Button;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.healthza.R;
+import com.example.healthza.Toasty;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class ViewIdentifiersP extends AppCompatActivity {
-
-    List<Map<String, Object>>  idfr;
 
     FirebaseFirestore db;
     FirebaseAuth firebaseAuth;
 
-
     TableLayout tb;
     ProgressDialog pb;
 
+    ImageView nod;
+    int child;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,19 +43,16 @@ public class ViewIdentifiersP extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
 
+        nod = findViewById(R.id.imageViewT);
+        nod.setEnabled(true);
+        nod.setVisibility(View.INVISIBLE);
+
         pb = new ProgressDialog(this);
         tb = findViewById(R.id.idf);
         tb.setStretchAllColumns(true);
+        child = tb.getChildCount();
 
         getIdf();
-    }
-
-    public void startLoadData() {
-       pb.setCancelable(false);
-       pb.setMessage("Fetching Invoices..");
-      pb.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-       pb.show();
-        //new LoadDataTask().execute(0);
     }
 
     void getIdf() {
@@ -63,7 +60,6 @@ public class ViewIdentifiersP extends AppCompatActivity {
         ProgressDialog x0= ProgressDialog.show(ViewIdentifiersP.this, "",
                 "Please Wait TO get Data...", true);
 
-        idfr =new ArrayList<>();
         String pId = firebaseAuth.getCurrentUser().getUid();
 
         CollectionReference Drc = db.collection("patients").document(pId)
@@ -74,8 +70,9 @@ public class ViewIdentifiersP extends AppCompatActivity {
 
                 if( task.getResult().size() == 0)
                 {
+                    nod.setVisibility(View.VISIBLE);
                     AlertDialog.Builder x = new AlertDialog.Builder(ViewIdentifiersP.this);
-                    x.setMessage("The Patient is not have Identifiers.").setTitle("No Identifiers")
+                    x.setMessage("You not have Identifiers.").setTitle("No Identifiers")
 
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
@@ -94,42 +91,140 @@ public class ViewIdentifiersP extends AppCompatActivity {
                 }
 
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    Map<String, Object> pdr = new HashMap<>();
-                    pdr.put("name",document.get("name"));
-                    pdr.put("phone",document.get("phone"));
-                    pdr.put("relationship",document.get("relationship"));
-                    pdr.put("del",document.getId());
-                    idfr.add(pdr);
 
-                    //tl.addView(tr1, new TableLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
                     TableRow tr1 = new TableRow(this);
                     tr1.setBackgroundColor(Color.rgb(236,239,241));
-                    tr1.setPaddingRelative(5,-1,5,-1);
+                    tr1.setPaddingRelative(5,5,5,5);
+                    tr1.setGravity(Gravity.CENTER);
+
+                    TableRow.LayoutParams mw = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                            TableRow.LayoutParams.WRAP_CONTENT,1.0f);
+
                     TextView textview = new TextView(this);
                     textview.setText(document.get("name").toString());
-                    textview.setWidth(100);
-                    textview.setWidth(0);
+                    textview.setLayoutParams(mw);
+                    textview.setGravity(Gravity.CENTER);
                     tr1.addView(textview);
 
                     textview = new TextView(this);
                     textview.setText(document.get("phone").toString());
-                    textview.setWidth(100);
-                    textview.setWidth(0);
+                    textview.setLayoutParams(mw);
+                    textview.setGravity(Gravity.CENTER);
                     tr1.addView(textview);
 
                     textview = new TextView(this);
                     textview.setText(document.get("relationship").toString());
-                    textview.setWidth(100);
-                    textview.setWidth(0);
+                    textview.setLayoutParams(mw);
+                    textview.setGravity(Gravity.CENTER);
                     tr1.addView(textview);
 
-                    Button bt = new Button(this);
-                    bt.setText("Remove");
-                    bt.setBackground(getResources().getDrawable(R.drawable.round_empty));
-                    bt.setBackgroundColor(Color.rgb(255,0,0));
-                    bt.setWidth(100);
+                   textview = new TextView(this);
+                    textview.setText("Remove");
+                    textview.setPaddingRelative(5,10,5,10);
+                    textview.setLayoutParams(mw);
+                    textview.setForeground(getResources().getDrawable(R.drawable.round_red));
+                    textview.setTextColor(Color.rgb(255,0,0));
+                    textview.setTypeface(Typeface.DEFAULT_BOLD);
+                    textview.setGravity(Gravity.CENTER);
+                    textview.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-                    tr1.addView(bt);
+                            DocumentReference ter = db.collection("patients").document(pId)
+                                    .collection("identifier")
+                                    .document(document.getId());
+                            ter.delete().addOnCompleteListener(task -> {
+                                if(task.isSuccessful())
+                                {
+                                    Toasty.showText(getApplicationContext(),document.get("name").toString()+" IS Deleted...",Toasty.INFORMATION, Toast.LENGTH_SHORT);
+                                    tb.removeView(tr1);
+                                    if(tb.getChildCount()==child)
+                                    {
+                                        nod.setVisibility(View.VISIBLE);
+
+                                        AlertDialog.Builder x = new AlertDialog.Builder(ViewIdentifiersP.this);
+                                        x.setMessage("You not have Identifiers.").setTitle("No Identifiers")
+
+                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+
+                                                        return;
+                                                    }
+                                                })
+
+                                                .setIcon(R.drawable.goo)
+                                                .setPositiveButtonIcon(getDrawable(R.drawable.yes))
+
+                                                .show();
+                                        return;
+
+                                    }
+                                }
+                                else
+                                {
+                                    Toasty.showText(getApplicationContext(),"Error Occurred while deleting...",Toasty.INFORMATION, Toast.LENGTH_SHORT);
+
+                                }
+
+                            });
+                        }
+                    });
+                    tr1.addView(textview);
+
+                    /*Button bt = new Button(this);
+                    bt.setText("Remove");
+                    bt.setLayoutParams(mw);
+                    bt.setForeground(getResources().getDrawable(R.drawable.round_red));
+                    bt.setTextColor(Color.rgb(255,0,0));
+                    bt.setTypeface(Typeface.DEFAULT_BOLD);
+                    bt.setGravity(Gravity.CENTER);
+
+                    bt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            DocumentReference ter = db.collection("patients").document(pId)
+                                    .collection("identifier")
+                                    .document(document.getId());
+                            ter.delete().addOnCompleteListener(task -> {
+                                if(task.isSuccessful())
+                                {
+                                    Toasty.showText(getApplicationContext(),document.get("name").toString()+" IS Deleted...",Toasty.INFORMATION, Toast.LENGTH_SHORT);
+                                    tb.removeView(tr1);
+                                    if(tb.getChildCount()==child)
+                                    {
+                                        nod.setVisibility(View.VISIBLE);
+
+                                        AlertDialog.Builder x = new AlertDialog.Builder(ViewIdentifiersP.this);
+                                        x.setMessage("You not have Identifiers.").setTitle("No Identifiers")
+
+                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+
+                                                        return;
+                                                    }
+                                                })
+
+                                                .setIcon(R.drawable.goo)
+                                                .setPositiveButtonIcon(getDrawable(R.drawable.yes))
+
+                                                .show();
+                                        return;
+
+                                    }
+                                }
+                                else
+                                {
+                                    Toasty.showText(getApplicationContext(),"Error Occurred while deleting...",Toasty.INFORMATION, Toast.LENGTH_SHORT);
+
+                                }
+
+                            });
+                        }
+                    });
+                    tr1.addView(bt);*/
 
                    tb.addView(tr1);
                 }
@@ -141,4 +236,18 @@ public class ViewIdentifiersP extends AppCompatActivity {
         });
 
     }
+
+    //rotate
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
+
 }
