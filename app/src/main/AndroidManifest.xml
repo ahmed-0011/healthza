@@ -10,19 +10,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Healthza">
-
-        <activity android:name=".ui.PatientAccountActivity"
+        <activity android:name=".ui.viewComplications"></activity>
+        <activity android:name=".ui.viewComplicationsP" />
+        <activity
+            android:name=".ui.PatientAccountActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme"/>
-
-        <activity android:name=".ui.DoctorAccountActivity"
+            android:theme="@style/noActionBarTheme" />
+        <activity
+            android:name=".ui.DoctorAccountActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme"/>
-
-        <activity android:name=".ui.DViewIdentifiersP"
+            android:theme="@style/noActionBarTheme" />
+        <activity
+            android:name=".ui.DViewIdentifiersP"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme"/>
-
+            android:theme="@style/noActionBarTheme" />
         <activity
             android:name=".ui.ViewIdentifiersP"
             android:configChanges="orientation|screenSize|keyboardHidden"

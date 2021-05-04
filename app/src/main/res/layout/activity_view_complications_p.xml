@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.DViewIdentifiersP">
+        tools:context=".ui.viewComplicationsP">
 
         <ImageView
             android:id="@+id/imageViewT"
@@ -52,7 +52,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/candal"
                     android:gravity="center"
-                    android:text="Patient Identifiers"
+                    android:text="Patient Complications"
                     android:textAlignment="center"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Phone"
+                    android:text="Diagnostic Date"
                     android:textStyle="bold" />
 
                 <TextView
@@ -90,8 +90,17 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Relationship"
+                    android:text="Last Status"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Statuses"
+                    android:textStyle="bold" />
+
 
             </TableRow>
 
