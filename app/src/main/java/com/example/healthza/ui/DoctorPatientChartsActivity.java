@@ -1,16 +1,14 @@
 package com.example.healthza.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.DatePickerDialog;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.healthza.DetailsMarkerView;
 import com.example.healthza.ProgressDialog;
@@ -42,7 +40,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-public class PatientChartsActivity extends AppCompatActivity
+public class DoctorPatientChartsActivity extends AppCompatActivity
 {
     private LineChart chart;
     private CheckBox glucoseCheckBox, bloodPressureCheckBox, hdlCheckBox, ldlCheckBox,
@@ -60,13 +58,12 @@ public class PatientChartsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patient_charts);
+        setContentView(R.layout.activity_doctor_patient_charts);
 
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        patientId = firebaseAuth.getCurrentUser().getUid();
-
+        patientId= getIntent().getStringExtra("patientId");
 
         dailyTests = new ArrayList<>();
         dailyTests.add(null); // to display stick header instead of daily test item
@@ -100,15 +97,15 @@ public class PatientChartsActivity extends AppCompatActivity
                     calendar.set(Calendar.DATE, dayOfMonth);
                     calendar.set(Calendar.MONTH, month);
                     calendar.set(Calendar.YEAR, year);
-                    
+
                     String pickedDate = DateFormat.format("yyyy-M-d", calendar).toString();
 
 
                     /* redraw only if the picked date is different than previous picked date */
-                    if(!pickedDate.equals(PatientChartsActivity.this.pickedDate))
+                    if(!pickedDate.equals(DoctorPatientChartsActivity.this.pickedDate))
                     {
                         clearTestsCheckBoxes();
-                        PatientChartsActivity.this.pickedDate = pickedDate;
+                        DoctorPatientChartsActivity.this.pickedDate = pickedDate;
                         pickDateFloatingActionButton.setEnabled(false);
                         dailyTests.clear();
                         dailyTests.add(null); // to display stick header instead of daily test item
@@ -116,7 +113,7 @@ public class PatientChartsActivity extends AppCompatActivity
                     }
                 }
             }, year, month, date);
-            
+
             datePickerDialog.show();
         });
 
@@ -181,7 +178,6 @@ public class PatientChartsActivity extends AppCompatActivity
 
     private void setChart(String pickedDate)
     {
-
         List<Entry> zeroEntries = new ArrayList<>();
         List<Entry> glucoseEntries = new ArrayList<>();
         List<Entry> bloodPressureEntries = new ArrayList<>();
@@ -470,7 +466,7 @@ public class PatientChartsActivity extends AppCompatActivity
                     lineData.setDrawValues(false);
 
 
-                    DetailsMarkerView detailsMarkerView = new DetailsMarkerView(PatientChartsActivity.this, R.layout.daily_test_markerview);
+                    DetailsMarkerView detailsMarkerView = new DetailsMarkerView(DoctorPatientChartsActivity.this, R.layout.daily_test_markerview);
                     detailsMarkerView.setChartView(chart);
 
 
@@ -503,7 +499,7 @@ public class PatientChartsActivity extends AppCompatActivity
         triglycerideCheckBox.setEnabled(false);
     }
 
-    
+
     private float getTestTime(Timestamp timestamp)
     {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm aa", Locale.US);
@@ -523,17 +519,17 @@ public class PatientChartsActivity extends AppCompatActivity
                 time = Float.parseFloat(hourString + "." + minuteString)  - 12;
         }
         else
-            {
-                if(!hourString.equals("12"))
-                    time = Float.parseFloat(hourString + "." + minuteString) + 12;
-                else
-                    time = Float.parseFloat(hourString + "." + minuteString);
+        {
+            if(!hourString.equals("12"))
+                time = Float.parseFloat(hourString + "." + minuteString) + 12;
+            else
+                time = Float.parseFloat(hourString + "." + minuteString);
         }
 
         return time;
     }
-    
-    
+
+
     private String getTodayDate()
     {
         Calendar calendar = Calendar.getInstance();

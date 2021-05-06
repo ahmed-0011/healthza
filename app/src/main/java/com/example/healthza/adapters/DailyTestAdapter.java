@@ -75,7 +75,7 @@ public class DailyTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             testTypeTextView.setText(testType);
             if(testType.equals("Glucose"))
                 testTypeTextView.setTextColor(context.getColor(R.color.glucose_color));
-            else if(testType.equals("Hypertension"))
+            else if(testType.equals("Blood Pressure"))
                 testTypeTextView.setTextColor(context.getColor(R.color.blood_pressure_color));
             else if(testType.equals("Total Cholesterol"))
                 testTypeTextView.setTextColor(context.getColor(R.color.total_cholesterol_color));

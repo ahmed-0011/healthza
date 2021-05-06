@@ -27,7 +27,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.healthza.DrawerUtil;
-import com.example.healthza.LoadingDialog;
+import com.example.healthza.ProgressDialog;
 import com.example.healthza.R;
 import com.example.healthza.Toasty;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -222,7 +222,7 @@ public class DoctorHomeActivity extends AppCompatActivity
             else
             {
 
-                LoadingDialog  loadingDialog = new LoadingDialog(this);
+                ProgressDialog progressDialog = new ProgressDialog(this);
 
                 Map<String, Object> additionalData = new HashMap<>();
 
@@ -239,7 +239,7 @@ public class DoctorHomeActivity extends AppCompatActivity
                     @Override
                     public void onComplete(@NonNull Task<Void> task)
                     {
-                        loadingDialog.showLoadingDialog();
+                        progressDialog.showProgressDialog();
                         if (task.isSuccessful())
                         {
                             doctorDialog.dismiss();
@@ -249,7 +249,7 @@ public class DoctorHomeActivity extends AppCompatActivity
                                 @Override
                                 public void run()
                                 {
-                                    loadingDialog.dismissLoadingDialog();
+                                    progressDialog.dismissProgressDialog();
                                     Toasty.showText(DoctorHomeActivity.this, "your profile updated successfully"
                                             , Toasty.INFORMATION, Toast.LENGTH_LONG);
                                 }

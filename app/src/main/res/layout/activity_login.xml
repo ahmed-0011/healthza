@@ -126,7 +126,6 @@
             app:layout_constraintStart_toStartOf="@+id/signInButton"
             app:layout_constraintTop_toTopOf="@+id/signInButton" />
 
-
         <Button
             android:id="@+id/newUserButton"
             style="@style/textButtonStyle"

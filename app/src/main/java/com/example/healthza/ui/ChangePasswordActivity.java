@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.healthza.LoadingDialog;
+import com.example.healthza.ProgressDialog;
 import com.example.healthza.R;
 import com.example.healthza.Toasty;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -93,8 +93,8 @@ public class ChangePasswordActivity extends AppCompatActivity
         }
         else
         {
-            LoadingDialog loadingDialog = new LoadingDialog(this);
-            loadingDialog.showLoadingDialog();
+            ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.showProgressDialog();
 
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -134,7 +134,7 @@ public class ChangePasswordActivity extends AppCompatActivity
                             else
                                 Toasty.showText(ChangePasswordActivity.this, "current password you entered is not correct", Toasty.ERROR, Toast.LENGTH_LONG);
 
-                            loadingDialog.dismissLoadingDialog();
+                            progressDialog.dismissProgressDialog();
 
                         }
                     });

@@ -238,5 +238,6 @@
     <string name="diabetes_tests">Diabetes Tests:</string>
     <string name="hypertension_tests">\"Hypertension Tests: \"</string>
     <string name="cholesterol_tests">\"Cholesterol Tests: \"</string>
+    <string name="charts">Charts</string>
 
 </resources>

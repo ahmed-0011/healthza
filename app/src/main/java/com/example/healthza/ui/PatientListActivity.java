@@ -1,6 +1,7 @@
 package com.example.healthza.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -113,6 +114,20 @@ public class PatientListActivity extends AppCompatActivity implements PatientAda
         //patients.remove(position);
         //patientAdapter.notifyItemRemoved(position);
     }
+
+
+    @Override
+    public void onChartsButtonClick(int position)
+    {
+        Patient patient = patients.get(position);
+
+        String patientId = patient.getPatientId();
+
+        Intent intent = new Intent(this, DoctorPatientChartsActivity.class);
+        intent.putExtra("patientId", patientId);
+        startActivity(intent);
+    }
+
 
     @SuppressLint("SetTextI18n")
     @Override

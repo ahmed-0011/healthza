@@ -84,6 +84,8 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
         void onProfileButtonClick(int position);
 
         void onRemoveButtonClick(int position);
+
+        void onChartsButtonClick(int position);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder
@@ -93,6 +95,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
         private final TextView patientIdentificationNumberTextView;
         private final Button removeButton;
         private final Button profileButton;
+        private final Button chartsButton;
 
         public ViewHolder(View itemView)
         {
@@ -103,6 +106,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
             patientIdentificationNumberTextView = itemView.findViewById(R.id.patientIdentificationNumberTextView);
             removeButton = itemView.findViewById(R.id.removeButton);
             profileButton = itemView.findViewById(R.id.profileButton);
+            chartsButton = itemView.findViewById(R.id.chartsButton);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -141,10 +145,16 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
         TextView patientIdentificationNumberTextView = holder.patientIdentificationNumberTextView;
         Button removeButton = holder.removeButton;
         Button profileButton = holder.profileButton;
+        Button  chartsButton = holder.chartsButton;
 
         patientNameTextView.append(patient.getName());
         patientPhoneNumberTextView.append(patient.getPhoneNumber());
         patientIdentificationNumberTextView.append(patient.getIdentificationNumber());
+
+        chartsButton.setOnClickListener(v ->
+        {
+            onPatientItemClickListener.onChartsButtonClick(position);
+        });
 
         profileButton.setOnClickListener(v ->
         {

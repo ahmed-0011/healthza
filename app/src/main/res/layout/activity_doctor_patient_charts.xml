@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    android:padding="6dp"
+    tools:context=".ui.DoctorPatientChartsActivity">
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/lineChart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.40"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <CheckBox
+        android:id="@+id/glucoseCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:text="@string/glucose"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lineChart" />
+
+    <CheckBox
+        android:id="@+id/bloodPressureCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:text="@string/blood_pressure"
+        app:layout_constraintEnd_toStartOf="@+id/totalCholesterolCheckBox"
+        app:layout_constraintStart_toEndOf="@+id/glucoseCheckBox"
+        app:layout_constraintTop_toBottomOf="@id/lineChart" />
+
+    <CheckBox
+        android:id="@+id/totalCholesterolCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:text="@string/total_cholesterol"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lineChart" />
+
+    <CheckBox
+        android:id="@+id/hdlCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:text="@string/hdl"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/glucoseCheckBox" />
+
+    <CheckBox
+        android:id="@+id/ldlCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:text="@string/ldl"
+        app:layout_constraintEnd_toStartOf="@id/triglycerideCheckBox"
+        app:layout_constraintStart_toEndOf="@id/hdlCheckBox"
+        app:layout_constraintTop_toBottomOf="@id/bloodPressureCheckBox" />
+
+    <CheckBox
+        android:id="@+id/triglycerideCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:text="@string/triglyceride"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/totalCholesterolCheckBox" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/patientDailyTestsRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/border_daily_test_recyclerview"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ldlCheckBox"
+        tools:itemCount="4"
+        tools:listitem="@layout/list_item_daily_test" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/pickDateFloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:backgroundTint="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_calendar"
+        app:tint="@null" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

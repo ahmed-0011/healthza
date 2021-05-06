@@ -85,6 +85,21 @@
                 app:layout_constraintTop_toTopOf="@id/patientSeperatorView" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/chartsButton"
+                style="@style/listItemButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/charts_button_color"
+                android:text="@string/charts"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/profileButton"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/patientSeperatorView" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/removeButton"
                 style="@style/listItemButtonStyle"
                 android:layout_width="0dp"

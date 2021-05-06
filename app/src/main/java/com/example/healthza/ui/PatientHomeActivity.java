@@ -26,7 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.healthza.DrawerUtil;
-import com.example.healthza.LoadingDialog;
+import com.example.healthza.ProgressDialog;
 import com.example.healthza.Toasty;
 import com.example.healthza.models.Disease;
 import com.example.healthza.R;
@@ -509,8 +509,8 @@ public class PatientHomeActivity extends AppCompatActivity
 
                 batch.commit().addOnCompleteListener(task ->
                 {
-                    LoadingDialog loadingDialog = new LoadingDialog(this);
-                    loadingDialog.showLoadingDialog();
+                    ProgressDialog progressDialog = new ProgressDialog(this);
+                    progressDialog.showProgressDialog();
                     if (task.isSuccessful())
                     {
                         patientDialog2.dismiss();
@@ -520,7 +520,7 @@ public class PatientHomeActivity extends AppCompatActivity
                             @Override
                             public void run()
                             {
-                                loadingDialog.dismissLoadingDialog();
+                                progressDialog.dismissProgressDialog();
                                 Toasty.showText(PatientHomeActivity.this, "your profile updated successfully",
                                         Toasty.INFORMATION, Toast.LENGTH_LONG);
                             }

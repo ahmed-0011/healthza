@@ -32,4 +32,5 @@
     <color name="ldl_color">#FAC332</color>
     <color name="triglyceride_color">#778BD1</color>
     <color name="transparent_color">@android:color/transparent</color>
+    <color name="charts_button_color">#25DF6A</color>
 </resources>

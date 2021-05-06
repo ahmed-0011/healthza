@@ -17,7 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.healthza.LoadingDialog;
+import com.example.healthza.ProgressDialog;
 import com.example.healthza.R;
 import com.example.healthza.Toasty;
 import com.example.healthza.models.Doctor;
@@ -62,8 +62,8 @@ public class DoctorAccountActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_account);
 
-        LoadingDialog loadingDialog = new LoadingDialog(this);
-        loadingDialog.showLoadingDialog();
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.showProgressDialog();
 
         SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
         password = sharedPreferences.getString("password", "");
@@ -140,7 +140,7 @@ public class DoctorAccountActivity extends AppCompatActivity
                     doctorWorkdaysSecondToggleButton.check(R.id.fridayButton);
             }
 
-            loadingDialog.dismissLoadingDialog();
+            progressDialog.dismissProgressDialog();
         });
 
 
@@ -298,8 +298,8 @@ public class DoctorAccountActivity extends AppCompatActivity
         }
         else
             {
-            LoadingDialog loadingDialog = new LoadingDialog(this);
-            loadingDialog.showLoadingDialog();
+            ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.showProgressDialog();
 
             Map<String, Object> accountInformation = new HashMap<>();
 
@@ -403,11 +403,11 @@ public class DoctorAccountActivity extends AppCompatActivity
                             else
                                 Toasty.showText(this, "something went wrong...",
                                         Toasty.ERROR, Toast.LENGTH_LONG);
-                            loadingDialog.dismissLoadingDialog();
+                            progressDialog.dismissProgressDialog();
                         });
             }
             else
-                loadingDialog.dismissLoadingDialog();
+                progressDialog.dismissProgressDialog();
         }
     }
 

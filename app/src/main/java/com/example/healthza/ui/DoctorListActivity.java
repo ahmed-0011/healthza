@@ -137,6 +137,7 @@ public class DoctorListActivity extends AppCompatActivity implements DoctorAdapt
                 /* doctor1 is real doctor from root collection ..
                 doctor is just contains the basic info */
                 Doctor doctor1 = doctorDocument.toObject(Doctor.class);
+
                 doctorEmailTextView.append(doctor1.getEmail());
                 doctorSexTextView.append(doctor1.getSex());
                 doctorSpecialityTextView.append(doctor1.getSpeciality());

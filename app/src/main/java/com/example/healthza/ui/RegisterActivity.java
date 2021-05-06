@@ -46,7 +46,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity
+{
 
     private static final String TAG = "RegisterActivity";
     RadioGroup userTypeRadioGroup;
@@ -62,7 +63,8 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseFirestore db;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
@@ -233,7 +235,6 @@ public class RegisterActivity extends AppCompatActivity {
         }
         else
         {
-
             hideKeyboard();
             progressButtonAnimation();
             db.collection("ids").document(identificationNumber)
@@ -318,7 +319,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         }
                                         else
                                             Toasty.showText(this, "email is already used", Toasty.ERROR, Toast.LENGTH_LONG);
-;
+                                        ;
                                     });
                         }
                     });
@@ -538,7 +539,8 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void progressButtonReverseAnimation() {
+    private void progressButtonReverseAnimation()
+    {
         for (int i = 0; i < animations.size(); i++)
             animations.get(i).reverse();
 
