@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.healthza.adapters.ChatAdapter;
@@ -67,7 +68,9 @@ public class PatientChatListActivity extends AppCompatActivity implements ChatAd
         chatsIds = new HashSet<>();
         chatRecyclerView = findViewById(R.id.chatRecyclerView);
 
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
         chatAdapter = new ChatAdapter(this, chats, db, this);
+        chatRecyclerView.addItemDecoration(dividerItemDecoration);
         chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         chatRecyclerView.setAdapter(chatAdapter);
 

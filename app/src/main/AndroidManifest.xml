@@ -8,9 +8,9 @@
         android:label="@string/app_name"
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
+        android:supportsRtl="false"
         android:theme="@style/Theme.Healthza">
-        <activity android:name=".ui.viewComplications"></activity>
+        <activity android:name=".ui.viewComplications"/>
         <activity android:name=".ui.viewComplicationsP" />
         <activity
             android:name=".ui.PatientAccountActivity"

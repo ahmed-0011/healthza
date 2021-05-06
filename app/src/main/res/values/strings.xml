@@ -234,5 +234,9 @@
     <string name="ldl">LDL</string>
     <string name="blood_pressure">"Blood Pressure"</string>
     <string name="triglyceride">Triglyceride</string>
+    <string name="number_of_doctors">"Number Of Doctors: "</string>
+    <string name="diabetes_tests">Diabetes Tests:</string>
+    <string name="hypertension_tests">\"Hypertension Tests: \"</string>
+    <string name="cholesterol_tests">\"Cholesterol Tests: \"</string>
 
 </resources>

@@ -56,6 +56,7 @@ public class PatientChartsActivity extends AppCompatActivity
     private CheckBox glucoseCheckBox, bloodPressureCheckBox, hdlCheckBox, ldlCheckBox,
             triglycerideCheckBox, totalCholesterolCheckBox;
     private FloatingActionButton pickDateFloatingActionButton;
+    private String pickedDate;
     private RecyclerView patientDailyTestsRecyclerView;
     private DailyTestAdapter dailyTestAdapter;
     private List<DailyTest> dailyTests;
@@ -90,13 +91,44 @@ public class PatientChartsActivity extends AppCompatActivity
 
         chart = (LineChart) findViewById(R.id.lineChart);
 
+        Calendar calendar = Calendar.getInstance();
+
         pickDateFloatingActionButton.setOnClickListener(v ->
         {
-            showDateDialog();
+            int date = calendar.get(Calendar.DATE);
+            int month = calendar.get(Calendar.MONTH);
+            int year = calendar.get(Calendar.YEAR);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
+                {
+
+                    calendar.set(Calendar.DATE, dayOfMonth);
+                    calendar.set(Calendar.MONTH, month);
+                    calendar.set(Calendar.YEAR, year);
+                    
+                    String pickedDate = DateFormat.format("yyyy-M-d", calendar).toString();
+
+
+                    /* redraw only if the picked date is different than previous picked date */
+                    if(!pickedDate.equals(PatientChartsActivity.this.pickedDate))
+                    {
+                        PatientChartsActivity.this.pickedDate = pickedDate;
+                        pickDateFloatingActionButton.setEnabled(false);
+                        dailyTests.clear();
+                        dailyTests.add(null); // to display stick header instead of daily test item
+                        setChart(pickedDate);
+                    }
+                }
+            }, year, month, date);
+            
+            datePickerDialog.show();
         });
 
+        pickedDate = getTodayDate();
         initChart();
-        setChart(getTodayDate());
+        setChart(pickedDate);
     }
 
     private void initChart()
@@ -136,8 +168,8 @@ public class PatientChartsActivity extends AppCompatActivity
         xAxis.setValueFormatter(new IndexAxisValueFormatter(xAxisLabels));
 
         YAxis yAxis = chart.getAxisLeft();
-        yAxis.setAxisMaximum(130f);
-        yAxis.setAxisMinimum(70);
+        yAxis.setAxisMaximum(240f);
+        yAxis.setAxisMinimum(40);
         yAxis.setTextSize(12f);
         yAxis.setGranularity(3f);
     }
@@ -145,12 +177,7 @@ public class PatientChartsActivity extends AppCompatActivity
 
     private void setChart(String pickedDate)
     {
-        glucoseCheckBox.setEnabled(false);
-        bloodPressureCheckBox.setEnabled(false);
-        totalCholesterolCheckBox.setEnabled(false);
-        hdlCheckBox.setEnabled(false);
-        ldlCheckBox.setEnabled(false);
-        triglycerideCheckBox.setEnabled(false);
+        disableTestsCheckBoxes();
 
         List<Entry> zeroEntries = new ArrayList<>();
         List<Entry> glucoseEntries = new ArrayList<>();
@@ -184,7 +211,10 @@ public class PatientChartsActivity extends AppCompatActivity
             }
 
             if(glucoseEntries.size() != 0)
+            {
+                glucoseCheckBox.setChecked(true);
                 glucoseCheckBox.setEnabled(true);
+            }
 
             testsRef.document("bloodPressure_test")
                     .collection(pickedDate)
@@ -202,7 +232,10 @@ public class PatientChartsActivity extends AppCompatActivity
                 }
 
                 if (bloodPressureEntries.size() != 0)
+                {
+                    bloodPressureCheckBox.setChecked(true);
                     bloodPressureCheckBox.setEnabled(true);
+                }
 
                 testsRef.document("cholesterolAndFats_test")
                         .collection(pickedDate)
@@ -236,6 +269,10 @@ public class PatientChartsActivity extends AppCompatActivity
 
                     if(totalCholesterolEntries.size() != 0)
                     {
+                        totalCholesterolCheckBox.setChecked(true);
+                        hdlCheckBox.setChecked(true);
+                        ldlCheckBox.setChecked(true);
+                        triglycerideCheckBox.setChecked(true);
                         totalCholesterolCheckBox.setEnabled(true);
                         hdlCheckBox.setEnabled(true);
                         ldlCheckBox.setEnabled(true);
@@ -259,7 +296,7 @@ public class PatientChartsActivity extends AppCompatActivity
 
                     LineDataSet zeroDataSet = new LineDataSet(zeroEntries, "");
                     LineDataSet glucoseDataSet = new LineDataSet(glucoseEntries, "Glucose");
-                    LineDataSet bloodPressureDataSet = new LineDataSet(bloodPressureEntries, "Hypertension");
+                    LineDataSet bloodPressureDataSet = new LineDataSet(bloodPressureEntries, "Blood Pressure");
                     LineDataSet totalCholesterolDataSet = new LineDataSet(totalCholesterolEntries, "Total Cholesterol");
                     LineDataSet hdlDataSet = new LineDataSet(hdlEntries, "HDL");
                     LineDataSet ldlDataSet = new LineDataSet(ldlEntries, "LDL");
@@ -378,12 +415,25 @@ public class PatientChartsActivity extends AppCompatActivity
                     chart.invalidate();
 
                     loadingDialog.dismissLoadingDialog();
+                    pickDateFloatingActionButton.setEnabled(true);
                 });
             });
 
         });
     }
 
+
+    private void disableTestsCheckBoxes()
+    {
+        glucoseCheckBox.setEnabled(false);
+        bloodPressureCheckBox.setEnabled(false);
+        totalCholesterolCheckBox.setEnabled(false);
+        hdlCheckBox.setEnabled(false);
+        ldlCheckBox.setEnabled(false);
+        triglycerideCheckBox.setEnabled(false);
+    }
+
+    
     private float getTestTime(Timestamp timestamp)
     {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm aa", Locale.US);
@@ -402,37 +452,8 @@ public class PatientChartsActivity extends AppCompatActivity
 
         return time;
     }
-
-    private void showDateDialog()
-    {
-        Calendar calendar = Calendar.getInstance();
-
-        /*  get today date  */
-        int date = calendar.get(Calendar.DATE);
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
-
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
-            {
-
-                calendar.set(Calendar.DATE, dayOfMonth);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.YEAR, year);
-
-                String pickedDate = DateFormat.format("yyyy-M-d", calendar).toString();
-                dailyTests.clear();
-                dailyTests.add(null); // to display stick header instead of daily test item
-                setChart(pickedDate);
-            }
-        }, year, month, date);
-
-        datePickerDialog.show();
-    }
-
-
+    
+    
     private String getTodayDate()
     {
         Calendar calendar = Calendar.getInstance();
