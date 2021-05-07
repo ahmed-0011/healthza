@@ -218,7 +218,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginRight="8dp"
             app:counterEnabled="true"
-            app:counterMaxLength="16"
+            app:counterMaxLength="9"
             app:counterTextColor="@color/colorPrimaryDark"
             android:hint="@string/identification_number_hint"
             app:endIconMode="clear_text"
