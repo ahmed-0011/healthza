@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "391707742247",
-    "project_id": "healthza-e270e",
-    "storage_bucket": "healthza-e270e.appspot.com"
+    "project_number": "263246403633",
+    "project_id": "cdh-b3523",
+    "storage_bucket": "cdh-b3523.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:391707742247:android:9238a4ea4f63608229be02",
+        "mobilesdk_app_id": "1:263246403633:android:7a06a7b98c914059679d10",
         "android_client_info": {
           "package_name": "com.example.healthza"
         }
       },
       "oauth_client": [
         {
-          "client_id": "391707742247-mtrv6mtcuu9oshakl1cdfv71s9ouqal3.apps.googleusercontent.com",
+          "client_id": "263246403633-ceapi0ia081oarn43od0r75un78n5p5s.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.healthza",
@@ -22,20 +22,20 @@
           }
         },
         {
-          "client_id": "391707742247-ku7ai1ucgg0mih2b2emcc57lnh6r5ql1.apps.googleusercontent.com",
+          "client_id": "263246403633-n2gpv7cl3p9jcqe22m4vo08hljjn43rf.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDAfPifq5uQRn2Tb4XQGpeAEn_eakUNpWo"
+          "current_key": "AIzaSyAM7CqGRaxF_MUofmY_MsCDVF0Jpdvx9UU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "391707742247-ku7ai1ucgg0mih2b2emcc57lnh6r5ql1.apps.googleusercontent.com",
+              "client_id": "263246403633-n2gpv7cl3p9jcqe22m4vo08hljjn43rf.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
