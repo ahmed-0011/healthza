@@ -177,7 +177,7 @@
     <string name="patient_email">"Patient Email: "</string>
     <string name="patient_name">"Patient Name: "</string>
     <string name="identification_number_hint">ID</string>
-    <string name="enter_a_valid_id">Enter a valid identification number (16 digits)</string>
+    <string name="enter_a_valid_id">Enter a valid identification number (9 digits)</string>
     <string name="name_or_id_or_phone_number_hint">name or ID or phone number</string>
     <string name="email">"Email: "</string>
     <string name="weight">"Weight: "</string>

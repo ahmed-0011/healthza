@@ -67,7 +67,7 @@ public class DrawerUtil
                         new DividerDrawerItem(),
 
                                 new PrimaryDrawerItem().withIdentifier(2)
-                                        .withName("Add Patients").withIcon(R.drawable.ic_add_patient)
+                                        .withName("New Patient").withIcon(R.drawable.ic_add_patient)
                                         .withIconTintingEnabled(true),
 
                                 new PrimaryDrawerItem().withIdentifier(3)
@@ -91,10 +91,10 @@ public class DrawerUtil
                                 .withIconTintingEnabled(true)
                                 .withSubItems(
                                         new SecondaryDrawerItem().withIdentifier(7)
-                                                .withName("Add new Complication").withIcon(R.drawable.complication)
+                                                .withName("New Complication").withIcon(R.drawable.complication)
                                                 .withIconTintingEnabled(true),
                                         new SecondaryDrawerItem().withIdentifier(8)
-                                                .withName("UPDATE Complication Status").withIcon(R.drawable.updatecomp)
+                                                .withName("Update Complications").withIcon(R.drawable.updatecomp)
                                                 .withIconTintingEnabled(true),
                                         new SecondaryDrawerItem().withIdentifier(19)
                                                 .withName("View Complications").withIcon(R.drawable.compico)
@@ -248,7 +248,7 @@ public class DrawerUtil
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(15)
-                                .withName("Add Chronic Diseases").withIcon(R.drawable.iconchronic)
+                                .withName("New Chronic Disease").withIcon(R.drawable.iconchronic)
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(19)
@@ -260,7 +260,7 @@ public class DrawerUtil
                                 .withIconTintingEnabled(true)
                                 .withSubItems(
                                         new SecondaryDrawerItem().withIdentifier(17)
-                                                .withName("ADD Identifier"),
+                                                .withName("New Identifier"),
                                         new SecondaryDrawerItem().withIdentifier(18)
                                                 .withName("View Identifier")
                                 ),

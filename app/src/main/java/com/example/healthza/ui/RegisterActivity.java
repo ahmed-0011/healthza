@@ -125,7 +125,7 @@ public class RegisterActivity extends AppCompatActivity
     }
 
     private boolean isValidIdentificationNumber(String id) {
-        return id.length() == 8;
+        return id.length() == 9;
     }
 
 
@@ -391,6 +391,7 @@ public class RegisterActivity extends AppCompatActivity
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isValidPhoneNumber(phoneNumberInputEditText.getText().toString()))
+
                     phoneNumberInputLayout.setError(null);
             }
 
