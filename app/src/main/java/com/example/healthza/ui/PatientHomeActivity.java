@@ -28,35 +28,41 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.example.healthza.DrawerUtil;
 import com.example.healthza.ProgressDialog;
 import com.example.healthza.Toasty;
+import com.example.healthza.models.DailyTest;
 import com.example.healthza.models.Disease;
 import com.example.healthza.R;
+import com.github.mikephil.charting.data.Entry;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.WriteBatch;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PatientHomeActivity extends AppCompatActivity
 {
-    FirebaseAuth firebaseAuth;
-    FirebaseFirestore db;
-    String userId;
-    String patientName;
-
-    TextInputLayout weightInputlayout, heightInputlayout;
-    TextInputEditText weightInputEditText, heightInputEditText;
+    private TextInputLayout weightInputlayout, heightInputlayout;
+    private TextInputEditText weightInputEditText, heightInputEditText;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
+    private String patientId;
+    private String patientName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -66,7 +72,7 @@ public class PatientHomeActivity extends AppCompatActivity
 
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        userId = firebaseAuth.getCurrentUser().getUid();
+        patientId = firebaseAuth.getCurrentUser().getUid();
         patientName = firebaseAuth.getCurrentUser().getDisplayName();
 
 
@@ -76,6 +82,9 @@ public class PatientHomeActivity extends AppCompatActivity
         if (!userCompleteInfo)
             showWelcomeDialog();
 
+        setGlucoseCardView();
+        setHypertensionCardView();
+        setCholesterolCardViews();
 
         ChipNavigationBar chipNavigationBar = findViewById(R.id.bottomNavigationBar);
         chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener()
@@ -87,7 +96,9 @@ public class PatientHomeActivity extends AppCompatActivity
                 else if (i == R.id.medicalHistoryItem)
                     startActivity(new Intent(PatientHomeActivity.this, medicalRecords.class));
                 else if (i == R.id.chartsItem)
+                {
                     startActivity(new Intent(PatientHomeActivity.this, PatientChartsActivity.class));
+                }
                 else if (i == R.id.appointmentsItem)
                     startActivity(new Intent(PatientHomeActivity.this, PatientAppointments.class));
                 else if (i == R.id.chatItem)
@@ -118,6 +129,161 @@ public class PatientHomeActivity extends AppCompatActivity
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
+
+
+    private void setGlucoseCardView()
+    {
+        TextView glucoseTodayTestsTextView, latestGlucoseTestLevelTextView, latestGlucoseTestTimeTextView, highestGlucoseLevelTextView, lowestGlucoseLevelTextView, totalGlucoseTestsTextView;
+
+        glucoseTodayTestsTextView = findViewById(R.id.glucoseTodayTestsTextView);
+        latestGlucoseTestLevelTextView = findViewById(R.id.latestGlucoseTestLevelTextView);
+        latestGlucoseTestTimeTextView = findViewById(R.id.latestGlucoseTestTimeTextView);
+        highestGlucoseLevelTextView = findViewById(R.id.highestGlucoseLevelTextView);
+        lowestGlucoseLevelTextView = findViewById(R.id.lowestGlucoseLevelTextView);
+        totalGlucoseTestsTextView = findViewById(R.id.totalGlucoseTestsTextView);
+
+        db.collection("patients")
+                .document(patientId)
+                .collection("tests")
+                .document("glucose_test")
+                .collection(getTodayDate())
+                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .get().addOnSuccessListener(glucoseDocuments ->
+        {
+
+            int todayTests = glucoseDocuments.size();
+
+            if(todayTests != 0)
+            {
+                DocumentSnapshot glucoseDocument = glucoseDocuments.getDocuments().get(0);
+                double testLevel = glucoseDocument.getDouble("glucose_percent");
+                Timestamp timestamp = glucoseDocuments.getDocuments().get(0).getTimestamp("timestamp");
+
+                String testTime = getTestTime(timestamp);
+
+                latestGlucoseTestLevelTextView.append(testLevel + "");
+                latestGlucoseTestTimeTextView.append(testTime);
+                glucoseTodayTestsTextView.append(todayTests + "");
+            }
+        });
+    }
+
+    private void setHypertensionCardView()
+    {
+        TextView hypertensionTodayTestsTextView, latestHypertensionTestLevelTextView, latestHypertensionTestTimeTextView, highestHypertensionLevelTextView, lowestHypertensionLevelTextView, totalHypertensionTestsTextView;
+
+        hypertensionTodayTestsTextView = findViewById(R.id.hypertensionTodayTestsTextView);
+        latestHypertensionTestLevelTextView = findViewById(R.id.latestHypertensionTestLevelTextView);
+        latestHypertensionTestTimeTextView = findViewById(R.id.latestHypertensionTestTimeTextView);
+        highestHypertensionLevelTextView = findViewById(R.id.highestHypertensionLevelTextView);
+        lowestHypertensionLevelTextView = findViewById(R.id.lowestHypertensionLevelTextView);
+        totalHypertensionTestsTextView = findViewById(R.id.totalHypertensionTestsTextView);
+
+        db.collection("patients")
+                .document(patientId)
+                .collection("tests")
+                .document("hypertension_test")
+                .collection(getTodayDate())
+                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .get().addOnSuccessListener(hypertensionDocuments ->
+        {
+
+
+            int todayTests = hypertensionDocuments.size();
+            if(todayTests != 0)
+            {
+                DocumentSnapshot hypertensionDocument = hypertensionDocuments.getDocuments().get(0);
+                double testLevel = hypertensionDocument.getDouble("hypertension_percent");
+                Timestamp timestamp = hypertensionDocuments.getDocuments().get(0).getTimestamp("timestamp");
+
+                String testTime = getTestTime(timestamp);
+
+                latestHypertensionTestLevelTextView.append(testLevel + "");
+                latestHypertensionTestTimeTextView.append(testTime);
+                hypertensionTodayTestsTextView.append(todayTests + "");
+
+            }
+        });
+    }
+
+
+    private void setCholesterolCardViews()
+    {
+        TextView hdlTodayTestsTextView, latestHDLTestLevelTextView, latestHDLTestTimeTextView, highestHDLLevelTextView, lowestHDLLevelTextView, totalHDLTestsTextView,
+                ldlTodayTestsTextView, latestLDLTestLevelTextView, latestLDLTestTimeTextView, highestLDLLevelTextView, lowestLDLLevelTextView, totalLDLTestsTextView,
+                triglycerideTodayTestsTextView, latestTriglycerideTestLevelTextView, latestTriglycerideTestTimeTextView, highestTriglycerideLevelTextView, lowestTriglycerideLevelTextView, totalTriglycerideTestsTextView,
+                totalCholesterolTodayTestsTextView, latestTotalCholesterolTestLevelTextView, latestTotalCholesterolTestTimeTextView, highestTotalCholesterolLevelTextView, lowestTotalCholesterolLevelTextView, totalTotalCholesterolTestsTextView;
+
+        hdlTodayTestsTextView = findViewById(R.id.hdlTodayTestsTextView);
+        latestHDLTestLevelTextView = findViewById(R.id.latestHDLTestLevelTextView);
+        latestHDLTestTimeTextView = findViewById(R.id.latestHDLTestTimeTextView);
+        highestHDLLevelTextView = findViewById(R.id.highestHDLLevelTextView);
+        lowestHDLLevelTextView = findViewById(R.id.lowestHDLLevelTextView);
+        totalHDLTestsTextView = findViewById(R.id.totalHDLTestsTextView);
+
+        ldlTodayTestsTextView = findViewById(R.id.ldlTodayTestsTextView);
+        latestLDLTestLevelTextView = findViewById(R.id.latestLDLTestLevelTextView);
+        latestLDLTestTimeTextView = findViewById(R.id.latestLDLTestTimeTextView);
+        highestLDLLevelTextView = findViewById(R.id.highestLDLLevelTextView);
+        lowestLDLLevelTextView = findViewById(R.id.lowestLDLLevelTextView);
+        totalLDLTestsTextView = findViewById(R.id.totalLDLTestsTextView);
+
+        triglycerideTodayTestsTextView = findViewById(R.id.triglycerideTodayTestsTextView);
+        latestTriglycerideTestLevelTextView = findViewById(R.id.latestTriglycerideTestLevelTextView);
+        latestTriglycerideTestTimeTextView = findViewById(R.id.latestTriglycerideTestTimeTextView);
+        highestTriglycerideLevelTextView = findViewById(R.id.highestTriglycerideLevelTextView);
+        lowestTriglycerideLevelTextView = findViewById(R.id.lowestTriglycerideLevelTextView);
+        totalTriglycerideTestsTextView = findViewById(R.id.totalTriglycerideTestsTextView);
+
+        totalCholesterolTodayTestsTextView = findViewById(R.id.totalCholesterolTodayTestsTextView);
+        latestTotalCholesterolTestLevelTextView = findViewById(R.id.latestTotalCholesterolTestLevelTextView);
+        latestTotalCholesterolTestTimeTextView = findViewById(R.id.latestTotalCholesterolTestTimeTextView);
+        highestTotalCholesterolLevelTextView = findViewById(R.id.highestTotalCholesterolLevelTextView);
+        lowestTotalCholesterolLevelTextView = findViewById(R.id.lowestTotalCholesterolLevelTextView);
+        totalTotalCholesterolTestsTextView = findViewById(R.id.totalTotalCholesterolTestsTextView);
+
+        db.collection("patients")
+                .document(patientId)
+                .collection("tests")
+                .document("cholesterolAndFats_test")
+                .collection(getTodayDate())
+                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .get().addOnSuccessListener(cholesterolDocuments ->
+        {
+
+            int todayTests = cholesterolDocuments.size();
+            if(todayTests != 0)
+            {
+                DocumentSnapshot cholesterolDocument = cholesterolDocuments.getDocuments().get(0);
+
+                double totalCholesterolLevel = cholesterolDocument.getDouble("CholesterolTotal_percent");
+                double hdlLevel = cholesterolDocument.getDouble("HDLCholesterol_percent");
+                double ldlLevel = cholesterolDocument.getDouble("LDLCholesterol_percent");
+                double triglycerideLevel = cholesterolDocument.getDouble("Triglycerid_percent");
+
+                Timestamp timestamp = cholesterolDocument.getTimestamp("timestamp");
+
+                String testTime = getTestTime(timestamp);
+
+                latestHDLTestLevelTextView.append(hdlLevel + "");
+                latestLDLTestLevelTextView.append(ldlLevel + "");
+                latestTriglycerideTestLevelTextView.append(triglycerideLevel + "");
+                latestTotalCholesterolTestLevelTextView.append(totalCholesterolLevel + "");
+
+                latestHDLTestTimeTextView.append(testTime);
+                latestLDLTestTimeTextView.append(testTime);
+                latestTriglycerideTestTimeTextView.append(testTime);
+                latestTotalCholesterolTestTimeTextView.append(testTime);
+
+                hdlTodayTestsTextView.append(todayTests + "");
+                ldlTodayTestsTextView.append(todayTests + "");
+                triglycerideTodayTestsTextView.append(todayTests + "");
+                totalCholesterolTodayTestsTextView.append(todayTests + "");
+            }
+        });
+    }
+
 
 
     @SuppressLint("SetTextI18n")
@@ -329,7 +495,7 @@ public class PatientHomeActivity extends AppCompatActivity
                         cholestrolTypeInputEditText.requestFocus();
                         error = true;
                     } else
-                        cholestrol = new Disease("cholestrol", cholestrolType, "", false);
+                        cholestrol = new Disease("cholesterol", cholestrolType, "", false);
                 }
 
                 if (error == false)          // if there is no any errors in validating the inputs
@@ -440,7 +606,7 @@ public class PatientHomeActivity extends AppCompatActivity
             if (cholestrol != null) {
                 String cholestrolDetectionDate = selectedCholestrolDetectionDateTextView.getText().toString();
                 if (cholestrolDetectionDate.isEmpty())
-                    error = error + "enter detection date for cholestrol.\n";
+                    error = error + "enter detection date for cholesterol.\n";
                 else
                     cholestrol.setDiagnosisDate(selectedCholestrolDetectionDateTextView.getText().toString());
             }
@@ -487,7 +653,7 @@ public class PatientHomeActivity extends AppCompatActivity
                 additionalInfo.put("bmi", bmi);
                 additionalInfo.put("completeInfo", true);
 
-                DocumentReference patientRef = db.collection("patients").document(userId);
+                DocumentReference patientRef = db.collection("patients").document(patientId);
                 CollectionReference diseasesRef = patientRef.collection("diseases");
 
                 WriteBatch batch = db.batch();
@@ -634,6 +800,24 @@ public class PatientHomeActivity extends AppCompatActivity
                 .setNegativeButtonIcon(getDrawable ( R.drawable.no))
                 .show ();
     }
+
+    private String getTestTime(Timestamp timestamp)
+    {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm aa", Locale.US);
+
+        String testTime = simpleDateFormat.format(timestamp.toDate());
+
+        return testTime;
+    }
+
+
+    private String getTodayDate()
+    {
+        Calendar calendar = Calendar.getInstance();
+
+        return DateFormat.format("yyyy-M-d", calendar).toString();
+    }
+
     //rotate
     @Override
     protected void onSaveInstanceState(Bundle outState) {

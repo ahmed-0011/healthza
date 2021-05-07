@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -104,7 +105,6 @@ public class DoctorPatientChartsActivity extends AppCompatActivity
                     /* redraw only if the picked date is different than previous picked date */
                     if(!pickedDate.equals(DoctorPatientChartsActivity.this.pickedDate))
                     {
-                        clearTestsCheckBoxes();
                         DoctorPatientChartsActivity.this.pickedDate = pickedDate;
                         pickDateFloatingActionButton.setEnabled(false);
                         dailyTests.clear();
@@ -178,6 +178,8 @@ public class DoctorPatientChartsActivity extends AppCompatActivity
 
     private void setChart(String pickedDate)
     {
+        clearTestsCheckBoxes();
+
         List<Entry> zeroEntries = new ArrayList<>();
         List<Entry> glucoseEntries = new ArrayList<>();
         List<Entry> bloodPressureEntries = new ArrayList<>();
@@ -482,6 +484,12 @@ public class DoctorPatientChartsActivity extends AppCompatActivity
         });
     }
 
+
+    private void setCardView()
+    {
+        db.collection("patients")
+                .document(patientId).collection("tests").document("glucose_test");
+    }
 
     private void clearTestsCheckBoxes()
     {

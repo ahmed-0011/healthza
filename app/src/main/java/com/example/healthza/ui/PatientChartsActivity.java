@@ -107,7 +107,6 @@ public class PatientChartsActivity extends AppCompatActivity
                     /* redraw only if the picked date is different than previous picked date */
                     if(!pickedDate.equals(PatientChartsActivity.this.pickedDate))
                     {
-                        clearTestsCheckBoxes();
                         PatientChartsActivity.this.pickedDate = pickedDate;
                         pickDateFloatingActionButton.setEnabled(false);
                         dailyTests.clear();
@@ -181,6 +180,7 @@ public class PatientChartsActivity extends AppCompatActivity
 
     private void setChart(String pickedDate)
     {
+        clearTestsCheckBoxes();
 
         List<Entry> zeroEntries = new ArrayList<>();
         List<Entry> glucoseEntries = new ArrayList<>();

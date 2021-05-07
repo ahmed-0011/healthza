@@ -52,7 +52,7 @@
     <string name="register">Register</string>
     <string name="diabetes">Diabetes</string>
     <string name="hypertension">Hypertension</string>
-    <string name="cholestrol">Cholestrol</string>
+    <string name="cholesterol">Cholestrol</string>
     <string name="select_disease_text">select at least on disease</string>
     <string name="reset_password">Reset password</string>
     <string name="login_to_your_account">log in to your account.</string>
@@ -236,8 +236,14 @@
     <string name="triglyceride">Triglyceride</string>
     <string name="number_of_doctors">"Number Of Doctors: "</string>
     <string name="diabetes_tests">Diabetes Tests:</string>
-    <string name="hypertension_tests">\"Hypertension Tests: \"</string>
-    <string name="cholesterol_tests">\"Cholesterol Tests: \"</string>
+    <string name="hypertension_tests">"Hypertension Tests: "</string>
+    <string name="cholesterol_tests">"Cholesterol Tests: "</string>
     <string name="charts">Charts</string>
+    <string name="today_tests">"Today Tests: "</string>
+    <string name="last_test_at">"Last Test At: "</string>
+    <string name="latest_test_level">"Latest Test Level: "</string>
+    <string name="lowest_level">"Lowest Level: "</string>
+    <string name="highest_level">"Highest Level: "</string>
+    <string name="total_tests">"Total Tests: "</string>
 
 </resources>
