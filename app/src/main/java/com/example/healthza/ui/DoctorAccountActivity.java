@@ -171,7 +171,7 @@ public class DoctorAccountActivity extends AppCompatActivity
     }
 
     private boolean isValidIdentificationNumber(String id) {
-        return id.length() == 16;
+        return id.length() == 8;
     }
 
 
