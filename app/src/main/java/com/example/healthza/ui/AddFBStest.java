@@ -528,6 +528,8 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
 
             Map<String, Object> dataTest = new HashMap<>();
 
+            dataTest.put("date_add", datE.getText().toString());
+            dataTest.put("time_add", timE.getText().toString());
             dataTest.put("fbs_percent", Float.parseFloat(fbs.getText().toString()));
             dataTest.put("sub", false);
             //Time Stamp
@@ -589,22 +591,22 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
                             }
                             if(!bool)
                             {
-                            dates.add(datE.getText().toString());
-                            DRC.update("dates", dates)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Log.d(TAG, "DocumentSnapshot successfully updated!");
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w(TAG, "Error updating document", e);
-                                            // Toasty.makeText(getApplicationContext(),d+" 11 "+c,Toasty.LENGTH_SHORT).show();
-                                        }
-                                    });
-                        }
+                                dates.add(datE.getText().toString());
+                                DRC.update("dates", dates)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error updating document", e);
+                                                // Toasty.makeText(getApplicationContext(),d+" 11 "+c,Toasty.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
                         }
                         //
                         DRC.collection(datE.getText().toString())
