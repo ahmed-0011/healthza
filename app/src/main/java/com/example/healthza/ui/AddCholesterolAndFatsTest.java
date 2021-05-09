@@ -55,6 +55,8 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
         ,CompoundButton.OnCheckedChangeListener
         , View.OnFocusChangeListener {
 
+    /////////////////////////varible////////////////////////////////////
+
     private static final String ChannelID = "AddCholesterolAndFatsTestNote";
 
     CheckBox autoTD;
@@ -77,7 +79,7 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
 
     private Button clear;
     private Button add;
-
+////////////////////////////////////////////////////////////////////////
     @SuppressLint("LongLogTag")
     public boolean onSupportNavigateUp() {
         Log.w("Add Cholesterol And Fats test.", "onSupportNavigateUp is calll");
@@ -85,7 +87,7 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
         return super.onSupportNavigateUp();
     }
 
-    //
+    ///////////////////////////////////////
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         //complet
@@ -97,6 +99,7 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
 
     //
     @SuppressLint("LongLogTag")
+ /////////////////////////////////////////////////////
     @Override
     public void onBackPressed() {
         //super.onBackPressed ();
@@ -155,7 +158,7 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
 
         Log.w("Add Cholesterol And Fats test.", "start");
         Toast.makeText(getApplicationContext(), "Add Cholesterol And Fats test....", Toast.LENGTH_SHORT).show();
-
+//firbase
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
@@ -313,6 +316,7 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
         //complet
         if(ifEmptyFields())
         {
+            ////dialog
             AlertDialog.Builder x = new AlertDialog.Builder(this);
             x.setMessage("Please complete fill the form data.").setTitle("incomplete data")
 
@@ -330,7 +334,7 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
             return;
         }
 
-
+         ///////dialog
         AlertDialog.Builder   x= new AlertDialog.Builder ( this );
         x.setMessage ( "DO YOU WANT TO ADD Cholesterol And Fats TEST?" ).setTitle ( "Add Cholesterol And Fats test" )
 
@@ -533,7 +537,7 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
 
             Map<String, Object> Count = new HashMap<>();
             Count.put("count", ++ct);
-
+////document to set data
             db.collection("patients") // table
                     .document(userId) // patient id
                     .collection("tests")// table inside patient table
@@ -580,7 +584,7 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
             java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
             //year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0"
             dataTest.put("timestamp", timestamp);
-
+/////document refrence
             DocumentReference DRC =  db.collection("patients") // table
                     .document(userId) // patient id
                     .collection("tests")// table inside patient table
@@ -645,6 +649,7 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
 
                         dataTest.put("this_test_count", ctt);
                         //
+                        ///document set data
                         DRC.collection(datE.getText().toString())
                                 .document("test# : "+ct)
                                 .set(dataTest)

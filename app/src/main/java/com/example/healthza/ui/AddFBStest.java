@@ -54,7 +54,7 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
         ,CompoundButton.OnCheckedChangeListener
         , View.OnFocusChangeListener
 {
-
+////////////////////////////////varible//////////////////
     private static final  String ChannelID= "ADDfbsNote";
 
     CheckBox autoTD;
@@ -77,7 +77,7 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
     int ctt=0;
     float Max=-999;
     float Min=999;
-
+//////////////////////////////////////////////////////
     //
     @Override
     public boolean onSupportNavigateUp()
@@ -426,7 +426,7 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
     }
 // "Clear focus input" -->
 
-    // notification
+    ////////////////// notification//////////////////////////
     private void createChannel() {
 
 
@@ -479,7 +479,7 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
         man.notify (++Functions.ne, note.build ());
 
     }
-
+/////////////////////////////////////////////////////////////////
     //rotate
     @Override
     protected void onSaveInstanceState(Bundle outState) {
