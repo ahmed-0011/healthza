@@ -62,4 +62,5 @@ dependencies {
     implementation "com.mikepenz:materialdrawer-nav:7.0.0"
     implementation 'com.muddzdev:styleabletoast:2.3.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.github.Kunzisoft:Android-SwitchDateTimePicker:2.0'
 }

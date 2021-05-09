@@ -575,7 +575,7 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
 
             String Time = timE.getText().toString();
             String hour = Time.substring(0,Time.indexOf(":")); if(hour.length()==1)hour = "0"+hour;
-            String mnt = Time.substring(Time.indexOf(":")+1); if(day.length()==1)mnt = "0"+mnt;
+            String mnt = Time.substring(Time.indexOf(":")+1); if(mnt.length()==1)mnt = "0"+mnt;
             System.out.println(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
             java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
             //year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0"

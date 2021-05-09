@@ -76,6 +76,9 @@ public class HbAlc extends AppCompatActivity implements View.OnClickListener
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     int ct = 0;
+    int ctt=0;
+    float Max=-999;
+    float Min=999;
 
     public boolean onSupportNavigateUp()
     {
@@ -218,6 +221,8 @@ public class HbAlc extends AppCompatActivity implements View.OnClickListener
             });
         }
         //end get tests Count-->
+
+        MaxMinThisTestCountSet();
     }
 
     //Date Picker
@@ -539,7 +544,7 @@ public class HbAlc extends AppCompatActivity implements View.OnClickListener
 
             String Time = timE.getText().toString();
             String hour = Time.substring(0,Time.indexOf(":")); if(hour.length()==1)hour = "0"+hour;
-            String mnt = Time.substring(Time.indexOf(":")+1); if(day.length()==1)mnt = "0"+mnt;
+            String mnt = Time.substring(Time.indexOf(":")+1); if(mnt.length()==1)mnt = "0"+mnt;
             System.out.println(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
             java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
             //year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0"
@@ -604,6 +609,11 @@ public class HbAlc extends AppCompatActivity implements View.OnClickListener
                                         });
                             }
                         }
+
+                        MaxMinThisTestCountUpdate(DRC,document);
+
+                        dataTest.put("this_test_count", ctt);
+
                         //
                         DRC.collection(datE.getText().toString())
                                 .document("test# : "+ct)
@@ -636,6 +646,110 @@ public class HbAlc extends AppCompatActivity implements View.OnClickListener
             // No user is signed in
         }
 
+    }
+
+    void MaxMinThisTestCountSet()
+    {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String userId = user.getUid();
+
+        DocumentReference DRC = db.collection("patients") // table
+                .document(userId) // patient id
+                .collection("tests")// table inside patient table
+                .document("diabetes_cumulative_test");
+
+        DRC.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                DocumentSnapshot document = task.getResult();
+                if (document.get("count") == null
+                        || document.get("max_hba1c") == null
+                        || document.get("min_hba1c") == null) {
+
+                    HashMap Mp = new HashMap();
+                    Mp.put("count", 0);
+                    Mp.put("max_hba1c", -999);
+                    Mp.put("min_hba1c", 999);
+
+                    DRC.set(Mp)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                }
+                            });
+                } else {
+                    Max = Float.parseFloat(document.get("max_hba1c").toString());
+                    Min = Float.parseFloat(document.get("min_hba1c").toString());
+                    ctt = Integer.parseInt(document.get("count").toString());
+                }
+            }
+        });
+    }
+
+
+    void MaxMinThisTestCountUpdate(DocumentReference DRC,DocumentSnapshot document )
+    {
+        Max = Float.parseFloat(document.get("max_hba1c").toString());
+        Min = Float.parseFloat(document.get("min_hba1c").toString());
+        ctt = Integer.parseInt(document.get("count").toString());
+        //
+        DRC.update("count", ++ctt)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
+        if (Float.parseFloat(hbAlc.getText().toString()) > Max) {
+            Max = Float.parseFloat(hbAlc.getText().toString());
+        }
+        DRC.update("max_hba1c", Max)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
+        if (Float.parseFloat(hbAlc.getText().toString()) < Min) {
+            Min = Float.parseFloat(hbAlc.getText().toString());
+        }
+        DRC.update("min_hba1c", Min)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
     }
 
 }
