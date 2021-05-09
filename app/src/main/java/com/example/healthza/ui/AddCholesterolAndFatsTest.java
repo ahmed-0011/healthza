@@ -69,6 +69,9 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     int ct = 0;
+    int ctt=0;
+    float Max[];
+    float Min[];
 
     private EditText inputField[];
 
@@ -145,6 +148,10 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
         DrawerUtil.getPatientDrawer(this, -1);*/
 
         inputField = new EditText[4];
+
+        Max = new float[]{ -999,-999,-999,-999};
+        Min = new float[]{ 999,999,999,999};
+
 
         Log.w("Add Cholesterol And Fats test.", "start");
         Toast.makeText(getApplicationContext(), "Add Cholesterol And Fats test....", Toast.LENGTH_SHORT).show();
@@ -235,6 +242,8 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
             });
         }
         //end get tests Count-->
+
+        MaxMinThisTestCountSet();
     }
 
     //Date Picker
@@ -631,6 +640,10 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
                                         });
                             }
                         }
+
+                        MaxMinThisTestCountUpdate(DRC,document);
+
+                        dataTest.put("this_test_count", ctt);
                         //
                         DRC.collection(datE.getText().toString())
                                 .document("test# : "+ct)
@@ -664,4 +677,261 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
         }
 
     }
+
+    void MaxMinThisTestCountSet()
+    {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String userId = user.getUid();
+
+        DocumentReference DRC = db.collection("patients") // table
+                .document(userId) // patient id
+                .collection("tests")// table inside patient table
+                .document("cholesterolAndFats_test");
+
+        DRC.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                DocumentSnapshot document = task.getResult();
+                if (document.get("count") == null
+
+                        || document.get("max_triglyceride") == null
+                        || document.get("min_triglyceride") == null
+
+                        || document.get("max_ldl") == null
+                        || document.get("min_ldl") == null
+
+                        || document.get("max_hdl") == null
+                        || document.get("min_hdl") == null
+
+                        || document.get("max_total") == null
+                        || document.get("min_total") == null
+                ) {
+
+                    HashMap Mp = new HashMap();
+                    Mp.put("count", 0);
+
+                    Mp.put("max_triglyceride", -999);
+                    Mp.put("min_triglyceride", 999);
+
+                    Mp.put("max_ldl", -999);
+                    Mp.put("min_ldl", 999);
+
+                    Mp.put("max_hdl", -999);
+                    Mp.put("min_hdl", 999);
+
+                    Mp.put("max_total", -999);
+                    Mp.put("min_total", 999);
+
+                    DRC.set(Mp)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                }
+                            });
+                } else {
+
+                    Max[0] = Float.parseFloat(document.get("max_triglyceride").toString());
+                    Min[0] = Float.parseFloat(document.get("min_triglyceride").toString());
+
+                    Max[1] = Float.parseFloat(document.get("max_ldl").toString());
+                    Min[1] = Float.parseFloat(document.get("min_ldl").toString());
+
+                    Max[2] = Float.parseFloat(document.get("max_hdl").toString());
+                    Min[2] = Float.parseFloat(document.get("min_hdl").toString());
+
+                    Max[3] = Float.parseFloat(document.get("max_total").toString());
+                    Min[3] = Float.parseFloat(document.get("min_total").toString());
+
+                    ctt = Integer.parseInt(document.get("count").toString());
+                }
+            }
+        });
+    }
+
+    void MaxMinThisTestCountUpdate(DocumentReference DRC,DocumentSnapshot document )
+    {
+        Max[0] = Float.parseFloat(document.get("max_triglyceride").toString());
+        Min[0] = Float.parseFloat(document.get("min_triglyceride").toString());
+
+        Max[1] = Float.parseFloat(document.get("max_ldl").toString());
+        Min[1] = Float.parseFloat(document.get("min_ldl").toString());
+
+        Max[2] = Float.parseFloat(document.get("max_hdl").toString());
+        Min[2] = Float.parseFloat(document.get("min_hdl").toString());
+
+        Max[3] = Float.parseFloat(document.get("max_total").toString());
+        Min[3] = Float.parseFloat(document.get("min_total").toString());
+
+        ctt = Integer.parseInt(document.get("count").toString());
+        //
+        DRC.update("count", ++ctt)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
+        if (Float.parseFloat(inputField[0].getText().toString()) > Max[0]) {
+            Max[0] = Float.parseFloat(inputField[0].getText().toString());
+        }
+        DRC.update("max_triglyceride", Max[0])
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
+        if (Float.parseFloat(inputField[0].getText().toString()) < Min[0]) {
+            Min[0] = Float.parseFloat(inputField[0].getText().toString());
+        }
+        DRC.update("min_triglyceride", Min[0])
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
+
+
+        //
+        if (Float.parseFloat(inputField[1].getText().toString()) > Max[1]) {
+            Max[1] = Float.parseFloat(inputField[1].getText().toString());
+        }
+        DRC.update("max_ldl", Max[1])
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
+        if (Float.parseFloat(inputField[1].getText().toString()) < Min[1]) {
+            Min[1] = Float.parseFloat(inputField[1].getText().toString());
+        }
+        DRC.update("min_ldl", Min[1])
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
+
+
+        //
+        if (Float.parseFloat(inputField[2].getText().toString()) > Max[2]) {
+            Max[2] = Float.parseFloat(inputField[2].getText().toString());
+        }
+        DRC.update("max_hdl", Max[2])
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
+        if (Float.parseFloat(inputField[2].getText().toString()) < Min[2]) {
+            Min[2] = Float.parseFloat(inputField[2].getText().toString());
+        }
+        DRC.update("min_hdl", Min[2])
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
+
+        //
+        if (Float.parseFloat(inputField[3].getText().toString()) > Max[3]) {
+            Max[3] = Float.parseFloat(inputField[3].getText().toString());
+        }
+        DRC.update("max_total", Max[3])
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
+        if (Float.parseFloat(inputField[3].getText().toString()) < Min[3]) {
+            Min[3] = Float.parseFloat(inputField[3].getText().toString());
+        }
+        DRC.update("min_total", Min[3])
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
+
+    }
+
 }

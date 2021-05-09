@@ -74,6 +74,9 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     int ct = 0;
+    int ctt=0;
+    float Max=-999;
+    float Min=999;
 
     //
     @Override
@@ -219,6 +222,8 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
             });
         }
         //end get tests Count-->
+
+        MaxMinThisTestCountSet();
 
     }
 
@@ -608,6 +613,10 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
                                         });
                             }
                         }
+
+                        MaxMinThisTestCountUpdate(DRC,document);
+
+                        dataTest.put("this_test_count", ctt);
                         //
                         DRC.collection(datE.getText().toString())
                                 .document("test# : "+ct)
@@ -639,6 +648,110 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
             // No user is signed in
         }
 
+    }
+
+    void MaxMinThisTestCountSet()
+    {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String userId = user.getUid();
+
+        DocumentReference DRC = db.collection("patients") // table
+                .document(userId) // patient id
+                .collection("tests")// table inside patient table
+                .document("fbs_test");
+
+        DRC.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                DocumentSnapshot document = task.getResult();
+                if (document.get("count") == null
+                        || document.get("max_fbs") == null
+                        || document.get("min_fbs") == null) {
+
+                    HashMap Mp = new HashMap();
+                    Mp.put("count", 0);
+                    Mp.put("max_fbs", -999);
+                    Mp.put("min_fbs", 999);
+
+                    DRC.set(Mp)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                }
+                            });
+                } else {
+                    Max = Float.parseFloat(document.get("max_fbs").toString());
+                    Min = Float.parseFloat(document.get("min_fbs").toString());
+                    ctt = Integer.parseInt(document.get("count").toString());
+                }
+            }
+        });
+    }
+
+
+    void MaxMinThisTestCountUpdate(DocumentReference DRC,DocumentSnapshot document )
+    {
+        Max = Float.parseFloat(document.get("max_fbs").toString());
+        Min = Float.parseFloat(document.get("min_fbs").toString());
+        ctt = Integer.parseInt(document.get("count").toString());
+        //
+        DRC.update("count", ++ctt)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
+        if (Float.parseFloat(fbs.getText().toString()) > Max) {
+            Max = Float.parseFloat(fbs.getText().toString());
+        }
+        DRC.update("max_fbs", Max)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
+        if (Float.parseFloat(fbs.getText().toString()) < Min) {
+            Min = Float.parseFloat(fbs.getText().toString());
+        }
+        DRC.update("min_fbs", Min)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
     }
 
 }
