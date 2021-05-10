@@ -33,6 +33,7 @@ import com.example.healthza.Toasty;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -239,7 +240,7 @@ public class DoctorHomeActivity extends AppCompatActivity
                     @Override
                     public void onComplete(@NonNull Task<Void> task)
                     {
-                        progressDialog.showProgressDialog();
+                        progressDialog.showProgressDialog("Updating Profile...");
                         if (task.isSuccessful())
                         {
                             doctorDialog.dismiss();
@@ -250,7 +251,7 @@ public class DoctorHomeActivity extends AppCompatActivity
                                 public void run()
                                 {
                                     progressDialog.dismissProgressDialog();
-                                    Toasty.showText(DoctorHomeActivity.this, "your profile updated successfully"
+                                    Toasty.showText(DoctorHomeActivity.this, "Your profile updated successfully"
                                             , Toasty.INFORMATION, Toast.LENGTH_LONG);
                                 }
                             },3000);
@@ -261,7 +262,7 @@ public class DoctorHomeActivity extends AppCompatActivity
                             editor.apply();
                         }
                         else
-                            Toasty.showText(DoctorHomeActivity.this, "an error occurred while trying to update your profile",
+                            Toasty.showText(DoctorHomeActivity.this, "An error occurred while trying to update your profile",
                                     Toasty.ERROR, Toast.LENGTH_LONG);
                     }
                 });
@@ -353,34 +354,5 @@ public class DoctorHomeActivity extends AppCompatActivity
             public void afterTextChanged(Editable s) {
             }
         });
-    }
-
-
-    private void showDateDialog(TextView textView)
-    {
-        Calendar calendar = Calendar.getInstance();
-
-        /*  get current date  */
-        int date = calendar.get(Calendar.DATE);
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
-
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
-                calendar.set(Calendar.DATE, dayOfMonth);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.YEAR, year);
-
-                String dateText = DateFormat.format("MM/dd/yyyy", calendar).toString();
-
-                textView.setText(dateText);
-                textView.setVisibility(TextView.VISIBLE);
-            }
-        }, year, month, date);
-
-        datePickerDialog.show();
     }
 }

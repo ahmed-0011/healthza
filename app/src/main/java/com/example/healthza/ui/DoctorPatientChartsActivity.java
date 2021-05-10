@@ -38,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -540,8 +541,6 @@ public class DoctorPatientChartsActivity extends AppCompatActivity
 
     private String getTodayDate()
     {
-        Calendar calendar = Calendar.getInstance();
-
-        return DateFormat.format("yyyy-M-d", calendar).toString();
+        return DateFormat.format("yyyy-M-d", new Date()).toString();
     }
 }

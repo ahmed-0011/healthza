@@ -11,11 +11,53 @@
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/lineChart"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="240dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.40"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <View
+        android:id="@+id/chartSeperatorView"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/seperator_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lineChart" />
+
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/range_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chartSeperatorView" TopOf="parent"
+        app:rsb_gravity="bottom"
+        app:rsb_indicator_background_color="@color/colorPrimary"
+        app:rsb_indicator_height="30dp"
+        app:rsb_indicator_width="50dp"
+        app:rsb_mode="single"
+        app:rsb_progress_color="@color/colorPrimaryDark"
+        app:rsb_step_auto_bonding="true"
+        app:rsb_step_color="@color/colorAccent"
+        app:rsb_step_height="10dp"
+        app:rsb_step_width="5dp"
+        app:rsb_steps="4"
+        app:rsb_thumb_drawable="@drawable/round"
+        app:rsb_tick_mark_layout_gravity="bottom"
+        app:rsb_tick_mark_mode="other"
+        app:rsb_tick_mark_text_margin="20dp" />
+    <View
+        android:id="@+id/slidersSeperatorView"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/seperator_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/range_seekbar" />
 
     <CheckBox
         android:id="@+id/glucoseCheckBox"
@@ -26,7 +68,7 @@
         android:minHeight="0dp"
         android:text="@string/glucose"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lineChart" />
+        app:layout_constraintTop_toBottomOf="@id/slidersSeperatorView" />
 
     <CheckBox
         android:id="@+id/bloodPressureCheckBox"
@@ -38,7 +80,7 @@
         android:text="@string/blood_pressure"
         app:layout_constraintEnd_toStartOf="@+id/totalCholesterolCheckBox"
         app:layout_constraintStart_toEndOf="@+id/glucoseCheckBox"
-        app:layout_constraintTop_toBottomOf="@id/lineChart" />
+        app:layout_constraintTop_toBottomOf="@id/slidersSeperatorView" />
 
     <CheckBox
         android:id="@+id/totalCholesterolCheckBox"
@@ -49,7 +91,7 @@
         android:minHeight="0dp"
         android:text="@string/total_cholesterol"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lineChart" />
+        app:layout_constraintTop_toBottomOf="@id/slidersSeperatorView" />
 
     <CheckBox
         android:id="@+id/hdlCheckBox"
@@ -97,6 +139,89 @@
         tools:itemCount="4"
         tools:listitem="@layout/list_item_daily_test" />
 
+
+    <TextView
+        android:id="@+id/singleDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
+        android:text="single date"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/pickASingleDateFloatingActionButton"
+        app:layout_constraintEnd_toEndOf="@id/pickASingleDateFloatingActionButton"
+        app:layout_constraintStart_toStartOf="@id/pickASingleDateFloatingActionButton" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/pickASingleDateFloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="26dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:backgroundTint="@color/colorAccent"
+        app:fabCustomSize="52dp"
+        app:layout_constraintBottom_toTopOf="@+id/pickDateFloatingActionButton"
+        app:layout_constraintEnd_toEndOf="@id/pickDateFloatingActionButton"
+        app:srcCompat="@drawable/ic_calendar"
+        app:tint="@null" />
+
+    <TextView
+        android:id="@+id/dateRangeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="4dp"
+        android:text="date range"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/pickDateRangeFloatingActionButton"
+        app:layout_constraintEnd_toEndOf="@id/pickDateRangeFloatingActionButton"
+        app:layout_constraintStart_toStartOf="@id/pickDateRangeFloatingActionButton" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/pickDateRangeFloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:backgroundTint="@color/colorAccent"
+        app:fabCustomSize="52dp"
+        app:layout_constraintEnd_toStartOf="@+id/pickDateFloatingActionButton"
+        app:layout_constraintTop_toTopOf="@+id/pickASingleDateFloatingActionButton"
+        app:srcCompat="@drawable/ic_calendar"
+        app:tint="@null" />
+
+    <TextView
+        android:id="@+id/multipleDatesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="44dp"
+        android:text="multiple date"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/pickMultipleDatesFloatingActionButton"
+        app:layout_constraintEnd_toEndOf="@id/pickMultipleDatesFloatingActionButton" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/pickMultipleDatesFloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:backgroundTint="@color/colorAccent"
+        app:fabCustomSize="52dp"
+        app:layout_constraintBottom_toBottomOf="@id/pickDateFloatingActionButton"
+        app:layout_constraintEnd_toStartOf="@id/pickDateFloatingActionButton"
+        app:srcCompat="@drawable/ic_calendar"
+        app:tint="@null" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/pickDateFloatingActionButton"

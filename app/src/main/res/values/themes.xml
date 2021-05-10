@@ -12,6 +12,20 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="materialCalendarFullscreenTheme">
+            @style/CustomThemeOverlay_MaterialCalendar_Fullscreen
+        </item>
+
+    </style>
+
+    <!-- date range dialog styling -->
+    <style name="CustomThemeOverlay_MaterialCalendar_Fullscreen" parent="@style/ThemeOverlay.MaterialComponents.MaterialCalendar.Fullscreen">
+        <item name="materialCalendarStyle">@style/Custom_MaterialCalendar.Fullscreen</item>
+    </style>
+
+    <style name="Custom_MaterialCalendar.Fullscreen" parent="@style/Widget.MaterialComponents.MaterialCalendar.Fullscreen">
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:tint">@color/teal_200</item>
     </style>
 
     <!-- no action bar theme -->
@@ -27,5 +41,9 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+        <item name="materialCalendarFullscreenTheme">
+            @style/CustomThemeOverlay_MaterialCalendar_Fullscreen
+        </item>
     </style>
 </resources>

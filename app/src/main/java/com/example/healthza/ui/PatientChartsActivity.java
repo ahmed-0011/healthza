@@ -1,6 +1,8 @@
 package com.example.healthza.ui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,14 +10,18 @@ import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.healthza.DetailsMarkerView;
 import com.example.healthza.ProgressDialog;
 import com.example.healthza.R;
 import com.example.healthza.StickHeaderItemDecoration;
+import com.example.healthza.Toasty;
 import com.example.healthza.adapters.DailyTestAdapter;
 import com.example.healthza.models.DailyTest;
 import com.github.mikephil.charting.charts.LineChart;
@@ -28,7 +34,11 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.DateValidatorPointBackward;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.slider.RangeSlider;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -39,15 +49,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class PatientChartsActivity extends AppCompatActivity
 {
     private LineChart chart;
     private CheckBox glucoseCheckBox, bloodPressureCheckBox, hdlCheckBox, ldlCheckBox,
             triglycerideCheckBox, totalCholesterolCheckBox;
-    private FloatingActionButton pickDateFloatingActionButton;
+    private FloatingActionButton pickDateFloatingActionButton, pickASingleDateFloatingActionButton, pickDateRangeFloatingActionButton, pickMultipleDatesFloatingActionButton;
+    private Long selectedDate;
     private String pickedDate;
     private RecyclerView patientDailyTestsRecyclerView;
     private DailyTestAdapter dailyTestAdapter;
@@ -55,6 +68,7 @@ public class PatientChartsActivity extends AppCompatActivity
     private FirebaseFirestore db;
     private FirebaseAuth firebaseAuth;
     private String patientId;
+    private boolean isFloatingButtonsVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -67,7 +81,6 @@ public class PatientChartsActivity extends AppCompatActivity
 
         patientId = firebaseAuth.getCurrentUser().getUid();
 
-
         dailyTests = new ArrayList<>();
         dailyTests.add(null); // to display stick header instead of daily test item
 
@@ -79,45 +92,60 @@ public class PatientChartsActivity extends AppCompatActivity
         totalCholesterolCheckBox = findViewById(R.id.totalCholesterolCheckBox);
 
         pickDateFloatingActionButton = findViewById(R.id.pickDateFloatingActionButton);
+        pickASingleDateFloatingActionButton = findViewById(R.id.pickASingleDateFloatingActionButton);
+        pickDateRangeFloatingActionButton = findViewById(R.id.pickDateRangeFloatingActionButton);
+        pickMultipleDatesFloatingActionButton = findViewById(R.id.pickMultipleDatesFloatingActionButton);
+
+        TextView singleDateTextView, dateRangeTextView, multipleDatesTextView;
+        singleDateTextView = findViewById(R.id.singleDateTextView);
+        dateRangeTextView = findViewById(R.id.dateRangeTextView);
+        multipleDatesTextView = findViewById(R.id.multipleDatesTextView);
+
+
 
         patientDailyTestsRecyclerView = findViewById(R.id.patientDailyTestsRecyclerView);
+        chart = findViewById(R.id.lineChart);
 
-        chart = (LineChart) findViewById(R.id.lineChart);
 
-        Calendar calendar = Calendar.getInstance();
+        pickASingleDateFloatingActionButton.setOnClickListener(v ->
+        {
+            setSingleDate();
+        });
+
+        pickDateRangeFloatingActionButton.setOnClickListener(v ->
+        {
+            setDateRange();
+        });
 
         pickDateFloatingActionButton.setOnClickListener(v ->
         {
-            int date = calendar.get(Calendar.DATE);
-            int month = calendar.get(Calendar.MONTH);
-            int year = calendar.get(Calendar.YEAR);
+            if(isFloatingButtonsVisible)
+            {
+                pickASingleDateFloatingActionButton.hide();
+                pickDateRangeFloatingActionButton.hide();
+                pickMultipleDatesFloatingActionButton.hide();
 
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
-                {
+                singleDateTextView.setVisibility(View.GONE);
+                dateRangeTextView.setVisibility(View.GONE);
+                multipleDatesTextView.setVisibility(View.GONE);
 
-                    calendar.set(Calendar.DATE, dayOfMonth);
-                    calendar.set(Calendar.MONTH, month);
-                    calendar.set(Calendar.YEAR, year);
-                    
-                    String pickedDate = DateFormat.format("yyyy-M-d", calendar).toString();
+                isFloatingButtonsVisible = false;
+            }
+            else
+            {
+                pickASingleDateFloatingActionButton.show();
+                pickDateRangeFloatingActionButton.show();
+                pickMultipleDatesFloatingActionButton.show();
 
+                singleDateTextView.setVisibility(View.VISIBLE);
+                dateRangeTextView.setVisibility(View.VISIBLE);
+                multipleDatesTextView.setVisibility(View.VISIBLE);
 
-                    /* redraw only if the picked date is different than previous picked date */
-                    if(!pickedDate.equals(PatientChartsActivity.this.pickedDate))
-                    {
-                        PatientChartsActivity.this.pickedDate = pickedDate;
-                        pickDateFloatingActionButton.setEnabled(false);
-                        dailyTests.clear();
-                        dailyTests.add(null); // to display stick header instead of daily test item
-                        setChart(pickedDate);
-                    }
-                }
-            }, year, month, date);
-            
-            datePickerDialog.show();
+                isFloatingButtonsVisible = true;
+            }
         });
+
+        selectedDate = MaterialDatePicker.todayInUtcMilliseconds();
 
         pickedDate = getTodayDate();
         initChart();
@@ -182,6 +210,9 @@ public class PatientChartsActivity extends AppCompatActivity
     {
         clearTestsCheckBoxes();
 
+        /* set picked date as description for the chart */
+        chart.getDescription().setText(pickedDate);
+        
         List<Entry> zeroEntries = new ArrayList<>();
         List<Entry> glucoseEntries = new ArrayList<>();
         List<Entry> bloodPressureEntries = new ArrayList<>();
@@ -487,6 +518,96 @@ public class PatientChartsActivity extends AppCompatActivity
     }
 
 
+    private void setSingleDate()
+    {
+
+        MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker.Builder
+                .datePicker()
+                .setSelection(selectedDate)
+                .build();
+
+        materialDatePicker.addOnPositiveButtonClickListener(selection ->
+        {
+
+            selectedDate = (Long) selection;
+            String pickedDate = DateFormat.format("yyyy-M-d", selectedDate).toString();
+
+
+            /* redraw only if the picked date is different than previous picked date */
+            if(!pickedDate.equals(PatientChartsActivity.this.pickedDate))
+            {
+                PatientChartsActivity.this.pickedDate = pickedDate;
+                pickDateFloatingActionButton.setEnabled(false);
+                dailyTests.clear();
+                dailyTests.add(null); // to display stick header instead of daily test item
+                setChart(pickedDate);
+            }
+        });
+
+        materialDatePicker.show(getSupportFragmentManager(), "PatientChartsActivity");
+    }
+
+
+    private void setDateRange()
+    {
+        MaterialDatePicker.Builder<Pair<Long, Long>> builder =
+                MaterialDatePicker.Builder.dateRangePicker();
+
+        Pair<Long, Long> selected = new Pair<>(MaterialDatePicker.thisMonthInUtcMilliseconds(), MaterialDatePicker.todayInUtcMilliseconds());
+        builder.setSelection(selected);
+
+        CalendarConstraints.Builder constraintsBuilder = new CalendarConstraints.Builder();
+        builder.setCalendarConstraints(constraintsBuilder.setValidator(DateValidatorPointBackward.now()).build());
+
+        MaterialDatePicker<Pair<Long,Long>> materialDatePicker = builder
+                .setTitleText("Select A Date Range")
+                .build();
+
+        materialDatePicker.addOnPositiveButtonClickListener(selection ->
+        {
+            Pair<Long, Long> dateRange = ((Pair<Long, Long>) selection);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d");
+
+
+            selectedDate = dateRange.first - getHoursInMillies(3);
+            pickedDate = simpleDateFormat.format(new Date(dateRange.first));
+
+
+            String date;
+            String firstDate = simpleDateFormat.format(new Date(dateRange.first))  ;
+            int firstDateNumber = Integer.parseInt(firstDate.substring(firstDate.lastIndexOf('-') + 1));
+
+            String lastDate = simpleDateFormat.format(new Date(dateRange.second));
+            int lastDateNumber = Integer.parseInt(lastDate.substring(lastDate.lastIndexOf('-') + 1));
+
+
+            date = firstDate.substring(0, firstDate.lastIndexOf('-') + 1);
+            for(int i = firstDateNumber; i <= lastDateNumber; i++)
+            {
+                Toasty.showText(PatientChartsActivity.this, date + i, Toasty.SUCCESS, Toast.LENGTH_LONG);
+            }
+
+
+
+
+            // material date picker time stamp for a date always return with 3 am
+            // you should subtract these three hours using getHOirusInMillies(3);
+            /*
+            Timestamp firstTimestamp = getTimestamp(dateRange.first
+                    + getHoursInMillies(hoursSlider.getValues().get(0))
+                    -getHoursInMillies(3L));
+
+            Timestamp lastTimestamp = getTimestamp(dateRange.first
+                    + getHoursInMillies(hoursSlider.getValues().get(1))
+                    - getHoursInMillies(3L));
+             */
+
+        });
+
+        materialDatePicker.show(getSupportFragmentManager(), "PatientChartsActivity");
+    }
+
+    
     private void clearTestsCheckBoxes()
     {
         glucoseCheckBox.setChecked(false);
@@ -503,7 +624,18 @@ public class PatientChartsActivity extends AppCompatActivity
         triglycerideCheckBox.setEnabled(false);
     }
 
-    
+
+    private Timestamp getTimestamp(Long millieSeconds)
+    {
+        return new Timestamp(new Date(millieSeconds));
+    }
+
+    private Long getHoursInMillies(float hour)
+    {
+        return TimeUnit.HOURS.toMillis((long) hour);
+    }
+
+
     private float getTestTime(Timestamp timestamp)
     {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm aa", Locale.US);
@@ -536,8 +668,6 @@ public class PatientChartsActivity extends AppCompatActivity
     
     private String getTodayDate()
     {
-        Calendar calendar = Calendar.getInstance();
-
-        return DateFormat.format("yyyy-M-d", calendar).toString();
+        return DateFormat.format("yyyy-M-d", new Date()).toString();
     }
 }

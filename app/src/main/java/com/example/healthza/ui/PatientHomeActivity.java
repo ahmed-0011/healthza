@@ -24,6 +24,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.util.Pair;
 
 import com.example.healthza.DrawerUtil;
 import com.example.healthza.ProgressDialog;
@@ -32,6 +33,7 @@ import com.example.healthza.models.DailyTest;
 import com.example.healthza.models.Disease;
 import com.example.healthza.R;
 import com.github.mikephil.charting.data.Entry;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -49,6 +51,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -465,17 +468,20 @@ public class PatientHomeActivity extends AppCompatActivity
 
 
             if (!diabetesCheckBox.isChecked() && !hypertensionCheckBox.isChecked() && !cholestrolCheckBox.isChecked())
-                ;
-                //TODO
-            else {
+                Toasty.showText(this, "Please select at least 1 disease",Toasty.WARNING ,Toast.LENGTH_LONG);
+            else
+            {
                 boolean error = false;
 
-                if (diabetesCheckBox.isChecked()) {
-                    if (!isValidDiseaseType(diabetesType)) {
+                if (diabetesCheckBox.isChecked())
+                {
+                    if (!isValidDiseaseType(diabetesType))
+                    {
                         diabetesTypeInputLayout.setError("Invalid Disease type, disease type must containts alphabetic and spaces only");
                         diabetesTypeInputEditText.requestFocus();
                         error = true;
-                    } else
+                    }
+                    else
                         diabetes = new Disease("diabetes", diabetesType, "", false);
                 }
 
@@ -587,26 +593,29 @@ public class PatientHomeActivity extends AppCompatActivity
 
             String error = "";
 
-            if (diabetes != null) {
+            if (diabetes != null)
+            {
                 String diabetesDetectionDate = selectedDiabetesDetectionDateTextView.getText().toString();
                 if (diabetesDetectionDate.isEmpty())
-                    error = error + "enter detection date for diabetes.\n";
+                    error = error + "Please enter detection date for diabetes.\n\n";
                 else
                     diabetes.setDiagnosisDate(selectedDiabetesDetectionDateTextView.getText().toString());
             }
 
-            if (hypertension != null) {
+            if (hypertension != null)
+            {
                 String hypertensionDetectionDate = selectedHypertensionDetectionDateTextView.getText().toString();
                 if (hypertensionDetectionDate.isEmpty())
-                    error = error + "enter detection date for hypertenstion.\n";
+                    error = error + "Please enter detection date for hypertension.\n\n";
                 else
                     hypertension.setDiagnosisDate(selectedHypertensionDetectionDateTextView.getText().toString());
             }
 
-            if (cholestrol != null) {
+            if (cholestrol != null)
+            {
                 String cholestrolDetectionDate = selectedCholestrolDetectionDateTextView.getText().toString();
                 if (cholestrolDetectionDate.isEmpty())
-                    error = error + "enter detection date for cholesterol.\n";
+                    error = error + "Please enter detection date for cholesterol.\n\n";
                 else
                     cholestrol.setDiagnosisDate(selectedCholestrolDetectionDateTextView.getText().toString());
             }
@@ -618,11 +627,7 @@ public class PatientHomeActivity extends AppCompatActivity
 
             if (!error.isEmpty())
             {
-                new MaterialAlertDialogBuilder(PatientHomeActivity.this)
-                        .setTitle("Detection date")
-                        .setMessage(error)
-                        .setNegativeButton("Ok", (dialog, which) ->
-                        { }).show();
+                Toasty.showText(this, error, Toasty.WARNING, Toast.LENGTH_LONG);
             }
             else if (!isValidWeight(weightString)) {
                 weightInputlayout.setError("Invalid weight, weight must be less than 300 KG");
@@ -676,7 +681,7 @@ public class PatientHomeActivity extends AppCompatActivity
                 batch.commit().addOnCompleteListener(task ->
                 {
                     ProgressDialog progressDialog = new ProgressDialog(this);
-                    progressDialog.showProgressDialog();
+                    progressDialog.showProgressDialog("Updating Profile...");
                     if (task.isSuccessful())
                     {
                         patientDialog2.dismiss();
@@ -701,7 +706,7 @@ public class PatientHomeActivity extends AppCompatActivity
                     else
                         {
                         Toasty.showText(PatientHomeActivity.this,
-                                "an error occurred while trying to update your profile",
+                                "An error occurred while trying to update your profile",
                                 Toasty.ERROR, Toast.LENGTH_LONG);
                     }
                 });
@@ -744,32 +749,23 @@ public class PatientHomeActivity extends AppCompatActivity
         });
     }
 
-    private void showDateDialog(TextView textView) {
+    private void showDateDialog(TextView textView)
+    {
+        MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker
+                .Builder
+                .datePicker()
+                .build();
 
-        Calendar calendar = Calendar.getInstance();
+        materialDatePicker.addOnPositiveButtonClickListener(selection ->
+        {
+            Long selectedDate = (Long) selection;
+            String dateText = DateFormat.format("MM/dd/yyyy", selectedDate).toString();
 
-        /*  get current date  */
-        int date = calendar.get(Calendar.DATE);
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
+            textView.setText(dateText);
+            textView.setVisibility(TextView.VISIBLE);
+        });
 
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
-                calendar.set(Calendar.DATE, dayOfMonth);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.YEAR, year);
-
-                String dateText = DateFormat.format("MM/dd/yyyy", calendar).toString();
-
-                textView.setText(dateText);
-                textView.setVisibility(TextView.VISIBLE);
-            }
-        }, year, month, date);
-
-        datePickerDialog.show();
+        materialDatePicker.show(getSupportFragmentManager(), "PatientHomeActivity");
     }
 
     public void logOut()

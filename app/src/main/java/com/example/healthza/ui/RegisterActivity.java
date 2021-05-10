@@ -25,12 +25,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Pair;
 
 import com.example.healthza.Toasty;
 import com.example.healthza.models.Doctor;
 import com.example.healthza.models.Patient;
 import com.example.healthza.R;
 import com.example.healthza.TextInputEditTextFocusListenerHelper;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,6 +43,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -391,7 +394,6 @@ public class RegisterActivity extends AppCompatActivity
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isValidPhoneNumber(phoneNumberInputEditText.getText().toString()))
-
                     phoneNumberInputLayout.setError(null);
             }
 
@@ -445,31 +447,24 @@ public class RegisterActivity extends AppCompatActivity
     }
 
 
-    private void showDateDialog() {
-        Calendar calendar = Calendar.getInstance();
+    private void showDateDialog()
+    {
+        MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker
+                .Builder
+                .datePicker()
+                .build();
 
-        /*  get today date  */
-        int date = calendar.get(Calendar.DATE);
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
+        materialDatePicker.addOnPositiveButtonClickListener(selection ->
+        {
+            Long selectedDate = (Long) selection;
+            String birthDate = DateFormat.format("MM/dd/yyyy", new Date(selectedDate)).toString();
 
+            selectedBirthDateTextView.setText(birthDate);
+            selectedBirthDateTextView.setVisibility(TextView.VISIBLE);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        });
 
-                calendar.set(Calendar.DATE, dayOfMonth);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.YEAR, year);
-
-                String todayDate = DateFormat.format("MM/dd/yyyy", calendar).toString();
-
-                selectedBirthDateTextView.setText(todayDate);
-                selectedBirthDateTextView.setVisibility(TextView.VISIBLE);
-            }
-        }, year, month, date);
-
-        datePickerDialog.show();
+        materialDatePicker.show(getSupportFragmentManager(), "RegisterActivity");
     }
 
 
