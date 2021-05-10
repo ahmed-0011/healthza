@@ -41,6 +41,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.w3c.dom.Document;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -75,6 +77,9 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     int ct = 0;
+    int ctt=0;
+    float Max=-999;
+    float Min=999;
 
     public boolean onSupportNavigateUp()
     {
@@ -217,6 +222,9 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
             });
         }
         //end get tests Count-->
+
+        MaxMinThisTestCountSet();
+
     }
 
     //Date Picker
@@ -522,14 +530,11 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                         }
                     });
 
-            //ende update tests Count-->
-
-            //<!-- add test
-
             Map<String, Object> dataTest = new HashMap<>();
             dataTest.put("date_add", datE.getText().toString());
             dataTest.put("time_add", timE.getText().toString());
             dataTest.put("glucose_percent", Float.parseFloat(glucose.getText().toString()));
+
             //Time Stamp
             String Date =datE.getText().toString();
             int i1 = Date.indexOf("-");
@@ -541,7 +546,7 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
 
             String Time = timE.getText().toString();
             String hour = Time.substring(0,Time.indexOf(":")); if(hour.length()==1)hour = "0"+hour;
-            String mnt = Time.substring(Time.indexOf(":")+1); if(day.length()==1)mnt = "0"+mnt;
+            String mnt = Time.substring(Time.indexOf(":")+1); if(mnt.length()==1)mnt = "0"+mnt;
             System.out.println(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
             java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
             //year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0"
@@ -606,6 +611,11 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                                     });
                         }
                         }
+
+                      MaxMinThisTestCountUpdate(DRC,document);
+
+                        dataTest.put("this_test_count", ctt);
+
                         //
                         DRC.collection(datE.getText().toString())
                                 .document("test# : "+ct)
@@ -624,7 +634,8 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                                 });
 
 
-                    } else {
+                    }
+                    else {
                         Log.d(TAG, "get failed with ", task.getException());
 
                     }
@@ -637,5 +648,108 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
             // No user is signed in
         }
 
+    }
+
+    void MaxMinThisTestCountSet()
+    {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String userId = user.getUid();
+
+        DocumentReference DRC = db.collection("patients") // table
+                .document(userId) // patient id
+                .collection("tests")// table inside patient table
+                .document("glucose_test");
+
+        DRC.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                DocumentSnapshot document = task.getResult();
+                if (document.get("count") == null
+                        || document.get("max_glucose") == null
+                        || document.get("min_glucose") == null) {
+
+                    HashMap Mp = new HashMap();
+                    Mp.put("count", 0);
+                    Mp.put("max_glucose", -999);
+                    Mp.put("min_glucose", 999);
+
+                    DRC.set(Mp)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                }
+                            });
+                } else {
+                    Max = Float.parseFloat(document.get("max_glucose").toString());
+                    Min = Float.parseFloat(document.get("min_glucose").toString());
+                    ctt = Integer.parseInt(document.get("count").toString());
+                }
+            }
+        });
+    }
+
+    void MaxMinThisTestCountUpdate(DocumentReference DRC,DocumentSnapshot document )
+    {
+       Max = Float.parseFloat(document.get("max_glucose").toString());
+       Min = Float.parseFloat(document.get("min_glucose").toString());
+       ctt = Integer.parseInt(document.get("count").toString());
+       //
+        DRC.update("count", ++ctt)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
+        if (Float.parseFloat(glucose.getText().toString()) > Max) {
+            Max = Float.parseFloat(glucose.getText().toString());
+        }
+        DRC.update("max_glucose", Max)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
+        if (Float.parseFloat(glucose.getText().toString()) < Min) {
+            Min = Float.parseFloat(glucose.getText().toString());
+        }
+        DRC.update("min_glucose", Min)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
     }
 }

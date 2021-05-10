@@ -23,6 +23,8 @@ import com.example.healthza.ui.DoctorSendRequestActivity;
 import com.example.healthza.ui.Functions;
 import com.example.healthza.ui.HbAlc;
 import com.example.healthza.ui.PatientAccountActivity;
+import com.example.healthza.ui.PatientHistory;
+import com.example.healthza.ui.PatientHistoryD;
 import com.example.healthza.ui.PatientReceiveRequestActivity;
 import com.example.healthza.ui.ViewIdentifiersP;
 import com.example.healthza.ui.WelcomeActivity;
@@ -66,20 +68,20 @@ public class DrawerUtil
 
                         new DividerDrawerItem(),
 
-                                new PrimaryDrawerItem().withIdentifier(2)
-                                        .withName("New Patient").withIcon(R.drawable.ic_add_patient)
-                                        .withIconTintingEnabled(true),
+                        new PrimaryDrawerItem().withIdentifier(2)
+                                .withName("Add Patients").withIcon(R.drawable.ic_add_patient)
+                                .withIconTintingEnabled(true),
 
-                                new PrimaryDrawerItem().withIdentifier(3)
-                                        .withName("Patients Medical History").withIcon(R.drawable.ic_medical_history)
-                                        .withIconTintingEnabled(true),
+                        new PrimaryDrawerItem().withIdentifier(3)
+                                .withName("Patients Medical History").withIcon(R.drawable.ic_medical_history)
+                                .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(4)
                                 .withName("Patients Charts").withIcon(R.drawable.ic_barchart)
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(18)
-                        .withName("View Identifier").withIcon(R.drawable.mange_identfiers)
+                                .withName("View Identifier").withIcon(R.drawable.mange_identfiers)
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(5)
@@ -91,15 +93,19 @@ public class DrawerUtil
                                 .withIconTintingEnabled(true)
                                 .withSubItems(
                                         new SecondaryDrawerItem().withIdentifier(7)
-                                                .withName("New Complication").withIcon(R.drawable.complication)
+                                                .withName("Add new Complication").withIcon(R.drawable.complication)
                                                 .withIconTintingEnabled(true),
                                         new SecondaryDrawerItem().withIdentifier(8)
-                                                .withName("Update Complications").withIcon(R.drawable.updatecomp)
+                                                .withName("UPDATE Complication Status").withIcon(R.drawable.updatecomp)
                                                 .withIconTintingEnabled(true),
                                         new SecondaryDrawerItem().withIdentifier(19)
                                                 .withName("View Complications").withIcon(R.drawable.compico)
                                                 .withIconTintingEnabled(true)
                                 ),
+
+                        new PrimaryDrawerItem().withIdentifier(20)
+                                .withName("Patients Log Medical").withIcon(R.drawable.medical_history)
+                                .withIconTintingEnabled(true),
 
                         new DividerDrawerItem(),
 
@@ -133,8 +139,8 @@ public class DrawerUtil
 
                             case 3:
                             {
-                                    Intent intent = new Intent(activity, patientMedicalRecords.class);
-                                    view.getContext().startActivity(intent);
+                                Intent intent = new Intent(activity, patientMedicalRecords.class);
+                                view.getContext().startActivity(intent);
                                 break;
                             }
 
@@ -175,6 +181,13 @@ public class DrawerUtil
                             case 19:
                             {
                                 Intent intent = new Intent(activity, viewComplicationsP.class);
+                                view.getContext().startActivity(intent);
+                                break;
+                            }
+
+                            case 20:
+                            {
+                                Intent intent = new Intent(activity, PatientHistoryD.class);
                                 view.getContext().startActivity(intent);
                                 break;
                             }
@@ -248,7 +261,7 @@ public class DrawerUtil
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(15)
-                                .withName("New Chronic Disease").withIcon(R.drawable.iconchronic)
+                                .withName("Add Chronic Diseases").withIcon(R.drawable.iconchronic)
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(19)
@@ -260,7 +273,7 @@ public class DrawerUtil
                                 .withIconTintingEnabled(true)
                                 .withSubItems(
                                         new SecondaryDrawerItem().withIdentifier(17)
-                                                .withName("New Identifier"),
+                                                .withName("ADD Identifier"),
                                         new SecondaryDrawerItem().withIdentifier(18)
                                                 .withName("View Identifier")
                                 ),
@@ -268,6 +281,10 @@ public class DrawerUtil
                       /*  new PrimaryDrawerItem().withIdentifier(13)
                                 .withName("Medical Records").withIcon(R.drawable.medical_history)
                                 .withIconTintingEnabled(true),*/
+
+                        new PrimaryDrawerItem().withIdentifier(20)
+                                .withName("Log Medical").withIcon(R.drawable.medical_history)
+                                .withIconTintingEnabled(true),
 
                         new DividerDrawerItem(),
 
@@ -410,6 +427,13 @@ public class DrawerUtil
                                 break;
                             }*/
 
+                            case 20:
+                            {
+                                Intent intent = new Intent(activity, PatientHistory.class);
+                                view.getContext().startActivity(intent);
+                                break;
+                            }
+
                             case 16:
                                 break;
 
@@ -436,29 +460,29 @@ public class DrawerUtil
 
                             case 14:
                             {
-                                 AlertDialog.Builder   x= new AlertDialog.Builder ( view.getContext() );
-                                    x.setMessage ( "DO YOU WANT TO LogOut?" ).setTitle ( "Patient LogOut" )
+                                AlertDialog.Builder   x= new AlertDialog.Builder ( view.getContext() );
+                                x.setMessage ( "DO YOU WANT TO LogOut?" ).setTitle ( "Patient LogOut" )
 
-                                            .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    FirebaseAuth.getInstance().signOut();
-                                                    activity.finishAffinity();
-                                                    Intent I = new Intent(activity, WelcomeActivity.class);
-                                                    view.getContext().startActivity(I);
+                                        .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                FirebaseAuth.getInstance().signOut();
+                                                activity.finishAffinity();
+                                                Intent I = new Intent(activity, WelcomeActivity.class);
+                                                view.getContext().startActivity(I);
 
-                                                }
-                                            } )
+                                            }
+                                        } )
 
-                                            .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) { }
-                                            })
+                                        .setNegativeButton ( "CANCEL", new DialogInterface.OnClickListener () {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) { }
+                                        })
 
-                                            .setIcon(R.drawable.qus)
-                                            .setPositiveButtonIcon (view.getContext().getDrawable ( R.drawable.yes))
-                                            .setNegativeButtonIcon(view.getContext().getDrawable ( R.drawable.no))
-                                            .show ();
+                                        .setIcon(R.drawable.qus)
+                                        .setPositiveButtonIcon (view.getContext().getDrawable ( R.drawable.yes))
+                                        .setNegativeButtonIcon(view.getContext().getDrawable ( R.drawable.no))
+                                        .show ();
 
                                 break;
                             }

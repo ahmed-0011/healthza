@@ -54,7 +54,7 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
         ,CompoundButton.OnCheckedChangeListener
         , View.OnFocusChangeListener
 {
-
+////////////////////////////////varible//////////////////
     private static final  String ChannelID= "ADDfbsNote";
 
     CheckBox autoTD;
@@ -74,7 +74,10 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     int ct = 0;
-
+    int ctt=0;
+    float Max=-999;
+    float Min=999;
+//////////////////////////////////////////////////////
     //
     @Override
     public boolean onSupportNavigateUp()
@@ -219,6 +222,8 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
             });
         }
         //end get tests Count-->
+
+        MaxMinThisTestCountSet();
 
     }
 
@@ -421,7 +426,7 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
     }
 // "Clear focus input" -->
 
-    // notification
+    ////////////////// notification//////////////////////////
     private void createChannel() {
 
 
@@ -474,7 +479,7 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
         man.notify (++Functions.ne, note.build ());
 
     }
-
+/////////////////////////////////////////////////////////////////
     //rotate
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -528,6 +533,8 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
 
             Map<String, Object> dataTest = new HashMap<>();
 
+            dataTest.put("date_add", datE.getText().toString());
+            dataTest.put("time_add", timE.getText().toString());
             dataTest.put("fbs_percent", Float.parseFloat(fbs.getText().toString()));
             dataTest.put("sub", false);
             //Time Stamp
@@ -541,7 +548,7 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
 
             String Time = timE.getText().toString();
             String hour = Time.substring(0,Time.indexOf(":")); if(hour.length()==1)hour = "0"+hour;
-            String mnt = Time.substring(Time.indexOf(":")+1); if(day.length()==1)mnt = "0"+mnt;
+            String mnt = Time.substring(Time.indexOf(":")+1); if(mnt.length()==1)mnt = "0"+mnt;
             System.out.println(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
             java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
             //year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0"
@@ -589,23 +596,27 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
                             }
                             if(!bool)
                             {
-                            dates.add(datE.getText().toString());
-                            DRC.update("dates", dates)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Log.d(TAG, "DocumentSnapshot successfully updated!");
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w(TAG, "Error updating document", e);
-                                            // Toasty.makeText(getApplicationContext(),d+" 11 "+c,Toasty.LENGTH_SHORT).show();
-                                        }
-                                    });
+                                dates.add(datE.getText().toString());
+                                DRC.update("dates", dates)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error updating document", e);
+                                                // Toasty.makeText(getApplicationContext(),d+" 11 "+c,Toasty.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
                         }
-                        }
+
+                        MaxMinThisTestCountUpdate(DRC,document);
+
+                        dataTest.put("this_test_count", ctt);
                         //
                         DRC.collection(datE.getText().toString())
                                 .document("test# : "+ct)
@@ -637,6 +648,110 @@ public class AddFBStest extends AppCompatActivity implements View.OnClickListene
             // No user is signed in
         }
 
+    }
+
+    void MaxMinThisTestCountSet()
+    {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String userId = user.getUid();
+
+        DocumentReference DRC = db.collection("patients") // table
+                .document(userId) // patient id
+                .collection("tests")// table inside patient table
+                .document("fbs_test");
+
+        DRC.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                DocumentSnapshot document = task.getResult();
+                if (document.get("count") == null
+                        || document.get("max_fbs") == null
+                        || document.get("min_fbs") == null) {
+
+                    HashMap Mp = new HashMap();
+                    Mp.put("count", 0);
+                    Mp.put("max_fbs", -999);
+                    Mp.put("min_fbs", 999);
+
+                    DRC.set(Mp)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                }
+                            });
+                } else {
+                    Max = Float.parseFloat(document.get("max_fbs").toString());
+                    Min = Float.parseFloat(document.get("min_fbs").toString());
+                    ctt = Integer.parseInt(document.get("count").toString());
+                }
+            }
+        });
+    }
+
+
+    void MaxMinThisTestCountUpdate(DocumentReference DRC,DocumentSnapshot document )
+    {
+        Max = Float.parseFloat(document.get("max_fbs").toString());
+        Min = Float.parseFloat(document.get("min_fbs").toString());
+        ctt = Integer.parseInt(document.get("count").toString());
+        //
+        DRC.update("count", ++ctt)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
+        if (Float.parseFloat(fbs.getText().toString()) > Max) {
+            Max = Float.parseFloat(fbs.getText().toString());
+        }
+        DRC.update("max_fbs", Max)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
+        if (Float.parseFloat(fbs.getText().toString()) < Min) {
+            Min = Float.parseFloat(fbs.getText().toString());
+        }
+        DRC.update("min_fbs", Min)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
     }
 
 }

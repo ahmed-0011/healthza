@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,22 +35,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
 import com.example.healthza.R;
+import com.example.healthza.Toasty;
 import com.example.healthza.models.Patient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class addNewTestAppointment extends AppCompatActivity implements View.OnClickListener
@@ -65,8 +74,6 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
 
     private Spinner spinnerT;
     private Spinner spinnerP;
-
-    private DatePicker datePicker;
 
     EditText searchP;
     EditText descripeC;
@@ -85,6 +92,10 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
     private static final String TAG = "addNewTestAppointmen";
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
+
+   String Stamp = "";
+
+    ImageView stamp;
 
     @SuppressLint("LongLogTag")
     public boolean onSupportNavigateUp()
@@ -140,6 +151,8 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
         //complet
     }
 
+    SwitchDateTimeDialogFragment dateTimeDialogFragment;
+
     ArrayAdapter<String> adapter1;
 
     @SuppressLint("LongLogTag")
@@ -153,16 +166,67 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
+        //Initialize
+
+
+        dateTimeDialogFragment = SwitchDateTimeDialogFragment.newInstance(
+                "Set Date And Time",
+                "OK",
+                "Cancel"
+        );
+
+//Assign values
+        dateTimeDialogFragment.startAtCalendarView();
+        dateTimeDialogFragment.set24HoursMode(true);
+        dateTimeDialogFragment.setMinimumDateTime(new GregorianCalendar(1900, Calendar.JANUARY, 1).getTime());
+        dateTimeDialogFragment.setMaximumDateTime(new GregorianCalendar(3000, Calendar.DECEMBER, 31).getTime());
+       //dateTimeDialogFragment.setDefaultDateTime(new GregorianCalendar(2017, Calendar.MARCH, 4, 15, 20).getTime());
+
+//Define new day and month format
+
+        try {
+            dateTimeDialogFragment.setSimpleDateMonthAndDayFormat(new SimpleDateFormat("YYYY/MM/DD", Locale.getDefault()));
+        } catch (SwitchDateTimeDialogFragment.SimpleDateMonthAndDayFormatException e) {
+            Log.e(TAG, e.getMessage());
+        }
+//Set listener
+        dateTimeDialogFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonClickListener() {
+            @Override
+            public void onPositiveButtonClick(Date date) {
+                String year =""+ dateTimeDialogFragment.getYear();
+                String month =""+ dateTimeDialogFragment.getMonth(); if(month.length()==1)month = "0"+month;
+                String day =""+ dateTimeDialogFragment.getDay(); if(day.length()==1)day= "0"+day;
+                String hour =""+ dateTimeDialogFragment.getHourOfDay(); if(hour.length()==1)hour = "0"+hour;
+                String mnt =""+ dateTimeDialogFragment.getMinute();  if(mnt.length()==1)mnt = "0"+mnt;
+                String date_T = dateTimeDialogFragment.getYear()+"-"+dateTimeDialogFragment.getMonth()+"-"+dateTimeDialogFragment.getDay()
+                        +" "+dateTimeDialogFragment.getHourOfDay()+":"+dateTimeDialogFragment.getMinute();
+                java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
+                Stamp = ""+timestamp;
+          Toasty.showText(getApplicationContext(),(""+timestamp),Toasty.INFORMATION,Toast.LENGTH_SHORT);
+            }
+
+            @Override
+            public void onNegativeButtonClick(Date date) {
+
+            }
+        });
+
+//Show
+
+        stamp = findViewById(R.id.imageView2);
+        stamp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dateTimeDialogFragment.show(getSupportFragmentManager(),"dialog_time");
+            }
+        });
+
+
+
+
         Log.w ("Add New Test Appointment.", "start");
         Toast.makeText(getApplicationContext(), "Add New Test Appointment....", Toast.LENGTH_SHORT).show();
 
-        datePicker = findViewById(R.id.datePicker);
-        datePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-               // Toasty.makeText(getApplicationContext()," You are changed date is : "+dayOfMonth +" - "+monthOfYear+ " - "+year,Toasty.LENGTH_SHORT).show();
-            }
-        });
 
         searchP = findViewById(R.id.innerPatient); searchP.setOnFocusChangeListener(this);
         descripeC = findViewById(R.id.innerDescribe); descripeC.setOnFocusChangeListener(this);
@@ -364,13 +428,45 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
 
     void adD(){
 
+        if(Stamp.isEmpty())
+        {
+            Toasty.showText(getApplicationContext(),"Pales Set Time And Date to Appoitmenta",Toasty.WARNING,Toast.LENGTH_LONG);
+            return;
+        }
+
+        String year =""+ dateTimeDialogFragment.getYear();
+        String month =""+ (dateTimeDialogFragment.getMonth()+1); if(month.length()==1)month = "0"+month;
+        String day =""+ dateTimeDialogFragment.getDay(); if(day.length()==1)day= "0"+day;
+        String hour =""+ dateTimeDialogFragment.getHourOfDay(); if(hour.length()==1)hour = "0"+hour;
+        String mnt =""+ dateTimeDialogFragment.getMinute();  if(mnt.length()==1)mnt = "0"+mnt;
+        String date_T = dateTimeDialogFragment.getYear()+"-"+dateTimeDialogFragment.getMonth()+"-"+dateTimeDialogFragment.getDay()
+                +" "+dateTimeDialogFragment.getHourOfDay()+":"+dateTimeDialogFragment.getMinute();
+
+        java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
+        //year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0"
+        //  dataTest.put("timestamp", timestamp);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+        String re=simpleDateFormat.format(Timestamp.now().toDate());
+        re= re.substring(0,(re.lastIndexOf(":")));
+
+        String be = timestamp.toString().substring(0,timestamp.toString().lastIndexOf(":"));
+        //System.out.println("1- --------->"+re);
+       // System.out.println("2- --------->"+be);
+
+        if(be.compareTo(re)<=0)
+        {
+            Toasty.showText(getApplicationContext(),"Please Set Correctly Time And Date to Appoitmenta",Toasty.WARNING,Toast.LENGTH_LONG);
+            return;
+        }
+
         AlertDialog.Builder   x= new AlertDialog.Builder ( this );
         x.setMessage ( "DO YOU WANT TO Add New Test Appointment?" ).setTitle ( "Add New Test Appointment." )
 
                 .setPositiveButton ( "YES_ADD", new DialogInterface.OnClickListener () {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        addDo();
+                        addDo(timestamp,date_T);
                         return; }
                 } )
 
@@ -386,22 +482,18 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
     }
 
 
-    void addDo()
+    void addDo(java.sql.Timestamp timestamp,String date_T)
     {
 
-        int year_ = datePicker.getYear();
-        int month_ = datePicker.getMonth();
-        int day_ = datePicker.getDayOfMonth();
-        String date_=""+year_+"-"+month_+"-"+day_;
 
         String s3 = "Patient Name: "+patientName
                 +"\nPatient Id: "+patientId
                 +"\nAppointment: "+testName
-                +"\nAppointment Date: "+date_;
+                +"\nTimeStamp: "+timestamp;
 
         // add code dd
         //<!--
-        addF(testName,date_,patientId,patientName);
+        addF(testName, timestamp,patientId,patientName,date_T);
         //-->
 
         notification("New Appointment added",testName,s3);
@@ -409,7 +501,7 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
 
     }
 
-    void addF(String type,String date,String patientId,String patientName)
+    void addF(String type,  java.sql.Timestamp timestamp, String patientId, String patientName,String date_T )
     {
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -429,7 +521,8 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
 
                     Map<String, Object> data = new HashMap<>();
                     data.put("type",type);
-                    data.put("date",date);
+                    data.put("timestamp", timestamp);
+                    data.put("expired", false);
                     data.put("description",
                             descripeC.getText().toString().isEmpty()? "" : descripeC.getText().toString() );
                     data.put("patientId",patientId);
@@ -438,7 +531,7 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
                     Task<Void> dec =db.collection("doctors")
                             .document(doctorId)
                             .collection("appointments")
-                            .document(type+" : "+date)
+                            .document(type+" : "+date_T)
                             .set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @SuppressLint("LongLogTag")
                                 @Override
@@ -456,7 +549,8 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
 
                     data = new HashMap<>();
                     data.put("type",type);
-                    data.put("date",date);
+                    data.put("timestamp", timestamp);
+                    data.put("expired", false);
                     data.put("description",
                             descripeC.getText().toString().isEmpty()? "" : descripeC.getText().toString() );
                     data.put("doctorId",idD);
@@ -465,7 +559,7 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
                      dec =db.collection("patients")
                             .document(idsP.get(patientPOS))
                             .collection("appointments")
-                            .document(type+" : "+date)
+                            .document(type+" : "+date_T)
                             .set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @SuppressLint("LongLogTag")
                                 @Override
@@ -486,8 +580,6 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
                 }
             }
         });
-
-
 
     }
 

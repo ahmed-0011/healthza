@@ -52,6 +52,7 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
         , CompoundButton.OnCheckedChangeListener
         , View.OnFocusChangeListener
 {
+    //////////////////varible///////////////////////////
     public final int holo_green_dark = 17170453;
     private static final String ChannelID = "addNewComplicationNote";
 
@@ -78,7 +79,7 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
     private static final String TAG = "addNewComplicationNote";
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
-
+////////////////////////////////////////////////////////
     @SuppressLint("LongLogTag")
     public boolean onSupportNavigateUp()
     {
@@ -103,7 +104,7 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
     {
         //super.onBackPressed ();
         Log.w ("Add New Complication.", "this onbackpress is calll");
-
+///dialog
         AlertDialog.Builder   x= new AlertDialog.Builder ( this );
         x.setMessage ( "DO YOU WANT TO EXIT?" ).setTitle ( "Exit Activity'Add New Complication'" )
 
@@ -195,7 +196,7 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         String doctorId = firebaseAuth.getCurrentUser().getUid();
-
+//refrence database firbase
         CollectionReference patientsRefs = db.collection("doctors").document(doctorId)
                 .collection("patients");
         patientsRefs.get().addOnCompleteListener(task ->
@@ -315,6 +316,8 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
                 //Do something after 100ms
 
                 System.out.print("\b");
+
+                //masege
                 Toast.makeText(getApplicationContext(),""
                         +( ((TextView) spinnerP.getSelectedView()).getText().toString()
                         +" is Selected"),Toast.LENGTH_SHORT).show();
@@ -412,7 +415,7 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
         List<String> status = new ArrayList<String>();
         status.add(0,d+" : "+ c);
         data.put("status",status);
-
+//document reference
         DocumentReference dec =db.collection("patients") // table
                 .document(idsP.get(patientPOS)) // patient id
                 .collection("complications")// table inside patient table
@@ -463,7 +466,9 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
             return;
         }
     }
+///end on clike
 
+    /////////////////////////Notification///////////////////////////
     private void createChannel() {
 
 
@@ -507,7 +512,7 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
 
         man.notify(++Functions.ne, note.build());
     }
-
+///////////////////////////////////////////////////////////////////
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
 

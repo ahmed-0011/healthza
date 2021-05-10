@@ -74,6 +74,9 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     int ct = 0;
+    int ctt=0;
+    float Max=-999;
+    float Min=999;
 
     public boolean onSupportNavigateUp()
     {
@@ -217,6 +220,8 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
             });
         }
         //end get tests Count-->
+
+        MaxMinThisTestCountSet();
     }
 
     //Date Picker
@@ -539,7 +544,7 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
 
             String Time = timE.getText().toString();
             String hour = Time.substring(0,Time.indexOf(":")); if(hour.length()==1)hour = "0"+hour;
-            String mnt = Time.substring(Time.indexOf(":")+1); if(day.length()==1)mnt = "0"+mnt;
+            String mnt = Time.substring(Time.indexOf(":")+1); if(mnt.length()==1)mnt = "0"+mnt;
             System.out.println(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
             java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
             //year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0"
@@ -604,6 +609,10 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
                                     });
                         }
                         }
+
+                        MaxMinThisTestCountUpdate(DRC,document);
+
+                        dataTest.put("this_test_count", ctt);
                         //
                         DRC.collection(datE.getText().toString())
                                 .document("test# : "+ct)
@@ -634,4 +643,108 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
         }
 
     }
+
+    void MaxMinThisTestCountSet()
+    {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String userId = user.getUid();
+
+        DocumentReference DRC = db.collection("patients") // table
+                .document(userId) // patient id
+                .collection("tests")// table inside patient table
+                .document("hypertension_test");
+
+        DRC.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                DocumentSnapshot document = task.getResult();
+                if (document.get("count") == null
+                        || document.get("max_hypertension") == null
+                        || document.get("min_hypertension") == null) {
+
+                    HashMap Mp = new HashMap();
+                    Mp.put("count", 0);
+                    Mp.put("max_hypertension", -999);
+                    Mp.put("min_hypertension", 999);
+
+                    DRC.set(Mp)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                }
+                            });
+                } else {
+                    Max = Float.parseFloat(document.get("max_hypertension").toString());
+                    Min = Float.parseFloat(document.get("min_hypertension").toString());
+                    ctt = Integer.parseInt(document.get("count").toString());
+                }
+            }
+        });
+    }
+
+    void MaxMinThisTestCountUpdate(DocumentReference DRC,DocumentSnapshot document )
+    {
+        Max = Float.parseFloat(document.get("max_hypertension").toString());
+        Min = Float.parseFloat(document.get("min_hypertension").toString());
+        ctt = Integer.parseInt(document.get("count").toString());
+        //
+        DRC.update("count", ++ctt)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
+        if (Float.parseFloat(hypertension.getText().toString()) > Max) {
+            Max = Float.parseFloat(hypertension.getText().toString());
+        }
+        DRC.update("max_hypertension", Max)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
+        if (Float.parseFloat(hypertension.getText().toString()) < Min) {
+            Min = Float.parseFloat(hypertension.getText().toString());
+        }
+        DRC.update("min_hypertension", Min)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+        //
+    }
+
 }
