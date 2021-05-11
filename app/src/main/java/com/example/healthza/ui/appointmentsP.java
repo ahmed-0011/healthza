@@ -52,7 +52,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public class appointmentsP extends AppCompatActivity {
-
+//
     List<Map<String, Object>> NEW;
     List<Map<String, Object>> EXPIERD;
     PatientAppointmentAdapter adp;
