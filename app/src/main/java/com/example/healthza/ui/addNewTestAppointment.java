@@ -520,7 +520,8 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
                    String nmD =  (String) document.get("name");
 
                     Map<String, Object> data = new HashMap<>();
-                    data.put("type",type);
+                    String type1 = type.equals("Doctor Appointment")? "Patient Appointment":(""+type);
+                    data.put("type",type1);
                     data.put("timestamp", timestamp);
                     data.put("expired", false);
                     data.put("description",
