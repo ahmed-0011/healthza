@@ -35,6 +35,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -80,6 +81,11 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
     int ctt=0;
     float Max=-999;
     float Min=999;
+
+    int cttt=0;
+    float MaxL=0;
+    float MinL=0;
+
 
     public boolean onSupportNavigateUp()
     {
@@ -668,12 +674,18 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                 DocumentSnapshot document = task.getResult();
                 if (document.get("count") == null
                         || document.get("max_glucose") == null
-                        || document.get("min_glucose") == null) {
+                        || document.get("min_glucose") == null
+                        /*|| document.get("total") == null
+                        || document.get("max_level") == null
+                        || document.get("min_level") == null*/) {
 
                     HashMap Mp = new HashMap();
                     Mp.put("count", 0);
-                    Mp.put("max_glucose", -999);
-                    Mp.put("min_glucose", 999);
+                    Mp.put("max_glucose",Integer.MIN_VALUE);
+                    Mp.put("min_glucose",Integer.MAX_VALUE);
+                  /*  Mp.put("total", 0);
+                    Mp.put("max_level",Float.MIN_VALUE);
+                    Mp.put("min_min", Float.MAX_VALUE);;*/
 
                     DRC.set(Mp)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -692,6 +704,9 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                     Max = Float.parseFloat(document.get("max_glucose").toString());
                     Min = Float.parseFloat(document.get("min_glucose").toString());
                     ctt = Integer.parseInt(document.get("count").toString());
+                    cttt = Integer.parseInt(document.get("total").toString());
+                    MaxL = Float.parseFloat(document.get("max_level").toString());
+                    MinL = Float.parseFloat(document.get("min_level").toString());
                 }
             }
         });
@@ -699,10 +714,14 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
 
     void MaxMinThisTestCountUpdate(DocumentReference DRC,DocumentSnapshot document )
     {
-       Max = Float.parseFloat(document.get("max_glucose").toString());
-       Min = Float.parseFloat(document.get("min_glucose").toString());
-       ctt = Integer.parseInt(document.get("count").toString());
-       //
+        Max = Float.parseFloat(document.get("max_glucose").toString());
+        Min = Float.parseFloat(document.get("min_glucose").toString());
+        ctt = Integer.parseInt(document.get("count").toString());
+        //
+        /*cttt = Integer.parseInt(document.get("total").toString());
+        MaxL = Float.parseFloat(document.get("max_level").toString());
+        MinL = Float.parseFloat(document.get("min_level").toString());
+       //*/
         DRC.update("count", ++ctt)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -716,6 +735,21 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
 
                     }
                 });
+
+        //
+        /*DRC.update("total", ++cttt)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });*/
         //
         if (Float.parseFloat(glucose.getText().toString()) > Max) {
             Max = Float.parseFloat(glucose.getText().toString());
@@ -751,5 +785,9 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                     }
                 });
         //
+
+        if (Float.parseFloat(glucose.getText().toString()) > MaxL) {
+            Max = Float.parseFloat(glucose.getText().toString());
+        }
     }
 }
