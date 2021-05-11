@@ -28,9 +28,11 @@ import com.example.healthza.Toasty;
 import com.example.healthza.adapters.PatientAppointmentAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointBackward;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -68,13 +70,16 @@ public class appointmentsP extends AppCompatActivity {
     boolean bn1=true,bn2=false;
 
     boolean stu = false;
+    boolean mod = false;
 
     TableLayout tb1,tb2;
     int child1=0,child2=0;
     Long sd,ed;
 
-    ImageView update;
-    ImageView Range;
+    FloatingActionButton update;
+    FloatingActionButton Range;
+
+    MaterialButtonToggleGroup btngg;
 
     private ViewFlipper viewFlipper;
 
@@ -92,6 +97,7 @@ public class appointmentsP extends AppCompatActivity {
         stu = true;
         bn1=true;
         bn2=true;
+        mod = true;
 
         tb1 = findViewById(R.id.idf);
         child1 = tb1.getChildCount();
@@ -99,12 +105,19 @@ public class appointmentsP extends AppCompatActivity {
         tb2 = findViewById(R.id.idf1);
         child2 = tb2.getChildCount();
 
+        btngg = findViewById(R.id.toggleButtonGroup);
+
         viewFlipper = findViewById(R.id.view_flipper);
 
         bt1 = findViewById(R.id.btn1);
         bt1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                bt2.setEnabled(true);
+                bt1.setEnabled(false);
+                btngg.clearChecked();
+                btngg.check(bt1.getId());
+                mod = false;
 
                 if(!bn1
                         &&NEW!=null)
@@ -116,14 +129,20 @@ public class appointmentsP extends AppCompatActivity {
                 viewFlipper.setInAnimation(getApplicationContext(), android.R.anim.slide_in_left);
                 viewFlipper.setOutAnimation(getApplicationContext(), android.R.anim.slide_out_right);
                 viewFlipper.showNext();
+
             }
         });
 
         bt2 = findViewById(R.id.btn2);
+        bt2.setEnabled(false);
         bt2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                bt1.setEnabled(true);
+                bt2.setEnabled(false);
+                btngg.clearChecked();
+                btngg.check(bt2.getId());
+                mod = true;
                 if(!bn2
                         &&EXPIERD!=null)
                 {
@@ -137,9 +156,10 @@ public class appointmentsP extends AppCompatActivity {
                 viewFlipper.showNext();
                 //viewFlipper.showPrevious();
             }
+
         });
 
-        update = findViewById(R.id.imageView3);
+        update = findViewById(R.id.fpa2);
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,7 +171,7 @@ public class appointmentsP extends AppCompatActivity {
 
         sd=Long.parseLong("-1");
         ed=Long.parseLong("-1");
-        Range = findViewById(R.id.imageView4);
+        Range = findViewById(R.id.fpa1);
         Range.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,8 +194,8 @@ public class appointmentsP extends AppCompatActivity {
             builder.setSelection(selected);
         }
         CalendarConstraints.Builder constraintsBuilder = new CalendarConstraints.Builder();
-        //setCalendarConstraints(constraintsBuilder.setValidator(DateValidatorPointBackward.now()))
-        builder.setCalendarConstraints(constraintsBuilder.build());
+        if(!mod) builder.setCalendarConstraints(constraintsBuilder.setValidator(DateValidatorPointBackward.now()).build());
+        else builder.setCalendarConstraints(constraintsBuilder.build());
 
         MaterialDatePicker<androidx.core.util.Pair<Long,Long>> materialDatePicker = builder
                 .setTitleText("Select A Date Range")
@@ -624,6 +644,9 @@ public class appointmentsP extends AppCompatActivity {
             tb2.removeView(tb2.getChildAt(chd));
             chd--;
         }
+
+        sd = Long.parseLong("-1");
+        ed = Long.parseLong("-1");
     }
 
     //rotate
