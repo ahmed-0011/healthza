@@ -103,7 +103,7 @@ public class PatientHomeActivity extends AppCompatActivity
                     startActivity(new Intent(PatientHomeActivity.this, PatientChartsActivity.class));
                 }
                 else if (i == R.id.appointmentsItem)
-                    startActivity(new Intent(PatientHomeActivity.this, PatientAppointments.class));
+                    startActivity(new Intent(PatientHomeActivity.this,appointmentsP.class));
                 else if (i == R.id.chatItem)
                     startActivity(new Intent(PatientHomeActivity.this, PatientChatListActivity.class));
             }
@@ -638,8 +638,8 @@ public class PatientHomeActivity extends AppCompatActivity
                 heightInputEditText.requestFocus();
             }
             else
-                {
-                    hideKeyboard();
+            {
+                hideKeyboard();
 
                 double weight = Double.parseDouble(weightString);
                 double height = Double.parseDouble(heightString);
@@ -704,7 +704,7 @@ public class PatientHomeActivity extends AppCompatActivity
                         editor.apply();
                     }
                     else
-                        {
+                    {
                         Toasty.showText(PatientHomeActivity.this,
                                 "An error occurred while trying to update your profile",
                                 Toasty.ERROR, Toast.LENGTH_LONG);
