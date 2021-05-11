@@ -44,8 +44,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.jaygoo.widget.OnRangeChangedListener;
+import com.jaygoo.widget.RangeSeekBar;
 
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -60,8 +63,10 @@ public class PatientChartsActivity extends AppCompatActivity
     private CheckBox glucoseCheckBox, bloodPressureCheckBox, hdlCheckBox, ldlCheckBox,
             triglycerideCheckBox, totalCholesterolCheckBox;
     private FloatingActionButton pickDateFloatingActionButton, pickASingleDateFloatingActionButton, pickDateRangeFloatingActionButton, pickMultipleDatesFloatingActionButton;
+    private RangeSeekBar hoursRangeSeekBar, daysRangeSeekBar;
     private Long selectedDate;
     private String pickedDate;
+    private Timestamp firstTimestamp, secondTimestamp;
     private RecyclerView patientDailyTestsRecyclerView;
     private DailyTestAdapter dailyTestAdapter;
     private List<DailyTest> dailyTests;
@@ -101,11 +106,52 @@ public class PatientChartsActivity extends AppCompatActivity
         dateRangeTextView = findViewById(R.id.dateRangeTextView);
         multipleDatesTextView = findViewById(R.id.multipleDatesTextView);
 
+        hoursRangeSeekBar = findViewById(R.id.hoursRangeSeekBar);
+        daysRangeSeekBar = findViewById(R.id.daysRangeSeekBar);
+
+
+        hoursRangeSeekBar.setProgress(0, 24);
+        hoursRangeSeekBar.getLeftSeekBar().setIndicatorText("12 AM");
+        hoursRangeSeekBar.getRightSeekBar().setIndicatorText("11:59 PM");
+        hoursRangeSeekBar.setOnRangeChangedListener(new OnRangeChangedListener()
+        {
+            @Override
+            public void onRangeChanged(RangeSeekBar view, float leftValue, float rightValue, boolean isFromUser)
+            {
+                view.getLeftSeekBar().setIndicatorText(getHourString((int) leftValue));
+                view.getRightSeekBar().setIndicatorText(getHourString((int) rightValue));
+
+
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(RangeSeekBar view, boolean isLeft)
+            {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(RangeSeekBar view, boolean isLeft)
+            {
+
+                int firstHour = (int) view.getLeftSeekBar().getProgress();
+                int lastHour = (int) view.getRightSeekBar().getProgress();
+
+
+                firstTimestamp = getTimestamp(selectedDate + getHoursInMillies(firstHour)
+                        + getHoursInMillies(hoursRangeSeekBar.getLeftSeekBar().getProgress()));
+                secondTimestamp = getTimestamp(selectedDate + getHoursInMillies(lastHour)
+                        + getHoursInMillies(hoursRangeSeekBar.getRightSeekBar().getProgress()));
+
+                dailyTests.clear();
+                setChart();
+            }
+        });
 
 
         patientDailyTestsRecyclerView = findViewById(R.id.patientDailyTestsRecyclerView);
         chart = findViewById(R.id.lineChart);
-
 
         pickASingleDateFloatingActionButton.setOnClickListener(v ->
         {
@@ -147,9 +193,12 @@ public class PatientChartsActivity extends AppCompatActivity
 
         selectedDate = MaterialDatePicker.todayInUtcMilliseconds();
 
+        firstTimestamp = getTimestamp(selectedDate - getHoursInMillies(3));
+        secondTimestamp = getTimestamp(selectedDate + getHoursInMillies(21));
+
         pickedDate = getTodayDate();
         initChart();
-        setChart(pickedDate);
+        setChart();
     }
 
     private void initChart()
@@ -206,7 +255,7 @@ public class PatientChartsActivity extends AppCompatActivity
     }
 
 
-    private void setChart(String pickedDate)
+    private void setChart()
     {
         clearTestsCheckBoxes();
 
@@ -227,11 +276,13 @@ public class PatientChartsActivity extends AppCompatActivity
 
         testsRef.document("glucose_test")
                 .collection(pickedDate)
+                .whereGreaterThanOrEqualTo("timestamp", firstTimestamp)
+                .whereLessThanOrEqualTo("timestamp", secondTimestamp)
                 .orderBy("timestamp")
                 .get().addOnSuccessListener(glucoseDocuments ->
         {
-            ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.showProgressDialog("Displaying Data...");
+            //ProgressDialog progressDialog = new ProgressDialog(this);
+           // progressDialog.showProgressDialog("Displaying Data...");
 
             for(DocumentSnapshot glucoseDocument : glucoseDocuments.getDocuments())
             {
@@ -509,7 +560,7 @@ public class PatientChartsActivity extends AppCompatActivity
                     chart.setData(lineData);
                     chart.invalidate();
 
-                    progressDialog.dismissProgressDialog();
+                    //progressDialog.dismissProgressDialog();
                     pickDateFloatingActionButton.setEnabled(true);
                 });
             });
@@ -540,7 +591,7 @@ public class PatientChartsActivity extends AppCompatActivity
                 pickDateFloatingActionButton.setEnabled(false);
                 dailyTests.clear();
                 dailyTests.add(null); // to display stick header instead of daily test item
-                setChart(pickedDate);
+                setChart();
             }
         });
 
@@ -568,10 +619,7 @@ public class PatientChartsActivity extends AppCompatActivity
             Pair<Long, Long> dateRange = ((Pair<Long, Long>) selection);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d");
 
-
             selectedDate = dateRange.first - getHoursInMillies(3);
-            pickedDate = simpleDateFormat.format(new Date(dateRange.first));
-
 
             String date;
             String firstDate = simpleDateFormat.format(new Date(dateRange.first))  ;
@@ -580,28 +628,46 @@ public class PatientChartsActivity extends AppCompatActivity
             String lastDate = simpleDateFormat.format(new Date(dateRange.second));
             int lastDateNumber = Integer.parseInt(lastDate.substring(lastDate.lastIndexOf('-') + 1));
 
-
+            List<String> dates = new ArrayList<>();
             date = firstDate.substring(0, firstDate.lastIndexOf('-') + 1);
             for(int i = firstDateNumber; i <= lastDateNumber; i++)
             {
-                Toasty.showText(PatientChartsActivity.this, date + i, Toasty.SUCCESS, Toast.LENGTH_LONG);
+                dates.add(date + i);
             }
 
+            daysRangeSeekBar.setRange(firstDateNumber - 1, lastDateNumber);
+            daysRangeSeekBar.setOnRangeChangedListener(new OnRangeChangedListener() {
+                @Override
+                public void onRangeChanged(RangeSeekBar view, float leftValue, float rightValue, boolean isFromUser)
+                {
+                    int dayNumber = (int) leftValue;
+                    if(dayNumber < dates.size())
+                    {
+                        view.getLeftSeekBar().setIndicatorText(dates.get(dayNumber));
+                        pickedDate = dates.get(dayNumber);
+                    }
+                }
 
+                @Override
+                public void onStartTrackingTouch(RangeSeekBar view, boolean isLeft)
+                {
 
+                }
 
-            // material date picker time stamp for a date always return with 3 am
-            // you should subtract these three hours using getHOirusInMillies(3);
-            /*
-            Timestamp firstTimestamp = getTimestamp(dateRange.first
-                    + getHoursInMillies(hoursSlider.getValues().get(0))
-                    -getHoursInMillies(3L));
+                @Override
+                public void onStopTrackingTouch(RangeSeekBar view, boolean isLeft)
+                {
+                    int firstDay = (int) view.getLeftSeekBar().getProgress();
 
-            Timestamp lastTimestamp = getTimestamp(dateRange.first
-                    + getHoursInMillies(hoursSlider.getValues().get(1))
-                    - getHoursInMillies(3L));
-             */
+                    firstTimestamp = getTimestamp(selectedDate + getHoursInMillies(24) * firstDay
+                            + getHoursInMillies(hoursRangeSeekBar.getLeftSeekBar().getProgress()));
+                    secondTimestamp = getTimestamp(selectedDate + getHoursInMillies(24) * firstDay
+                            + getHoursInMillies(hoursRangeSeekBar.getRightSeekBar().getProgress()));
 
+                    dailyTests.clear();
+                    setChart();
+                }
+            });
         });
 
         materialDatePicker.show(getSupportFragmentManager(), "PatientChartsActivity");
@@ -624,6 +690,20 @@ public class PatientChartsActivity extends AppCompatActivity
         triglycerideCheckBox.setEnabled(false);
     }
 
+
+    private String getHourString(int hour)
+    {
+        if(hour == 0)
+            return "12 AM";
+        else if(hour == 12)
+            return "12 PM";
+        else if(hour == 24)
+            return "11:59 PM";
+        else if(hour < 12)
+            return hour + " AM";
+        else
+            return hour - 12 + " PM";
+    }
 
     private Timestamp getTimestamp(Long millieSeconds)
     {
