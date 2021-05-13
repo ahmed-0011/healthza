@@ -1,5 +1,7 @@
 package com.example.healthza.models;
 
+import androidx.annotation.Nullable;
+
 import com.google.firebase.Timestamp;
 
 public class DailyTest implements Comparable<DailyTest>
@@ -49,9 +51,21 @@ public class DailyTest implements Comparable<DailyTest>
     {
         if(o != null)
         {
-            Timestamp testTime = ((DailyTest) o).getTestTime();
+            Timestamp testTime =  o.getTestTime();
             return testTime.compareTo(this.testTime);
         }
         return 0;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object o)
+    {
+
+        DailyTest dailyTest = (DailyTest) o;
+
+        return this.getTestType().equals(dailyTest.getTestType())
+                && Double.compare(this.getTestLevel(), dailyTest.getTestLevel()) == 0
+                && this.getTestTime().equals(dailyTest.getTestTime());
+
     }
 }
