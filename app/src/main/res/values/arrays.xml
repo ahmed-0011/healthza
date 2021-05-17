@@ -37,6 +37,10 @@
         <item>wait to get Patient List...</item>
     </string-array>
 
+    <string-array name="SelectMedicine">
+        <item>wait to get Medicine List...</item>
+    </string-array>
+
     <string name="SelectComplicationPrompt">Select a Complication:</string>
     <string-array name="SelectComplication">
         <item>Select Complication:</item>

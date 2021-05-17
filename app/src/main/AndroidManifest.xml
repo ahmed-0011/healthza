@@ -12,14 +12,33 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.Healthza"
         tools:replace="android:supportsRtl">
-        <activity android:name=".ui.appointmentsD"></activity>
-        <activity android:name=".ui.appointmentsP" />
+        <activity android:name=".ui.updateMedicines"></activity>
+        <activity android:name=".ui.ViewMedicines" />
+        <activity android:name=".ui.AddMedicines" />
+        <activity
+            android:name=".ui.appointmentsD"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/noActionBarTheme" />
+        <activity
+            android:name=".ui.appointmentsP"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/noActionBarTheme" />
+        <activity
+            android:name=".ui.PatientHistory"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/noActionBarTheme" />
         <activity
             android:name=".ui.DoctorPatientChartsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
-        <activity android:name=".ui.viewComplications" />
-        <activity android:name=".ui.viewComplicationsP" />
+        <activity
+            android:name=".ui.viewComplications"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/noActionBarTheme" />
+        <activity
+            android:name=".ui.viewComplicationsP"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/noActionBarTheme" />
         <activity
             android:name=".ui.PatientAccountActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

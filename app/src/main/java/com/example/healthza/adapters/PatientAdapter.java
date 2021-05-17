@@ -1,6 +1,7 @@
 package com.example.healthza.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +12,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.healthza.models.Doctor;
 import com.example.healthza.models.Patient;
 import com.example.healthza.R;
+import com.example.healthza.ui.AddMedicines;
+import com.example.healthza.ui.ViewMedicines;
+import com.example.healthza.ui.updateMedicines;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHolder> implements Filterable {
     private final List<Patient> patientsAll;
@@ -96,6 +102,10 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
         private final Button removeButton;
         private final Button profileButton;
         private final Button chartsButton;
+        private final Button medicinesButton;
+        private final Button assignButton;
+        private final Button viewButton;
+        private final Button updateButton;
 
         public ViewHolder(View itemView)
         {
@@ -107,6 +117,10 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
             removeButton = itemView.findViewById(R.id.removeButton);
             profileButton = itemView.findViewById(R.id.profileButton);
             chartsButton = itemView.findViewById(R.id.chartsButton);
+            medicinesButton = itemView.findViewById(R.id.medicinesButton);
+            assignButton = itemView.findViewById(R.id.medicinesButton2);
+            updateButton = itemView.findViewById(R.id.medicinesButton3);
+            viewButton = itemView.findViewById(R.id.medicinesButton4);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -146,6 +160,11 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
         Button removeButton = holder.removeButton;
         Button profileButton = holder.profileButton;
         Button  chartsButton = holder.chartsButton;
+        Button medicinesButton = holder.medicinesButton;
+        Button assignButton = holder.assignButton;
+        Button viewButton = holder.viewButton;
+        Button updateButton = holder.updateButton;
+        AtomicBoolean vis = new AtomicBoolean(false);
 
         patientNameTextView.append(patient.getName());
         patientPhoneNumberTextView.append(patient.getPhoneNumber());
@@ -165,6 +184,45 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
         {
             onPatientItemClickListener.onRemoveButtonClick(position);
             removeButton.setEnabled(false);
+        });
+
+        medicinesButton.setOnClickListener(v ->
+        {
+           if(vis.get())
+           {
+               assignButton.setVisibility(View.GONE);
+               viewButton.setVisibility(View.GONE);
+               updateButton.setVisibility(View.GONE);
+               vis.set(false);
+           }
+           else
+           {
+               assignButton.setVisibility(View.VISIBLE);
+               viewButton.setVisibility(View.VISIBLE);
+               updateButton.setVisibility(View.VISIBLE);
+               vis.set(true);
+           }
+        });
+
+        assignButton.setOnClickListener(v ->
+        {
+            Intent intent = new Intent(context, AddMedicines.class);
+            intent.putExtra("patientID", patient.getPatientId());
+            context.startActivity(intent);
+        });
+
+        viewButton.setOnClickListener(v ->
+        {
+            Intent intent = new Intent(context, ViewMedicines.class);
+            intent.putExtra("patientID", patient.getPatientId());
+            context.startActivity(intent);
+        });
+
+        updateButton.setOnClickListener(v ->
+        {
+            Intent intent = new Intent(context, updateMedicines.class);
+            intent.putExtra("patientID", patient.getPatientId());
+            context.startActivity(intent);
         });
     }
 

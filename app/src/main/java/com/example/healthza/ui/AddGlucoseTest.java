@@ -31,24 +31,33 @@ import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.healthza.R;
+import com.example.healthza.Toasty;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 
 import org.w3c.dom.Document;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.example.healthza.ui.Functions.TAG_CT;
@@ -61,8 +70,8 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
     private static final  String ChannelID= "AddGlucoseTestNote";
 
     CheckBox autoTD;
-    ImageView dateI;
-    ImageView timeI;
+    FloatingActionButton stamp;
+    SwitchDateTimeDialogFragment dateTimeDialogFragment;
 
     TextView datE;
     TextView timE;
@@ -159,12 +168,12 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
 
         datE = findViewById(R.id.dateText0);
         timE = findViewById(R.id.timeText0);
-        td = findViewById(R.id.textView);
+        td = findViewById(R.id.textView10);
 
         datE.setText("YYYY/MM/DD");
         timE.setText("HH:MM");
 
-        dateI = findViewById(R.id.DateIcon0);
+        /*dateI = findViewById(R.id.DateIcon0);
         dateI.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -182,11 +191,67 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                 showTimePickerDialog();
                 //complet
             }
+        });*/
+
+        dateTimeDialogFragment = SwitchDateTimeDialogFragment.newInstance(
+                "Set Date And Time",
+                "OK",
+                "Cancel"
+        );
+
+//Assign values
+        dateTimeDialogFragment.startAtCalendarView();
+        dateTimeDialogFragment.set24HoursMode(true);
+        dateTimeDialogFragment.setMinimumDateTime(new GregorianCalendar(1900, Calendar.JANUARY, 1).getTime());
+        dateTimeDialogFragment.setMaximumDateTime(new GregorianCalendar(3000, Calendar.DECEMBER, 31).getTime());
+        //dateTimeDialogFragment.setDefaultDateTime(new GregorianCalendar(2017, Calendar.MARCH, 4, 15, 20).getTime());
+
+//Define new day and month format
+
+        try {
+            dateTimeDialogFragment.setSimpleDateMonthAndDayFormat(new SimpleDateFormat("YYYY/MM/DD", Locale.getDefault()));
+        } catch (SwitchDateTimeDialogFragment.SimpleDateMonthAndDayFormatException e) {
+            Log.e(TAG, e.getMessage());
+        }
+//Set listener
+        dateTimeDialogFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonClickListener() {
+            @Override
+            public void onPositiveButtonClick(Date date) {
+                String year =""+ dateTimeDialogFragment.getYear();
+                String month =""+ dateTimeDialogFragment.getMonth(); if(month.length()==1)month = "0"+month;
+                String day =""+ dateTimeDialogFragment.getDay(); if(day.length()==1)day= "0"+day;
+                String hour =""+ dateTimeDialogFragment.getHourOfDay(); if(hour.length()==1)hour = "0"+hour;
+                String mnt =""+ dateTimeDialogFragment.getMinute();  if(mnt.length()==1)mnt = "0"+mnt;
+                String date_T = dateTimeDialogFragment.getYear()+"-"+dateTimeDialogFragment.getMonth()+"-"+dateTimeDialogFragment.getDay()
+                        +" "+dateTimeDialogFragment.getHourOfDay()+":"+dateTimeDialogFragment.getMinute();
+
+                datE.setText(year+"-"+month+"-"+day);
+                timE.setText(hour+":"+mnt);
+              //  java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
+              //timestamp;
+                //Toasty.showText(getApplicationContext(),(""+timestamp),Toasty.INFORMATION,Toast.LENGTH_SHORT);
+            }
+
+            @Override
+            public void onNegativeButtonClick(Date date) {
+
+            }
+        });
+
+//Show
+
+        stamp = findViewById(R.id.fpat);
+        stamp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dateTimeDialogFragment.show(getSupportFragmentManager(),"dialog_time");
+            }
         });
 
         autoTD = findViewById(R.id.TimeDateAuto0);
         autoTD.setChecked(false);
         autoTD.setOnClickListener(this);
+
         td.setVisibility(View.VISIBLE);
 
         glucose = findViewById(R.id.innerGlucosePercent);
@@ -258,8 +323,7 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
         // Check which checkbox was clicked
         if (autoTD.equals(view)) {
             if (checked) {
-                timeI.setEnabled(false);
-                dateI.setEnabled(false);
+                stamp.setEnabled(false);
                 td.setVisibility(View.INVISIBLE);
 
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/mm/dd hh:mm:ss");
@@ -269,8 +333,7 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                 timE.setText(Functions.timeS);
                 datE.setText(Functions.dateS);
             } else {
-                timeI.setEnabled(true);
-                dateI.setEnabled(true);
+               stamp.setEnabled(true);
                 td.setVisibility(View.VISIBLE);
             }
 
@@ -704,9 +767,9 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                     Max = Float.parseFloat(document.get("max_glucose").toString());
                     Min = Float.parseFloat(document.get("min_glucose").toString());
                     ctt = Integer.parseInt(document.get("count").toString());
-                    cttt = Integer.parseInt(document.get("total").toString());
-                    MaxL = Float.parseFloat(document.get("max_level").toString());
-                    MinL = Float.parseFloat(document.get("min_level").toString());
+                  //  cttt = Integer.parseInt(document.get("total").toString());
+                  //  MaxL = Float.parseFloat(document.get("max_level").toString());
+                  //  MinL = Float.parseFloat(document.get("min_level").toString());
                 }
             }
         });
@@ -790,4 +853,5 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
             Max = Float.parseFloat(glucose.getText().toString());
         }
     }
+
 }
