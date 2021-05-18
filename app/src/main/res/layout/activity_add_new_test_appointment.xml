@@ -11,6 +11,20 @@
         android:layout_height="wrap_content"
         tools:context=".ui.addNewTestAppointment">
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fpa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:backgroundTint="@color/colorSecondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/timestampgreen"
+            app:tint="@null" />
+
         <Button
             android:id="@+id/addAppointment"
             android:layout_width="163dp"
@@ -220,7 +234,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/bubblegum_sans"
-            android:text="@string/new_test_appointment"
+            android:text="New Appointment"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
             android:textSize="40sp"
             app:drawableEndCompat="@android:drawable/ic_menu_my_calendar"
@@ -255,16 +269,6 @@
                 android:selectAllOnFocus="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/timestampgreen" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

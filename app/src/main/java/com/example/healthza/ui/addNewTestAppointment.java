@@ -40,6 +40,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -94,7 +95,7 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
 
    String Stamp = "";
 
-    ImageView stamp;
+    FloatingActionButton stamp;
 
     @SuppressLint("LongLogTag")
     public boolean onSupportNavigateUp()
@@ -212,7 +213,7 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
 
 //Show
 
-        stamp = findViewById(R.id.imageView2);
+        stamp = findViewById(R.id.fpa);
         stamp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

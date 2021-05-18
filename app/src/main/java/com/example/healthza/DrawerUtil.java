@@ -27,6 +27,7 @@ import com.example.healthza.ui.PatientHistory;
 import com.example.healthza.ui.PatientHistoryD;
 import com.example.healthza.ui.PatientReceiveRequestActivity;
 import com.example.healthza.ui.ViewIdentifiersP;
+import com.example.healthza.ui.ViewMedicines;
 import com.example.healthza.ui.WelcomeActivity;
 import com.example.healthza.ui.addComplications;
 import com.example.healthza.ui.addNewTestAppointment;
@@ -85,7 +86,7 @@ public class DrawerUtil
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(5)
-                                .withName("Schedule new Appointment").withIcon(R.drawable.appointmenicon)
+                                .withName("New Appointment").withIcon(R.drawable.appointmenicon)
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(6)
@@ -93,10 +94,10 @@ public class DrawerUtil
                                 .withIconTintingEnabled(true)
                                 .withSubItems(
                                         new SecondaryDrawerItem().withIdentifier(7)
-                                                .withName("Add new Complication").withIcon(R.drawable.complication)
+                                                .withName("New Complication").withIcon(R.drawable.complication)
                                                 .withIconTintingEnabled(true),
                                         new SecondaryDrawerItem().withIdentifier(8)
-                                                .withName("UPDATE Complication Status").withIcon(R.drawable.updatecomp)
+                                                .withName("UPDATE Complication").withIcon(R.drawable.updatecomp)
                                                 .withIconTintingEnabled(true),
                                         new SecondaryDrawerItem().withIdentifier(19)
                                                 .withName("View Complications").withIcon(R.drawable.compico)
@@ -273,7 +274,7 @@ public class DrawerUtil
                                 .withIconTintingEnabled(true)
                                 .withSubItems(
                                         new SecondaryDrawerItem().withIdentifier(17)
-                                                .withName("ADD Identifier"),
+                                                .withName("New Identifier"),
                                         new SecondaryDrawerItem().withIdentifier(18)
                                                 .withName("View Identifier")
                                 ),
@@ -289,7 +290,7 @@ public class DrawerUtil
                         new DividerDrawerItem(),
 
                         new PrimaryDrawerItem().withIdentifier(4)
-                                .withName("Add Test Result").withIcon(R.drawable.iconat)
+                                .withName("New Test").withIcon(R.drawable.iconat)
                                 .withIconTintingEnabled(true)
                                 .withSubItems(
                                         new SecondaryDrawerItem().withIdentifier(5)
@@ -316,6 +317,12 @@ public class DrawerUtil
                                         new SecondaryDrawerItem().withIdentifier(12)
                                                 .withName("Comprehensive Test")
                                 ),
+
+
+                        new PrimaryDrawerItem().withIdentifier(21)
+                                .withName("Medicines").withIcon(R.drawable.ic_medicens_)
+                                .withIconTintingEnabled(true),
+
 
                         new DividerDrawerItem(),
 
@@ -454,6 +461,13 @@ public class DrawerUtil
                             case 19:
                             {
                                 Intent intent = new Intent(activity, viewComplications.class);
+                                view.getContext().startActivity(intent);
+                                break;
+                            }
+
+                            case 21:
+                            {
+                                Intent intent = new Intent(activity, ViewMedicines.class);
                                 view.getContext().startActivity(intent);
                                 break;
                             }

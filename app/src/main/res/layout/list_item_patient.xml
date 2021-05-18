@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="6dp">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:backgroundTint="@color/white"
@@ -21,6 +23,21 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:paddingBottom="6dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/medicinesButton"
+                style="@style/listItemButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/glucose_color"
+                android:text="Medicines"
+                android:textScaleX="0.7"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/chartsButton"
+                app:layout_constraintTop_toBottomOf="@+id/patientPhoneNumberTextView" />
 
             <TextView
                 android:id="@+id/patientNameTextView"
@@ -80,9 +97,7 @@
                 android:text="@string/profile"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/removeButton"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/patientSeperatorView" />
+                app:layout_constraintTop_toBottomOf="@+id/patientPhoneNumberTextView" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/chartsButton"
@@ -95,9 +110,7 @@
                 android:text="@string/charts"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/profileButton"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/patientSeperatorView" />
+                app:layout_constraintTop_toBottomOf="@+id/patientPhoneNumberTextView" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/removeButton"
@@ -113,6 +126,52 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/patientSeperatorView" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/medicinesButton2"
+                style="@style/listItemButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/glucose_color"
+                android:text="Assign"
+                android:textSize="15sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/medicinesButton3"
+                app:layout_constraintEnd_toEndOf="@+id/medicinesButton"
+                app:layout_constraintStart_toStartOf="@+id/medicinesButton"
+                app:layout_constraintTop_toBottomOf="@+id/medicinesButton" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/medicinesButton3"
+                style="@style/listItemButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:backgroundTint="@color/glucose_color"
+                android:text="Update"
+                android:textSize="15sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/medicinesButton4"
+                app:layout_constraintEnd_toEndOf="@+id/medicinesButton2"
+                app:layout_constraintStart_toStartOf="@+id/medicinesButton2"
+                app:layout_constraintTop_toBottomOf="@+id/medicinesButton2" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/medicinesButton4"
+                style="@style/listItemButtonStyle"
+                android:layout_width="87dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:backgroundTint="@color/glucose_color"
+                android:text=" View "
+                android:textSize="15sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/medicinesButton3"
+                app:layout_constraintStart_toStartOf="@+id/medicinesButton3"
+                app:layout_constraintTop_toBottomOf="@+id/medicinesButton3" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
