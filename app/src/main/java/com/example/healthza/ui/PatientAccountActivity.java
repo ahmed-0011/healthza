@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Patterns;
 import android.view.View;
@@ -23,6 +25,7 @@ import com.example.healthza.Toasty;
 import com.example.healthza.models.Patient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -41,7 +45,7 @@ public class PatientAccountActivity extends AppCompatActivity
 {
 
     private EditText patientNameEditText, patientIdentificationNumberEditText, patientEmailEditText
-            , patientPhoneNumberEditText, patientWeightEditText, patientHeightEditText;
+            , patientPhoneNumberEditText, patientWeightEditText, patientHeightEditText, patientBMIEditText;
     private RadioGroup patientSexRadioGroup;
     private TextView selectedBirthDateTextView;
     private Button selectBirthDateButton, changeAccountPasswordButton, saveButton;
@@ -59,9 +63,6 @@ public class PatientAccountActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_account);
 
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.showProgressDialog();
-
         SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
         password = sharedPreferences.getString("password", "");
 
@@ -71,6 +72,7 @@ public class PatientAccountActivity extends AppCompatActivity
         patientPhoneNumberEditText = findViewById(R.id.patientPhoneNumberEditText);
         patientWeightEditText = findViewById(R.id.patientWeightEditText);
         patientHeightEditText = findViewById(R.id.patientHeightEditText);
+        patientBMIEditText = findViewById(R.id.patientBMIEditText);
         selectedBirthDateTextView = findViewById(R.id.selectedBirthDateTextView);
 
         patientSexRadioGroup = findViewById(R.id.patientSexRadioGroup);
@@ -83,6 +85,79 @@ public class PatientAccountActivity extends AppCompatActivity
         db = FirebaseFirestore.getInstance();
 
         patientId = firebaseAuth.getCurrentUser().getUid();
+
+        initAccountInformation();
+
+        addOnTextChangeListenersForWeightAndHeightEditText();
+
+        selectBirthDateButton.setOnClickListener(v ->
+        {
+            showDateDialog();
+        });
+
+        changeAccountPasswordButton.setOnClickListener(v ->
+        {
+            startActivity(new Intent(this, ChangePasswordActivity.class));
+        });
+
+        saveButton.setOnClickListener(v ->
+        {
+            informationChanged = false;
+            saveAccountInformation();
+        });
+    }
+
+    private boolean isValidName(String name) // No need to check if the field is empty
+    {                                        // because Regex won't match empty strings
+        Pattern pattern;
+        Matcher matcher;
+        pattern = Pattern.compile("[A-Za-z ]+");
+        matcher = pattern.matcher(name);
+        return matcher.matches();
+    }
+
+    private boolean isValidIdentificationNumber(String id)
+    {
+        return id.length() == 9;
+    }
+
+
+    private boolean isValidEmail(String email) // No need to check if the field is empty
+    {                                          // because regex won't match empty strings
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private boolean isValidPhoneNumber(String phoneNumber)  // No need to check if the field is empty
+    {                                                       // because regex won't match empty strings
+        return Patterns.PHONE.matcher(phoneNumber).matches();
+    }
+
+    private boolean isValidWeight(String weight)
+    {
+        if (weight.isEmpty())
+            return false;
+
+        double weight1 = Double.parseDouble(weight);
+
+        return weight1 <= 300;
+    }
+
+    private boolean isValidHeight(String height)
+    {
+        if (height.isEmpty())
+            return false;
+
+        double height1 = Double.parseDouble(height);
+
+        return height1 <= 2.5;
+
+    }
+
+
+    private void initAccountInformation()
+    {
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.showProgressDialog();
 
         db.collection("patients")
                 .document(patientId)
@@ -117,67 +192,6 @@ public class PatientAccountActivity extends AppCompatActivity
 
             progressDialog.dismissProgressDialog();
         });
-
-
-        selectBirthDateButton.setOnClickListener(v ->
-        {
-            showDateDialog();
-        });
-
-        changeAccountPasswordButton.setOnClickListener(v ->
-        {
-            startActivity(new Intent(this, ChangePasswordActivity.class));
-        });
-
-        saveButton.setOnClickListener(v ->
-        {
-            informationChanged = false;
-            saveAccountInformation();
-        });
-    }
-
-    private boolean isValidName(String name) // No need to check if the field is empty
-    {                                        // because Regex won't match empty strings
-        Pattern pattern;
-        Matcher matcher;
-        pattern = Pattern.compile("[A-Za-z ]+");
-        matcher = pattern.matcher(name);
-        return matcher.matches();
-    }
-
-    private boolean isValidIdentificationNumber(String id) {
-        return id.length() == 9;
-    }
-
-
-    private boolean isValidEmail(String email) // No need to check if the field is empty
-    {                                          // because regex won't match empty strings
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
-    private boolean isValidPhoneNumber(String phoneNumber)  // No need to check if the field is empty
-    {                                                       // because regex won't match empty strings
-        return Patterns.PHONE.matcher(phoneNumber).matches();
-    }
-
-    private boolean isValidWeight(String weight) {
-        if (weight.isEmpty())
-            return false;
-
-        double weight1 = Double.parseDouble(weight);
-
-        return weight1 <= 300;
-    }
-
-    private boolean isValidHeight(String height) // No need to check if the field is empty
-    {                                            // because Regex won't match empty strings
-        if (height.isEmpty())
-            return false;
-
-        double height1 = Double.parseDouble(height);
-
-        return height1 <= 2.5;
-
     }
 
 
@@ -241,7 +255,7 @@ public class PatientAccountActivity extends AppCompatActivity
         else
         {
             ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.showProgressDialog();
+            progressDialog.showProgressDialog("Updating Account Information...");
 
             Map<String, Object> accountInformation = new HashMap<>();
 
@@ -357,30 +371,92 @@ public class PatientAccountActivity extends AppCompatActivity
         }
     }
 
-
-    private void showDateDialog() {
-        Calendar calendar = Calendar.getInstance();
-
-        /*  get today date  */
-        int date = calendar.get(Calendar.DATE);
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
-
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+    
+    private void addOnTextChangeListenersForWeightAndHeightEditText()
+    {
+        patientHeightEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                calendar.set(Calendar.DATE, dayOfMonth);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.YEAR, year);
-
-                String todayDate = DateFormat.format("MM/dd/yyyy", calendar).toString();
-
-                selectedBirthDateTextView.setText(todayDate);
             }
-        }, year, month, date);
 
-        datePickerDialog.show();
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                String weightString = patientWeightEditText.getText().toString();
+                String heightString = patientHeightEditText.getText().toString();
+                if(isValidHeight(heightString) && isValidWeight(weightString))
+                {
+                    double bmi = calculateBMI(weightString, heightString);
+                    patientBMIEditText.setText(bmi + "");
+                }
+                else
+                {
+                    patientBMIEditText.setText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+
+            }
+        });
+
+        patientWeightEditText.addTextChangedListener(new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count)
+        {
+            String weightString = patientWeightEditText.getText().toString();
+            String heightString = patientHeightEditText.getText().toString();
+            if(isValidHeight(heightString) && isValidWeight(weightString))
+            {
+                double bmi = calculateBMI(weightString, heightString);
+                patientBMIEditText.setText(bmi + "");
+            }
+            else
+            {
+                patientBMIEditText.setText("");
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) { }
+        });
+    }
+
+
+    private double calculateBMI(String weightString, String heightString)
+    {
+        double weight = Double.parseDouble(weightString);
+        double height = Double.parseDouble(heightString);
+        double bmi = weight / Math.pow(height, 2);
+
+        BigDecimal bd = new BigDecimal(bmi).setScale(2, RoundingMode.HALF_UP);
+        bmi = bd.doubleValue();
+
+        return  bmi;
+    }
+
+
+    private void showDateDialog()
+    {
+        MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker
+                .Builder
+                .datePicker()
+                .build();
+
+        materialDatePicker.addOnPositiveButtonClickListener(selection ->
+        {
+            Long selectedDate = (Long) selection;
+            String birthDate = DateFormat.format("MM/dd/yyyy", new Date(selectedDate)).toString();
+
+            selectedBirthDateTextView.setText(birthDate);
+        });
+
+        materialDatePicker.show(getSupportFragmentManager(), "PatientAccountActivity");
     }
 }

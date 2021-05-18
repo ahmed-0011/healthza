@@ -245,4 +245,6 @@
     <string name="lowest_level">"Lowest Level: "</string>
     <string name="highest_level">"Highest Level: "</string>
     <string name="total_tests">"Total Tests: "</string>
+    <string name="single_date">single date</string>
+    <string name="date_range">date range</string>
 </resources>

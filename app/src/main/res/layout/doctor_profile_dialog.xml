@@ -16,6 +16,7 @@
         android:layout_marginTop="16dp"
         android:padding="3dp"
         android:text="@string/email"
+        android:textColor="@color/hint_color"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -39,6 +40,7 @@
         android:layout_marginTop="16dp"
         android:padding="3dp"
         android:text="@string/sex"
+        android:textColor="@color/hint_color"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/doctorEmailTextView" />
@@ -62,6 +64,7 @@
         android:layout_marginTop="16dp"
         android:padding="3dp"
         android:text="@string/speciality"
+        android:textColor="@color/hint_color"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/doctorSexTextView" />
@@ -84,6 +87,7 @@
         android:layout_marginTop="16dp"
         android:padding="3dp"
         android:text="@string/years_of_experience"
+        android:textColor="@color/hint_color"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/doctorSpecialityTitleTextView" />
@@ -106,6 +110,7 @@
         android:layout_marginTop="16dp"
         android:padding="3dp"
         android:text="@string/workplace"
+        android:textColor="@color/hint_color"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/doctorYearsOfExperienceTitleTextView" />
@@ -128,6 +133,7 @@
         android:layout_marginTop="16dp"
         android:padding="3dp"
         android:text="@string/workdays"
+        android:textColor="@color/hint_color"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/doctorworkplaceTextView" />

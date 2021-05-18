@@ -11,10 +11,16 @@ import androidx.core.util.Pair;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.applandeo.materialcalendarview.CalendarView;
+import com.applandeo.materialcalendarview.CalendarWeekDay;
+import com.applandeo.materialcalendarview.DatePicker;
+import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
+import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
 import com.example.healthza.DetailsMarkerView;
 import com.example.healthza.ProgressDialog;
 import com.example.healthza.R;
 import com.example.healthza.StickHeaderItemDecoration;
+import com.example.healthza.Toasty;
 import com.example.healthza.adapters.DailyTestAdapter;
 import com.example.healthza.models.DailyTest;
 import com.github.mikephil.charting.charts.LineChart;
@@ -40,15 +46,20 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.jaygoo.widget.OnRangeChangedListener;
 import com.jaygoo.widget.RangeSeekBar;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-public class PatientChartsActivity extends AppCompatActivity {
+public class PatientChartsActivity extends AppCompatActivity
+{
     private LineChart chart;
     private CheckBox glucoseCheckBox, bloodPressureCheckBox, hdlCheckBox, ldlCheckBox,
             triglycerideCheckBox, totalCholesterolCheckBox;
@@ -64,9 +75,14 @@ public class PatientChartsActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private String patientId;
     private boolean isFloatingButtonsVisible = false;
+    private int selectState;
+    private final int PICKER = 0;
+    private final int HOURS_SLIDER = 1;
+    private final int DAYS_SLIDER = 2;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_charts);
 
@@ -102,34 +118,6 @@ public class PatientChartsActivity extends AppCompatActivity {
         patientDailyTestsRecyclerView.addItemDecoration(new StickHeaderItemDecoration(dailyTestAdapter));
         patientDailyTestsRecyclerView.setAdapter(dailyTestAdapter);
 
-        hoursRangeSeekBar.setProgress(0, 24);
-        hoursRangeSeekBar.getLeftSeekBar().setIndicatorText("12 AM");
-        hoursRangeSeekBar.getRightSeekBar().setIndicatorText("11:59 PM");
-        hoursRangeSeekBar.setOnRangeChangedListener(new OnRangeChangedListener() {
-            @Override
-            public void onRangeChanged(RangeSeekBar view, float leftValue, float rightValue, boolean isFromUser) {
-                view.getLeftSeekBar().setIndicatorText(getHourString((int) leftValue));
-                view.getRightSeekBar().setIndicatorText(getHourString((int) rightValue));
-            }
-
-            @Override
-            public void onStartTrackingTouch(RangeSeekBar view, boolean isLeft) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(RangeSeekBar view, boolean isLeft) {
-                int firstHour = (int) view.getLeftSeekBar().getProgress();
-                int lastHour = (int) view.getRightSeekBar().getProgress();
-                long day = getHoursInMillies(24) * (int) daysRangeSeekBar.getLeftSeekBar().getProgress();
-
-                firstTimestamp = getTimestamp(selectedDate + getHoursInMillies(firstHour) + day);
-                lastTimestamp = getTimestamp(selectedDate + getHoursInMillies(lastHour) + day);
-
-                setChart(true);
-            }
-        });
-
         pickASingleDateFloatingActionButton.setOnClickListener(v ->
         {
             setSingleDate();
@@ -140,23 +128,32 @@ public class PatientChartsActivity extends AppCompatActivity {
             setDateRange();
         });
 
+        pickMultipleDatesFloatingActionButton.setOnClickListener(v -> {
+            setMultiDates();
+        });
+
         pickDateFloatingActionButton.setOnClickListener(v ->
         {
             if (isFloatingButtonsVisible)
                 hideFloatingButtons();
-
             else
                 showFloatingButtons();
         });
 
-        selectedDate = MaterialDatePicker.todayInUtcMilliseconds() - getHoursInMillies(3);
+        selectedDate = MaterialDatePicker.todayInUtcMilliseconds() - getHoursInMillis(3);
 
         firstTimestamp = getTimestamp(selectedDate);
-        lastTimestamp = getTimestamp(selectedDate + getHoursInMillies(24));
+        lastTimestamp = getTimestamp(selectedDate + getHoursInMillis(24));
 
+
+        hoursRangeSeekBar.setProgress(0, 24);
+        hoursRangeSeekBar.getLeftSeekBar().setIndicatorText("12 AM");
+        hoursRangeSeekBar.getRightSeekBar().setIndicatorText("11:59 PM");
+        setHoursRangeSeekBar();
+        selectState = PICKER;
         pickedDate = getTodayDate();
         initChart();
-        setChart(false);
+        setChart();
     }
 
     private void initChart() {
@@ -209,10 +206,8 @@ public class PatientChartsActivity extends AppCompatActivity {
     }
 
 
-    private void setChart(boolean isFromSlider)
+    private void setChart()
     {
-        if (!isFromSlider)
-            clearTestsCheckBoxes();
 
         /* set picked date as description for the chart */
         chart.getDescription().setText(pickedDate);
@@ -241,7 +236,7 @@ public class PatientChartsActivity extends AppCompatActivity {
                 .get().addOnSuccessListener(glucoseDocuments ->
         {
             ProgressDialog progressDialog = new ProgressDialog(this);
-            if (!isFromSlider)
+            if (selectState == PICKER)
                 progressDialog.showProgressDialog("Displaying Data...");
 
             for (DocumentSnapshot glucoseDocument : glucoseDocuments.getDocuments()) {
@@ -302,59 +297,56 @@ public class PatientChartsActivity extends AppCompatActivity {
                         triglycerideEntries.add(new Entry(time, (float) triglycerideLevel));
                     }
 
-
-                    if (glucoseEntries.size() != 0)
-                    {
-                        if (!glucoseCheckBox.isChecked() && !isFromSlider)
-                            glucoseCheckBox.setChecked(true);
-
-                        glucoseCheckBox.setEnabled(true);
-                        zeroEntries.add(new Entry(0, glucoseEntries.get(0).getX()));
-                    }
-
-                    if (bloodPressureEntries.size() != 0) {
-                        if (!bloodPressureCheckBox.isChecked() && !isFromSlider)
-                            bloodPressureCheckBox.setChecked(true);
-
-                        bloodPressureCheckBox.setEnabled(true);
-                        zeroEntries.add(new Entry(0, bloodPressureEntries.get(0).getX()));
-                    }
-
-                    if (totalCholesterolEntries.size() != 0) {
-
-                        if (!totalCholesterolCheckBox.isChecked() && !isFromSlider)
-                            totalCholesterolCheckBox.setChecked(true);
-
-                        if (!hdlCheckBox.isChecked() && !isFromSlider)
-                            hdlCheckBox.setChecked(true);
-
-                        if (!ldlCheckBox.isChecked() && !isFromSlider)
-                            ldlCheckBox.setChecked(true);
-
-                        if (!triglycerideCheckBox.isChecked() && !isFromSlider)
-                            triglycerideCheckBox.setChecked(true);
-
-                        totalCholesterolCheckBox.setEnabled(true);
-                        hdlCheckBox.setEnabled(true);
-                        ldlCheckBox.setEnabled(true);
-                        triglycerideCheckBox.setEnabled(true);
-                        zeroEntries.add(new Entry(0, totalCholesterolEntries.get(0).getX()));
-
-                    }
-
-
                     if (dailyTestsAll.size() == 1) // the list contains only the header item
+                    {
                         clearTestsCheckBoxes();
+                        chart.invalidate();
+                    }
 
                     Collections.sort(dailyTestsAll);
 
                     if (!dailyTests.equals(dailyTestsAll))
                     {
+                        if(selectState != HOURS_SLIDER)
+                            clearTestsCheckBoxes();
                         dailyTests.clear();
                         dailyTests.addAll(dailyTestsAll);
 
                         dailyTestAdapter.notifyDataSetChanged();
-                        
+
+                        if (glucoseEntries.size() != 0)
+                        {
+                            if(selectState != HOURS_SLIDER)
+                                glucoseCheckBox.setChecked(true);
+                            glucoseCheckBox.setEnabled(true);
+                            zeroEntries.add(new Entry(0, glucoseEntries.get(0).getX()));
+                        }
+
+                        if (bloodPressureEntries.size() != 0)
+                        {
+                            if(selectState != HOURS_SLIDER)
+                                bloodPressureCheckBox.setChecked(true);
+                            bloodPressureCheckBox.setEnabled(true);
+                            zeroEntries.add(new Entry(0, bloodPressureEntries.get(0).getX()));
+                        }
+
+                        if (totalCholesterolEntries.size() != 0)
+                        {
+                            if(selectState != HOURS_SLIDER)
+                            {
+                                totalCholesterolCheckBox.setChecked(true);
+                                hdlCheckBox.setChecked(true);
+                                ldlCheckBox.setChecked(true);
+                                triglycerideCheckBox.setChecked(true);
+                            }
+
+                            totalCholesterolCheckBox.setEnabled(true);
+                            hdlCheckBox.setEnabled(true);
+                            ldlCheckBox.setEnabled(true);
+                            triglycerideCheckBox.setEnabled(true);
+                            zeroEntries.add(new Entry(0, totalCholesterolEntries.get(0).getX()));
+                        }
+
                         LineDataSet glucoseDataSet = new LineDataSet(glucoseEntries, "Glucose");
                         LineDataSet bloodPressureDataSet = new LineDataSet(bloodPressureEntries, "Blood Pressure");
                         LineDataSet totalCholesterolDataSet = new LineDataSet(totalCholesterolEntries, "Total Cholesterol");
@@ -364,13 +356,12 @@ public class PatientChartsActivity extends AppCompatActivity {
                         LineDataSet zeroDataSet = new LineDataSet(zeroEntries, "");
 
 
-                        setDataSetCheckBox(glucoseCheckBox, glucoseDataSet);
-                        setDataSetCheckBox(bloodPressureCheckBox, bloodPressureDataSet);
-                        setDataSetCheckBox(totalCholesterolCheckBox, totalCholesterolDataSet);
-                        setDataSetCheckBox(hdlCheckBox, hdlDataSet);
-                        setDataSetCheckBox(ldlCheckBox, ldlDataSet);
-                        setDataSetCheckBox(triglycerideCheckBox, triglycerideDataSet);
-
+                        setDataSetCheckBoxListener(glucoseCheckBox, glucoseDataSet);
+                        setDataSetCheckBoxListener(bloodPressureCheckBox, bloodPressureDataSet);
+                        setDataSetCheckBoxListener(totalCholesterolCheckBox, totalCholesterolDataSet);
+                        setDataSetCheckBoxListener(hdlCheckBox, hdlDataSet);
+                        setDataSetCheckBoxListener(ldlCheckBox, ldlDataSet);
+                        setDataSetCheckBoxListener(triglycerideCheckBox, triglycerideDataSet);
 
                         glucoseDataSet.setFillAlpha(110);
                         bloodPressureDataSet.setFillAlpha(110);
@@ -384,16 +375,14 @@ public class PatientChartsActivity extends AppCompatActivity {
                         zeroDataSet.setLineWidth(0f);
                         zeroDataSet.setValueTextSize(0f);
 
-
                         glucoseDataSet.setColor(getColor(R.color.glucose_color));
                         glucoseDataSet.setCircleColor(getColor(R.color.colorPrimary));
                         glucoseDataSet.setCircleHoleRadius(2f);
                         glucoseDataSet.setCircleRadius(4f);
                         glucoseDataSet.setLineWidth(3f);
                         glucoseDataSet.setValueTextSize(12f);
-                        if (!glucoseCheckBox.isChecked())
+                        if(!glucoseCheckBox.isChecked())
                             glucoseDataSet.setVisible(false);
-
 
                         bloodPressureDataSet.setColor(getColor(R.color.blood_pressure_color));
                         bloodPressureDataSet.setCircleColor(getColor(R.color.colorPrimary));
@@ -401,7 +390,7 @@ public class PatientChartsActivity extends AppCompatActivity {
                         bloodPressureDataSet.setCircleRadius(4f);
                         bloodPressureDataSet.setLineWidth(3f);
                         bloodPressureDataSet.setValueTextSize(12f);
-                        if (!bloodPressureCheckBox.isChecked())
+                        if(!bloodPressureCheckBox.isChecked())
                             bloodPressureDataSet.setVisible(false);
 
                         totalCholesterolDataSet.setColor(getColor(R.color.total_cholesterol_color));
@@ -410,9 +399,8 @@ public class PatientChartsActivity extends AppCompatActivity {
                         totalCholesterolDataSet.setCircleRadius(4f);
                         totalCholesterolDataSet.setLineWidth(3f);
                         totalCholesterolDataSet.setValueTextSize(12f);
-                        if (!totalCholesterolCheckBox.isChecked())
+                        if(!totalCholesterolCheckBox.isChecked())
                             totalCholesterolDataSet.setVisible(false);
-
 
                         hdlDataSet.setColor(getColor(R.color.hdl_color));
                         hdlDataSet.setCircleColor(getColor(R.color.colorPrimary));
@@ -420,9 +408,8 @@ public class PatientChartsActivity extends AppCompatActivity {
                         hdlDataSet.setCircleRadius(4f);
                         hdlDataSet.setLineWidth(3f);
                         hdlDataSet.setValueTextSize(12f);
-                        if (!hdlCheckBox.isChecked())
+                        if(!hdlCheckBox.isChecked())
                             hdlDataSet.setVisible(false);
-
 
                         ldlDataSet.setColor(getColor(R.color.ldl_color));
                         ldlDataSet.setCircleColor(getColor(R.color.colorPrimary));
@@ -430,7 +417,7 @@ public class PatientChartsActivity extends AppCompatActivity {
                         ldlDataSet.setCircleRadius(4f);
                         ldlDataSet.setLineWidth(3f);
                         ldlDataSet.setValueTextSize(12f);
-                        if (!ldlCheckBox.isChecked())
+                        if(!ldlCheckBox.isChecked())
                             ldlDataSet.setVisible(false);
 
                         triglycerideDataSet.setColor(getColor(R.color.triglyceride_color));
@@ -439,7 +426,7 @@ public class PatientChartsActivity extends AppCompatActivity {
                         triglycerideDataSet.setCircleRadius(4f);
                         triglycerideDataSet.setLineWidth(3f);
                         triglycerideDataSet.setValueTextSize(12f);
-                        if (!triglycerideCheckBox.isChecked())
+                        if(!triglycerideCheckBox.isChecked())
                             triglycerideDataSet.setVisible(false);
 
 
@@ -465,7 +452,7 @@ public class PatientChartsActivity extends AppCompatActivity {
                         chart.invalidate();
                     }
 
-                    if (!isFromSlider)
+                    if (selectState == PICKER)
                         progressDialog.dismissProgressDialog();
 
                     pickDateFloatingActionButton.setEnabled(true);
@@ -477,37 +464,42 @@ public class PatientChartsActivity extends AppCompatActivity {
 
     private void setSingleDate()
     {
+        int day = (int) daysRangeSeekBar.getLeftSeekBar().getProgress();
 
         MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker.Builder
                 .datePicker()
-                .setSelection(selectedDate + getHoursInMillies(3))
+                .setSelection(selectedDate + getHoursInMillis(24) * day + getHoursInMillis(3))
                 .build();
 
         materialDatePicker.addOnPositiveButtonClickListener(selection ->
         {
             hideFloatingButtons();
             daysRangeSeekBar.setVisibility(View.GONE);
+            daysRangeSeekBar.setProgress(0);
 
-            selectedDate = (Long) selection - getHoursInMillies(3);
+            selectedDate = (Long) selection - getHoursInMillis(3);
             String pickedDate = DateFormat.format("yyyy-M-d", selectedDate).toString();
 
 
             /* redraw only if the picked date is different than previous picked date */
-            if (!pickedDate.equals(PatientChartsActivity.this.pickedDate)) {
-                firstTimestamp = getTimestamp(selectedDate + getHoursInMillies(hoursRangeSeekBar.getLeftSeekBar().getProgress()));
-                lastTimestamp = getTimestamp(selectedDate + getHoursInMillies(hoursRangeSeekBar.getRightSeekBar().getProgress()));
+            if (!pickedDate.equals(PatientChartsActivity.this.pickedDate))
+            {
+                firstTimestamp = getTimestamp(selectedDate + getHoursInMillis(hoursRangeSeekBar.getLeftSeekBar().getProgress()));
+                lastTimestamp = getTimestamp(selectedDate + getHoursInMillis(hoursRangeSeekBar.getRightSeekBar().getProgress()));
                 PatientChartsActivity.this.pickedDate = pickedDate;
                 pickDateFloatingActionButton.setEnabled(false);
 
-                setChart(false);
+                setHoursRangeSeekBar();
+                selectState = PICKER;
+                setChart();
             }
         });
-
         materialDatePicker.show(getSupportFragmentManager(), "PatientChartsActivity");
     }
 
 
-    private void setDateRange() {
+    private void setDateRange()
+    {
         MaterialDatePicker.Builder<Pair<Long, Long>> builder =
                 MaterialDatePicker.Builder.dateRangePicker();
 
@@ -529,7 +521,7 @@ public class PatientChartsActivity extends AppCompatActivity {
             Pair<Long, Long> dateRange = ((Pair<Long, Long>) selection);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d");
 
-            selectedDate = dateRange.first - getHoursInMillies(3);
+            selectedDate = dateRange.first - getHoursInMillis(3);
 
             String firstDate = simpleDateFormat.format(new Date(dateRange.first));
             int firstDateNumber = Integer.parseInt(firstDate.substring(firstDate.lastIndexOf('-') + 1));
@@ -539,6 +531,7 @@ public class PatientChartsActivity extends AppCompatActivity {
 
             String date = firstDate.substring(0, firstDate.lastIndexOf('-') + 1);
 
+            setHoursRangeSeekBar();
             setDaysRangeSeekBar(date, firstDateNumber, lastDateNumber);
 
             pickedDate = firstDate;
@@ -547,20 +540,97 @@ public class PatientChartsActivity extends AppCompatActivity {
             int firstHour = (int) hoursRangeSeekBar.getLeftSeekBar().getProgress();
             int lastHour = (int) hoursRangeSeekBar.getRightSeekBar().getProgress();
 
-            firstTimestamp = getTimestamp(selectedDate + getHoursInMillies(24) * day
-                    + getHoursInMillies(firstHour));
-            lastTimestamp = getTimestamp(selectedDate + getHoursInMillies(24) * day
-                    + getHoursInMillies(lastHour));
+            firstTimestamp = getTimestamp(selectedDate + getHoursInMillis(24) * day
+                    + getHoursInMillis(firstHour));
+            lastTimestamp = getTimestamp(selectedDate + getHoursInMillis(24) * day
+                    + getHoursInMillis(lastHour));
 
-            setChart(false);
+            selectState = PICKER;
+            setChart();
         });
 
         materialDatePicker.show(getSupportFragmentManager(), "PatientChartsActivity");
     }
 
 
-    private void setDaysRangeSeekBar(String date, int firstDateNumber, int lastDateNumber) {
+    private void setMultiDates()
+    {
+        DatePickerBuilder builder = new DatePickerBuilder(this, new OnSelectDateListener() {
+            @Override
+            public void onSelect(@NotNull List<Calendar> list)
+            {
+                hideFloatingButtons();
 
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d");
+
+                pickedDate = simpleDateFormat.format(list.get(0).getTimeInMillis());
+
+                selectedDate = list.get(0).getTimeInMillis();
+                if(list.size() != 1)
+                {
+                    daysRangeSeekBar.setVisibility(View.VISIBLE);
+                    setMultiDatesSeekBar(list);
+                }
+                else
+                    setHoursRangeSeekBar();
+
+                int firstHour = (int) hoursRangeSeekBar.getLeftSeekBar().getProgress();
+                int lastHour = (int) hoursRangeSeekBar.getRightSeekBar().getProgress();
+
+                firstTimestamp = getTimestamp(selectedDate + getHoursInMillis(firstHour));
+                lastTimestamp = getTimestamp(selectedDate + getHoursInMillis(lastHour));
+
+                selectState = PICKER;
+                setChart();
+            }
+        })
+                .pickerType(CalendarView.MANY_DAYS_PICKER)
+                .date(Calendar.getInstance())
+                .maximumDate(Calendar.getInstance())
+                .headerColor(R.color.colorPrimary)
+                .abbreviationsLabelsColor(R.color.black)
+                .selectionColor(R.color.colorPrimary)
+                .todayLabelColor(R.color.colorAccent)
+                .dialogButtonsColor(R.color.colorPrimary)
+                .firstDayOfWeek(CalendarWeekDay.SATURDAY);
+
+        DatePicker multiDatePicker = builder.build();
+        multiDatePicker.show();
+    }
+
+
+    private void setHoursRangeSeekBar()
+    {
+        hoursRangeSeekBar.setOnRangeChangedListener(new OnRangeChangedListener()
+        {
+            @Override
+            public void onRangeChanged(RangeSeekBar view, float leftValue, float rightValue, boolean isFromUser) {
+                view.getLeftSeekBar().setIndicatorText(getHourString((int) leftValue));
+                view.getRightSeekBar().setIndicatorText(getHourString((int) rightValue));
+            }
+
+            @Override
+            public void onStartTrackingTouch(RangeSeekBar view, boolean isLeft) { }
+
+            @Override
+            public void onStopTrackingTouch(RangeSeekBar view, boolean isLeft)
+            {
+                int firstHour = (int) view.getLeftSeekBar().getProgress();
+                int lastHour = (int) view.getRightSeekBar().getProgress();
+                long day = getHoursInMillis(24) * (int) daysRangeSeekBar.getLeftSeekBar().getProgress();
+
+                firstTimestamp = getTimestamp(selectedDate + getHoursInMillis(firstHour) + day);
+                lastTimestamp = getTimestamp(selectedDate + getHoursInMillis(lastHour) + day);
+
+                selectState = HOURS_SLIDER;
+                setChart();
+            }
+        });
+    }
+
+
+    private void setDaysRangeSeekBar(String date, int firstDateNumber, int lastDateNumber)
+    {
         List<String> dates = new ArrayList<>();
 
         for (int i = firstDateNumber; i <= lastDateNumber; i++)
@@ -593,18 +663,100 @@ public class PatientChartsActivity extends AppCompatActivity {
                 int firstHour = (int) hoursRangeSeekBar.getLeftSeekBar().getProgress();
                 int lastHour = (int) hoursRangeSeekBar.getRightSeekBar().getProgress();
 
-                firstTimestamp = getTimestamp(selectedDate + getHoursInMillies(24) * day
-                        + getHoursInMillies(firstHour));
-                lastTimestamp = getTimestamp(selectedDate + getHoursInMillies(24) * day
-                        + getHoursInMillies(lastHour));
+                firstTimestamp = getTimestamp(selectedDate + getHoursInMillis(24) * day
+                        + getHoursInMillis(firstHour));
+                lastTimestamp = getTimestamp(selectedDate + getHoursInMillis(24) * day
+                        + getHoursInMillis(lastHour));
 
-                setChart(true);
+                selectState = DAYS_SLIDER;
+                setChart();
             }
         });
     }
 
 
-    private void setDataSetCheckBox(CheckBox checkBox, DataSet dataSet)
+    private void setMultiDatesSeekBar(List<Calendar> list)
+    {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d");
+
+        List<String> dates = new ArrayList<>();
+
+        for (int i = 0; i < list.size(); i++)
+        {
+            long dayInMillis = list.get(i).getTimeInMillis();
+            dates.add(simpleDateFormat.format(new Date(dayInMillis)));
+        }
+
+        hoursRangeSeekBar.setOnRangeChangedListener(new OnRangeChangedListener()
+        {
+            @Override
+            public void onRangeChanged(RangeSeekBar view, float leftValue, float rightValue, boolean isFromUser)
+            {
+                view.getLeftSeekBar().setIndicatorText(getHourString((int) leftValue));
+                view.getRightSeekBar().setIndicatorText(getHourString((int) rightValue));
+            }
+
+            @Override
+            public void onStartTrackingTouch(RangeSeekBar view, boolean isLeft) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(RangeSeekBar view, boolean isLeft)
+            {
+                int firstHour = (int) view.getLeftSeekBar().getProgress();
+                int lastHour = (int) view.getRightSeekBar().getProgress();
+                long day = convertMillisToDay(list.get((int) daysRangeSeekBar.getLeftSeekBar().getProgress()).getTimeInMillis()
+                        - list.get(0).getTimeInMillis());
+
+                firstTimestamp = getTimestamp(selectedDate + getHoursInMillis(firstHour) +  getDaysInMillis(day));
+                lastTimestamp = getTimestamp(selectedDate + getHoursInMillis(lastHour) +  getDaysInMillis(day));
+
+                selectState = HOURS_SLIDER;
+                setChart();
+            }
+        });
+
+        daysRangeSeekBar.setProgress(0);
+        daysRangeSeekBar.setSteps(dates.size() - 1);
+        daysRangeSeekBar.getLeftSeekBar().setIndicatorText(dates.get(0));
+        daysRangeSeekBar.setRange(0, dates.size() - 1);
+        daysRangeSeekBar.setOnRangeChangedListener(new OnRangeChangedListener()
+        {
+            @Override
+            public void onRangeChanged(RangeSeekBar view, float leftValue, float rightValue, boolean isFromUser)
+            {
+                int dayNumber = (int) leftValue;
+
+                view.getLeftSeekBar().setIndicatorText(dates.get(dayNumber));
+                pickedDate = dates.get(dayNumber);
+            }
+
+            @Override
+            public void onStartTrackingTouch(RangeSeekBar view, boolean isLeft) { }
+
+            @Override
+            public void onStopTrackingTouch(RangeSeekBar view, boolean isLeft)
+            {
+                long day = convertMillisToDay(list.get((int)view.getLeftSeekBar().getProgress()).getTimeInMillis()
+                        - list.get(0).getTimeInMillis());
+
+                int firstHour = (int) hoursRangeSeekBar.getLeftSeekBar().getProgress();
+                int lastHour = (int) hoursRangeSeekBar.getRightSeekBar().getProgress();
+
+                firstTimestamp = getTimestamp(selectedDate + getDaysInMillis(day)
+                        + getHoursInMillis(firstHour));
+                lastTimestamp = getTimestamp(selectedDate + getDaysInMillis(day)
+                        + getHoursInMillis(lastHour));
+
+                selectState = DAYS_SLIDER;
+                setChart();
+            }
+        });
+    }
+
+
+    private void setDataSetCheckBoxListener(CheckBox checkBox, DataSet dataSet)
     {
         checkBox.setOnCheckedChangeListener((buttonView, isChecked) ->
         {
@@ -622,8 +774,9 @@ public class PatientChartsActivity extends AppCompatActivity {
             chart.invalidate();
         });
     }
-    
-    private void clearTestsCheckBoxes() {
+
+    private void clearTestsCheckBoxes()
+    {
         glucoseCheckBox.setEnabled(false);
         bloodPressureCheckBox.setEnabled(false);
         totalCholesterolCheckBox.setEnabled(false);
@@ -653,16 +806,32 @@ public class PatientChartsActivity extends AppCompatActivity {
             return hour - 12 + " PM";
     }
 
-    private Timestamp getTimestamp(Long millieSeconds) {
-        return new Timestamp(new Date(millieSeconds));
-    }
 
-    private Long getHoursInMillies(float hour) {
-        return TimeUnit.HOURS.toMillis((long) hour);
+    private Timestamp getTimestamp(Long milliSeconds) {
+        return new Timestamp(new Date(milliSeconds));
     }
 
 
-    private float getTestTime(Timestamp timestamp) {
+    private Long getHoursInMillis(float hours)
+    {
+        return TimeUnit.HOURS.toMillis((long) hours);
+    }
+
+
+    private Long getDaysInMillis(long days)
+    {
+        return TimeUnit.DAYS.toMillis(days);
+    }
+
+
+    private Long convertMillisToDay(Long date)
+    {
+        return TimeUnit.MILLISECONDS.toDays(date);
+    }
+
+
+    private float getTestTime(Timestamp timestamp)
+    {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm aa", Locale.US);
 
         String dayTime = simpleDateFormat.format(timestamp.toDate());
@@ -688,12 +857,14 @@ public class PatientChartsActivity extends AppCompatActivity {
     }
 
 
-    private String getTodayDate() {
+    private String getTodayDate()
+    {
         return DateFormat.format("yyyy-M-d", new Date()).toString();
     }
 
 
-    private void showFloatingButtons() {
+    private void showFloatingButtons()
+    {
         pickDateFloatingActionButton.setImageResource(R.drawable.ic_close_datepicker_floatingbutton);
 
         pickASingleDateFloatingActionButton.show();
@@ -708,7 +879,8 @@ public class PatientChartsActivity extends AppCompatActivity {
     }
 
 
-    private void hideFloatingButtons() {
+    private void hideFloatingButtons()
+    {
         pickDateFloatingActionButton.setImageResource(R.drawable.ic_calendar);
         pickASingleDateFloatingActionButton.hide();
         pickDateRangeFloatingActionButton.hide();

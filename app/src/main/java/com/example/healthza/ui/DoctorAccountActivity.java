@@ -3,7 +3,6 @@ package com.example.healthza.ui;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,7 +10,7 @@ import android.text.format.DateFormat;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
+
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -24,6 +23,7 @@ import com.example.healthza.models.Doctor;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,7 +31,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,9 +62,6 @@ public class DoctorAccountActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_account);
 
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.showProgressDialog();
-
         SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
         password = sharedPreferences.getString("password", "");
 
@@ -91,6 +88,81 @@ public class DoctorAccountActivity extends AppCompatActivity
         db = FirebaseFirestore.getInstance();
 
         doctorId = firebaseAuth.getCurrentUser().getUid();
+
+        initAccountInformation();
+
+        selectBirthDateButton.setOnClickListener(v ->
+        {
+            showDateDialog();
+        });
+
+        changeAccountPasswordButton.setOnClickListener(v ->
+        {
+            startActivity(new Intent(this, ChangePasswordActivity.class));
+        });
+
+        saveButton.setOnClickListener(v ->
+        {
+            informationChanged = false;
+            saveAccountInformation();
+        });
+    }
+
+    private boolean isValidName(String name) // No need to check if the field is empty
+    {                                        // because Regex won't match empty strings
+        Pattern pattern;
+        Matcher matcher;
+        pattern = Pattern.compile("[A-Za-z ]+");
+        matcher = pattern.matcher(name);
+        return matcher.matches();
+    }
+
+    private boolean isValidIdentificationNumber(String id) {
+        return id.length() == 9;
+    }
+
+
+    private boolean isValidEmail(String email)  // No need to check if the field is empty
+    {                                           // because regex won't match empty strings
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private boolean isValidPhoneNumber(String phoneNumber)  // No need to check if the field is empty
+    {                                                       // because regex won't match empty strings
+        return Patterns.PHONE.matcher(phoneNumber).matches();
+    }
+
+
+    private boolean isValidSpeciality(String speciality) // No need to check if the field is empty
+    {                                                   // because Regex won't match empty strings
+        Pattern pattern;
+        Matcher matcher;
+        pattern = Pattern.compile("[A-Za-z ]+");
+        matcher = pattern.matcher(speciality);
+        return matcher.matches();
+    }
+
+    private boolean isValidYearsOfExperience(String yearsOfExperience)
+    {
+        int yearsOfExperience1 = Integer.parseInt(yearsOfExperience);
+
+        return yearsOfExperience1 <= 60;
+    }
+
+    private boolean isValidWorkplace(String workpalce)  // No need to check if the field is empty
+    {                                                   // because Regex won't match empty strings
+        Pattern pattern;
+        Matcher matcher;
+        pattern = Pattern.compile("[A-Za-z ]+");
+        matcher = pattern.matcher(workpalce);
+        return matcher.matches();
+    }
+
+
+    private void initAccountInformation()
+    {
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.showProgressDialog();
 
         db.collection("doctors")
                 .document(doctorId)
@@ -143,74 +215,7 @@ public class DoctorAccountActivity extends AppCompatActivity
             progressDialog.dismissProgressDialog();
         });
 
-
-        selectBirthDateButton.setOnClickListener(v ->
-        {
-            showDateDialog();
-        });
-
-        changeAccountPasswordButton.setOnClickListener(v ->
-        {
-            startActivity(new Intent(this, ChangePasswordActivity.class));
-        });
-
-        saveButton.setOnClickListener(v ->
-        {
-            informationChanged = false;
-            saveAccountInformation();
-        });
     }
-
-    private boolean isValidName(String name) // No need to check if the field is empty
-    {                                        // because Regex won't match empty strings
-        Pattern pattern;
-        Matcher matcher;
-        pattern = Pattern.compile("[A-Za-z ]+");
-        matcher = pattern.matcher(name);
-        return matcher.matches();
-    }
-
-    private boolean isValidIdentificationNumber(String id) {
-        return id.length() == 9;
-    }
-
-
-    private boolean isValidEmail(String email) // No need to check if the field is empty
-    {                                          // because regex won't match empty strings
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
-    private boolean isValidPhoneNumber(String phoneNumber)  // No need to check if the field is empty
-    {                                                       // because regex won't match empty strings
-        return Patterns.PHONE.matcher(phoneNumber).matches();
-    }
-
-
-    private boolean isValidSpeciality(String speciality) // No need to check if the field is empty
-    {                                                   // because Regex won't match empty strings
-        Pattern pattern;
-        Matcher matcher;
-        pattern = Pattern.compile("[A-Za-z ]+");
-        matcher = pattern.matcher(speciality);
-        return matcher.matches();
-    }
-
-    private boolean isValidYearsOfExperience(String yearsOfExperience)
-    {
-        int yearsOfExperience1 = Integer.parseInt(yearsOfExperience);
-
-        return yearsOfExperience1 <= 60;
-    }
-
-    private boolean isValidWorkplace(String workpalce) // No need to check if the field is empty
-    {                                                   // because Regex won't match empty strings
-        Pattern pattern;
-        Matcher matcher;
-        pattern = Pattern.compile("[A-Za-z ]+");
-        matcher = pattern.matcher(workpalce);
-        return matcher.matches();
-    }
-
 
     private void saveAccountInformation()
     {
@@ -299,7 +304,7 @@ public class DoctorAccountActivity extends AppCompatActivity
         else
             {
             ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.showProgressDialog();
+            progressDialog.showProgressDialog("Updating Account Information...");
 
             Map<String, Object> accountInformation = new HashMap<>();
 
@@ -412,29 +417,21 @@ public class DoctorAccountActivity extends AppCompatActivity
     }
 
 
-    private void showDateDialog() {
-        Calendar calendar = Calendar.getInstance();
+    private void showDateDialog()
+    {
+        MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker
+                .Builder
+                .datePicker()
+                .build();
 
-        /*  get today date  */
-        int date = calendar.get(Calendar.DATE);
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
+        materialDatePicker.addOnPositiveButtonClickListener(selection ->
+        {
+            Long selectedDate = (Long) selection;
+            String birthDate = DateFormat.format("MM/dd/yyyy", new Date(selectedDate)).toString();
 
+            selectedBirthDateTextView.setText(birthDate);
+        });
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
-                calendar.set(Calendar.DATE, dayOfMonth);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.YEAR, year);
-
-                String todayDate = DateFormat.format("MM/dd/yyyy", calendar).toString();
-
-                selectedBirthDateTextView.setText(todayDate);
-            }
-        }, year, month, date);
-
-        datePickerDialog.show();
+        materialDatePicker.show(getSupportFragmentManager(), "DoctorAccountActivity");
     }
 }

@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:paddingTop="9dp"
+            android:paddingTop="8dp"
             android:paddingBottom="9dp"
             android:text="@string/sex"
             android:textColor="@color/hint_color"
@@ -97,14 +97,13 @@
                 android:text="@string/female_text"
                 android:textSize="16sp"
                 android:textStyle="bold" />
-
         </RadioGroup>
 
         <TextView
             android:id="@+id/patientBirthDateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:paddingEnd="8dp"
             android:text="@string/birth_date_text"
             android:textColor="@color/hint_color"
@@ -163,7 +162,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/patientIdentificationNumberTextView"
             app:layout_constraintTop_toTopOf="@id/patientIdentificationNumberTextView" />
-
 
         <TextView
             android:id="@+id/patientEmailTextView"
@@ -283,10 +281,39 @@
             app:layout_constraintStart_toEndOf="@id/patientHeightTextView"
             app:layout_constraintTop_toTopOf="@id/patientHeightTextView" />
 
+        <TextView
+            android:id="@+id/patientBMITextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:text="@string/bmi"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/patientHeightTextView" />
+
+        <EditText
+            android:id="@+id/patientBMIEditText"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext"
+            android:enabled="false"
+            android:inputType="numberDecimal"
+            android:padding="10dp"
+            android:selectAllOnFocus="true"
+            android:textColor="@color/txt_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/patientBMITextView"
+            app:layout_constraintTop_toTopOf="@id/patientBMITextView" />
+
         <Button
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:backgroundTint="@color/colorAccent"
             android:drawableLeft="@drawable/ic_save"
             android:elevation="10dp"
@@ -300,7 +327,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/patientHeightEditText"
+            app:layout_constraintTop_toBottomOf="@id/patientBMIEditText"
             app:layout_constraintVertical_bias="0.7"
             app:shapeAppearanceOverlay="@style/roundedButtonStyle" />
     </androidx.constraintlayout.widget.ConstraintLayout>
