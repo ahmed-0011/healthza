@@ -78,6 +78,9 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
     float Max=-999;
     float Min=999;
 
+    boolean first=false;
+    float latest;
+
     public boolean onSupportNavigateUp()
     {
         Log.w ("Add Hypertension test.", "onSupportNavigateUp is calll");
@@ -662,13 +665,15 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
                 DocumentSnapshot document = task.getResult();
                 if (document.get("count") == null
                         || document.get("max_hypertension") == null
-                        || document.get("min_hypertension") == null) {
+                        || document.get("min_hypertension") == null
+                        || document.get("first") == null
+                        || document.get("latest") == null) {
 
                     HashMap Mp = new HashMap();
                     Mp.put("count", 0);
-                    Mp.put("max_hypertension", -999);
-                    Mp.put("min_hypertension", 999);
-
+                    Mp.put("max_hypertension",Float.MIN_VALUE);
+                    Mp.put("min_hypertension",Float.MAX_VALUE);
+                    first = true;
                     DRC.set(Mp)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -686,6 +691,8 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
                     Max = Float.parseFloat(document.get("max_hypertension").toString());
                     Min = Float.parseFloat(document.get("min_hypertension").toString());
                     ctt = Integer.parseInt(document.get("count").toString());
+                    latest = Float.parseFloat(document.get("latest").toString());
+                    first = false;
                 }
             }
         });
@@ -696,6 +703,7 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
         Max = Float.parseFloat(document.get("max_hypertension").toString());
         Min = Float.parseFloat(document.get("min_hypertension").toString());
         ctt = Integer.parseInt(document.get("count").toString());
+        latest = Float.parseFloat(hypertension.getText().toString());
         //
         DRC.update("count", ++ctt)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -744,6 +752,39 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
 
                     }
                 });
+
+        DRC.update("latest", latest)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+        if(first)
+        {
+            DRC.update("first", Float.parseFloat(hypertension.getText().toString()))
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+
+            first = false;
+        }
         //
     }
 

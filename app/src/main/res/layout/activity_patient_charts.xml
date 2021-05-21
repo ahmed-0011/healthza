@@ -208,7 +208,7 @@
         app:fabCustomSize="52dp"
         app:layout_constraintBottom_toTopOf="@+id/pickDateFloatingActionButton"
         app:layout_constraintEnd_toEndOf="@id/pickDateFloatingActionButton"
-        app:srcCompat="@drawable/ic_single_date_calendar"
+        app:srcCompat="@drawable/ic_calendar"
         app:tint="@null" />
 
     <TextView

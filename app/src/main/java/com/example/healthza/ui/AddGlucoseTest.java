@@ -49,6 +49,8 @@ import org.w3c.dom.Document;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -91,9 +93,8 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
     float Max=-999;
     float Min=999;
 
-    int cttt=0;
-    float MaxL=0;
-    float MinL=0;
+    boolean first=false;
+    float latest;
 
 
     public boolean onSupportNavigateUp()
@@ -218,10 +219,10 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onPositiveButtonClick(Date date) {
                 String year =""+ dateTimeDialogFragment.getYear();
-                String month =""+ dateTimeDialogFragment.getMonth(); if(month.length()==1)month = "0"+month;
-                String day =""+ dateTimeDialogFragment.getDay(); if(day.length()==1)day= "0"+day;
-                String hour =""+ dateTimeDialogFragment.getHourOfDay(); if(hour.length()==1)hour = "0"+hour;
-                String mnt =""+ dateTimeDialogFragment.getMinute();  if(mnt.length()==1)mnt = "0"+mnt;
+                String month =""+ (dateTimeDialogFragment.getMonth()+1);// if(month.length()==1)month = "0"+month;
+                String day =""+ dateTimeDialogFragment.getDay(); //if(day.length()==1)day= "0"+day;
+                String hour =""+ dateTimeDialogFragment.getHourOfDay(); //if(hour.length()==1)hour = "0"+hour;
+                String mnt =""+ dateTimeDialogFragment.getMinute();  //if(mnt.length()==1)mnt = "0"+mnt;
                 String date_T = dateTimeDialogFragment.getYear()+"-"+dateTimeDialogFragment.getMonth()+"-"+dateTimeDialogFragment.getDay()
                         +" "+dateTimeDialogFragment.getHourOfDay()+":"+dateTimeDialogFragment.getMinute();
 
@@ -328,8 +329,13 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
 
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/mm/dd hh:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
-                Functions.timeS = now.getHour()+":"+now.getMinute();
-                Functions.dateS = now.getYear()+"-"+now.getMonthValue()+"-"+now.getDayOfMonth();
+                Functions.timeS = (now.getHour()>9?now.getHour():(/*"0"+*/now.getHour()))
+                        +":"+
+                        (now.getMinute()>9?now.getMinute():(/*"0"+*/now.getMinute()));
+                Functions.dateS = now.getYear()+"-"+
+                        (now.getMonthValue()>9?now.getMonthValue():(/*"0"+*/now.getMonthValue()))
+                        +"-"+
+                        (now.getDayOfMonth()>9?now.getDayOfMonth():(/*"0"+*/now.getDayOfMonth()));
                 timE.setText(Functions.timeS);
                 datE.setText(Functions.dateS);
             } else {
@@ -567,6 +573,7 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
 
     // db code;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void addTest()
     {
 
@@ -610,15 +617,14 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
             int i2 = Date.lastIndexOf("-");
 
             String year = Date.substring(0,i1);
-            String month = Date.substring(i1+1,i2); if(month.length()==1)month = "0"+month;
-            String day = Date.substring(i2+1); if(day.length()==1)day= "0"+day;
+            String month = Date.substring(i1+1,i2); //if(month.length()==1)month = "0"+month;
+            String day = Date.substring(i2+1); //if(day.length()==1)day= "0"+day;
 
             String Time = timE.getText().toString();
-            String hour = Time.substring(0,Time.indexOf(":")); if(hour.length()==1)hour = "0"+hour;
-            String mnt = Time.substring(Time.indexOf(":")+1); if(mnt.length()==1)mnt = "0"+mnt;
+            String hour = Time.substring(0,Time.indexOf(":")); //if(hour.length()==1)hour = "0"+hour;
+            String mnt = Time.substring(Time.indexOf(":")+1); //if(mnt.length()==1)mnt = "0"+mnt;
             System.out.println(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
             java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
-            //year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0"
             dataTest.put("timestamp", timestamp);
 
            DocumentReference DRC = db.collection("patients") // table
@@ -738,14 +744,17 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                 if (document.get("count") == null
                         || document.get("max_glucose") == null
                         || document.get("min_glucose") == null
+                        || document.get("first") == null
+                        || document.get("latest") == null
                         /*|| document.get("total") == null
                         || document.get("max_level") == null
                         || document.get("min_level") == null*/) {
 
                     HashMap Mp = new HashMap();
                     Mp.put("count", 0);
-                    Mp.put("max_glucose",Integer.MIN_VALUE);
-                    Mp.put("min_glucose",Integer.MAX_VALUE);
+                    Mp.put("max_glucose",Float.MIN_VALUE);
+                    Mp.put("min_glucose",Float.MAX_VALUE);
+                    first = true;
                   /*  Mp.put("total", 0);
                     Mp.put("max_level",Float.MIN_VALUE);
                     Mp.put("min_min", Float.MAX_VALUE);;*/
@@ -767,9 +776,11 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                     Max = Float.parseFloat(document.get("max_glucose").toString());
                     Min = Float.parseFloat(document.get("min_glucose").toString());
                     ctt = Integer.parseInt(document.get("count").toString());
+                    latest = Float.parseFloat(document.get("latest").toString());
                   //  cttt = Integer.parseInt(document.get("total").toString());
                   //  MaxL = Float.parseFloat(document.get("max_level").toString());
                   //  MinL = Float.parseFloat(document.get("min_level").toString());
+                    first =false;
                 }
             }
         });
@@ -780,6 +791,7 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
         Max = Float.parseFloat(document.get("max_glucose").toString());
         Min = Float.parseFloat(document.get("min_glucose").toString());
         ctt = Integer.parseInt(document.get("count").toString());
+        latest = Float.parseFloat(glucose.getText().toString());
         //
         /*cttt = Integer.parseInt(document.get("total").toString());
         MaxL = Float.parseFloat(document.get("max_level").toString());
@@ -849,9 +861,39 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                 });
         //
 
-        if (Float.parseFloat(glucose.getText().toString()) > MaxL) {
-            Max = Float.parseFloat(glucose.getText().toString());
+        DRC.update("latest", latest)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+        if(first)
+        {
+            DRC.update("first", Float.parseFloat(glucose.getText().toString()))
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+
+            first = false;
         }
+
     }
 
 }

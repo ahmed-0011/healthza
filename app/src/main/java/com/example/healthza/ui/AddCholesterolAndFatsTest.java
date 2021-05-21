@@ -74,6 +74,8 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
     int ctt=0;
     float Max[];
     float Min[];
+    boolean first = false;
+    float latest[];
 
     private EditText inputField[];
 
@@ -154,6 +156,7 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
 
         Max = new float[]{ -999,-999,-999,-999};
         Min = new float[]{ 999,999,999,999};
+        latest = new float[4];
 
 
         Log.w("Add Cholesterol And Fats test.", "start");
@@ -712,22 +715,35 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
 
                         || document.get("max_total") == null
                         || document.get("min_total") == null
+
+                        || document.get("first_triglyceride") == null
+                        || document.get("latest_triglyceride") == null
+
+                        || document.get("first_ldl") == null
+                        || document.get("latest_ldl") == null
+
+                        || document.get("first_hdl") == null
+                        || document.get("latest_hdl") == null
+
+                        || document.get("first_total") == null
+                        || document.get("latest_total") == null
                 ) {
 
                     HashMap Mp = new HashMap();
                     Mp.put("count", 0);
 
-                    Mp.put("max_triglyceride", -999);
-                    Mp.put("min_triglyceride", 999);
+                    Mp.put("max_triglyceride",Float.MIN_VALUE);
+                    Mp.put("min_triglyceride",Float.MAX_VALUE);
 
-                    Mp.put("max_ldl", -999);
-                    Mp.put("min_ldl", 999);
+                    Mp.put("max_ldl",Float.MIN_VALUE);
+                    Mp.put("min_ldl",Float.MAX_VALUE);
 
-                    Mp.put("max_hdl", -999);
-                    Mp.put("min_hdl", 999);
+                    Mp.put("max_hdl",Float.MIN_VALUE);
+                    Mp.put("min_hdl",Float.MAX_VALUE);
 
-                    Mp.put("max_total", -999);
-                    Mp.put("min_total", 999);
+                    Mp.put("max_total",Float.MIN_VALUE);
+                    Mp.put("min_total",Float.MAX_VALUE);
+                    first = true;
 
                     DRC.set(Mp)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -757,6 +773,13 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
                     Min[3] = Float.parseFloat(document.get("min_total").toString());
 
                     ctt = Integer.parseInt(document.get("count").toString());
+
+                    latest[0]=Float.parseFloat(document.get("latest_triglyceride").toString());
+                    latest[1]=Float.parseFloat(document.get("latest_ldl").toString());
+                    latest[2]=Float.parseFloat(document.get("latest_hdl").toString());
+                    latest[3]=Float.parseFloat(document.get("latest_total").toString());
+
+                    first =false;
                 }
             }
         });
@@ -775,6 +798,11 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
 
         Max[3] = Float.parseFloat(document.get("max_total").toString());
         Min[3] = Float.parseFloat(document.get("min_total").toString());
+
+        latest[0]=Float.parseFloat(inputField[0].getText().toString());
+        latest[1]=Float.parseFloat(inputField[1].getText().toString());
+        latest[2]=Float.parseFloat(inputField[2].getText().toString());
+        latest[3]=Float.parseFloat(inputField[3].getText().toString());
 
         ctt = Integer.parseInt(document.get("count").toString());
         //
@@ -937,6 +965,121 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
                 });
         //
 
+        DRC.update("latest_triglyceride", latest[0])
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+        DRC.update("latest_ldl", latest[1])
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+        DRC.update("latest_hdl", latest[2])
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+        DRC.update("latest_total", latest[3])
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+        if(first)
+        {
+            DRC.update("first_triglyceride", latest[0])
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+
+            DRC.update("first_ldl", latest[1])
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+
+            DRC.update("first_hdl", latest[2])
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+
+            DRC.update("first_total", latest[3])
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+            first = false;
+        }
     }
 
 }
