@@ -16,6 +16,7 @@ import com.example.healthza.models.Patient;
 import com.example.healthza.R;
 import com.example.healthza.ui.AddMedicines;
 import com.example.healthza.ui.ViewMedicines;
+import com.example.healthza.ui.medicineEffectiveness;
 import com.example.healthza.ui.updateMedicines;
 
 import java.util.ArrayList;
@@ -106,6 +107,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
         private final Button assignButton;
         private final Button viewButton;
         private final Button updateButton;
+        private final Button effectivenessButton;
 
         public ViewHolder(View itemView)
         {
@@ -121,6 +123,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
             assignButton = itemView.findViewById(R.id.medicinesButton2);
             updateButton = itemView.findViewById(R.id.medicinesButton3);
             viewButton = itemView.findViewById(R.id.medicinesButton4);
+            effectivenessButton = itemView.findViewById(R.id.medicinesButton5);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -164,6 +167,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
         Button assignButton = holder.assignButton;
         Button viewButton = holder.viewButton;
         Button updateButton = holder.updateButton;
+        Button effectivenessButton = holder.effectivenessButton;
         AtomicBoolean vis = new AtomicBoolean(false);
 
         patientNameTextView.append(patient.getName());
@@ -193,6 +197,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
                assignButton.setVisibility(View.GONE);
                viewButton.setVisibility(View.GONE);
                updateButton.setVisibility(View.GONE);
+               effectivenessButton.setVisibility(View.GONE);
                vis.set(false);
            }
            else
@@ -200,6 +205,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
                assignButton.setVisibility(View.VISIBLE);
                viewButton.setVisibility(View.VISIBLE);
                updateButton.setVisibility(View.VISIBLE);
+               effectivenessButton.setVisibility(View.VISIBLE);
                vis.set(true);
            }
         });
@@ -221,6 +227,13 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
         updateButton.setOnClickListener(v ->
         {
             Intent intent = new Intent(context, updateMedicines.class);
+            intent.putExtra("patientID", patient.getPatientId());
+            context.startActivity(intent);
+        });
+
+        effectivenessButton.setOnClickListener(v ->
+        {
+            Intent intent = new Intent(context, medicineEffectiveness.class);
             intent.putExtra("patientID", patient.getPatientId());
             context.startActivity(intent);
         });
