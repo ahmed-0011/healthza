@@ -46,9 +46,10 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 public class DrawerUtil
 {
+    ///////////////////varible////////////////
     public static View headerView;
     public static Toolbar toolbar;
-
+//////////////////////////////////////////////
     public static void getDoctorDrawer(final Activity activity, int identifier)
     {
         Drawer result = new DrawerBuilder()

@@ -33,6 +33,7 @@ import java.util.Set;
 
 public class DoctorChatListActivity extends AppCompatActivity implements ChatAdapter.OnChatItemClickListener
 {
+    ///////////////////////////////////////////////
     private ListenerRegistration chatEventListener;
     private ImageView emptyChatListimageView;
     private TextView emptyChatListTextView;
@@ -44,7 +45,7 @@ public class DoctorChatListActivity extends AppCompatActivity implements ChatAda
     private FloatingActionButton addChatFloatingActionButton;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
-    
+    ///////////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
