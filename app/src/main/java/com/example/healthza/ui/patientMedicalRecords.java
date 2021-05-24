@@ -49,7 +49,7 @@ import java.util.Map;
 public class patientMedicalRecords extends AppCompatActivity  implements RecordsAdapter.OnRecordItemClickListener, View.OnClickListener
 , View.OnFocusChangeListener
 {
-
+///////////////////varable//////////////////
     RecyclerView recyclerView;
     List<Map<String, Object>> recordsList;
     RecordsAdapter radp;
@@ -89,7 +89,7 @@ public class patientMedicalRecords extends AppCompatActivity  implements Records
     private String patientName = "";
     private String patientId = "";
     int patientPOS = 0;
-
+////////////////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
