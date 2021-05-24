@@ -25,7 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class ViewIdentifiersP extends AppCompatActivity {
-
+//////////////////varable//////////////
     FirebaseFirestore db;
     FirebaseAuth firebaseAuth;
 
@@ -34,7 +34,7 @@ public class ViewIdentifiersP extends AppCompatActivity {
 
     ImageView nod;
     int child;
-
+///////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
