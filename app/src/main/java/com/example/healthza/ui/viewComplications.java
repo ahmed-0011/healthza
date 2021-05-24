@@ -28,6 +28,7 @@ import java.util.Collections;
 
 public class viewComplications extends AppCompatActivity {
 
+    /////////////////varable////////////
     TableLayout tb;
     ProgressDialog pb;
 
@@ -36,7 +37,7 @@ public class viewComplications extends AppCompatActivity {
 
     FirebaseFirestore db;
     FirebaseAuth firebaseAuth;
-
+/////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
