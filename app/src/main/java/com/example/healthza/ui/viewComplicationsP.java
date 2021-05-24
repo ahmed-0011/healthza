@@ -39,7 +39,7 @@ import java.util.List;
 public class viewComplicationsP extends AppCompatActivity implements  View.OnClickListener
         , View.OnFocusChangeListener{
 
-
+////////////varable//////////////////
     FirebaseFirestore db;
     FirebaseAuth firebaseAuth;
 
@@ -62,7 +62,7 @@ public class viewComplicationsP extends AppCompatActivity implements  View.OnCli
 
     ImageView nod;
     int child;
-
+//////////////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
