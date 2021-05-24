@@ -60,13 +60,14 @@ import java.util.regex.Pattern;
 
 public class PatientHomeActivity extends AppCompatActivity
 {
+    ///////////////////varable////////////////////
     private TextInputLayout weightInputlayout, heightInputlayout;
     private TextInputEditText weightInputEditText, heightInputEditText;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     private String patientId;
     private String patientName;
-
+////////////////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

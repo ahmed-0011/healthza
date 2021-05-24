@@ -48,6 +48,7 @@ import java.util.List;
 
 public class PatientHistoryD extends AppCompatActivity {
 
+    ///////////////////////varable//////////////////////
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
 
@@ -73,7 +74,7 @@ public class PatientHistoryD extends AppCompatActivity {
 
     int child;
 
-
+///////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
