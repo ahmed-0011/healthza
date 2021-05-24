@@ -11,9 +11,9 @@ import com.example.healthza.ui.LoginActivity;
 import com.example.healthza.ui.RegisterActivity;
 
 public class WelcomeActivity extends AppCompatActivity {
-
+///////////////////varable////////////
     Button login, register;
-
+/////////////////////////////////////
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
