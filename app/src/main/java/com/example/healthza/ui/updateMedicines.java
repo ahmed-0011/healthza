@@ -42,7 +42,7 @@ public class updateMedicines extends AppCompatActivity implements View.OnClickLi
         , CompoundButton.OnCheckedChangeListener
         , View.OnFocusChangeListener
 {
-
+////////////////////varable///////////////
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
 
@@ -70,7 +70,7 @@ public class updateMedicines extends AppCompatActivity implements View.OnClickLi
     TableLayout g1;
 
     TextInputLayout g2;
-
+///////////////////////////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
