@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ViewMedicines extends AppCompatActivity {
-
+/////////////////varable/////////////
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
 
@@ -53,7 +53,7 @@ public class ViewMedicines extends AppCompatActivity {
     private ViewFlipper viewFlipper;
 
     FloatingActionButton fpa;
-
+////////////////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
