@@ -32,6 +32,7 @@ import java.util.Map;
 
 public class PatientReceiveRequestActivity extends AppCompatActivity implements ReceiveRequestAdapter.OnReceiveRequestItemClickListener
 {
+    //////////////////////varable/////////////////
     private ImageView emptyReceiveRequestListImageView;
     private TextView emptyReceiveRequestListTextView;
     private List<ReceiveRequest> receiveRequests;
@@ -39,7 +40,7 @@ public class PatientReceiveRequestActivity extends AppCompatActivity implements 
     private ReceiveRequestAdapter receiveRequestAdapter;
     private FirebaseFirestore db;
     private FirebaseAuth firebaseAuth;
-
+///////////////////////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
