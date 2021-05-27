@@ -17,10 +17,12 @@ import java.util.List;
 
 public class SendRequestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
+    //////////////////varable////////////////
     private final List<SendRequest> sendRequests;
     private final Context context;
     private final OnSendRequestItemClickListener onSendRequestItemClickListener;
     private final int PENDING = 0, COMPLETED = 1;
+    ///////////////////////////////////////////////
     public SendRequestAdapter(Context context, List<SendRequest> sendRequests, OnSendRequestItemClickListener onSendRequestItemClickListener)
     {
         this.sendRequests = sendRequests;
