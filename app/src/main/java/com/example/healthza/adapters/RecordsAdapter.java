@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.ViewHolder>
 {
-    /////////////////varable/////////////
+    /////////////////varable///////////
     Map<String, Object> record;
     List<Map<String, Object>> recordsList;
     private Context context;
