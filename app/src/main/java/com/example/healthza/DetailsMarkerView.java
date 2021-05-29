@@ -49,7 +49,6 @@ public class DetailsMarkerView extends MarkerView
             if(minutes.length() == 1)
                 minutes = "0" + minutes;
 
-
             time = time / 100;
             if(time >=  12)
             {
@@ -66,23 +65,32 @@ public class DetailsMarkerView extends MarkerView
                     dailyTestTimeTextView.setText((hours + 12) + ":" + minutes + " AM");
             }
 
+            int dataSetIndex = highlight.getDataSetIndex();
+            String unit = "";
 
-            String level ="Level: " + e.getY() + "";
+            if(dataSetIndex == 1 || dataSetIndex == 3 || dataSetIndex == 6)
+                unit = "mg/dl";
+            else if(dataSetIndex == 2)
+                unit = "mm Hg";
+            else if(dataSetIndex == 4 || dataSetIndex == 5)
+                unit = "u/l";
+
+            String level ="Level: " + e.getY() + " " + unit;
             Spannable spannable = new SpannableString(level);
             ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(getContext().getColor(R.color.transparent_color));
-            int dateSetIndex = highlight.getDataSetIndex();
 
-            if(dateSetIndex == 1)
+
+            if(dataSetIndex == 1)
                 foregroundColorSpan = new ForegroundColorSpan(getContext().getColor(R.color.glucose_color));
-            else if(dateSetIndex  == 2)
+            else if(dataSetIndex  == 2)
                 foregroundColorSpan = new ForegroundColorSpan(getContext().getColor(R.color.blood_pressure_color));
-            else if(dateSetIndex == 3)
+            else if(dataSetIndex == 3)
                 foregroundColorSpan = new ForegroundColorSpan(getContext().getColor(R.color.total_cholesterol_color));
-            else if(dateSetIndex == 4)
+            else if(dataSetIndex == 4)
                 foregroundColorSpan = new ForegroundColorSpan(getContext().getColor(R.color.hdl_color));
-            else if(dateSetIndex == 5)
+            else if(dataSetIndex == 5)
                 foregroundColorSpan = new ForegroundColorSpan(getContext().getColor(R.color.ldl_color));
-            else if(dateSetIndex == 6)
+            else if(dataSetIndex == 6)
                 foregroundColorSpan = new ForegroundColorSpan(getContext().getColor(R.color.triglyceride_color));
 
 

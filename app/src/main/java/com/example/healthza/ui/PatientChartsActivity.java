@@ -1,10 +1,10 @@
 package com.example.healthza.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
@@ -20,7 +20,6 @@ import com.example.healthza.DetailsMarkerView;
 import com.example.healthza.ProgressDialog;
 import com.example.healthza.R;
 import com.example.healthza.StickHeaderItemDecoration;
-import com.example.healthza.Toasty;
 import com.example.healthza.adapters.DailyTestAdapter;
 import com.example.healthza.models.DailyTest;
 import com.github.mikephil.charting.charts.LineChart;
@@ -43,13 +42,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.jaygoo.widget.OnRangeChangedListener;
 import com.jaygoo.widget.RangeSeekBar;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -60,12 +59,12 @@ import java.util.concurrent.TimeUnit;
 
 public class PatientChartsActivity extends AppCompatActivity
 {
-    /////////////varable////////////////////
     private LineChart chart;
     private CheckBox glucoseCheckBox, bloodPressureCheckBox, hdlCheckBox, ldlCheckBox,
             triglycerideCheckBox, totalCholesterolCheckBox;
-    private FloatingActionButton pickDateFloatingActionButton, pickASingleDateFloatingActionButton, pickDateRangeFloatingActionButton, pickMultipleDatesFloatingActionButton;
+    private FloatingActionButton pickDateFloatingActionButton, pickASingleDateFloatingActionButton, pickDateRangeFloatingActionButton, pickMultiDatesFloatingActionButton;
     private RangeSeekBar hoursRangeSeekBar, daysRangeSeekBar;
+    private ChipNavigationBar chipNavigationBar;
     private Long selectedDate;
     private String pickedDate;
     private Timestamp firstTimestamp, lastTimestamp;
@@ -80,7 +79,7 @@ public class PatientChartsActivity extends AppCompatActivity
     private final int PICKER = 0;
     private final int HOURS_SLIDER = 1;
     private final int DAYS_SLIDER = 2;
-///////////////////////////////////////////
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -102,36 +101,31 @@ public class PatientChartsActivity extends AppCompatActivity
         pickDateFloatingActionButton = findViewById(R.id.pickDateFloatingActionButton);
         pickASingleDateFloatingActionButton = findViewById(R.id.pickASingleDateFloatingActionButton);
         pickDateRangeFloatingActionButton = findViewById(R.id.pickDateRangeFloatingActionButton);
-        pickMultipleDatesFloatingActionButton = findViewById(R.id.pickMultipleDatesFloatingActionButton);
+        pickMultiDatesFloatingActionButton = findViewById(R.id.pickMultiDatesFloatingActionButton);
 
         chart = findViewById(R.id.lineChart);
 
         hoursRangeSeekBar = findViewById(R.id.hoursRangeSeekBar);
         daysRangeSeekBar = findViewById(R.id.daysRangeSeekBar);
 
+        chipNavigationBar = findViewById(R.id.bottomNavigationBar);
+
+        setupBottomNavigationBar();
+
         dailyTests = new ArrayList<>();
 
         patientDailyTestsRecyclerView = findViewById(R.id.patientDailyTestsRecyclerView);
-
 
         dailyTestAdapter = new DailyTestAdapter(dailyTests, this);
         patientDailyTestsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         patientDailyTestsRecyclerView.addItemDecoration(new StickHeaderItemDecoration(dailyTestAdapter));
         patientDailyTestsRecyclerView.setAdapter(dailyTestAdapter);
 
-        pickASingleDateFloatingActionButton.setOnClickListener(v ->
-        {
-            setSingleDate();
-        });
+        pickASingleDateFloatingActionButton.setOnClickListener(v -> setSingleDate());
 
-        pickDateRangeFloatingActionButton.setOnClickListener(v ->
-        {
-            setDateRange();
-        });
+        pickDateRangeFloatingActionButton.setOnClickListener(v -> setDateRange());
 
-        pickMultipleDatesFloatingActionButton.setOnClickListener(v -> {
-            setMultiDates();
-        });
+        pickMultiDatesFloatingActionButton.setOnClickListener(v -> setMultiDates());
 
         pickDateFloatingActionButton.setOnClickListener(v ->
         {
@@ -150,14 +144,49 @@ public class PatientChartsActivity extends AppCompatActivity
         hoursRangeSeekBar.setProgress(0, 24);
         hoursRangeSeekBar.getLeftSeekBar().setIndicatorText("12 AM");
         hoursRangeSeekBar.getRightSeekBar().setIndicatorText("11:59 PM");
+
         setHoursRangeSeekBar();
         selectState = PICKER;
         pickedDate = getTodayDate();
         initChart();
-        setChart();
+        setupChart();
     }
 
-    private void initChart() {
+
+    private void setupBottomNavigationBar()
+    {
+        chipNavigationBar.setItemSelected(R.id.chartsItem, true);
+
+        chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(int i)
+            {
+
+                Intent intent = null;
+
+                if (i == R.id.chartsItem)
+                    return;
+                else if (i == R.id.homeItem)
+                    intent = new Intent(PatientChartsActivity.this, PatientHomeActivity.class);
+                else if (i == R.id.medicalHistoryItem)
+                    intent = new Intent(PatientChartsActivity.this, medicalRecords.class);
+                else if (i == R.id.appointmentsItem)
+                    intent = new Intent(PatientChartsActivity.this, appointmentsP.class);
+                else if (i == R.id.chatItem)
+                    intent = new Intent(PatientChartsActivity.this, PatientChatListActivity.class);
+
+
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
+    }
+
+
+    private void initChart()
+    {
         chart.setTouchEnabled(true);
         chart.setDragEnabled(true);
         chart.setScaleEnabled(false);
@@ -168,14 +197,14 @@ public class PatientChartsActivity extends AppCompatActivity
 
         description.setXOffset(4f);
         Legend legend = chart.getLegend();
-
         legend.setTextSize(12);
         legend.setWordWrapEnabled(true);
 
         List<String> xAxisLabels = new ArrayList<>();
 
         xAxisLabels.add("12 AM");
-        for (int i = 0, hour = 1; i < 24 - 2; i++, hour++) {
+        for (int i = 0, hour = 1; i < 24 - 2; i++, hour++)
+        {
             if (i < 12) {
                 xAxisLabels.add(hour + " AM");
                 if (i == 11)
@@ -187,9 +216,7 @@ public class PatientChartsActivity extends AppCompatActivity
         xAxisLabels.add(12, "12 PM");
         xAxisLabels.add("");
 
-
         XAxis xAxis = chart.getXAxis();
-        //xAxis.setTextColor(Color.parseColor("#333333"));
         xAxis.setAxisLineWidth(1f);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setAxisMaximum(24f);
@@ -204,17 +231,17 @@ public class PatientChartsActivity extends AppCompatActivity
         yAxis.setAxisMinimum(40);
         yAxis.setTextSize(12f);
         yAxis.setGranularity(1f);
+        yAxis.setGranularityEnabled(true);
     }
 
 
-    private void setChart()
+    private void setupChart()
     {
-
         /* set picked date as description for the chart */
         chart.getDescription().setText(pickedDate);
 
         List<DailyTest> dailyTestsAll = new ArrayList<>();
-        dailyTestsAll.add(null); // to display stick header instead of daily test item
+        dailyTestsAll.add(null);    // to display stick header instead of daily test item
 
 
         List<Entry> zeroEntries = new ArrayList<>();
@@ -240,7 +267,8 @@ public class PatientChartsActivity extends AppCompatActivity
             if (selectState == PICKER)
                 progressDialog.showProgressDialog("Displaying Data...");
 
-            for (DocumentSnapshot glucoseDocument : glucoseDocuments.getDocuments()) {
+            for (DocumentSnapshot glucoseDocument : glucoseDocuments.getDocuments())
+            {
                 double testLevel = glucoseDocument.getDouble("glucose_percent");
                 Timestamp timestamp = glucoseDocument.getTimestamp("timestamp");
 
@@ -266,7 +294,6 @@ public class PatientChartsActivity extends AppCompatActivity
                     bloodPressureEntries.add(new Entry(time, (float) testLevel));
                 }
 
-
                 testsRef.document("cholesterolAndFats_test")
                         .collection(pickedDate)
                         .whereGreaterThanOrEqualTo("timestamp", firstTimestamp)
@@ -274,8 +301,8 @@ public class PatientChartsActivity extends AppCompatActivity
                         .orderBy("timestamp")
                         .get().addOnSuccessListener(cholesterolDocuments ->
                 {
-                    for (DocumentSnapshot cholesterolDocument : cholesterolDocuments.getDocuments()) {
-
+                    for (DocumentSnapshot cholesterolDocument : cholesterolDocuments.getDocuments())
+                    {
                         double totalCholesterolLevel = cholesterolDocument.getDouble("CholesterolTotal_percent");
                         double hdlLevel = cholesterolDocument.getDouble("HDLCholesterol_percent");
                         double ldlLevel = cholesterolDocument.getDouble("LDLCholesterol_percent");
@@ -298,7 +325,7 @@ public class PatientChartsActivity extends AppCompatActivity
                         triglycerideEntries.add(new Entry(time, (float) triglycerideLevel));
                     }
 
-                    if (dailyTestsAll.size() == 1) // the list contains only the header item
+                    if (dailyTestsAll.size() == 1)  // the list contains only the header item
                     {
                         clearTestsCheckBoxes();
                         chart.invalidate();
@@ -310,9 +337,9 @@ public class PatientChartsActivity extends AppCompatActivity
                     {
                         if(selectState != HOURS_SLIDER)
                             clearTestsCheckBoxes();
+
                         dailyTests.clear();
                         dailyTests.addAll(dailyTestsAll);
-
                         dailyTestAdapter.notifyDataSetChanged();
 
                         if (glucoseEntries.size() != 0)
@@ -443,10 +470,8 @@ public class PatientChartsActivity extends AppCompatActivity
                         LineData lineData = new LineData(dataSets);
                         lineData.setDrawValues(false);
 
-
-                        DetailsMarkerView detailsMarkerView = new DetailsMarkerView(PatientChartsActivity.this, R.layout.daily_test_markerview);
+                        DetailsMarkerView detailsMarkerView = new DetailsMarkerView(this, R.layout.daily_test_markerview);
                         detailsMarkerView.setChartView(chart);
-
 
                         chart.setMarker(detailsMarkerView);
                         chart.setData(lineData);
@@ -467,10 +492,15 @@ public class PatientChartsActivity extends AppCompatActivity
     {
         int day = (int) daysRangeSeekBar.getLeftSeekBar().getProgress();
 
-        MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker.Builder
-                .datePicker()
-                .setSelection(selectedDate + getHoursInMillis(24) * day + getHoursInMillis(3))
-                .build();
+        MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder
+                .datePicker();
+
+        builder.setSelection(selectedDate + getHoursInMillis(24) * day + getHoursInMillis(3));
+
+        CalendarConstraints.Builder constraintsBuilder = new CalendarConstraints.Builder();
+        builder.setCalendarConstraints(constraintsBuilder.setValidator(DateValidatorPointBackward.now()).build());
+
+        MaterialDatePicker<Long> materialDatePicker = builder.build();
 
         materialDatePicker.addOnPositiveButtonClickListener(selection ->
         {
@@ -483,18 +513,23 @@ public class PatientChartsActivity extends AppCompatActivity
 
 
             /* redraw only if the picked date is different than previous picked date */
-            if (!pickedDate.equals(PatientChartsActivity.this.pickedDate))
+            if (!pickedDate.equals(this.pickedDate))
             {
-                firstTimestamp = getTimestamp(selectedDate + getHoursInMillis(hoursRangeSeekBar.getLeftSeekBar().getProgress()));
-                lastTimestamp = getTimestamp(selectedDate + getHoursInMillis(hoursRangeSeekBar.getRightSeekBar().getProgress()));
-                PatientChartsActivity.this.pickedDate = pickedDate;
+                int firstHour = (int) hoursRangeSeekBar.getLeftSeekBar().getProgress();
+                int lastHour = (int) hoursRangeSeekBar.getRightSeekBar().getProgress();
+
+                firstTimestamp = getTimestamp(selectedDate + getHoursInMillis(firstHour));
+                lastTimestamp = getTimestamp(selectedDate + getHoursInMillis(lastHour));
+
+                this.pickedDate = pickedDate;
                 pickDateFloatingActionButton.setEnabled(false);
 
                 setHoursRangeSeekBar();
                 selectState = PICKER;
-                setChart();
+                setupChart();
             }
         });
+
         materialDatePicker.show(getSupportFragmentManager(), "PatientChartsActivity");
     }
 
@@ -511,7 +546,6 @@ public class PatientChartsActivity extends AppCompatActivity
         builder.setCalendarConstraints(constraintsBuilder.setValidator(DateValidatorPointBackward.now()).build());
 
         MaterialDatePicker<Pair<Long, Long>> materialDatePicker = builder
-                .setTitleText("Select A Date Range")
                 .build();
 
         materialDatePicker.addOnPositiveButtonClickListener(selection ->
@@ -520,14 +554,14 @@ public class PatientChartsActivity extends AppCompatActivity
             daysRangeSeekBar.setVisibility(View.VISIBLE);
 
             Pair<Long, Long> dateRange = ((Pair<Long, Long>) selection);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d", Locale.US);
 
             selectedDate = dateRange.first - getHoursInMillis(3);
 
-            String firstDate = simpleDateFormat.format(new Date(dateRange.first));
+            String firstDate = simpleDateFormat.format(dateRange.first);
             int firstDateNumber = Integer.parseInt(firstDate.substring(firstDate.lastIndexOf('-') + 1));
 
-            String lastDate = simpleDateFormat.format(new Date(dateRange.second));
+            String lastDate = simpleDateFormat.format(dateRange.second);
             int lastDateNumber = Integer.parseInt(lastDate.substring(lastDate.lastIndexOf('-') + 1));
 
             String date = firstDate.substring(0, firstDate.lastIndexOf('-') + 1);
@@ -537,17 +571,14 @@ public class PatientChartsActivity extends AppCompatActivity
 
             pickedDate = firstDate;
 
-            int day = (int) daysRangeSeekBar.getLeftSeekBar().getProgress();
             int firstHour = (int) hoursRangeSeekBar.getLeftSeekBar().getProgress();
             int lastHour = (int) hoursRangeSeekBar.getRightSeekBar().getProgress();
 
-            firstTimestamp = getTimestamp(selectedDate + getHoursInMillis(24) * day
-                    + getHoursInMillis(firstHour));
-            lastTimestamp = getTimestamp(selectedDate + getHoursInMillis(24) * day
-                    + getHoursInMillis(lastHour));
+            firstTimestamp = getTimestamp(selectedDate + getHoursInMillis(firstHour));
+            lastTimestamp = getTimestamp(selectedDate + getHoursInMillis(lastHour));
 
             selectState = PICKER;
-            setChart();
+            setupChart();
         });
 
         materialDatePicker.show(getSupportFragmentManager(), "PatientChartsActivity");
@@ -556,24 +587,29 @@ public class PatientChartsActivity extends AppCompatActivity
 
     private void setMultiDates()
     {
-        DatePickerBuilder builder = new DatePickerBuilder(this, new OnSelectDateListener() {
+        OnSelectDateListener onSelectDateListener = new OnSelectDateListener()
+        {
             @Override
             public void onSelect(@NotNull List<Calendar> list)
             {
                 hideFloatingButtons();
-
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d");
-
-                pickedDate = simpleDateFormat.format(list.get(0).getTimeInMillis());
-
-                selectedDate = list.get(0).getTimeInMillis();
-                if(list.size() != 1)
+                if(list.size() > 1)
                 {
                     daysRangeSeekBar.setVisibility(View.VISIBLE);
                     setMultiDatesSeekBar(list);
                 }
                 else
+                {
+                    daysRangeSeekBar.setVisibility(View.GONE);
+                    daysRangeSeekBar.setProgress(0);
                     setHoursRangeSeekBar();
+                }
+
+
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d", Locale.US);
+                pickedDate = simpleDateFormat.format(list.get(0).getTimeInMillis());
+
+                selectedDate = list.get(0).getTimeInMillis();
 
                 int firstHour = (int) hoursRangeSeekBar.getLeftSeekBar().getProgress();
                 int lastHour = (int) hoursRangeSeekBar.getRightSeekBar().getProgress();
@@ -582,9 +618,11 @@ public class PatientChartsActivity extends AppCompatActivity
                 lastTimestamp = getTimestamp(selectedDate + getHoursInMillis(lastHour));
 
                 selectState = PICKER;
-                setChart();
+                setupChart();
             }
-        })
+        };
+
+        DatePickerBuilder builder = new DatePickerBuilder(this, onSelectDateListener)
                 .pickerType(CalendarView.MANY_DAYS_PICKER)
                 .date(Calendar.getInstance())
                 .maximumDate(Calendar.getInstance())
@@ -605,7 +643,8 @@ public class PatientChartsActivity extends AppCompatActivity
         hoursRangeSeekBar.setOnRangeChangedListener(new OnRangeChangedListener()
         {
             @Override
-            public void onRangeChanged(RangeSeekBar view, float leftValue, float rightValue, boolean isFromUser) {
+            public void onRangeChanged(RangeSeekBar view, float leftValue, float rightValue, boolean isFromUser)
+            {
                 view.getLeftSeekBar().setIndicatorText(getHourString((int) leftValue));
                 view.getRightSeekBar().setIndicatorText(getHourString((int) rightValue));
             }
@@ -624,7 +663,7 @@ public class PatientChartsActivity extends AppCompatActivity
                 lastTimestamp = getTimestamp(selectedDate + getHoursInMillis(lastHour) + day);
 
                 selectState = HOURS_SLIDER;
-                setChart();
+                setupChart();
             }
         });
     }
@@ -652,10 +691,7 @@ public class PatientChartsActivity extends AppCompatActivity
             }
 
             @Override
-            public void onStartTrackingTouch(RangeSeekBar view, boolean isLeft)
-            {
-
-            }
+            public void onStartTrackingTouch(RangeSeekBar view, boolean isLeft) {   }
 
             @Override
             public void onStopTrackingTouch(RangeSeekBar view, boolean isLeft)
@@ -670,7 +706,7 @@ public class PatientChartsActivity extends AppCompatActivity
                         + getHoursInMillis(lastHour));
 
                 selectState = DAYS_SLIDER;
-                setChart();
+                setupChart();
             }
         });
     }
@@ -678,14 +714,13 @@ public class PatientChartsActivity extends AppCompatActivity
 
     private void setMultiDatesSeekBar(List<Calendar> list)
     {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d");
-
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d", Locale.US);
         List<String> dates = new ArrayList<>();
 
         for (int i = 0; i < list.size(); i++)
         {
             long dayInMillis = list.get(i).getTimeInMillis();
-            dates.add(simpleDateFormat.format(new Date(dayInMillis)));
+            dates.add(simpleDateFormat.format(dayInMillis));
         }
 
         hoursRangeSeekBar.setOnRangeChangedListener(new OnRangeChangedListener()
@@ -698,9 +733,7 @@ public class PatientChartsActivity extends AppCompatActivity
             }
 
             @Override
-            public void onStartTrackingTouch(RangeSeekBar view, boolean isLeft) {
-
-            }
+            public void onStartTrackingTouch(RangeSeekBar view, boolean isLeft) {   }
 
             @Override
             public void onStopTrackingTouch(RangeSeekBar view, boolean isLeft)
@@ -714,7 +747,7 @@ public class PatientChartsActivity extends AppCompatActivity
                 lastTimestamp = getTimestamp(selectedDate + getHoursInMillis(lastHour) +  getDaysInMillis(day));
 
                 selectState = HOURS_SLIDER;
-                setChart();
+                setupChart();
             }
         });
 
@@ -751,7 +784,7 @@ public class PatientChartsActivity extends AppCompatActivity
                         + getHoursInMillis(lastHour));
 
                 selectState = DAYS_SLIDER;
-                setChart();
+                setupChart();
             }
         });
     }
@@ -775,6 +808,7 @@ public class PatientChartsActivity extends AppCompatActivity
             chart.invalidate();
         });
     }
+
 
     private void clearTestsCheckBoxes()
     {
@@ -808,7 +842,8 @@ public class PatientChartsActivity extends AppCompatActivity
     }
 
 
-    private Timestamp getTimestamp(Long milliSeconds) {
+    private Timestamp getTimestamp(Long milliSeconds)
+    {
         return new Timestamp(new Date(milliSeconds));
     }
 
@@ -837,17 +872,20 @@ public class PatientChartsActivity extends AppCompatActivity
 
         String dayTime = simpleDateFormat.format(timestamp.toDate());
 
-        String period = dayTime.substring(dayTime.indexOf(" ") + 1);
+        String hoursSystem = dayTime.substring(dayTime.indexOf(" ") + 1);
         String hourString = dayTime.substring(0, dayTime.indexOf(":"));
         String minuteString = dayTime.substring(dayTime.indexOf(":") + 1, dayTime.indexOf(" "));
 
         float time;
-        if (period.equals("AM")) {
+        if (hoursSystem.equals("AM"))
+        {
             if (!hourString.equals("12"))
                 time = Float.parseFloat(hourString + "." + minuteString);
             else
                 time = Float.parseFloat(hourString + "." + minuteString) - 12;
-        } else {
+        }
+        else
+        {
             if (!hourString.equals("12"))
                 time = Float.parseFloat(hourString + "." + minuteString) + 12;
             else
@@ -870,11 +908,11 @@ public class PatientChartsActivity extends AppCompatActivity
 
         pickASingleDateFloatingActionButton.show();
         pickDateRangeFloatingActionButton.show();
-        pickMultipleDatesFloatingActionButton.show();
+        pickMultiDatesFloatingActionButton.show();
 
         findViewById(R.id.singleDateTextView).setVisibility(View.VISIBLE);
         findViewById(R.id.dateRangeTextView).setVisibility(View.VISIBLE);
-        findViewById(R.id.multipleDatesTextView).setVisibility(View.VISIBLE);
+        findViewById(R.id.multiDatesTextView).setVisibility(View.VISIBLE);
 
         isFloatingButtonsVisible = true;
     }
@@ -885,12 +923,22 @@ public class PatientChartsActivity extends AppCompatActivity
         pickDateFloatingActionButton.setImageResource(R.drawable.ic_calendar);
         pickASingleDateFloatingActionButton.hide();
         pickDateRangeFloatingActionButton.hide();
-        pickMultipleDatesFloatingActionButton.hide();
+        pickMultiDatesFloatingActionButton.hide();
 
         findViewById(R.id.singleDateTextView).setVisibility(View.GONE);
         findViewById(R.id.dateRangeTextView).setVisibility(View.GONE);
-        findViewById(R.id.multipleDatesTextView).setVisibility(View.GONE);
+        findViewById(R.id.multiDatesTextView).setVisibility(View.GONE);
 
         isFloatingButtonsVisible = false;
+    }
+
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(this, PatientHomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

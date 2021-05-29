@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    android:scrollbarFadeDuration="0"
     android:scrollbarThumbVertical="@color/colorAccent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
         android:clickable="true"
         android:focusable="true"
         android:paddingLeft="4dp"
@@ -49,6 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
+            android:minWidth="0dp"
+            android:minHeight="40dp"
             android:text="@string/diabetes"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -60,6 +63,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:minWidth="0dp"
+            android:minHeight="40dp"
             android:text="@string/hypertension"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -67,16 +72,17 @@
             app:layout_constraintTop_toBottomOf="@id/diabetesCheckBox" />
 
         <CheckBox
-            android:id="@+id/cholestrolCheckBox"
+            android:id="@+id/cholesterolCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:minWidth="0dp"
+            android:minHeight="40dp"
             android:text="@string/cholesterol"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/bloodPressureCheckBox" />
-
 
         <TextView
             android:id="@+id/diseasesTypesTextView"
@@ -89,7 +95,7 @@
             android:textColor="@color/hint_color"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cholestrolCheckBox" />
+            app:layout_constraintTop_toBottomOf="@id/cholesterolCheckBox" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/diabetesTypeInputLayout"
@@ -109,7 +115,7 @@
                 android:id="@+id/diabetesTypeInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="@color/background_color"
                 android:inputType="text"
                 android:selectAllOnFocus="true"
                 android:textColorHint="@color/colorPrimary" />
@@ -134,37 +140,34 @@
                 android:id="@+id/hypertensionTypeInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="@color/background_color"
                 android:inputType="text"
                 android:selectAllOnFocus="true"
                 android:textColorHint="@color/colorPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/cholestrolTypeInputLayout"
+            android:id="@+id/cholesterolTypeInputLayout"
             style="@style/textInputLayoutFilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:hint="@string/cholestrol_type"
             android:enabled="false"
+            android:hint="@string/cholesterol_type"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/hypertensionTypeInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/cholestrolTypeInputEditText"
+                android:id="@+id/cholesterolTypeInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="@color/background_color"
                 android:inputType="text"
                 android:selectAllOnFocus="true"
                 android:textColorHint="@color/colorPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

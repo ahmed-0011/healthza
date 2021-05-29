@@ -31,7 +31,7 @@ import java.util.List;
 
 public class DoctorListActivity extends AppCompatActivity implements DoctorAdapter.OnDoctorItemClickListener
 {
-    ////////////////////varible/////////////
+
     private ImageView emptyDoctorListImageView;
     private TextView emptyDoctorListTextView;
     private SearchView doctorsSearchView;
@@ -40,7 +40,7 @@ public class DoctorListActivity extends AppCompatActivity implements DoctorAdapt
     private List<Doctor> doctors;
     private FirebaseFirestore db;
     private FirebaseAuth firebaseAuth;
-////////////////////////////////////////////
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

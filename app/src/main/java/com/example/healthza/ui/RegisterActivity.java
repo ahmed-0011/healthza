@@ -51,7 +51,6 @@ import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity
 {
-///////////////////////////varable////////////////////
     private static final String TAG = "RegisterActivity";
     RadioGroup userTypeRadioGroup;
     ProgressBar progressBar;
@@ -64,7 +63,7 @@ public class RegisterActivity extends AppCompatActivity
     private ArrayList<ValueAnimator> animations;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
-//////////////////////////////////////////////////////////////
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

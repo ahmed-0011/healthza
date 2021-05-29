@@ -45,13 +45,11 @@ public class DailyTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         public HeaderViewHolder(@NonNull View itemView)
         {
-
             super(itemView);
         }
 
         private void setTestsHeader()
         {
-
 
         }
     }
@@ -73,24 +71,44 @@ public class DailyTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         private void setDailyTest(DailyTest dailyTest)
         {
-            String testType = dailyTest.getTestType();
+            String unit = "";
+            String testType = dailyTest.getType();
             testTypeTextView.setText(testType);
+
             if(testType.equals("Glucose"))
+            {
+                unit = "mg/dl";
                 testTypeTextView.setTextColor(context.getColor(R.color.glucose_color));
+            }
             else if(testType.equals("Blood Pressure"))
+            {
+                unit = "mm Hg";
                 testTypeTextView.setTextColor(context.getColor(R.color.blood_pressure_color));
+            }
             else if(testType.equals("Total Cholesterol"))
+            {
+                unit = "mg/dl";
                 testTypeTextView.setTextColor(context.getColor(R.color.total_cholesterol_color));
+            }
             else if(testType.equals("HDL"))
+            {
+                unit = "u/l";
                 testTypeTextView.setTextColor(context.getColor(R.color.hdl_color));
+            }
             else if(testType.equals("LDL"))
+            {
+                unit = "u/l";
                 testTypeTextView.setTextColor(context.getColor(R.color.ldl_color));
+            }
             else if(testType.equals("Triglyceride"))
+            {
+                unit = "mg/dl";
                 testTypeTextView.setTextColor(context.getColor(R.color.triglyceride_color));
+            }
 
-            testLevelTextView.setText(dailyTest.getTestLevel() + "");
+            testLevelTextView.setText(dailyTest.getLevel() + " " + unit);
 
-            Timestamp timestamp = dailyTest.getTestTime();
+            Timestamp timestamp = dailyTest.getTimestamp();
             Date date = timestamp.toDate();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm aa", Locale.US);
             testTimeTextView.setText(simpleDateFormat.format(date));

@@ -10,11 +10,12 @@ import com.example.healthza.R;
 import com.example.healthza.ui.LoginActivity;
 
 public class ResetPasswordMessageActivity extends AppCompatActivity {
-////////////////////varable//////////////////
+
     private Button goToLogin;
-//////////////////////////////////////////
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password_message);
 

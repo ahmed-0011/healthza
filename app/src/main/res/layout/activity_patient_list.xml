@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/search_background"
         android:iconifiedByDefault="false"
-        android:queryHint="@string/patient_name_or_id_or_phonenumber"
+        android:queryHint="@string/patient_name_or_id_or_phone_number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

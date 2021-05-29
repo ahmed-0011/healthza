@@ -88,7 +88,7 @@
         android:layout_marginTop="4dp"
         android:background="@drawable/rounded_edittext"
         android:enabled="false"
-        android:hint="@string/enter_phonenumber"
+        android:hint="@string/enter_phone_number"
         android:inputType="phone"
         android:padding="10dp"
         android:textColor="@color/txt_black"

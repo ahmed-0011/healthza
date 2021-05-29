@@ -40,17 +40,22 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -59,15 +64,11 @@ import static com.example.healthza.ui.Functions.TAG_CT;
 
 public class DoctorHomeActivity extends AppCompatActivity
 {
-
-    private DrawerLayout drawerLayout;
-    private Toolbar toolbar;
-    private NavigationView navigationView;
-    private ActionBarDrawerToggle drawerToggle;
+    private ChipNavigationBar chipNavigationBar;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
-    private String userId;
-    private String patientName;
+    private String doctorId;
+    private String doctorName;
     private TextInputLayout specialityInputLayout, yearsOfExperienceInputLayout, workplaceInputLayout;
     private TextInputEditText specialityInputEditText,
             yearsOfExperienceInputEditText, workplaceInputEditText;
@@ -79,10 +80,15 @@ public class DoctorHomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_home);
 
+
+        chipNavigationBar = findViewById(R.id.bottomNavigationBar);
+
+        setupBottomNavigationBar();
+
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        userId = firebaseAuth.getCurrentUser().getUid();
-        patientName = firebaseAuth.getCurrentUser().getDisplayName();
+        doctorId = firebaseAuth.getCurrentUser().getUid();
+        doctorName = firebaseAuth.getCurrentUser().getDisplayName();
 
         SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
 
@@ -90,6 +96,8 @@ public class DoctorHomeActivity extends AppCompatActivity
 
         if (!userCompleteinfo)
             showWelcomeDialog();
+        else
+            setupCardViews();
 
         ChipNavigationBar chipNavigationBar = findViewById(R.id.bottomNavigationBar);
 
@@ -117,10 +125,118 @@ public class DoctorHomeActivity extends AppCompatActivity
         emailTextView.setText(firebaseAuth.getCurrentUser().getEmail());
         DrawerUtil.headerView = view;
         DrawerUtil.getDoctorDrawer(this, -1);
-
-        //addMed();
-
     }
+
+
+
+    private void setupBottomNavigationBar()
+    {
+        chipNavigationBar.setItemSelected(R.id.homeItem, true);
+
+        chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(int i)
+            {
+                Intent intent = null;
+
+                if (i == R.id.homeItem)
+                    return;
+                else if (i == R.id.medicalHistoryItem)
+                    intent = new Intent(DoctorHomeActivity.this, medicalRecords.class);
+                else if (i == R.id.chartsItem)
+                    intent = new Intent(DoctorHomeActivity.this, PatientChartsActivity.class);
+                else if (i == R.id.appointmentsItem)
+                    intent = new Intent(DoctorHomeActivity.this,appointmentsP.class);
+                else if (i == R.id.chatItem)
+                    intent = new Intent(DoctorHomeActivity.this, PatientChatListActivity.class);
+
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
+    }
+
+
+    private void setupCardViews()
+    {
+        setupNextThreeAppointmentsCardViews();
+    }
+
+
+
+
+    private void setupNextThreeAppointmentsCardViews()
+    {
+        ConstraintLayout firstAppointmentLayout, secondAppointmentLayout, thirdAppointmentLayout;
+
+        TextView firstDoctorNameTextView, firstAppointmentTypeTextView, firstAppointmentTimeTextView,
+                secondDoctorNameTextView, secondAppointmentTypeTextView, secondAppointmentTimeTextView,
+                thirdDoctorNameTextView, thirdAppointmentTypeTextView,  thirdAppointmentTimeTextView;
+
+
+        firstAppointmentLayout = findViewById(R.id.firstAppointmentLayout);
+        secondAppointmentLayout = findViewById(R.id.secondAppointmentLayout);
+        thirdAppointmentLayout = findViewById(R.id.thirdAppointmentLayout);
+
+        firstAppointmentTypeTextView = findViewById(R.id.firstAppointmentTypeTextView);
+        firstDoctorNameTextView = findViewById(R.id.firstDoctorNameTextView);
+        firstAppointmentTimeTextView = findViewById(R.id.firstAppointmentTimeTextView);
+        secondAppointmentTypeTextView = findViewById(R.id.secondAppointmentTypeTextView);
+        secondDoctorNameTextView = findViewById(R.id. secondDoctorNameTextView);
+        secondAppointmentTimeTextView = findViewById(R.id.secondAppointmentTimeTextView);
+        thirdAppointmentTypeTextView = findViewById(R.id.thirdAppointmentTypeTextView);
+        thirdDoctorNameTextView = findViewById(R.id.thirdDoctorNameTextView);
+        thirdAppointmentTimeTextView = findViewById(R.id.thirdAppointmentTimeTextView);
+
+        db
+                .collection("doctors")
+                .document(doctorId)
+                .collection("appointments")
+                .whereEqualTo("expired", false)
+                .orderBy("timestamp", Query.Direction.ASCENDING)
+                .limit(3)
+                .get().addOnSuccessListener(nextThreeAppointmentsDocuments ->
+        {
+            if (!nextThreeAppointmentsDocuments.isEmpty())
+            {
+                List<DocumentSnapshot> appointments = nextThreeAppointmentsDocuments.getDocuments();
+
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d hh:mm aa", Locale.US);
+
+                for (int i = 0; i < appointments.size(); i++)
+                {
+                    String doctorName = appointments.get(i).getString("doctorName");
+                    String appointmentType = appointments.get(i).getString("type");
+                    Timestamp timestamp = appointments.get(i).getTimestamp("timestamp");
+
+                    if(i == 0)
+                    {
+                        firstDoctorNameTextView.setText(doctorName);
+                        firstAppointmentTypeTextView.setText(appointmentType);
+                        firstAppointmentTimeTextView.setText(simpleDateFormat.format(timestamp.toDate()));
+                        firstAppointmentLayout.setVisibility(View.VISIBLE);
+                    }
+                    else if(i == 1)
+                    {
+                        secondDoctorNameTextView.setText(doctorName);
+                        secondAppointmentTypeTextView.setText(appointmentType);
+                        secondAppointmentTimeTextView.setText(simpleDateFormat.format(timestamp.toDate()));
+                        secondAppointmentLayout.setVisibility(View.VISIBLE);
+                    }
+                    else if(i == 2)
+                    {
+                        thirdDoctorNameTextView.setText(doctorName);
+                        thirdAppointmentTypeTextView.setText(appointmentType);
+                        thirdAppointmentTimeTextView.setText(simpleDateFormat.format(timestamp.toDate()));
+                        thirdAppointmentLayout.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+    }
+
 
     @SuppressLint("SetTextI18n")
     void showWelcomeDialog()
@@ -129,7 +245,7 @@ public class DoctorHomeActivity extends AppCompatActivity
         View view = inflater.inflate(R.layout.welcome_dialog, null);
         Button startButton = view.findViewById(R.id.startButton);
         TextView welcomeTextView = view.findViewById(R.id.welcomeTextView);
-        welcomeTextView.setText(welcomeTextView.getText() + " " + patientName);
+        welcomeTextView.setText(welcomeTextView.getText() + " " + doctorName);
         AlertDialog welcomeDialog = new AlertDialog.Builder(this)
                 .setCancelable(false)
                 .create();
@@ -193,7 +309,7 @@ public class DoctorHomeActivity extends AppCompatActivity
 
         AlertDialog doctorDialog = new AlertDialog.Builder(this)
                 .setView(view)
-                .setTitle("Welcome, " + patientName)
+                .setTitle("Welcome, " + doctorName)
                 .setPositiveButton("Next", null)
                 .create();
         doctorDialog.show();
@@ -242,7 +358,7 @@ public class DoctorHomeActivity extends AppCompatActivity
                 additionalData.put("workdays", workdays);
                 additionalData.put("completeInfo", true);
 
-                DocumentReference doctorRef = db.collection("doctors").document(userId);
+                DocumentReference doctorRef = db.collection("doctors").document(doctorId);
 
                 doctorRef.set(additionalData, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>()
                 {
@@ -252,7 +368,10 @@ public class DoctorHomeActivity extends AppCompatActivity
                         progressDialog.showProgressDialog("Updating Profile...");
                         if (task.isSuccessful())
                         {
+                            setupCardViews();
                             doctorDialog.dismiss();
+
+
                             Handler handler = new Handler(Looper.getMainLooper());
                             handler.postDelayed(new Runnable()
                             {
