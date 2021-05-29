@@ -19,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.healthza.DrawerUtil;
 import com.example.healthza.ProgressDialog;
 import com.example.healthza.R;
 import com.example.healthza.Toasty;
@@ -358,10 +359,10 @@ public class PatientAccountActivity extends AppCompatActivity
                         .addOnCompleteListener(task ->
                         {
                             if (task.isSuccessful())
-                                Toasty.showText(this, "account information updated successfully",
+                                Toasty.showText(this, "Account information updated successfully",
                                         Toasty.SUCCESS, Toast.LENGTH_LONG);
                             else
-                                Toasty.showText(this, "something went wrong...",
+                                Toasty.showText(this, "Something went wrong...",
                                         Toasty.ERROR, Toast.LENGTH_LONG);
                             progressDialog.dismissProgressDialog();
                         });
@@ -374,11 +375,10 @@ public class PatientAccountActivity extends AppCompatActivity
     
     private void addOnTextChangeListenersForWeightAndHeightEditText()
     {
-        patientHeightEditText.addTextChangedListener(new TextWatcher() {
+        patientHeightEditText.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {    }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count)
@@ -391,19 +391,16 @@ public class PatientAccountActivity extends AppCompatActivity
                     patientBMIEditText.setText(bmi + "");
                 }
                 else
-                {
                     patientBMIEditText.setText("");
-                }
+
             }
 
             @Override
-            public void afterTextChanged(Editable s)
-            {
-
-            }
+            public void afterTextChanged(Editable s) {  }
         });
 
-        patientWeightEditText.addTextChangedListener(new TextWatcher() {
+        patientWeightEditText.addTextChangedListener(new TextWatcher()
+        {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
@@ -418,9 +415,8 @@ public class PatientAccountActivity extends AppCompatActivity
                 patientBMIEditText.setText(bmi + "");
             }
             else
-            {
                 patientBMIEditText.setText("");
-            }
+
         }
 
         @Override
@@ -459,4 +455,5 @@ public class PatientAccountActivity extends AppCompatActivity
 
         materialDatePicker.show(getSupportFragmentManager(), "PatientAccountActivity");
     }
+
 }

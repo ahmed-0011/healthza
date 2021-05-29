@@ -46,12 +46,13 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 public class DrawerUtil
 {
+    public static Drawer drawer;
     public static View headerView;
     public static Toolbar toolbar;
 
     public static void getDoctorDrawer(final Activity activity, int identifier)
     {
-        Drawer result = new DrawerBuilder()
+        drawer = new DrawerBuilder()
                 .withActivity(activity)
                 .withActionBarDrawerToggle(true)
                 .withActionBarDrawerToggleAnimated(true)
@@ -227,14 +228,14 @@ public class DrawerUtil
                 })
                 .build();
 
-        result.getDrawerLayout().setStatusBarBackgroundColor(activity.getColor(R.color.primary_dark));
+        drawer.getDrawerLayout().setStatusBarBackgroundColor(activity.getColor(R.color.primary_dark));
     }
 
 
     public static void getPatientDrawer(final Activity activity, int identifier)
     {
 
-        Drawer result = new DrawerBuilder()
+        drawer = new DrawerBuilder()
                 .withActivity(activity)
                 .withSliderBackgroundColorRes(R.color.white)
                 .withActionBarDrawerToggle(true)
@@ -335,6 +336,11 @@ public class DrawerUtil
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem)
                     {
+
+                        if((int) drawerItem.getIdentifier() != 4)
+                            drawer.closeDrawer();
+
+                       
                         switch ((int) drawerItem.getIdentifier())
                         {
                             case 0:
@@ -475,7 +481,7 @@ public class DrawerUtil
                             case 14:
                             {
                                 AlertDialog.Builder   x= new AlertDialog.Builder ( view.getContext() );
-                                x.setMessage ( "DO YOU WANT TO LogOut?" ).setTitle ( "Patient LogOut" )
+                                x.setMessage ( "Do You Want to Logout?" ).setTitle ( "Patient LogOut" )
 
                                         .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
                                             @Override
@@ -507,7 +513,13 @@ public class DrawerUtil
                     }
                 })
                 .build();
-        result.getDrawerLayout().setStatusBarBackgroundColor(activity.getColor(R.color.primary_dark));
+        drawer.getDrawerLayout().setStatusBarBackgroundColor(activity.getColor(R.color.primary_dark));
+    }
+
+
+   public static void clearSelection()
+    {
+        drawer.setSelection(-1);
     }
 
 }

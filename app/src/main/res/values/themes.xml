@@ -16,6 +16,8 @@
             @style/CustomThemeOverlay_MaterialCalendar_Fullscreen
         </item>
 
+        <item name="android:windowAnimationStyle">@style/ActivityTransition</item>
+
     </style>
 
     <!-- date range dialog styling -->
@@ -45,5 +47,7 @@
         <item name="materialCalendarFullscreenTheme">
             @style/CustomThemeOverlay_MaterialCalendar_Fullscreen
         </item>
+
+        <item name="android:windowAnimationStyle">@style/ActivityTransition</item>
     </style>
 </resources>

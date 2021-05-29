@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    android:scrollbarFadeDuration="0"
     android:scrollbarThumbVertical="@color/colorAccent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -217,10 +219,10 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="8dp"
+            android:hint="@string/identification_number_hint"
             app:counterEnabled="true"
             app:counterMaxLength="9"
             app:counterTextColor="@color/colorPrimaryDark"
-            android:hint="@string/identification_number_hint"
             app:endIconMode="clear_text"
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"

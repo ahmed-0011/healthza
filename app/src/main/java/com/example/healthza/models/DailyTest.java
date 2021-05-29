@@ -6,15 +6,15 @@ import com.google.firebase.Timestamp;
 
 public class DailyTest implements Comparable<DailyTest>
 {
-    private String testType;
-    private double testLevel;
-    private Timestamp testTime;
+    private String type;
+    private double level;
+    private Timestamp timestamp;
 
-    public DailyTest(String testType, double testLevel, Timestamp testTime)
+    public DailyTest(String type, double level, Timestamp timestamp)
     {
-        this.testType = testType;
-        this.testLevel = testLevel;
-        this.testTime = testTime;
+        this.type = type;
+        this.level = level;
+        this.timestamp = timestamp;
     }
 
     public DailyTest()
@@ -22,28 +22,29 @@ public class DailyTest implements Comparable<DailyTest>
 
     }
 
-    public String getTestType() {
-        return testType;
+    public String getType()
+    {
+        return type;
     }
 
-    public void setTestType(String testType) {
-        this.testType = testType;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public double getTestLevel() {
-        return testLevel;
+    public double getLevel() {
+        return level;
     }
 
-    public void setTestLevel(double testLevel) {
-        this.testLevel = testLevel;
+    public void setLevel(double level) {
+        this.level = level;
     }
 
-    public Timestamp getTestTime() {
-        return testTime;
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
 
-    public void setTestTime(Timestamp testTime) {
-        this.testTime = testTime;
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 
     @Override
@@ -51,8 +52,8 @@ public class DailyTest implements Comparable<DailyTest>
     {
         if(o != null)
         {
-            Timestamp testTime =  o.getTestTime();
-            return testTime.compareTo(this.testTime);
+            Timestamp timestamp =  o.getTimestamp();
+            return timestamp.compareTo(this.timestamp);
         }
         return 0;
     }
@@ -63,9 +64,9 @@ public class DailyTest implements Comparable<DailyTest>
 
         DailyTest dailyTest = (DailyTest) o;
 
-        return this.getTestType().equals(dailyTest.getTestType())
-                && Double.compare(this.getTestLevel(), dailyTest.getTestLevel()) == 0
-                && this.getTestTime().equals(dailyTest.getTestTime());
+        return this.getType().equals(dailyTest.getType())
+                && Double.compare(this.getLevel(), dailyTest.getLevel()) == 0
+                && this.getTimestamp().equals(dailyTest.getTimestamp());
 
     }
 }

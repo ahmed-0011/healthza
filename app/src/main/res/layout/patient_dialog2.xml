@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    android:scrollbarFadeDuration="0"
     android:scrollbarThumbVertical="@color/colorAccent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_color"
         android:clickable="true"
         android:focusable="true"
         android:paddingLeft="4dp"
@@ -100,7 +101,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/selectDiabetesDetectionDateButton" />
 
-
         <TextView
             android:id="@+id/selectedHypertensionDetectionDateTextView"
             android:layout_width="wrap_content"
@@ -128,15 +128,14 @@
             app:layout_constraintStart_toEndOf="@id/selectedHypertensionDetectionDateTextView"
             app:layout_constraintTop_toBottomOf="@id/hypertensionDetectionDateTextView" />
 
-
         <TextView
-            android:id="@+id/cholestrolDetectionDateTextView"
+            android:id="@+id/cholesterolDetectionDateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
             android:paddingEnd="8dp"
-            android:text="@string/cholestrol_detection_date"
+            android:text="@string/cholesterol_detection_date"
             android:textColor="@color/hint_color"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -144,9 +143,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/selectHypertensionDetectionDateButton" />
 
-
         <TextView
-            android:id="@+id/selectedCholestrolDetectionDateTextView"
+            android:id="@+id/selectedCholesterolDetectionDateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -155,11 +153,10 @@
             android:textSize="20sp"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cholestrolDetectionDateTextView" />
-
+            app:layout_constraintTop_toBottomOf="@id/cholesterolDetectionDateTextView" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/selectCholestrolDateButton"
+            android:id="@+id/selectCholesterolDateButton"
             style="@style/selectButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -170,8 +167,8 @@
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.05"
-            app:layout_constraintStart_toEndOf="@id/selectedCholestrolDetectionDateTextView"
-            app:layout_constraintTop_toBottomOf="@id/cholestrolDetectionDateTextView" />
+            app:layout_constraintStart_toEndOf="@id/selectedCholesterolDetectionDateTextView"
+            app:layout_constraintTop_toBottomOf="@id/cholesterolDetectionDateTextView" />
 
         <View
             android:id="@+id/seperator"
@@ -183,7 +180,7 @@
             android:background="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/selectCholestrolDateButton" />
+            app:layout_constraintTop_toBottomOf="@id/selectCholesterolDateButton" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/weightInputLayout"
@@ -192,17 +189,21 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="10dp"
             android:hint="@string/weight_hint"
+            app:boxBackgroundColor="@color/background_color"
             app:endIconMode="clear_text"
+            app:layout_constraintBottom_toTopOf="@id/bmiInputLayout"
+            app:layout_constraintEnd_toStartOf="@id/heightInputLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/seperator"
-            app:startIconContentDescription="@string/content_description_phone_icon">
+            app:layout_constraintVertical_bias="0.0">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/weightInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:backgroundTint="@color/background_color"
                 android:inputType="numberDecimal"
                 android:selectAllOnFocus="true"
                 android:textColorHint="@color/colorPrimary" />
@@ -215,38 +216,58 @@
             android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="10dp"
             android:hint="@string/height_hint"
             app:endIconMode="clear_text"
+            app:layout_constraintBottom_toTopOf="@id/bmiInputLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.25"
             app:layout_constraintStart_toEndOf="@+id/weightInputLayout"
-            app:layout_constraintTop_toTopOf="@+id/seperator">
+            app:layout_constraintTop_toTopOf="@+id/seperator"
+            app:layout_constraintVertical_bias="0.0">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/heightInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white"
+
+                android:backgroundTint="@color/background_color"
                 android:inputType="numberDecimal"
                 android:selectAllOnFocus="true"
                 android:textColorHint="@color/colorPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/bmiTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/bmi"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="@id/bmiInputLayout"
+            app:layout_constraintEnd_toStartOf="@id/bmiInputLayout"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/bmiInputLayout"
+            app:layout_constraintVertical_bias="0.4" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/bmiInputLayout"
             style="@style/textInputLayoutFilledBox"
             android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/weightInputLayout">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/bmiInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white"
+                android:backgroundTint="@color/background_color"
                 android:enabled="false"
                 android:inputType="numberDecimal"
                 android:selectAllOnFocus="true"

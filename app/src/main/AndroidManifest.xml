@@ -12,7 +12,10 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.Healthza"
         tools:replace="android:supportsRtl">
-        <activity android:name=".ui.updateMedicines"></activity>
+        <activity
+            android:name=".ui.PatientTestsStatisticsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity android:name=".ui.updateMedicines" />
         <activity android:name=".ui.ViewMedicines" />
         <activity android:name=".ui.AddMedicines" />
         <activity
@@ -65,16 +68,19 @@
             android:theme="@style/noActionBarTheme" />
         <activity
             android:name=".ui.DoctorChatListActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ChatMessagesActivity"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".ui.PatientChatListActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.DoctorHomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
             android:theme="@style/noActionBarTheme" />
         <activity
             android:name=".ui.patientMedicalRecords"
@@ -103,6 +109,7 @@
         <activity
             android:name=".ui.PatientHomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
             android:theme="@style/noActionBarTheme" />
         <activity
             android:name=".ui.EmailVerificationCodeActivity"
@@ -121,6 +128,7 @@
         </activity>
         <activity
             android:name=".ui.WelcomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/noActionBarTheme" />
         <activity
             android:name=".ui.RegisterActivity"
@@ -203,6 +211,7 @@
         <activity
             android:name=".ui.PatientChartsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
             android:theme="@style/noActionBarTheme" />
     </application>
 

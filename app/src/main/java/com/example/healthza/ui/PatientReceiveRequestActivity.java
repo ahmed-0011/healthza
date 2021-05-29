@@ -62,7 +62,8 @@ public class PatientReceiveRequestActivity extends AppCompatActivity implements 
 
         recvRequestsRef.get().addOnCompleteListener(task ->
         {
-            if (task.isSuccessful()) {
+            if (task.isSuccessful())
+            {
                 for (QueryDocumentSnapshot document : task.getResult())
                     receiveRequests.add(document.toObject(ReceiveRequest.class));
 
@@ -206,11 +207,11 @@ public class PatientReceiveRequestActivity extends AppCompatActivity implements 
                         emptyReceiveRequestListTextView         // check if there is no item and
                                 .setVisibility(View.VISIBLE);   // show text view that there is no requests
                     }
-                    Toasty.showText(this, "request from " + receiveRequest.getDoctorName() + " cancelled successfully", Toasty.SUCCESS,
+                    Toasty.showText(this, "Request from " + receiveRequest.getDoctorName() + " cancelled successfully", Toasty.SUCCESS,
                             Toast.LENGTH_LONG);
             }
             else
-                Toasty.showText(this, "something went wrong...", Toasty.ERROR,
+                Toasty.showText(this, "Something went wrong...", Toasty.ERROR,
                         Toast.LENGTH_LONG);
         });
     }
