@@ -29,9 +29,7 @@
         <activity
             android:name=".ui.PatientTestsStatisticsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden" />
-        <activity android:name=".ui.updateMedicines" />
-        <activity android:name=".ui.ViewMedicines" />
-        <activity android:name=".ui.AddMedicines" />
+
         <activity
             android:name=".ui.appointmentsD"
             android:configChanges="orientation|screenSize|keyboardHidden"
