@@ -21,9 +21,11 @@ import java.util.Locale;
 
 public class DailyTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements StickHeaderItemDecoration.StickyHeaderInterface
 {
+    ///////////////////varable///////////////
     private final Context context;
     private List<DailyTest> dailyTests;
     private static final int HEADER = 0, DAILY_TEST = 1;
+    //////////////////////////////////
     public DailyTestAdapter(List<DailyTest> dailyTests, Context context)
     {
         this.dailyTests = dailyTests;
