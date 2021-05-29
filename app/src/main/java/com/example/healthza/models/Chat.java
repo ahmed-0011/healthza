@@ -4,6 +4,8 @@ import com.google.firebase.Timestamp;
 
 public class Chat
 {
+
+    ////////////////varable////////////
     private String chatId;
     private String doctorName;
     private String patientName;
@@ -11,7 +13,7 @@ public class Chat
     private String doctorId;
     private String latestMessage;
     private Timestamp latestMessageTimestamp;
-
+//////////////////////////////////////////
     public Chat()
     {
 

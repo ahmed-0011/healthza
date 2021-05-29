@@ -44,7 +44,7 @@ import java.util.regex.Pattern;
 
 public class PatientAccountActivity extends AppCompatActivity
 {
-
+/////////////////////////varable//////////////////////
     private EditText patientNameEditText, patientIdentificationNumberEditText, patientEmailEditText
             , patientPhoneNumberEditText, patientWeightEditText, patientHeightEditText, patientBMIEditText;
     private RadioGroup patientSexRadioGroup;
@@ -57,7 +57,7 @@ public class PatientAccountActivity extends AppCompatActivity
     private String name, sex, birthDate, identificationNumber, email, phoneNumber,
             weight, height;
     private boolean informationChanged = false;
-
+/////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

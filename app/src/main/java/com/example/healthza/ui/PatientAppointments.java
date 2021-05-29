@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PatientAppointments extends AppCompatActivity implements PatientAppointmentAdapter.OnRecordItemClickListener {
-
+////////////////////varable///////////////
     RecyclerView recyclerView;
     List<Map<String, Object>> appointments;
     PatientAppointmentAdapter adp;
@@ -33,7 +33,7 @@ public class PatientAppointments extends AppCompatActivity implements PatientApp
     FirebaseAuth firebaseAuth;
 
     private android.widget.SearchView SearchView;
-
+//////////////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

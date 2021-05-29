@@ -18,9 +18,11 @@ import java.math.BigDecimal;
 public class DetailsMarkerView extends MarkerView
 {
 
+    //////////////////varible/////////////////
     private TextView dailyTestTimeTextView;
     private TextView dailyTestLevelTextView;
 
+///////////////////////////////////////////////////
     /**
      * Pass in your own layout and instantiated controls in the constructor
      * @param  context

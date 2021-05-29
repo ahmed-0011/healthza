@@ -25,18 +25,32 @@
             android:paddingBottom="6dp">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/medicinesButton"
+                android:id="@+id/medicinesButton5"
                 style="@style/listItemButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/glucose_color"
+                android:text="Effectiveness"
+                android:textSize="15sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@+id/medicinesButton4"
+                app:layout_constraintTop_toBottomOf="@+id/medicinesButton4" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/medicinesButton"
+                style="@style/listItemButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
                 android:backgroundTint="@color/glucose_color"
                 android:text="Medicines"
                 android:textScaleX="0.7"
                 android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/chartsButton"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/patientPhoneNumberTextView" />
 
             <TextView
@@ -92,11 +106,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="4dp"
                 android:backgroundTint="@color/colorAccent"
                 android:text="@string/profile"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/removeButton"
+                app:layout_constraintStart_toEndOf="@+id/chartsButton"
                 app:layout_constraintTop_toBottomOf="@+id/patientPhoneNumberTextView" />
 
             <com.google.android.material.button.MaterialButton
@@ -105,26 +119,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="4dp"
                 android:backgroundTint="@color/charts_button_color"
                 android:text="@string/charts"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/profileButton"
+                app:layout_constraintStart_toEndOf="@+id/medicinesButton"
                 app:layout_constraintTop_toBottomOf="@+id/patientPhoneNumberTextView" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/removeButton"
                 style="@style/listItemButtonStyle"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="4dp"
                 android:backgroundTint="@color/red"
                 android:text="@string/remove"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/patientSeperatorView" />
+                app:layout_constraintStart_toEndOf="@+id/profileButton"
+                app:layout_constraintTop_toBottomOf="@+id/patientPhoneNumberTextView" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/medicinesButton2"
@@ -159,14 +173,14 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/medicinesButton4"
                 style="@style/listItemButtonStyle"
-                android:layout_width="87dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:backgroundTint="@color/glucose_color"
                 android:text=" View "
                 android:textSize="15sp"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/medicinesButton5"
                 app:layout_constraintEnd_toEndOf="@+id/medicinesButton3"
                 app:layout_constraintStart_toStartOf="@+id/medicinesButton3"
                 app:layout_constraintTop_toBottomOf="@+id/medicinesButton3" />

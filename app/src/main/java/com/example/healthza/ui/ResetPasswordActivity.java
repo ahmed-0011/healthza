@@ -11,10 +11,10 @@ import com.example.healthza.TextInputEditTextFocusListenerHelper;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class ResetPasswordActivity extends AppCompatActivity {
-
+///////////////////////varable/////////////////
     private TextInputEditText passwordInputEditText, confirmPasswordInputEditText;
     private Button resetPasswordButton;
-
+////////////////////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

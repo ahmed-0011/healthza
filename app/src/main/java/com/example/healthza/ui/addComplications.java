@@ -52,7 +52,7 @@ public class addComplications extends AppCompatActivity implements View.OnClickL
         , CompoundButton.OnCheckedChangeListener
         , View.OnFocusChangeListener
 {
-    //////////////////varible///////////////////////////
+    /////////////////varible///////////////////////////
     public final int holo_green_dark = 17170453;
     private static final String ChannelID = "addNewComplicationNote";
 

@@ -9,8 +9,10 @@ import androidx.appcompat.app.AlertDialog;
 
 public class ProgressDialog
 {
+    ///////////////////varible//////////////////
     private Activity activity;
     private AlertDialog progressDialog;
+    /////////////////////////////////////////////
     public ProgressDialog(Activity activity)
     {
         this.activity = activity;

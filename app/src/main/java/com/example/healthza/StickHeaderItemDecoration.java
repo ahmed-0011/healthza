@@ -9,9 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class StickHeaderItemDecoration extends RecyclerView.ItemDecoration {
+
+    /////////////varible//////////////
     private StickyHeaderInterface stickyHeaderInterface;
     private int mStickyHeaderHeight;
-
+///////////////////////////////////
     public StickHeaderItemDecoration(@NonNull StickyHeaderInterface stickyHeaderInterface)
     {
         this.stickyHeaderInterface =stickyHeaderInterface;

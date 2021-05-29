@@ -40,7 +40,7 @@ import java.util.List;
 
 public class PatientHistory extends AppCompatActivity {
 
-
+///////////////////////varable/////////////////////
     ImageView set;
     ImageView view;
 
@@ -57,7 +57,7 @@ public class PatientHistory extends AppCompatActivity {
     ProgressDialog pb;
 
     int child;
-
+//////////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

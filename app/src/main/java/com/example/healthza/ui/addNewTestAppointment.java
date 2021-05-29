@@ -64,6 +64,7 @@ import java.util.Map;
 public class addNewTestAppointment extends AppCompatActivity implements View.OnClickListener
         , View.OnFocusChangeListener
 {
+    ////////////////varable/////////////////////
 
     public final int holo_green_dark = 17170453;
     private static final  String ChannelID= "addNewTestAppointmenNote";
@@ -96,7 +97,7 @@ public class addNewTestAppointment extends AppCompatActivity implements View.OnC
    String Stamp = "";
 
     FloatingActionButton stamp;
-
+//////////////////////////////////////////////////////
     @SuppressLint("LongLogTag")
     public boolean onSupportNavigateUp()
     {

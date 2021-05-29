@@ -38,6 +38,7 @@ import java.util.Map;
 
 public class PatientListActivity extends AppCompatActivity implements PatientAdapter.OnPatientItemClickListener
 {
+    ///////////////////////////varable///////////////////
     private ImageView emptyPatientListImageView;
     private TextView emptyPatientListTextView;
     private SearchView patientsSearchView;
@@ -46,7 +47,7 @@ public class PatientListActivity extends AppCompatActivity implements PatientAda
     private List<Patient> patients;
     private FirebaseFirestore db;
     private FirebaseAuth firebaseAuth;
-
+//////////////////////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

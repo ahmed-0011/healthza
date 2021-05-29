@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ViewMedicines extends AppCompatActivity {
-
+/////////////////varable/////////////
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
 
@@ -53,7 +53,7 @@ public class ViewMedicines extends AppCompatActivity {
     private ViewFlipper viewFlipper;
 
     FloatingActionButton fpa;
-
+////////////////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -550,5 +550,18 @@ public class ViewMedicines extends AppCompatActivity {
             tb2.removeView(tb2.getChildAt(chd));
             chd--;
         }
+    }
+
+    //rotate
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
     }
 }
