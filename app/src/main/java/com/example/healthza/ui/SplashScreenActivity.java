@@ -10,11 +10,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class SplashScreenActivity extends AppCompatActivity {
-////////////////////varable//////////////////
+public class SplashScreenActivity extends AppCompatActivity
+{
     FirebaseAuth firebaseAuth;
     FirebaseFirestore db;
-///////////////////////////////////////////////
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

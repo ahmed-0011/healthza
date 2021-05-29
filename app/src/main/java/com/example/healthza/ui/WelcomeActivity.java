@@ -10,18 +10,18 @@ import com.example.healthza.R;
 import com.example.healthza.ui.LoginActivity;
 import com.example.healthza.ui.RegisterActivity;
 
-public class WelcomeActivity extends AppCompatActivity {
-///////////////////varable////////////
-    Button login, register;
-/////////////////////////////////////
+public class WelcomeActivity extends AppCompatActivity
+{
+    Button loginButton, registerButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        login = findViewById(R.id.signInButton);
-        register = findViewById(R.id.signUpButton);
+        loginButton = findViewById(R.id.signInButton);
+        registerButton = findViewById(R.id.signUpButton);
 
 
         setOnClickListenersForButtons();
@@ -30,10 +30,10 @@ public class WelcomeActivity extends AppCompatActivity {
 
     /* set on click listeners for Buttons to navigate to other activity */
     private void setOnClickListenersForButtons() {
-        login.setOnClickListener(view ->
+        loginButton.setOnClickListener(view ->
                 startActivity(new Intent(this, LoginActivity.class)));
 
-        register.setOnClickListener(view ->
+        registerButton.setOnClickListener(view ->
                 startActivity(new Intent(this, RegisterActivity.class)));
     }
 

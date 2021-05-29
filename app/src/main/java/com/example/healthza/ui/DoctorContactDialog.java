@@ -30,7 +30,7 @@ import java.util.List;
 
 public class DoctorContactDialog implements ContactAdapter.OnContactItemClickListener
 {
-    /////////////varable////////////////
+
     private Context context;
     private ImageView emptyChatListimageView;
     private TextView emptyChatListTextView;
@@ -42,7 +42,7 @@ public class DoctorContactDialog implements ContactAdapter.OnContactItemClickLis
     private ContactAdapter contactAdapter;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
-////////////////////////////////////////////
+
     public DoctorContactDialog(Context context, ImageView emptyChatListimageView, TextView emptyChatListTextView)
     {
         this.context = context;

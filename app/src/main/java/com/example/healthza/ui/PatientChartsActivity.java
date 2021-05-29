@@ -59,7 +59,6 @@ import java.util.concurrent.TimeUnit;
 
 public class PatientChartsActivity extends AppCompatActivity
 {
-    /////////////varable////////////////////
     private LineChart chart;
     private CheckBox glucoseCheckBox, bloodPressureCheckBox, hdlCheckBox, ldlCheckBox,
             triglycerideCheckBox, totalCholesterolCheckBox;
@@ -80,7 +79,7 @@ public class PatientChartsActivity extends AppCompatActivity
     private final int PICKER = 0;
     private final int HOURS_SLIDER = 1;
     private final int DAYS_SLIDER = 2;
-///////////////////////////////////////////
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

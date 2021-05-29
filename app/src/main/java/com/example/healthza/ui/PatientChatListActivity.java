@@ -37,7 +37,7 @@ import java.util.Set;
 
 public class PatientChatListActivity extends AppCompatActivity implements ChatAdapter.OnChatItemClickListener
 {
-    ///////////////////////////varable////////////////
+
     private ListenerRegistration chatEventListener;
     private ImageView emptyChatListimageView;
     private TextView emptyChatListTextView;
@@ -50,7 +50,7 @@ public class PatientChatListActivity extends AppCompatActivity implements ChatAd
     private ChipNavigationBar chipNavigationBar;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
-///////////////////////////////////////////
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
