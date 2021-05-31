@@ -6,7 +6,7 @@ import com.muddzdev.styleabletoast.StyleableToast;
 
 public class Toasty
 {
-    ////////////varible //////////////
+    ////////////varible /////////////
     public static int SUCCESS = 0;
     public static int WARNING = 1;
     public static int ERROR = 2;
