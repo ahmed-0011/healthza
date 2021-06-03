@@ -141,61 +141,10 @@
         app:layout_constraintStart_toEndOf="@id/patientHeightTextView"
         app:layout_constraintTop_toTopOf="@id/patientHeightTextView" />
 
-    <TextView
-        android:id="@+id/patientDiseasesTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:paddingTop="7dp"
-        android:paddingBottom="7dp"
-        android:text="@string/diseases"
-        android:textColor="@color/hint_color"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/patientHeightTextView" />
-
-    <EditText
-        android:id="@+id/patientDiseasesEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_edittext"
-        android:inputType="text"
-        android:padding="10dp"
-        android:textColor="@color/txt_black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/patientDiseasesTextView"
-        app:layout_constraintTop_toTopOf="@id/patientDiseasesTextView" />
-
-    <TextView
-        android:id="@+id/patientComplicationsTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:paddingTop="7dp"
-        android:paddingBottom="7dp"
-        android:text="@string/complications"
-        android:textColor="@color/hint_color"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/patientDiseasesTextView" />
-
-    <EditText
-        android:id="@+id/complicationsEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_edittext"
-        android:inputType="text"
-        android:padding="10dp"
-        android:textColor="@color/txt_black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/patientComplicationsTextView"
-        app:layout_constraintTop_toTopOf="@id/patientComplicationsTextView" />
-
     <Button
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:backgroundTint="@color/colorAccent"
         android:drawableLeft="@drawable/ic_save"
         android:elevation="10dp"
@@ -209,7 +158,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/patientComplicationsTextView"
         app:shapeAppearanceOverlay="@style/roundedButtonStyle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

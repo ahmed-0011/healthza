@@ -6,7 +6,7 @@
     android:background="@color/background_color"
     android:clickable="true"
     android:focusable="true"
-    tools:context=".ui.DoctorHomeActivity">
+    tools:context=".ui.PatientHomeActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -75,11 +75,11 @@
                             app:layout_constraintTop_toTopOf="parent">
 
                             <TextView
-                                android:id="@+id/doctorNameTextView"
+                                android:id="@+id/patientNameTextView"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:padding="8dp"
-                                android:text="@string/doctor"
+                                android:text="@string/patient"
                                 android:textColor="@color/white"
                                 android:textSize="16sp"
                                 android:textStyle="bold"
@@ -99,7 +99,7 @@
                                 android:textSize="16sp"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toEndOf="@id/doctorNameTextView"
+                                app:layout_constraintStart_toEndOf="@id/patientNameTextView"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintWidth_percent="0.35"
                                 tools:text="time" />
@@ -126,12 +126,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
+                            android:visibility="invisible"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/latestAppointmentsHeader">
+                            app:layout_constraintTop_toBottomOf="@id/latestAppointmentsHeader"
+                            tools:visibility="visible">
 
                             <TextView
-                                android:id="@+id/firstDoctorNameTextView"
+                                android:id="@+id/firstPatientNameTextView"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:padding="8dp"
@@ -143,7 +145,7 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintWidth_percent="0.30"
-                                tools:text="doctor1" />
+                                tools:text="patient1" />
 
                             <TextView
                                 android:id="@+id/firstAppointmentTimeTextView"
@@ -155,7 +157,7 @@
                                 android:textSize="16sp"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toEndOf="@id/firstDoctorNameTextView"
+                                app:layout_constraintStart_toEndOf="@id/firstPatientNameTextView"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintWidth_percent="0.35"
                                 tools:text="time1" />
@@ -185,12 +187,14 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:background="@color/white"
+                            android:visibility="invisible"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/firstAppointmentLayout">
+                            app:layout_constraintTop_toBottomOf="@id/firstAppointmentLayout"
+                            tools:visibility="visible">
 
                             <TextView
-                                android:id="@+id/secondDoctorNameTextView"
+                                android:id="@+id/secondPatientNameTextView"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:padding="8dp"
@@ -202,10 +206,10 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintWidth_percent="0.30"
-                                tools:text="doctor2" />
+                                tools:text="patient2" />
 
                             <TextView
-                                android:id="@+id/secondAppointmentLevelTextView"
+                                android:id="@+id/secondAppointmentTimeTextView"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:padding="8dp"
@@ -214,7 +218,7 @@
                                 android:textSize="16sp"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toEndOf="@id/secondDoctorNameTextView"
+                                app:layout_constraintStart_toEndOf="@id/secondPatientNameTextView"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintWidth_percent="0.35"
                                 tools:text="time2" />
@@ -230,7 +234,7 @@
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@id/secondAppointmentLevelTextView"
+                                app:layout_constraintStart_toEndOf="@id/secondAppointmentTimeTextView"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintWidth_percent="0.35"
                                 tools:text="type2" />
@@ -242,12 +246,14 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:background="@color/white"
+                            android:visibility="invisible"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/secondAppointmentLayout">
+                            app:layout_constraintTop_toBottomOf="@id/secondAppointmentLayout"
+                            tools:visibility="visible">
 
                             <TextView
-                                android:id="@+id/thirdDoctorNameTextView"
+                                android:id="@+id/thirdPatientNameTextView"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:padding="8dp"
@@ -260,7 +266,7 @@
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintVertical_bias="0.0"
                                 app:layout_constraintWidth_percent="0.30"
-                                tools:text="doctor3" />
+                                tools:text="patient3" />
 
                             <TextView
                                 android:id="@+id/thirdAppointmentTimeTextView"
@@ -272,7 +278,7 @@
                                 android:textSize="16sp"
                                 android:textStyle="bold"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toEndOf="@id/thirdDoctorNameTextView"
+                                app:layout_constraintStart_toEndOf="@id/thirdPatientNameTextView"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintWidth_percent="0.35"
                                 tools:text="time3" />

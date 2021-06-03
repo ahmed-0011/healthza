@@ -111,7 +111,7 @@ public class DoctorPatientChartsActivity extends AppCompatActivity
 
         patientDailyTestsRecyclerView = findViewById(R.id.patientDailyTestsRecyclerView);
 
-        dailyTestAdapter = new DailyTestAdapter(dailyTests, this);
+        dailyTestAdapter = new DailyTestAdapter(this, dailyTests);
         patientDailyTestsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         patientDailyTestsRecyclerView.addItemDecoration(new StickHeaderItemDecoration(dailyTestAdapter));
         patientDailyTestsRecyclerView.setAdapter(dailyTestAdapter);

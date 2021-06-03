@@ -19,11 +19,12 @@ import com.google.firebase.firestore.Query;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>
 {
-    private final List<Chat> chats;
     private final Context context;
+    private final List<Chat> chats;
     private final OnChatItemClickListener onChatItemClickListener;
     private final FirebaseFirestore db;
 
@@ -107,7 +108,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>
                         else
                             latestMessageTextView.setText(latestMessage.getContent());
                         Timestamp timestamp = latestMessage.getTimeStamp();
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm a", Locale.US);
                         latestMessageTimeStampTextViewTextView.setText(simpleDateFormat.format(timestamp.toDate()));
                     }
                 });

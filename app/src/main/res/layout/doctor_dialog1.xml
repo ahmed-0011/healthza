@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fillViewport="true"
+    android:fadeScrollbars="false"
     android:scrollbarAlwaysDrawVerticalTrack="true"
     android:scrollbarFadeDuration="0"
     android:scrollbarThumbVertical="@color/colorAccent">

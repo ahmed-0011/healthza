@@ -1453,7 +1453,7 @@ public class PatientHistory extends AppCompatActivity {
         final boolean[] change = {false};
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View view = inflater.inflate(R.layout.history_dialog, null);
+        View view = inflater.inflate(R.layout.dialog_history, null);
 
         Button btt [];
         btt = new Button[8];

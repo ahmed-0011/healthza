@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -52,7 +51,6 @@ import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -61,7 +59,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -103,7 +100,7 @@ public class PatientHomeActivity extends AppCompatActivity
         setupBottomNavigationBar();
 
         LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.drawer_header, null);
+        View view = inflater.inflate(R.layout.header_drawer, null);
 
         TextView nameTextView = view.findViewById(R.id.nameTextView);
         TextView emailTextView = view.findViewById(R.id.emailTextView);
@@ -166,15 +163,21 @@ public class PatientHomeActivity extends AppCompatActivity
 
         testsStatisticsButton= findViewById(R.id.testsStatisticsButton);
 
+        testsStatisticsButton.setOnClickListener(v ->
+                startActivity(new Intent(this, PatientTestsStatisticsActivity.class)));
+
+
         patientRef.collection("tests")
                 .document("glucose_test")
                 .get()
                 .addOnSuccessListener(glucoseTestsDocument ->
                 {
-                    if (glucoseTestsDocument.exists()) {
+                    if (glucoseTestsDocument.exists())
+                    {
                         int totalNumberOfTests = glucoseTestsDocument.getDouble("count").intValue();
                         glucoseTestsTextView.append(totalNumberOfTests + "");
-                    } else
+                    }
+                    else
                         glucoseTestsTextView.append("0");
                 });
 
@@ -209,8 +212,7 @@ public class PatientHomeActivity extends AppCompatActivity
                     else
                         cholesterolAndFatsTextView.append("0");
 
-                    testsStatisticsButton.setOnClickListener(v ->
-                            startActivity(new Intent(this, PatientTestsStatisticsActivity.class)));
+
                 });
     }
 
@@ -218,6 +220,8 @@ public class PatientHomeActivity extends AppCompatActivity
     private void setupBodyInfoCardView()
     {
         TextView weightTextView, heightTextView, bmiTextView;
+
+        Button bodyInfoButton = findViewById(R.id.bodyInfoButton);
 
         weightTextView = findViewById(R.id.weightTextView);
         heightTextView = findViewById(R.id.heightTextView);
@@ -233,6 +237,9 @@ public class PatientHomeActivity extends AppCompatActivity
                 heightTextView.append(patient.getHeight() + "  M");
                 bmiTextView.append(patient.getBmi() + "");
             }
+
+            bodyInfoButton.setOnClickListener(v ->
+                    startActivity(new Intent(this, PatientBodyInfoActivity.class)));
         });
     }
 
@@ -452,7 +459,7 @@ public class PatientHomeActivity extends AppCompatActivity
     private void showWelcomeDialog()
     {
         LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.welcome_dialog, null);
+        View view = inflater.inflate(R.layout.dialog_welcome, null);
         Button startButton = view.findViewById(R.id.startButton);
         TextView welcomeTextView = view.findViewById(R.id.welcomeTextView);
         welcomeTextView.setText(welcomeTextView.getText() + " " + patientName);
@@ -509,7 +516,7 @@ public class PatientHomeActivity extends AppCompatActivity
     {
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View view = inflater.inflate(R.layout.patient_dialog1, null);
+        View view = inflater.inflate(R.layout.dialog1_patient1, null);
 
         CheckBox diabetesCheckBox, hypertensionCheckBox, cholesterolCheckBox;
         TextInputLayout diabetesTypeInputLayout, hypertensionTypeInputLayout, cholesterolTypeInputLayout;
@@ -675,7 +682,7 @@ public class PatientHomeActivity extends AppCompatActivity
     {
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View view = inflater.inflate(R.layout.patient_dialog2, null);
+        View view = inflater.inflate(R.layout.dialog_patient2, null);
 
         Button selectDiabetesDetectionDateButton, selectHypertensionDetectionDateButton, selectCholesterolDetectionDateButton;
 

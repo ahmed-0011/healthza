@@ -18,23 +18,21 @@ import java.util.List;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder>
 {
-    private final List<Contact> contacts;
     private final Context context;
+    private final List<Contact> contacts;
     private final OnContactItemClickListener onContactItemClickListener;
 
-    public ContactAdapter(List<Contact> contacts, Context context, OnContactItemClickListener onContactItemClickListener)
+    public ContactAdapter(Context context, List<Contact> contacts,  OnContactItemClickListener onContactItemClickListener)
     {
-        this.contacts = contacts;
         this.context = context;
+        this.contacts = contacts;
         this.onContactItemClickListener = onContactItemClickListener;
     }
 
     public interface OnContactItemClickListener
     {
         void onContactItemClick(int position);
-
         void onContactItemLongClick(int position);
-
         void onStartChatImageButtonClick(int position);
     }
 

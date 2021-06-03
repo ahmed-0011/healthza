@@ -32,7 +32,6 @@ import com.example.healthza.ui.WelcomeActivity;
 import com.example.healthza.ui.addComplications;
 import com.example.healthza.ui.addNewTestAppointment;
 import com.example.healthza.ui.newChronicDiseases;
-import com.example.healthza.ui.patientMedicalRecords;
 import com.example.healthza.ui.updateComplicationStatus;
 import com.example.healthza.ui.viewComplications;
 import com.example.healthza.ui.viewComplicationsP;
@@ -141,9 +140,9 @@ public class DrawerUtil
 
                             case 3:
                             {
-                                Intent intent = new Intent(activity, patientMedicalRecords.class);
-                                view.getContext().startActivity(intent);
-                                break;
+                               // Intent intent = new Intent(activity, patientMedicalRecords.class);
+                               // view.getContext().startActivity(intent);
+                               // break;
                             }
 
                             case 4:

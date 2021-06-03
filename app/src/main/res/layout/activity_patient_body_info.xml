@@ -5,54 +5,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    tools:context=".ui.DoctorChatListActivity">
+    tools:context=".ui.PatientBodyInfoActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chatRecyclerView"
+        android:id="@+id/bodyInfoRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@drawable/border_daily_test_recyclerview"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:itemCount="6"
-        tools:listitem="@layout/list_item_chat" />
+        tools:itemCount="4"
+        tools:listitem="@layout/list_item_body_info" />
 
     <ImageView
-        android:id="@+id/emptyChatListimageView"
+        android:id="@+id/noBodyInfoImageView"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_chats" />
+        app:srcCompat="@drawable/ic_record"
+        tools:visibility="visible" />
 
     <TextView
-        android:id="@+id/emptyChatListTextView"
+        android:id="@+id/noBodyInfoTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="@string/empty_chat_list"
+        android:text="@string/no_records_yet"
         android:textSize="22sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/emptyChatListimageView" />
+        app:layout_constraintTop_toBottomOf="@id/noBodyInfoImageView"
+        tools:visibility="visible" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addChatFloatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:tint="@color/white"
-        app:backgroundTint="@color/colorAccent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_add_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>

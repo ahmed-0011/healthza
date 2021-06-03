@@ -16,7 +16,6 @@ import com.example.healthza.R;
 import com.example.healthza.adapters.ContactAdapter;
 import com.example.healthza.models.Chat;
 import com.example.healthza.models.Contact;
-import com.example.healthza.models.Doctor;
 import com.example.healthza.models.Patient;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -58,7 +57,7 @@ public class DoctorContactDialog implements ContactAdapter.OnContactItemClickLis
     {
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View view = inflater.inflate(R.layout.contact_dialog, null);
+        View view = inflater.inflate(R.layout.dialog_contact, null);
 
         emptyContactListimageView = view.findViewById(R.id.emptyContactListimageView);
         emptyContactListTextView = view.findViewById(R.id.emptyContactListTextView);
@@ -91,7 +90,7 @@ public class DoctorContactDialog implements ContactAdapter.OnContactItemClickLis
                     emptyContactListTextView.setVisibility(View.VISIBLE);
                 }
 
-                contactAdapter = new ContactAdapter(contacts, context, this);
+                contactAdapter = new ContactAdapter(context, contacts, this);
 
                 contactsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
                 contactsRecyclerView.setAdapter(contactAdapter);

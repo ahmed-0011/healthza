@@ -207,7 +207,7 @@
     <string name="empty_receive_request_list">There is no add requests yet!</string>
     <string name="empty_contact_list">You don\'t have any contacts!</string>
     <string name="empty_chat_list">No Chats With Your Contacts Yet</string>
-    <string name="no_messages">You didn\'t send any messages yet!</string>
+    <string name="no_messages">No Messages Yet</string>
     <string name="name">"Name: "</string>
     <string name="start_chat_with_your_contacts">Start chat with your contacts</string>
     <string name="hi">Hi!</string>
@@ -258,4 +258,6 @@
     <string name="latest_three_tests">Latest Three Tests</string>
     <string name="no_tests_yet">No Tests Yet</string>
     <string name="tests_statistics">Tests Statistics</string>
+    <string name="patient">patient</string>
+    <string name="no_records_yet">No Records Yet</string>
 </resources>

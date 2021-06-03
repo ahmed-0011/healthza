@@ -24,10 +24,10 @@ public class DailyTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final Context context;
     private List<DailyTest> dailyTests;
     private static final int HEADER = 0, DAILY_TEST = 1;
-    public DailyTestAdapter(List<DailyTest> dailyTests, Context context)
+    public DailyTestAdapter(Context context, List<DailyTest> dailyTests)
     {
-        this.dailyTests = dailyTests;
         this.context = context;
+        this.dailyTests = dailyTests;
     }
 
 
@@ -121,7 +121,7 @@ public class DailyTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (viewType == HEADER)
         {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.daily_tests_header, parent, false);
+                    .inflate(R.layout.header_daily_tests, parent, false);
 
             return new HeaderViewHolder(view);
         }
@@ -179,7 +179,7 @@ public class DailyTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public int getHeaderLayout(int headerPosition)
     {
-        return R.layout.daily_tests_header;
+        return R.layout.header_daily_tests;
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +38,7 @@ import java.util.Set;
 
 public class ChatMessagesActivity extends AppCompatActivity
 {
+    private ImageView noMessagesImageView;
     private EditText newMessageEditText;
     private ImageButton sendNewMessageImageButton;
     private TextView noMessagesTextView;
@@ -61,6 +63,7 @@ public class ChatMessagesActivity extends AppCompatActivity
         chatId = intent.getStringExtra("chatId");
         chatName = intent.getStringExtra("chatName");
 
+        noMessagesImageView = findViewById(R.id.noMessagesImageView);
         noMessagesTextView = findViewById(R.id.noMessagesTextView);
         newMessageEditText = findViewById(R.id.newMessageEditText);
         sendNewMessageImageButton = findViewById(R.id.sendNewMessageImageButton);
@@ -81,7 +84,7 @@ public class ChatMessagesActivity extends AppCompatActivity
 
     private void initChatRecyclerView()
     {
-        chatMessageAdapter = new MessageAdapter(messages, this, userId);
+        chatMessageAdapter = new MessageAdapter(this,messages, userId);
         chatMessageRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         chatMessageRecyclerView.setAdapter(chatMessageAdapter);
 
@@ -152,7 +155,10 @@ public class ChatMessagesActivity extends AppCompatActivity
                             }
 
                             if(messages.isEmpty())
+                            {
+                                noMessagesImageView.setVisibility(View.VISIBLE);
                                 noMessagesTextView.setVisibility(View.VISIBLE);
+                            }
 
                         }
                         chatMessageAdapter.notifyDataSetChanged();
@@ -189,6 +195,7 @@ public class ChatMessagesActivity extends AppCompatActivity
                     if (task.isSuccessful())
                     {
                         newMessageEditText.setText("");
+                        noMessagesImageView.setVisibility(View.GONE);
                         noMessagesTextView.setVisibility(View.GONE);
                     }
                     else

@@ -12,24 +12,26 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.Healthza"
         tools:replace="android:supportsRtl">
-
-        <activity android:name=".ui.medicineEffectiveness"
+        <activity android:name=".ui.PatientBodyInfoActivity"></activity>
+        <activity
+            android:name=".ui.medicineEffectiveness"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
-        <activity android:name=".ui.updateMedicines"
+        <activity
+            android:name=".ui.updateMedicines"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
-        <activity android:name=".ui.ViewMedicines"
+        <activity
+            android:name=".ui.ViewMedicines"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
-        <activity android:name=".ui.AddMedicines"
+        <activity
+            android:name=".ui.AddMedicines"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
-
         <activity
             android:name=".ui.PatientTestsStatisticsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden" />
-
         <activity
             android:name=".ui.appointmentsD"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -75,10 +77,6 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
         <activity
-            android:name=".ui.DoctorAppointments"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
-        <activity
             android:name=".ui.DoctorChatListActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
@@ -94,10 +92,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/noActionBarTheme" />
-        <activity
-            android:name=".ui.patientMedicalRecords"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
+
         <activity
             android:name=".ui.medicalRecords"
             android:configChanges="orientation|screenSize|keyboardHidden"

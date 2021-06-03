@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.healthza.R;
 import com.example.healthza.Toasty;
 import com.example.healthza.adapters.PatientAdapter;
-import com.example.healthza.models.Disease;
 import com.example.healthza.models.Patient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -47,6 +46,7 @@ public class PatientListActivity extends AppCompatActivity implements PatientAda
     private List<Patient> patients;
     private FirebaseFirestore db;
     private FirebaseAuth firebaseAuth;
+    private String doctorId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -59,33 +59,42 @@ public class PatientListActivity extends AppCompatActivity implements PatientAda
         patientsSearchView = findViewById(R.id.patientsSearchView);
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
-        String doctorId = firebaseAuth.getCurrentUser().getUid();
+        doctorId = firebaseAuth.getCurrentUser().getUid();
 
        // DrawerUtil.getDoctorDrawer(this, 3);
 
         patients = new ArrayList<>();
         patientsRecyclerView = findViewById(R.id.patientsRecyclerView);
 
+        setupPatientsRecyclerView();
+    }
+
+
+    private void setupPatientsRecyclerView()
+    {
         CollectionReference patientsRefs = db.collection("doctors").document(doctorId)
                 .collection("patients");
 
-        patientsRefs.get().addOnCompleteListener(task ->
-        {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot document : task.getResult())
-                    patients.add(document.toObject(Patient.class));
+        patientsRefs
+                .get()
+                .addOnCompleteListener(task -> 
+                { 
+                    if (task.isSuccessful()) 
+                    { 
+                        for (QueryDocumentSnapshot document : task.getResult()) 
+                            patients.add(document.toObject(Patient.class));
 
-                if (patients.isEmpty())
-                {
-                    emptyPatientListImageView.setVisibility(View.VISIBLE);
-                    emptyPatientListTextView.setVisibility(View.VISIBLE);
-                }
+                        if (patients.isEmpty())
+                        {
+                            emptyPatientListImageView.setVisibility(View.VISIBLE);
+                            emptyPatientListTextView.setVisibility(View.VISIBLE);
+                        }
 
-                patientAdapter = new PatientAdapter(this, patients, this);
-                patientsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-                patientsRecyclerView.setAdapter(patientAdapter);
-            }
-        });
+                        patientAdapter = new PatientAdapter(this, patients, this);
+                        patientsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                        patientsRecyclerView.setAdapter(patientAdapter);
+                    }
+                });
 
         patientsSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -102,19 +111,17 @@ public class PatientListActivity extends AppCompatActivity implements PatientAda
         });
     }
 
+
     @Override
     public void onItemClick(int position)
     {
         if(position != -1)
-            Toast.makeText(this, patients.get(position).getName(), Toast.LENGTH_SHORT).show();
+            Toasty.showText(this, patients.get(position).getName(), Toasty.INFORMATION,Toast.LENGTH_SHORT);
     }
 
+
     @Override
-    public void onItemLongClick(int position)
-    {
-        //patients.remove(position);
-        //patientAdapter.notifyItemRemoved(position);
-    }
+    public void onItemLongClick(int position) { }
 
 
     @Override
@@ -143,13 +150,11 @@ public class PatientListActivity extends AppCompatActivity implements PatientAda
 
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View view = inflater.inflate(R.layout.patient_profile_dialog, null);
+        View view = inflater.inflate(R.layout.dialog_patient_profile, null);
 
         EditText patientEmailEditText = view.findViewById(R.id.patientEmailEditText);
         EditText patientWeightEditText = view.findViewById(R.id.patientWeightEditText);
         EditText patientHeightEditText = view.findViewById(R.id.patientHeightEditText);
-        EditText patientDiseasesEditText = view.findViewById(R.id.patientDiseasesEditText);
-        EditText complicationsEditText = view.findViewById(R.id.complicationsEditText);
         RadioGroup patientSexRadioGroup = view.findViewById(R.id.patientSexRadioGroup);
         Button saveButton = view.findViewById(R.id.saveButton);
 
@@ -169,17 +174,6 @@ public class PatientListActivity extends AppCompatActivity implements PatientAda
                 patientWeightEditText.setText(patient1.getWeight() + "");
                 patientHeightEditText.setText(patient1.getHeight() + "");
 
-                CollectionReference diseasesRefs = patientRef.collection("diseases");
-                diseasesRefs.get().addOnCompleteListener(task ->
-                {
-                    Disease disease = new Disease();
-
-                    for (QueryDocumentSnapshot document : task.getResult())
-                    {
-                        disease = document.toObject(Disease.class);
-                        patientDiseasesEditText.setText(disease.getDiseaseName());
-                    }
-                });
 
                 AlertDialog patientProfileDialog = new AlertDialog.Builder(this)
                         .setView(view)
@@ -255,12 +249,12 @@ public class PatientListActivity extends AppCompatActivity implements PatientAda
                         emptyPatientListTextView                 // check if there is no item and
                                 .setVisibility(View.VISIBLE);    // show text view that there is no patients
                     }
-                    Toasty.showText(this, "patient " + "\"" + patient.getName()
+                    Toasty.showText(this, "Patient " + "\"" + patient.getName()
                             + "\" " + "has been deleted successfully.", Toasty.SUCCESS
                             , Toast.LENGTH_LONG);
             }
             else
-                Toasty.showText(this, "something went wrong...", Toasty.ERROR
+                Toasty.showText(this, "Something went wrong...", Toasty.ERROR
                         , Toast.LENGTH_LONG);
         });
     }

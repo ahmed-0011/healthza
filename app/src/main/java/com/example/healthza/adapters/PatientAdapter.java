@@ -26,10 +26,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
-public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHolder> implements Filterable {
+public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHolder> implements Filterable
+{
+    private final Context context;
     private final List<Patient> patientsAll;
     private final List<Patient> patients;
-    private final Context context;
     private final OnPatientItemClickListener onPatientItemClickListener;
 
     public PatientAdapter(Context context, List<Patient> patients, OnPatientItemClickListener onPatientItemClickListener)
@@ -125,12 +126,8 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
             viewButton = itemView.findViewById(R.id.medicinesButton4);
             effectivenessButton = itemView.findViewById(R.id.medicinesButton5);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onPatientItemClickListener.onItemClick(getBindingAdapterPosition());
-                }
-            });
+            itemView.setOnClickListener(v ->
+                    onPatientItemClickListener.onItemClick(getBindingAdapterPosition()));
 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -251,6 +248,7 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
         holder.patientIdentificationNumberTextView.setText(R.string.identification_number);
         holder.patientPhoneNumberTextView.setText(R.string.phonenumber);
     }
+
 
     @Override
     public Filter getFilter()

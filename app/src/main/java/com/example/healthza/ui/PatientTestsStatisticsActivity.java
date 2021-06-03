@@ -41,19 +41,17 @@ public class PatientTestsStatisticsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_tests_statistics);
 
+        noTestsImageView = findViewById(R.id.noTestsImageView);
+        noTestsTextView = findViewById(R.id.noTestsTextView);
+
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         patientId = firebaseAuth.getCurrentUser().getUid();
 
-        getSupportActionBar().setTitle("Patient Tests Statistics");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        setupActionBar();
 
         progressDialog = new ProgressDialog(this);
         progressDialog.showProgressDialog("Displaying tests statistics...");
-
-        noTestsImageView = findViewById(R.id.noTestsImageView);
-        noTestsTextView = findViewById(R.id.noTestsTextView);
 
 
         setupTestsCardViews();
@@ -367,6 +365,14 @@ public class PatientTestsStatisticsActivity extends AppCompatActivity
         return glucoseCardView.getVisibility() == View.GONE &&
                 hypertensionCardView.getVisibility() == View.GONE &&
                 totalCholesterolCardView.getVisibility() == View.GONE;
+    }
+
+
+    private void setupActionBar()
+    {
+        getSupportActionBar().setTitle("Patient Tests Statistics");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
 

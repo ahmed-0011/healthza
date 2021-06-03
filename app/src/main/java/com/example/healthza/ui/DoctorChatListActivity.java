@@ -70,9 +70,7 @@ public class DoctorChatListActivity extends AppCompatActivity implements ChatAda
         chatRecyclerView.setAdapter(chatAdapter);
 
         addChatFloatingActionButton.setOnClickListener(v ->
-        {
-           addNewChat();
-        });
+                addNewChat() );
     }
 
     private void getChats()

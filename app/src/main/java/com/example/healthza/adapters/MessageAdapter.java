@@ -18,6 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 {
@@ -27,10 +28,10 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final String userId;
     private static final int SENDER = 0, RECEIVER = 1;
 
-    public MessageAdapter(List<Message> messages, Context context, String userId)
+    public MessageAdapter(Context context, List<Message> messages, String userId)
     {
-        this.messages = messages;
         this.context = context;
+        this.messages = messages;
         this.userId = userId;
         db = FirebaseFirestore.getInstance();
     }
@@ -55,7 +56,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             senderTextView.setText(message.getSenderName());
             messageTextView.setText(message.getContent());
             Timestamp timestamp = message.getTimeStamp();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm a", Locale.US);
             messageTimestampTextView.setText(simpleDateFormat.format(timestamp.toDate()));
         }
     }
@@ -80,7 +81,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             receiverTextView.setText(message.getSenderName());
             messageTextView.setText(message.getContent());
             Timestamp timestamp = message.getTimeStamp();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm a", Locale.US);
             messageTimestampTextView.setText(simpleDateFormat.format(timestamp.toDate()));
         }
     }

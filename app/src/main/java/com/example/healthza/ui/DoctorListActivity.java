@@ -1,8 +1,6 @@
 package com.example.healthza.ui;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,7 +17,6 @@ import com.example.healthza.Toasty;
 import com.example.healthza.models.Doctor;
 import com.example.healthza.adapters.DoctorAdapter;
 import com.example.healthza.R;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -40,6 +37,7 @@ public class DoctorListActivity extends AppCompatActivity implements DoctorAdapt
     private List<Doctor> doctors;
     private FirebaseFirestore db;
     private FirebaseAuth firebaseAuth;
+    private String patientId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -52,13 +50,20 @@ public class DoctorListActivity extends AppCompatActivity implements DoctorAdapt
         emptyDoctorListTextView = findViewById(R.id.emptyDoctorListTextView);
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
-        String patientId = firebaseAuth.getCurrentUser().getUid();
+        patientId = firebaseAuth.getCurrentUser().getUid();
 
         DrawerUtil.getPatientDrawer(this, 3);
 
         doctors = new ArrayList<>();
         doctorsRecyclerView = findViewById(R.id.doctorsRecyclerView);
 
+        setupDoctorsRecyclerView();
+
+    }
+
+
+    private void setupDoctorsRecyclerView()
+    {
         CollectionReference doctorsRef = db.collection("patients").document(patientId)
                 .collection("doctors");
 
@@ -104,10 +109,7 @@ public class DoctorListActivity extends AppCompatActivity implements DoctorAdapt
 
     @Override
     public void onItemLongClick(int position)
-    {
-        //patients.remove(position);
-        //patientAdapter.notifyItemRemoved(position);
-    }
+    {    }
 
     @Override
     public void onProfileButtonClick(int position)
@@ -120,7 +122,7 @@ public class DoctorListActivity extends AppCompatActivity implements DoctorAdapt
                 .document(doctorId);
 
         LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.doctor_profile_dialog, null);
+        View view = inflater.inflate(R.layout.dialog_doctor_profile, null);
 
         TextView doctorEmailTextView = view.findViewById(R.id.doctorEmailTextView);
         TextView doctorSexTextView = view.findViewById(R.id.doctorSexTextView);
@@ -159,7 +161,8 @@ public class DoctorListActivity extends AppCompatActivity implements DoctorAdapt
     }
 
     @Override
-    public void onRemoveButtonClick(int position) {
+    public void onRemoveButtonClick(int position)
+    {
         Doctor doctor = doctors.get(position);
 
         String patientId = firebaseAuth.getCurrentUser().getUid();
@@ -186,14 +189,15 @@ public class DoctorListActivity extends AppCompatActivity implements DoctorAdapt
                     if (doctors.isEmpty())
                     {
                         emptyDoctorListImageView.setVisibility(View.VISIBLE);
-                        emptyDoctorListTextView                 // check if there is no item and
-                                .setVisibility(View.VISIBLE);   // show text view that there is no doctors
+                        emptyDoctorListTextView.setVisibility(View.VISIBLE);    // check if there is no item and
+                                                                                // show text view that there is no doctors
                     }
-                    Toasty.showText(this, "patient " + "\"" + doctor.getName()
+
+                    Toasty.showText(this, "Patient " + "\"" + doctor.getName()
                             + "\" " + "has been removed successfully.", Toasty.SUCCESS, Toast.LENGTH_LONG);
             }
             else
-                Toasty.showText(this, "something went wrong...", Toasty.ERROR, Toast.LENGTH_LONG);
+                Toasty.showText(this, "An error occurred while trying to remove this patient", Toasty.ERROR, Toast.LENGTH_LONG);
         });
     }
 }

@@ -3,12 +3,10 @@ package com.example.healthza.ui;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.core.util.Pair;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -16,7 +14,6 @@ import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -25,7 +22,6 @@ import android.widget.ViewFlipper;
 
 import com.example.healthza.R;
 import com.example.healthza.Toasty;
-import com.example.healthza.adapters.PatientAppointmentAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -35,12 +31,11 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,6 +54,7 @@ public class appointmentsP extends AppCompatActivity {
     List<Map<String, Object>> EXPIERD;
     PatientAppointmentAdapter adp;
 
+    private ChipNavigationBar chipNavigationBar;
     private Long selectedDate;
     private String pickedDate;
 
@@ -108,6 +104,10 @@ public class appointmentsP extends AppCompatActivity {
         btngg = findViewById(R.id.toggleButtonGroup);
 
         viewFlipper = findViewById(R.id.view_flipper);
+
+        chipNavigationBar = findViewById(R.id.bottomNavigationBar);
+
+        setupBottomNavigationBar();
 
         bt1 = findViewById(R.id.btn1);
         bt1.setOnClickListener(new View.OnClickListener() {
@@ -172,7 +172,8 @@ public class appointmentsP extends AppCompatActivity {
         sd=Long.parseLong("-1");
         ed=Long.parseLong("-1");
         Range = findViewById(R.id.fpa1);
-        Range.setOnClickListener(new View.OnClickListener() {
+        Range.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
                /* cls();
@@ -182,6 +183,38 @@ public class appointmentsP extends AppCompatActivity {
             }
         });
     }
+
+
+    private void setupBottomNavigationBar()
+    {
+        chipNavigationBar.setItemSelected(R.id.appointmentsItem, true);
+
+        chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(int i)
+            {
+                Intent intent = null;
+
+                if (i == R.id.appointmentsItem)
+                    return;
+                else if (i == R.id.homeItem)
+                    intent = new Intent(appointmentsP.this, PatientHomeActivity.class);
+               // else if (i == R.id.medicalHistoryItem)
+                    //intent = new Intent(appointmentsP.this, patientMedicalRecords.class);
+                else if (i == R.id.chartsItem)
+                    intent = new Intent(appointmentsP.this, PatientChartsActivity.class);
+                else if (i == R.id.chatItem)
+                    intent = new Intent(appointmentsP.this, PatientChatListActivity.class);
+
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
+    }
+
+
 
     private void setDateRange(long x,long y)
     {
@@ -707,6 +740,16 @@ public class appointmentsP extends AppCompatActivity {
     private String getTodayDate()
     {
         return DateFormat.format("yyyy-M-d", new Date()).toString();
+    }
+
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(this, PatientHomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
 }
