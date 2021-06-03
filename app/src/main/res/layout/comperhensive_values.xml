@@ -27,17 +27,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
             android:fillViewport="true"
             app:layout_constraintBottom_toTopOf="@+id/imageButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:id="@+id/len"
+            <HorizontalScrollView
+                android:id="@+id/scrolh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                android:fadeScrollbars="false"
                 android:fillViewport="true"
                 app:layout_constraintBottom_toBottomOf="@+id/scroll"
                 app:layout_constraintEnd_toEndOf="@+id/scroll"
@@ -48,12 +55,15 @@
                     android:id="@+id/idf"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:baselineAligned="false"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="0dp"
                     android:isScrollContainer="true"
-                    android:scrollIndicators="left">
+                    app:layout_constraintBottom_toTopOf="@+id/scrolh"
+                    app:layout_constraintEnd_toEndOf="@+id/scrolh"
+                    app:layout_constraintStart_toStartOf="@+id/scrolh"
+                    app:layout_constraintTop_toTopOf="@+id/scrolh">
 
 
                     <TableRow
@@ -68,7 +78,7 @@
                         <TextView
                             android:layout_width="0dip"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
+                            android:layout_weight="2"
                             android:fontFamily="@font/candal"
                             android:gravity="center"
                             android:text="Values"
@@ -102,15 +112,14 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="Percent %"
+                            android:text="Percent :"
                             android:textStyle="bold" />
 
 
                     </TableRow>
 
                 </TableLayout>
-
-            </LinearLayout>
+            </HorizontalScrollView>
         </ScrollView>
 
 

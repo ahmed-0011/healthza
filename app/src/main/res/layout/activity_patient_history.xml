@@ -20,16 +20,21 @@
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
             android:fillViewport="true"
-            app:layout_constraintBottom_toTopOf="@+id/imageView"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:id="@+id/len"
+            <HorizontalScrollView
+                android:id="@+id/scrolh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fadeScrollbars="false"
                 android:fillViewport="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
                 app:layout_constraintBottom_toBottomOf="@+id/scroll"
                 app:layout_constraintEnd_toEndOf="@+id/scroll"
                 app:layout_constraintStart_toStartOf="@+id/scroll"
@@ -39,15 +44,15 @@
                     android:id="@+id/idf"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="0dp"
                     android:isScrollContainer="true"
-                    app:layout_constraintBottom_toTopOf="@+id/len"
-                    app:layout_constraintEnd_toEndOf="@+id/len"
-                    app:layout_constraintStart_toStartOf="@+id/len"
-                    app:layout_constraintTop_toTopOf="@+id/len">
+                    app:layout_constraintBottom_toTopOf="@+id/scrolh"
+                    app:layout_constraintEnd_toEndOf="@+id/scrolh"
+                    app:layout_constraintStart_toStartOf="@+id/scrolh"
+                    app:layout_constraintTop_toTopOf="@+id/scrolh">
 
 
                     <TableRow
@@ -146,19 +151,8 @@
 
                 </TableLayout>
 
-            </LinearLayout>
+            </HorizontalScrollView>
         </ScrollView>
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/icoh"
-            tools:srcCompat="@drawable/icoh" />
 
         <ImageView
             android:id="@+id/imageView_"
