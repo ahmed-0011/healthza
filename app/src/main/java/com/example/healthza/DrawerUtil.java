@@ -283,9 +283,9 @@ public class DrawerUtil
                                 .withName("Medical Records").withIcon(R.drawable.medical_history)
                                 .withIconTintingEnabled(true),*/
 
-                        new PrimaryDrawerItem().withIdentifier(20)
+                       /* new PrimaryDrawerItem().withIdentifier(20)
                                 .withName("Log Medical").withIcon(R.drawable.medical_history)
-                                .withIconTintingEnabled(true),
+                                .withIconTintingEnabled(true),*/
 
                         new DividerDrawerItem(),
 
@@ -439,12 +439,12 @@ public class DrawerUtil
                                 break;
                             }*/
 
-                            case 20:
+                           /* case 20:
                             {
                                 Intent intent = new Intent(activity, PatientHistory.class);
                                 view.getContext().startActivity(intent);
                                 break;
-                            }
+                            }*/
 
                             case 16:
                                 break;
