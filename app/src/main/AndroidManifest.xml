@@ -72,10 +72,7 @@
             android:name=".ui.ViewIdentifiersP"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
-        <activity
-            android:name=".ui.PatientAppointments"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
+
         <activity
             android:name=".ui.DoctorChatListActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
