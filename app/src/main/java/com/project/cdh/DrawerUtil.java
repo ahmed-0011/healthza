@@ -1,4 +1,4 @@
-package com.example.healthza;
+package com.project.cdh;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -8,32 +8,32 @@ import android.view.View;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.healthza.ui.AddCholesterolAndFatsTest;
-import com.example.healthza.ui.AddFBStest;
-import com.example.healthza.ui.AddGlucoseTest;
-import com.example.healthza.ui.AddHypertensionTest;
-import com.example.healthza.ui.AddKidneysTest;
-import com.example.healthza.ui.AddLiverTest;
-import com.example.healthza.ui.AddPatientIdentifier;
-import com.example.healthza.ui.ComprehensiveTest;
-import com.example.healthza.ui.DViewIdentifiersP;
-import com.example.healthza.ui.DoctorAccountActivity;
-import com.example.healthza.ui.DoctorListActivity;
-import com.example.healthza.ui.DoctorSendRequestActivity;
-import com.example.healthza.ui.Functions;
-import com.example.healthza.ui.HbAlc;
-import com.example.healthza.ui.PatientAccountActivity;
-import com.example.healthza.ui.DoctorPatientMedicalHistory;
-import com.example.healthza.ui.PatientReceiveRequestActivity;
-import com.example.healthza.ui.ViewIdentifiersP;
-import com.example.healthza.ui.ViewMedicines;
-import com.example.healthza.ui.WelcomeActivity;
-import com.example.healthza.ui.addComplications;
-import com.example.healthza.ui.addNewTestAppointment;
-import com.example.healthza.ui.newChronicDiseases;
-import com.example.healthza.ui.updateComplicationStatus;
-import com.example.healthza.ui.viewComplications;
-import com.example.healthza.ui.viewComplicationsP;
+import com.project.cdh.ui.AddCholesterolAndFatsTest;
+import com.project.cdh.ui.AddFBStest;
+import com.project.cdh.ui.AddGlucoseTest;
+import com.project.cdh.ui.AddHypertensionTest;
+import com.project.cdh.ui.AddKidneysTest;
+import com.project.cdh.ui.AddLiverTest;
+import com.project.cdh.ui.AddPatientIdentifier;
+import com.project.cdh.ui.ComprehensiveTest;
+import com.project.cdh.ui.DViewIdentifiersP;
+import com.project.cdh.ui.DoctorAccountActivity;
+import com.project.cdh.ui.DoctorListActivity;
+import com.project.cdh.ui.DoctorSendRequestActivity;
+import com.project.cdh.ui.Functions;
+import com.project.cdh.ui.HbAlc;
+import com.project.cdh.ui.PatientAccountActivity;
+import com.project.cdh.ui.DoctorPatientMedicalHistory;
+import com.project.cdh.ui.PatientReceiveRequestActivity;
+import com.project.cdh.ui.ViewIdentifiersP;
+import com.project.cdh.ui.ViewMedicines;
+import com.project.cdh.ui.WelcomeActivity;
+import com.project.cdh.ui.addComplications;
+import com.project.cdh.ui.addNewTestAppointment;
+import com.project.cdh.ui.newChronicDiseases;
+import com.project.cdh.ui.updateComplicationStatus;
+import com.project.cdh.ui.viewComplications;
+import com.project.cdh.ui.viewComplicationsP;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -74,7 +74,7 @@ public class DrawerUtil
 
 
                         new PrimaryDrawerItem().withIdentifier(3)
-                                .withName("View Identifier").withIcon(R.drawable.mange_identfiers)
+                                .withName("View Relatives").withIcon(R.drawable.mange_identfiers)
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(4)
@@ -99,7 +99,7 @@ public class DrawerUtil
                         new DividerDrawerItem(),
 
                         new PrimaryDrawerItem().withIdentifier(9)
-                                .withName("LogOut").withIcon(R.drawable.logoutm)
+                                .withName("LogOut").withIcon(R.drawable.ic_exit)
                                 .withIconTintingEnabled(true)
                 )
 
@@ -244,7 +244,7 @@ public class DrawerUtil
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(5)
-                                .withName("Manage Identifier").withIcon(R.drawable.mange_identfiers)
+                                .withName("Manage Relatives").withIcon(R.drawable.mange_identfiers)
                                 .withIconTintingEnabled(true)
                                 .withSubItems(
                                         new SecondaryDrawerItem().withIdentifier(6)
@@ -293,7 +293,7 @@ public class DrawerUtil
                         new DividerDrawerItem(),
 
                         new PrimaryDrawerItem().withIdentifier(18)
-                                .withName("LogOut").withIcon(R.drawable.logoutm)
+                                .withName("LogOut").withIcon(R.drawable.ic_exit)
                                 .withIconTintingEnabled(true)
                 )
 
