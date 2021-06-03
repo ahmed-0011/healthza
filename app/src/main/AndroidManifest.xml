@@ -33,6 +33,10 @@
             android:name=".ui.PatientTestsStatisticsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
+            android:name=".ui.PatientHistoryD"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/noActionBarTheme" />
+        <activity
             android:name=".ui.DoctorAppointmentsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
