@@ -91,7 +91,7 @@ public class DoctorSendRequestActivity extends AppCompatActivity implements Send
         {
 
             LayoutInflater inflater = LayoutInflater.from(this);
-            View view = inflater.inflate(R.layout.add_patient_dialog, null);
+            View view = inflater.inflate(R.layout.dialog_add_patient, null);
 
             Button addPatientButton = view.findViewById(R.id.addPatientButton);
             RadioButton identificationNumberRadioButton = view.findViewById(R.id.identificationNumberRadioButton);

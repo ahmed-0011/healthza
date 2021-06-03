@@ -6,11 +6,12 @@ import com.muddzdev.styleabletoast.StyleableToast;
 
 public class Toasty
 {
+    ////////////varible /////////////
     public static int SUCCESS = 0;
     public static int WARNING = 1;
     public static int ERROR = 2;
     public static int INFORMATION = 4;
-
+/////////////////////////////////////////
     public static void showText(Context context, String message, int option, int length)
     {
         int white = context.getColor(R.color.white);

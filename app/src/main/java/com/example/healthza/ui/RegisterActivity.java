@@ -51,7 +51,6 @@ import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity
 {
-
     private static final String TAG = "RegisterActivity";
     RadioGroup userTypeRadioGroup;
     ProgressBar progressBar;

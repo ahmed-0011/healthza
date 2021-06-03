@@ -58,7 +58,7 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
         , CompoundButton.OnCheckedChangeListener
         , View.OnFocusChangeListener
 {
-
+/////////////////varable///////////////
     public final int holo_green_dark = 17170453;
     private static final  String ChannelID= "updateComplicationStatusNote";
 
@@ -96,7 +96,7 @@ public class updateComplicationStatus extends AppCompatActivity implements View.
     private static final String TAG = "updateNewComplicationNote";
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
-
+//////////////////////////////////////////////////
     @SuppressLint("LongLogTag")
     public boolean onSupportNavigateUp()
     {

@@ -2,10 +2,11 @@ package com.example.healthza.models;
 
 public class Contact
 {
+    /////////varable////////////
     private String name;
     private String phoneNumber;
     private String contactId;
-
+/////////////////////////////////////
     public Contact(Doctor doctor)
     {
         name = doctor.getName();

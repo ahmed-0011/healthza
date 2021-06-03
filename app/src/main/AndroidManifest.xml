@@ -5,31 +5,39 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/cdh_icon"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:roundIcon="@drawable/cdh_icon"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Theme.Healthza"
         tools:replace="android:supportsRtl">
-        <activity android:name=".ui.medicineEffectiveness"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
-        <activity android:name=".ui.updateMedicines"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
-        <activity android:name=".ui.ViewMedicines"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
-        <activity android:name=".ui.AddMedicines"
+        <activity android:name=".ui.PatientBodyInfoActivity"></activity>
+        <activity
+            android:name=".ui.medicineEffectiveness"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
         <activity
-            android:name=".ui.appointmentsD"
+            android:name=".ui.updateMedicines"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
         <activity
-            android:name=".ui.appointmentsP"
+            android:name=".ui.ViewMedicines"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/noActionBarTheme" />
+        <activity
+            android:name=".ui.AddMedicines"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/noActionBarTheme" />
+        <activity
+            android:name=".ui.PatientTestsStatisticsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".ui.DoctorAppointmentsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/noActionBarTheme" />
+        <activity
+            android:name=".ui.PatientAppointmentsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
         <activity
@@ -64,31 +72,24 @@
             android:name=".ui.ViewIdentifiersP"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
-        <activity
-            android:name=".ui.PatientAppointments"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
-        <activity
-            android:name=".ui.DoctorAppointments"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
+
         <activity
             android:name=".ui.DoctorChatListActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ChatMessagesActivity"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".ui.PatientChatListActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.DoctorHomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
             android:theme="@style/noActionBarTheme" />
-        <activity
-            android:name=".ui.patientMedicalRecords"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
+
         <activity
             android:name=".ui.medicalRecords"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -112,6 +113,7 @@
         <activity
             android:name=".ui.PatientHomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
             android:theme="@style/noActionBarTheme" />
         <activity
             android:name=".ui.EmailVerificationCodeActivity"
@@ -130,6 +132,7 @@
         </activity>
         <activity
             android:name=".ui.WelcomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/noActionBarTheme" />
         <activity
             android:name=".ui.RegisterActivity"
@@ -212,6 +215,7 @@
         <activity
             android:name=".ui.PatientChartsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
             android:theme="@style/noActionBarTheme" />
     </application>
 

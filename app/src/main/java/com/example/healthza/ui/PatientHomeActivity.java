@@ -1,7 +1,6 @@
 package com.example.healthza.ui;
 
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,24 +16,24 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.util.Pair;
 
 import com.example.healthza.DrawerUtil;
 import com.example.healthza.ProgressDialog;
+import com.example.healthza.TextInputEditTextFocusListenerHelper;
 import com.example.healthza.Toasty;
 import com.example.healthza.models.DailyTest;
 import com.example.healthza.models.Disease;
 import com.example.healthza.R;
-import com.github.mikephil.charting.data.Entry;
+import com.example.healthza.models.Patient;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.DateValidatorPointBackward;
 import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.Timestamp;
@@ -49,23 +48,30 @@ import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PatientHomeActivity extends AppCompatActivity
 {
-    private TextInputLayout weightInputlayout, heightInputlayout;
-    private TextInputEditText weightInputEditText, heightInputEditText;
+    private TextInputLayout weightInputLayout, heightInputLayout;
+    private TextInputEditText weightInputEditText, heightInputEditText, bmiInputEditText;
+    private ChipNavigationBar chipNavigationBar;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     private String patientId;
     private String patientName;
+    private DocumentReference patientRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -78,40 +84,23 @@ public class PatientHomeActivity extends AppCompatActivity
         patientId = firebaseAuth.getCurrentUser().getUid();
         patientName = firebaseAuth.getCurrentUser().getDisplayName();
 
-
+        patientRef = db.collection("patients")
+                .document(patientId);
+        
         SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
         boolean userCompleteInfo = sharedPreferences.getBoolean("user_complete_info", false);
 
         if (!userCompleteInfo)
             showWelcomeDialog();
+        else
+            setupCardViews();
 
-        setGlucoseCardView();
-        setHypertensionCardView();
-        setCholesterolCardViews();
+        chipNavigationBar = findViewById(R.id.bottomNavigationBar);
 
-        ChipNavigationBar chipNavigationBar = findViewById(R.id.bottomNavigationBar);
-        chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener()
-        {
-            @Override
-            public void onItemSelected(int i)
-            {
-                if (i == R.id.homeItem);
-                else if (i == R.id.medicalHistoryItem)
-                    startActivity(new Intent(PatientHomeActivity.this, medicalRecords.class));
-                else if (i == R.id.chartsItem)
-                {
-                    startActivity(new Intent(PatientHomeActivity.this, PatientChartsActivity.class));
-                }
-                else if (i == R.id.appointmentsItem)
-                    startActivity(new Intent(PatientHomeActivity.this,appointmentsP.class));
-                else if (i == R.id.chatItem)
-                    startActivity(new Intent(PatientHomeActivity.this, PatientChatListActivity.class));
-            }
-        });
-
+        setupBottomNavigationBar();
 
         LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.drawer_header, null);
+        View view = inflater.inflate(R.layout.header_drawer, null);
 
         TextView nameTextView = view.findViewById(R.id.nameTextView);
         TextView emailTextView = view.findViewById(R.id.emailTextView);
@@ -122,6 +111,338 @@ public class PatientHomeActivity extends AppCompatActivity
         DrawerUtil.getPatientDrawer(this, -1);
     }
 
+
+    private void setupBottomNavigationBar()
+    {
+        chipNavigationBar.setItemSelected(R.id.homeItem, true);
+
+        chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(int i)
+            {
+                Intent intent = null;
+
+                if (i == R.id.homeItem)
+                    return;
+                else if (i == R.id.medicalHistoryItem)
+                    intent = new Intent(PatientHomeActivity.this, medicalRecords.class);
+                else if (i == R.id.chartsItem)
+                    intent = new Intent(PatientHomeActivity.this, PatientChartsActivity.class);
+                else if (i == R.id.appointmentsItem)
+                    intent = new Intent(PatientHomeActivity.this, PatientAppointmentsActivity.class);
+                else if (i == R.id.chatItem)
+                    intent = new Intent(PatientHomeActivity.this, PatientChatListActivity.class);
+
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
+    }
+
+
+    private void setupCardViews()
+    {
+        setupTestStatisticsCardView();
+        setupBodyInfoCardView();
+        setupLatestThreeTestCardViews();
+        setupNextThreeAppointmentsCardViews();
+    }
+    
+    
+    private void setupTestStatisticsCardView()
+    {
+        TextView glucoseTestsTextView, hypertensionTestsTextView, cholesterolAndFatsTextView;
+
+        Button testsStatisticsButton;
+
+        glucoseTestsTextView = findViewById(R.id.glucoseTestsTextView);
+        hypertensionTestsTextView = findViewById(R.id.hypertensionTestsTextView);
+        cholesterolAndFatsTextView = findViewById(R.id.cholesterolAndFatsTextView);
+
+        testsStatisticsButton= findViewById(R.id.testsStatisticsButton);
+
+        testsStatisticsButton.setOnClickListener(v ->
+                startActivity(new Intent(this, PatientTestsStatisticsActivity.class)));
+
+
+        patientRef.collection("tests")
+                .document("glucose_test")
+                .get()
+                .addOnSuccessListener(glucoseTestsDocument ->
+                {
+                    if (glucoseTestsDocument.exists())
+                    {
+                        int totalNumberOfTests = glucoseTestsDocument.getDouble("count").intValue();
+                        glucoseTestsTextView.append(totalNumberOfTests + "");
+                    }
+                    else
+                        glucoseTestsTextView.append("0");
+                });
+
+        patientRef
+                .collection("tests")
+                .document("hypertension_test")
+                .get()
+                .addOnSuccessListener(hypertensionTestsDocument ->
+                {
+                    if (hypertensionTestsDocument.exists()) {
+                        int totalNumberOfTests = hypertensionTestsDocument
+                                .getDouble("count").intValue();
+
+                        hypertensionTestsTextView.append(totalNumberOfTests + "");
+                    } else
+                        hypertensionTestsTextView.append("0");
+
+                });
+
+        patientRef
+                .collection("tests")
+                .document("cholesterolAndFats_test")
+                .get()
+                .addOnSuccessListener(cholesterolAndFatsDocument ->
+                {
+                    if (cholesterolAndFatsDocument.exists())
+                    {
+                        int totalNumberOfTests = cholesterolAndFatsDocument
+                                .getDouble("count").intValue();
+                        cholesterolAndFatsTextView.append(totalNumberOfTests + "");
+                    }
+                    else
+                        cholesterolAndFatsTextView.append("0");
+
+
+                });
+    }
+
+
+    private void setupBodyInfoCardView()
+    {
+        TextView weightTextView, heightTextView, bmiTextView;
+
+        Button bodyInfoButton = findViewById(R.id.bodyInfoButton);
+
+        weightTextView = findViewById(R.id.weightTextView);
+        heightTextView = findViewById(R.id.heightTextView);
+        bmiTextView = findViewById(R.id.bmiTextView);
+
+        patientRef.get().addOnSuccessListener(patientDocument ->
+        {
+            if(patientDocument.exists())
+            {
+                Patient patient = patientDocument.toObject(Patient.class);
+
+                weightTextView.append(patient.getWeight() + " KG");
+                heightTextView.append(patient.getHeight() + "  M");
+                bmiTextView.append(patient.getBmi() + "");
+            }
+
+            bodyInfoButton.setOnClickListener(v ->
+                    startActivity(new Intent(this, PatientBodyInfoActivity.class)));
+        });
+    }
+
+
+    private void setupLatestThreeTestCardViews()
+    {
+        ConstraintLayout firstTestLayout, secondTestLayout, thirdTestLayout;
+
+        TextView firstTestTypeTextView, firstTestLevelTextView, firstTestTimeTextView,
+                 secondTestTypeTextView, secondTestLevelTextView, secondTestTimeTextView,
+                 thirdTestTypeTextView, thirdTestLevelTextView, thirdTestTimeTextView;
+
+        firstTestLayout = findViewById(R.id.firstTestLayout);
+        secondTestLayout = findViewById(R.id.secondTestLayout);
+        thirdTestLayout = findViewById(R.id.thirdTestLayout);
+
+        firstTestTypeTextView = findViewById(R.id.firstTestTypeTextView);
+        firstTestLevelTextView = findViewById(R.id.firstTestLevelTextView);
+        firstTestTimeTextView = findViewById(R.id.firstTestTimeTextView);
+        secondTestTypeTextView = findViewById(R.id.secondTestTypeTextView);
+        secondTestLevelTextView = findViewById(R.id.secondTestLevelTextView);
+        secondTestTimeTextView = findViewById(R.id.secondTestTimeTextView);
+        thirdTestTypeTextView = findViewById(R.id.thirdTestTypeTextView);
+        thirdTestLevelTextView = findViewById(R.id.thirdTestLevelTextView);
+        thirdTestTimeTextView = findViewById(R.id.thirdTestTimeTextView);
+
+        List<DailyTest> glucoseTests = new ArrayList<>();
+
+
+        CollectionReference testsRef = patientRef.collection("tests");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d hh:mm aa", Locale.US);
+
+        testsRef
+                .document("glucose_test")
+                .get()
+                .addOnSuccessListener(glucoseDocument ->
+                {
+                    Set<String> datesSet = new HashSet<>();
+
+                    if (glucoseDocument.exists())
+                        datesSet.addAll((List<String>) glucoseDocument.get("dates"));
+
+                    testsRef
+                            .document("hypertension_test")
+                            .get()
+                            .addOnSuccessListener(hypertensionDocument ->
+                            {
+                                if (hypertensionDocument.exists())
+                                    datesSet.addAll((List<String>) hypertensionDocument.get("dates"));
+
+                                testsRef
+                                        .document("cholesterolAndFats_test")
+                                        .get()
+                                        .addOnSuccessListener(cholesterolDocument ->
+                                        {
+                                            if (cholesterolDocument.exists())
+                                                datesSet.addAll((List<String>) cholesterolDocument.get("dates"));
+
+
+                                            List<String> dates = new ArrayList<>(datesSet);
+
+                                            Collections.sort(dates, new Comparator<String>() {
+                                                @Override
+                                                public int compare(String o1, String o2) {
+                                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
+
+                                                    try {
+                                                        Timestamp timestamp1 = new Timestamp(sdf.parse(o2));
+                                                        Timestamp timestamp2 = new Timestamp(sdf.parse(o1));
+
+                                                        return timestamp1.compareTo(timestamp2);
+                                                    } catch (ParseException e) { }
+
+                                                    return 0;
+                                                }
+                                            });
+
+                                            if(dates.size() > 0) {
+                                                db.collectionGroup(dates.get(0))
+                                                        .get()
+                                                        .addOnSuccessListener(testsDocuments ->
+                                                        {
+
+                                                            List<DocumentSnapshot> tests = testsDocuments.getDocuments();
+
+                                                            int countTests = 0;
+
+                                                            for (int i = 0; i < testsDocuments.size() && countTests != 3; i++) {
+                                                                String testType = tests.get(i).getString("type");
+                                                                String testLevel = "";
+                                                                if (testType.equals("glucose"))
+                                                                    testLevel = tests.get(i).getDouble("glucose_percent") + " mg/dl";
+                                                                else if (testType.equals("hypertension"))
+                                                                    testLevel = tests.get(i).getDouble("hypertension_percent") + " mg/dl";
+                                                                else if (testType.equals("cholesterol"))
+                                                                    testLevel = tests.get(i).getDouble("cholesterol_percent") + " mg/dl";
+
+                                                                Timestamp timestamp = tests.get(i).getTimestamp("timestamp");
+
+                                                                if (i == 0)
+                                                                {
+                                                                    Toast.makeText(PatientHomeActivity.this, simpleDateFormat.format(timestamp.toDate()), Toast.LENGTH_LONG).show();
+                                                                    firstTestTypeTextView.setText(testType);
+                                                                    firstTestLevelTextView.setText(testLevel);
+                                                                    firstTestTimeTextView.setText(simpleDateFormat.format(timestamp.toDate()));
+                                                                    firstTestLayout.setVisibility(View.VISIBLE);
+
+                                                                    countTests++;
+                                                                }
+                                                                else if (i == 1)
+                                                                {
+                                                                    secondTestTypeTextView.setText(testType);
+                                                                    secondTestLevelTextView.setText(testLevel);
+                                                                    secondTestTimeTextView.setText(simpleDateFormat.format(timestamp.toDate()));
+                                                                    secondTestLayout.setVisibility(View.VISIBLE);
+
+                                                                    countTests++;
+                                                                }
+                                                                else if (i == 2)
+                                                                {
+                                                                    thirdTestTypeTextView.setText(testType);
+                                                                    thirdTestLevelTextView.setText(testLevel);
+                                                                    thirdTestTimeTextView.setText(simpleDateFormat.format(timestamp.toDate()));
+                                                                    thirdTestLayout.setVisibility(View.VISIBLE);
+
+                                                                    countTests++;
+                                                                }
+                                                            }
+                                                        });
+                                            }
+                                        });
+                            });
+                });
+    }
+
+
+    private void setupNextThreeAppointmentsCardViews()
+    {
+        ConstraintLayout firstAppointmentLayout, secondAppointmentLayout, thirdAppointmentLayout;
+
+        TextView firstDoctorNameTextView, firstAppointmentTypeTextView, firstAppointmentTimeTextView,
+                secondDoctorNameTextView, secondAppointmentTypeTextView, secondAppointmentTimeTextView,
+                thirdDoctorNameTextView, thirdAppointmentTypeTextView,  thirdAppointmentTimeTextView;
+
+
+        firstAppointmentLayout = findViewById(R.id.firstAppointmentLayout);
+        secondAppointmentLayout = findViewById(R.id.secondAppointmentLayout);
+        thirdAppointmentLayout = findViewById(R.id.thirdAppointmentLayout);
+
+        firstAppointmentTypeTextView = findViewById(R.id.firstAppointmentTypeTextView);
+        firstDoctorNameTextView = findViewById(R.id.firstDoctorNameTextView);
+        firstAppointmentTimeTextView = findViewById(R.id.firstAppointmentTimeTextView);
+        secondAppointmentTypeTextView = findViewById(R.id.secondAppointmentTypeTextView);
+        secondDoctorNameTextView = findViewById(R.id. secondDoctorNameTextView);
+        secondAppointmentTimeTextView = findViewById(R.id.secondAppointmentTimeTextView);
+        thirdAppointmentTypeTextView = findViewById(R.id.thirdAppointmentTypeTextView);
+        thirdDoctorNameTextView = findViewById(R.id.thirdDoctorNameTextView);
+        thirdAppointmentTimeTextView = findViewById(R.id.thirdAppointmentTimeTextView);
+
+        patientRef
+                .collection("appointments")
+                .whereEqualTo("expired", false)
+                .orderBy("timestamp", Query.Direction.ASCENDING)
+                .limit(3)
+                .get().addOnSuccessListener(nextThreeAppointmentsDocuments ->
+        {
+            if (!nextThreeAppointmentsDocuments.isEmpty())
+            {
+                List<DocumentSnapshot> appointments = nextThreeAppointmentsDocuments.getDocuments();
+
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d hh:mm aa", Locale.US);
+
+                for (int i = 0; i < appointments.size(); i++)
+                {
+                    String doctorName = appointments.get(i).getString("doctorName");
+                    String appointmentType = appointments.get(i).getString("type");
+                    Timestamp timestamp = appointments.get(i).getTimestamp("timestamp");
+
+                    if(i == 0)
+                    {
+                        firstDoctorNameTextView.setText(doctorName);
+                        firstAppointmentTypeTextView.setText(appointmentType);
+                        firstAppointmentTimeTextView.setText(simpleDateFormat.format(timestamp.toDate()));
+                        firstAppointmentLayout.setVisibility(View.VISIBLE);
+                    }
+                    else if(i == 1)
+                    {
+                        secondDoctorNameTextView.setText(doctorName);
+                        secondAppointmentTypeTextView.setText(appointmentType);
+                        secondAppointmentTimeTextView.setText(simpleDateFormat.format(timestamp.toDate()));
+                        secondAppointmentLayout.setVisibility(View.VISIBLE);
+                    }
+                    else if(i == 2)
+                    {
+                        thirdDoctorNameTextView.setText(doctorName);
+                        thirdAppointmentTypeTextView.setText(appointmentType);
+                        thirdAppointmentTimeTextView.setText(simpleDateFormat.format(timestamp.toDate()));
+                        thirdAppointmentLayout.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+    }
 
     private void hideKeyboard()
     {
@@ -134,179 +455,23 @@ public class PatientHomeActivity extends AppCompatActivity
     }
 
 
-
-    private void setGlucoseCardView()
-    {
-        TextView glucoseTodayTestsTextView, latestGlucoseTestLevelTextView, latestGlucoseTestTimeTextView, highestGlucoseLevelTextView, lowestGlucoseLevelTextView, totalGlucoseTestsTextView;
-
-        glucoseTodayTestsTextView = findViewById(R.id.glucoseTodayTestsTextView);
-        latestGlucoseTestLevelTextView = findViewById(R.id.latestGlucoseTestLevelTextView);
-        latestGlucoseTestTimeTextView = findViewById(R.id.latestGlucoseTestTimeTextView);
-        highestGlucoseLevelTextView = findViewById(R.id.highestGlucoseLevelTextView);
-        lowestGlucoseLevelTextView = findViewById(R.id.lowestGlucoseLevelTextView);
-        totalGlucoseTestsTextView = findViewById(R.id.totalGlucoseTestsTextView);
-
-        db.collection("patients")
-                .document(patientId)
-                .collection("tests")
-                .document("glucose_test")
-                .collection(getTodayDate())
-                .orderBy("timestamp", Query.Direction.DESCENDING)
-                .get().addOnSuccessListener(glucoseDocuments ->
-        {
-
-            int todayTests = glucoseDocuments.size();
-
-            if(todayTests != 0)
-            {
-                DocumentSnapshot glucoseDocument = glucoseDocuments.getDocuments().get(0);
-                double testLevel = glucoseDocument.getDouble("glucose_percent");
-                Timestamp timestamp = glucoseDocuments.getDocuments().get(0).getTimestamp("timestamp");
-
-                String testTime = getTestTime(timestamp);
-
-                latestGlucoseTestLevelTextView.append(testLevel + "");
-                latestGlucoseTestTimeTextView.append(testTime);
-                glucoseTodayTestsTextView.append(todayTests + "");
-            }
-        });
-    }
-
-    private void setHypertensionCardView()
-    {
-        TextView hypertensionTodayTestsTextView, latestHypertensionTestLevelTextView, latestHypertensionTestTimeTextView, highestHypertensionLevelTextView, lowestHypertensionLevelTextView, totalHypertensionTestsTextView;
-
-        hypertensionTodayTestsTextView = findViewById(R.id.hypertensionTodayTestsTextView);
-        latestHypertensionTestLevelTextView = findViewById(R.id.latestHypertensionTestLevelTextView);
-        latestHypertensionTestTimeTextView = findViewById(R.id.latestHypertensionTestTimeTextView);
-        highestHypertensionLevelTextView = findViewById(R.id.highestHypertensionLevelTextView);
-        lowestHypertensionLevelTextView = findViewById(R.id.lowestHypertensionLevelTextView);
-        totalHypertensionTestsTextView = findViewById(R.id.totalHypertensionTestsTextView);
-
-        db.collection("patients")
-                .document(patientId)
-                .collection("tests")
-                .document("hypertension_test")
-                .collection(getTodayDate())
-                .orderBy("timestamp", Query.Direction.DESCENDING)
-                .get().addOnSuccessListener(hypertensionDocuments ->
-        {
-
-
-            int todayTests = hypertensionDocuments.size();
-            if(todayTests != 0)
-            {
-                DocumentSnapshot hypertensionDocument = hypertensionDocuments.getDocuments().get(0);
-                double testLevel = hypertensionDocument.getDouble("hypertension_percent");
-                Timestamp timestamp = hypertensionDocuments.getDocuments().get(0).getTimestamp("timestamp");
-
-                String testTime = getTestTime(timestamp);
-
-                latestHypertensionTestLevelTextView.append(testLevel + "");
-                latestHypertensionTestTimeTextView.append(testTime);
-                hypertensionTodayTestsTextView.append(todayTests + "");
-
-            }
-        });
-    }
-
-
-    private void setCholesterolCardViews()
-    {
-        TextView hdlTodayTestsTextView, latestHDLTestLevelTextView, latestHDLTestTimeTextView, highestHDLLevelTextView, lowestHDLLevelTextView, totalHDLTestsTextView,
-                ldlTodayTestsTextView, latestLDLTestLevelTextView, latestLDLTestTimeTextView, highestLDLLevelTextView, lowestLDLLevelTextView, totalLDLTestsTextView,
-                triglycerideTodayTestsTextView, latestTriglycerideTestLevelTextView, latestTriglycerideTestTimeTextView, highestTriglycerideLevelTextView, lowestTriglycerideLevelTextView, totalTriglycerideTestsTextView,
-                totalCholesterolTodayTestsTextView, latestTotalCholesterolTestLevelTextView, latestTotalCholesterolTestTimeTextView, highestTotalCholesterolLevelTextView, lowestTotalCholesterolLevelTextView, totalTotalCholesterolTestsTextView;
-
-        hdlTodayTestsTextView = findViewById(R.id.hdlTodayTestsTextView);
-        latestHDLTestLevelTextView = findViewById(R.id.latestHDLTestLevelTextView);
-        latestHDLTestTimeTextView = findViewById(R.id.latestHDLTestTimeTextView);
-        highestHDLLevelTextView = findViewById(R.id.highestHDLLevelTextView);
-        lowestHDLLevelTextView = findViewById(R.id.lowestHDLLevelTextView);
-        totalHDLTestsTextView = findViewById(R.id.totalHDLTestsTextView);
-
-        ldlTodayTestsTextView = findViewById(R.id.ldlTodayTestsTextView);
-        latestLDLTestLevelTextView = findViewById(R.id.latestLDLTestLevelTextView);
-        latestLDLTestTimeTextView = findViewById(R.id.latestLDLTestTimeTextView);
-        highestLDLLevelTextView = findViewById(R.id.highestLDLLevelTextView);
-        lowestLDLLevelTextView = findViewById(R.id.lowestLDLLevelTextView);
-        totalLDLTestsTextView = findViewById(R.id.totalLDLTestsTextView);
-
-        triglycerideTodayTestsTextView = findViewById(R.id.triglycerideTodayTestsTextView);
-        latestTriglycerideTestLevelTextView = findViewById(R.id.latestTriglycerideTestLevelTextView);
-        latestTriglycerideTestTimeTextView = findViewById(R.id.latestTriglycerideTestTimeTextView);
-        highestTriglycerideLevelTextView = findViewById(R.id.highestTriglycerideLevelTextView);
-        lowestTriglycerideLevelTextView = findViewById(R.id.lowestTriglycerideLevelTextView);
-        totalTriglycerideTestsTextView = findViewById(R.id.totalTriglycerideTestsTextView);
-
-        totalCholesterolTodayTestsTextView = findViewById(R.id.totalCholesterolTodayTestsTextView);
-        latestTotalCholesterolTestLevelTextView = findViewById(R.id.latestTotalCholesterolTestLevelTextView);
-        latestTotalCholesterolTestTimeTextView = findViewById(R.id.latestTotalCholesterolTestTimeTextView);
-        highestTotalCholesterolLevelTextView = findViewById(R.id.highestTotalCholesterolLevelTextView);
-        lowestTotalCholesterolLevelTextView = findViewById(R.id.lowestTotalCholesterolLevelTextView);
-        totalTotalCholesterolTestsTextView = findViewById(R.id.totalTotalCholesterolTestsTextView);
-
-        db.collection("patients")
-                .document(patientId)
-                .collection("tests")
-                .document("cholesterolAndFats_test")
-                .collection(getTodayDate())
-                .orderBy("timestamp", Query.Direction.DESCENDING)
-                .get().addOnSuccessListener(cholesterolDocuments ->
-        {
-
-            int todayTests = cholesterolDocuments.size();
-            if(todayTests != 0)
-            {
-                DocumentSnapshot cholesterolDocument = cholesterolDocuments.getDocuments().get(0);
-
-                double totalCholesterolLevel = cholesterolDocument.getDouble("CholesterolTotal_percent");
-                double hdlLevel = cholesterolDocument.getDouble("HDLCholesterol_percent");
-                double ldlLevel = cholesterolDocument.getDouble("LDLCholesterol_percent");
-                double triglycerideLevel = cholesterolDocument.getDouble("Triglycerid_percent");
-
-                Timestamp timestamp = cholesterolDocument.getTimestamp("timestamp");
-
-                String testTime = getTestTime(timestamp);
-
-                latestHDLTestLevelTextView.append(hdlLevel + "");
-                latestLDLTestLevelTextView.append(ldlLevel + "");
-                latestTriglycerideTestLevelTextView.append(triglycerideLevel + "");
-                latestTotalCholesterolTestLevelTextView.append(totalCholesterolLevel + "");
-
-                latestHDLTestTimeTextView.append(testTime);
-                latestLDLTestTimeTextView.append(testTime);
-                latestTriglycerideTestTimeTextView.append(testTime);
-                latestTotalCholesterolTestTimeTextView.append(testTime);
-
-                hdlTodayTestsTextView.append(todayTests + "");
-                ldlTodayTestsTextView.append(todayTests + "");
-                triglycerideTodayTestsTextView.append(todayTests + "");
-                totalCholesterolTodayTestsTextView.append(todayTests + "");
-            }
-        });
-    }
-
-
-
     @SuppressLint("SetTextI18n")
-    void showWelcomeDialog()
+    private void showWelcomeDialog()
     {
-
         LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.welcome_dialog, null);
+        View view = inflater.inflate(R.layout.dialog_welcome, null);
         Button startButton = view.findViewById(R.id.startButton);
         TextView welcomeTextView = view.findViewById(R.id.welcomeTextView);
         welcomeTextView.setText(welcomeTextView.getText() + " " + patientName);
+
         AlertDialog welcomeDialog = new AlertDialog.Builder(this)
                 .setCancelable(false)
                 .create();
 
         welcomeDialog.show();
-        int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.90);  // height in pixels for device
+        int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.90);    // height in pixels for device
         welcomeDialog.getWindow().setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT, height);
         welcomeDialog.setContentView(view);
-
 
         startButton.setOnClickListener(v -> {
             showPatientDialog1();
@@ -324,105 +489,101 @@ public class PatientHomeActivity extends AppCompatActivity
         return matcher.matches();
     }
 
-    private boolean isValidWeight(String weight) {
-        if (weight.isEmpty())
+
+    private boolean isValidWeight(String weight)
+    {
+        if (weight.isEmpty() || weight.equals("."))
             return false;
 
         double weight1 = Double.parseDouble(weight);
 
-        return weight1 <= 300;
+        return weight1 > 0 && weight1 <= 300;
     }
 
-    private boolean isValidHeight(String height) // No need to check if the field is empty
-    {                                            // because Regex won't match empty strings
-        if (height.isEmpty())
+
+    private boolean isValidHeight(String height)
+    {
+        if (height.isEmpty() || height.equals("."))
             return false;
 
         double height1 = Double.parseDouble(height);
 
-        return height1 <= 2.5;
-
+        return height1 > 0 && height1 <= 2.5;
     }
 
-    private void showPatientDialog1() {
+
+    private void showPatientDialog1()
+    {
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View view = inflater.inflate(R.layout.patient_dialog1, null);
+        View view = inflater.inflate(R.layout.dialog1_patient1, null);
 
-        CheckBox diabetesCheckBox, hypertensionCheckBox, cholestrolCheckBox;
-        TextInputLayout diabetesTypeInputLayout, hypertensionTypeInputLayout, cholestrolTypeInputLayout;
+        CheckBox diabetesCheckBox, hypertensionCheckBox, cholesterolCheckBox;
+        TextInputLayout diabetesTypeInputLayout, hypertensionTypeInputLayout, cholesterolTypeInputLayout;
         TextInputEditText diabetesTypeInputEditText, hypertensionTypeInputEditText,
-                cholestrolTypeInputEditText;
+                cholesterolTypeInputEditText;
 
         diabetesCheckBox = view.findViewById(R.id.diabetesCheckBox);
         hypertensionCheckBox = view.findViewById(R.id.bloodPressureCheckBox);
-        cholestrolCheckBox = view.findViewById(R.id.cholestrolCheckBox);
+        cholesterolCheckBox = view.findViewById(R.id.cholesterolCheckBox);
         diabetesTypeInputEditText = view.findViewById(R.id.diabetesTypeInputEditText);
         hypertensionTypeInputEditText = view.findViewById(R.id.hypertensionTypeInputEditText);
-        cholestrolTypeInputEditText = view.findViewById(R.id.cholestrolTypeInputEditText);
+        cholesterolTypeInputEditText = view.findViewById(R.id.cholesterolTypeInputEditText);
         diabetesTypeInputLayout = view.findViewById(R.id.diabetesTypeInputLayout);
         hypertensionTypeInputLayout = view.findViewById(R.id.hypertensionTypeInputLayout);
-        cholestrolTypeInputLayout = view.findViewById(R.id.cholestrolTypeInputLayout);
+        cholesterolTypeInputLayout = view.findViewById(R.id.cholesterolTypeInputLayout);
 
 
-        diabetesTypeInputEditText.addTextChangedListener(new TextWatcher() {
+        diabetesTypeInputEditText.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {    }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
                 if (isValidDiseaseType(diabetesTypeInputEditText.getText().toString()))
                     diabetesTypeInputLayout.setError(null);
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
-            }
+            public void afterTextChanged(Editable s) {  }
         });
 
-        hypertensionTypeInputEditText.addTextChangedListener(new TextWatcher() {
+        hypertensionTypeInputEditText.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {    }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
                 if (isValidDiseaseType(hypertensionTypeInputEditText.getText().toString()))
                     hypertensionTypeInputLayout.setError(null);
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
-            }
+            public void afterTextChanged(Editable s) {  }
         });
 
-        cholestrolTypeInputEditText.addTextChangedListener(new TextWatcher() {
+        cholesterolTypeInputEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {    }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (isValidDiseaseType(cholestrolTypeInputEditText.getText().toString()))
-                    cholestrolTypeInputLayout.setError(null);
+                if (isValidDiseaseType(cholesterolTypeInputEditText.getText().toString()))
+                    cholesterolTypeInputLayout.setError(null);
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
-            }
+            public void afterTextChanged(Editable s) {  }
         });
 
 
-
         /* enable Input Edit Text When checkbox is checked and disabled Input Edit Text if not */
-        diabetesCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        diabetesCheckBox.setOnCheckedChangeListener((buttonView, isChecked) ->
+        {
             diabetesTypeInputLayout.setEnabled(isChecked);
             diabetesTypeInputEditText.requestFocus();
         });
@@ -432,9 +593,9 @@ public class PatientHomeActivity extends AppCompatActivity
             hypertensionTypeInputEditText.requestFocus();
         });
 
-        cholestrolCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            cholestrolTypeInputLayout.setEnabled(isChecked);
-            cholestrolTypeInputEditText.requestFocus();
+        cholesterolCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            cholesterolTypeInputLayout.setEnabled(isChecked);
+            cholesterolTypeInputEditText.requestFocus();
         });
 
 
@@ -455,19 +616,16 @@ public class PatientHomeActivity extends AppCompatActivity
             // clear TextInputLayout's errors every time the button is pressed
             diabetesTypeInputLayout.setError(null);
             hypertensionTypeInputLayout.setError(null);
-            cholestrolTypeInputLayout.setError(null);
-
+            cholesterolTypeInputLayout.setError(null);
 
             String diabetesType = diabetesTypeInputEditText.getText().toString().trim();
             String hypertensionType = hypertensionTypeInputEditText.getText().toString().trim();
-            String cholestrolType = cholestrolTypeInputEditText.getText().toString().trim();
+            String cholesterolType = cholesterolTypeInputEditText.getText().toString().trim();
 
+            Disease diabetes, hypertension, cholesterol;
+            diabetes = hypertension = cholesterol = null;
 
-            Disease diabetes, hypertension, cholestrol;
-            diabetes = hypertension = cholestrol = null;
-
-
-            if (!diabetesCheckBox.isChecked() && !hypertensionCheckBox.isChecked() && !cholestrolCheckBox.isChecked())
+            if (!diabetesCheckBox.isChecked() && !hypertensionCheckBox.isChecked() && !cholesterolCheckBox.isChecked())
                 Toasty.showText(this, "Please select at least 1 disease",Toasty.WARNING ,Toast.LENGTH_LONG);
             else
             {
@@ -486,27 +644,33 @@ public class PatientHomeActivity extends AppCompatActivity
                 }
 
 
-                if (hypertensionCheckBox.isChecked()) {
-                    if (!isValidDiseaseType(hypertensionType)) {
+                if (hypertensionCheckBox.isChecked())
+                {
+                    if (!isValidDiseaseType(hypertensionType))
+                    {
                         hypertensionTypeInputLayout.setError("Invalid Disease type, disease type must containts alphabetic and spaces only");
                         hypertensionTypeInputEditText.requestFocus();
                         error = true;
-                    } else
+                    }
+                    else
                         hypertension = new Disease("hypertension", hypertensionType, "", false);
                 }
 
-                if (cholestrolCheckBox.isChecked()) {
-                    if (!isValidDiseaseType(cholestrolType)) {
-                        cholestrolTypeInputLayout.setError("Invalid Disease type, disease type must containts alphabetic and spaces only");
-                        cholestrolTypeInputEditText.requestFocus();
+                if (cholesterolCheckBox.isChecked())
+                {
+                    if (!isValidDiseaseType(cholesterolType))
+                    {
+                        cholesterolTypeInputLayout.setError("Invalid Disease type, disease type must containts alphabetic and spaces only");
+                        cholesterolTypeInputEditText.requestFocus();
                         error = true;
-                    } else
-                        cholestrol = new Disease("cholesterol", cholestrolType, "", false);
+                    }
+                    else
+                        cholesterol = new Disease("cholesterol", cholesterolType, "", false);
                 }
 
-                if (error == false)          // if there is no any errors in validating the inputs
+                if (error == false)     // if there is no any errors in validating the inputs
                 {
-                    showPatientDialog2(diabetes, hypertension, cholestrol);
+                    showPatientDialog2(diabetes, hypertension, cholesterol);
                     patientDialog1.dismiss();
                 }
             }
@@ -514,61 +678,70 @@ public class PatientHomeActivity extends AppCompatActivity
     }
 
 
-    void showPatientDialog2(Disease diabetes, Disease hypertension, Disease cholestrol)
+    void showPatientDialog2(Disease diabetes, Disease hypertension, Disease cholesterol)
     {
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View view = inflater.inflate(R.layout.patient_dialog2, null);
+        View view = inflater.inflate(R.layout.dialog_patient2, null);
 
-        Button selectDiabetesDetectionDateButton, selectHypertensionDetectionDateButton, selectCholestrolDetectionDateButton;
+        Button selectDiabetesDetectionDateButton, selectHypertensionDetectionDateButton, selectCholesterolDetectionDateButton;
 
         TextView selectedDiabetesDetectionDateTextView, selectedHypertensionDetectionDateTextView,
-                selectedCholestrolDetectionDateTextView, diabetesDetectionTextView,
-                hypertensionDetectionDateTextView, cholestrolDetectionDateTextView;
+                selectedCholesterolDetectionDateTextView, diabetesDetectionTextView,
+                hypertensionDetectionDateTextView, cholesterolDetectionDateTextView;
 
         diabetesDetectionTextView = view.findViewById(R.id.diabetesDetectionDateTextView);
         hypertensionDetectionDateTextView = view.findViewById(R.id.hypertensionDetectionDateTextView);
-        cholestrolDetectionDateTextView = view.findViewById(R.id.cholestrolDetectionDateTextView);
+        cholesterolDetectionDateTextView = view.findViewById(R.id.cholesterolDetectionDateTextView);
         selectedDiabetesDetectionDateTextView = view.findViewById(R.id.selectedDiabetesDetectionDateTextView);
         selectedHypertensionDetectionDateTextView = view.findViewById(R.id.selectedHypertensionDetectionDateTextView);
-        selectedCholestrolDetectionDateTextView = view.findViewById(R.id.selectedCholestrolDetectionDateTextView);
+        selectedCholesterolDetectionDateTextView = view.findViewById(R.id.selectedCholesterolDetectionDateTextView);
         selectDiabetesDetectionDateButton = view.findViewById(R.id.selectDiabetesDetectionDateButton);
         selectHypertensionDetectionDateButton = view.findViewById(R.id.selectHypertensionDetectionDateButton);
-        selectCholestrolDetectionDateButton = view.findViewById(R.id.selectCholestrolDateButton);
+        selectCholesterolDetectionDateButton = view.findViewById(R.id.selectCholesterolDateButton);
 
-        weightInputlayout = view.findViewById(R.id.weightInputLayout);
-        heightInputlayout = view.findViewById(R.id.heightInputLayout);
+        weightInputLayout = view.findViewById(R.id.weightInputLayout);
+        heightInputLayout = view.findViewById(R.id.heightInputLayout);
         weightInputEditText = view.findViewById(R.id.weightInputEditText);
         heightInputEditText = view.findViewById(R.id.heightInputEditText);
+        bmiInputEditText = view.findViewById(R.id.bmiInputEditText);
 
+        TextInputEditTextFocusListenerHelper.add(this, weightInputEditText);
+        TextInputEditTextFocusListenerHelper.add(this, heightInputEditText);
 
-        selectDiabetesDetectionDateButton.setOnClickListener(view1 -> {
-            showDateDialog(selectedDiabetesDetectionDateTextView);
+        addOnTextChangeListenersForInputEditText();
+
+        selectDiabetesDetectionDateButton.setOnClickListener(view1 ->
+                showDateDialog(selectedDiabetesDetectionDateTextView)
+        );
+
+        selectHypertensionDetectionDateButton.setOnClickListener(view1 ->
+            showDateDialog(selectedHypertensionDetectionDateTextView)
+        );
+
+        selectCholesterolDetectionDateButton.setOnClickListener(view1 ->
+        {
+            showDateDialog(selectedCholesterolDetectionDateTextView);
+            cholesterol.setDiagnosisDate(selectedCholesterolDetectionDateTextView.getText().toString());
         });
 
-        selectHypertensionDetectionDateButton.setOnClickListener(view1 -> {
-            showDateDialog(selectedHypertensionDetectionDateTextView);
-        });
 
-        selectCholestrolDetectionDateButton.setOnClickListener(view1 -> {
-            showDateDialog(selectedCholestrolDetectionDateTextView);
-            cholestrol.setDiagnosisDate(selectedCholestrolDetectionDateTextView.getText().toString());
-        });
-
-
-        if (diabetes == null) {
+        if (diabetes == null)
+        {
             diabetesDetectionTextView.setVisibility(View.GONE);
             selectDiabetesDetectionDateButton.setVisibility(View.GONE);
         }
 
-        if (hypertension == null) {
+        if (hypertension == null)
+        {
             hypertensionDetectionDateTextView.setVisibility(View.GONE);
             selectHypertensionDetectionDateButton.setVisibility(View.GONE);
         }
 
-        if (cholestrol == null) {
-            cholestrolDetectionDateTextView.setVisibility(View.GONE);
-            selectCholestrolDetectionDateButton.setVisibility(View.GONE);
+        if (cholesterol == null)
+        {
+            cholesterolDetectionDateTextView.setVisibility(View.GONE);
+            selectCholesterolDetectionDateButton.setVisibility(View.GONE);
         }
 
 
@@ -581,15 +754,12 @@ public class PatientHomeActivity extends AppCompatActivity
 
         patientDialog2.show();
 
-
         Button positiveButton = patientDialog2.getButton(DialogInterface.BUTTON_POSITIVE);
 
         positiveButton.setOnClickListener(v ->
         {
-
-            weightInputlayout.setError(null);
-            heightInputlayout.setError(null);
-
+            weightInputLayout.setError(null);
+            heightInputLayout.setError(null);
 
             String error = "";
 
@@ -597,7 +767,7 @@ public class PatientHomeActivity extends AppCompatActivity
             {
                 String diabetesDetectionDate = selectedDiabetesDetectionDateTextView.getText().toString();
                 if (diabetesDetectionDate.isEmpty())
-                    error = error + "Please enter detection date for diabetes.\n\n";
+                    error = error + "Please enter detection date for diabetes.\n";
                 else
                     diabetes.setDiagnosisDate(selectedDiabetesDetectionDateTextView.getText().toString());
             }
@@ -606,18 +776,18 @@ public class PatientHomeActivity extends AppCompatActivity
             {
                 String hypertensionDetectionDate = selectedHypertensionDetectionDateTextView.getText().toString();
                 if (hypertensionDetectionDate.isEmpty())
-                    error = error + "Please enter detection date for hypertension.\n\n";
+                    error = error + "Please enter detection date for hypertension.\n";
                 else
                     hypertension.setDiagnosisDate(selectedHypertensionDetectionDateTextView.getText().toString());
             }
 
-            if (cholestrol != null)
+            if (cholesterol != null)
             {
-                String cholestrolDetectionDate = selectedCholestrolDetectionDateTextView.getText().toString();
-                if (cholestrolDetectionDate.isEmpty())
-                    error = error + "Please enter detection date for cholesterol.\n\n";
+                String cholesterolDetectionDate = selectedCholesterolDetectionDateTextView.getText().toString();
+                if (cholesterolDetectionDate.isEmpty())
+                    error = error + "Please enter detection date for cholesterol.\n";
                 else
-                    cholestrol.setDiagnosisDate(selectedCholestrolDetectionDateTextView.getText().toString());
+                    cholesterol.setDiagnosisDate(selectedCholesterolDetectionDateTextView.getText().toString());
             }
 
 
@@ -629,12 +799,14 @@ public class PatientHomeActivity extends AppCompatActivity
             {
                 Toasty.showText(this, error, Toasty.WARNING, Toast.LENGTH_LONG);
             }
-            else if (!isValidWeight(weightString)) {
-                weightInputlayout.setError("Invalid weight, weight must be less than 300 KG");
+            else if (!isValidWeight(weightString))
+            {
+                weightInputLayout.setError("Invalid weight, weight must be less than 300 KG");
                 weightInputEditText.requestFocus();
             }
-            else if (!isValidHeight(heightString)) {
-                heightInputlayout.setError("Invalid height, height must be in meters..  ex: 2.5");
+            else if (!isValidHeight(heightString))
+            {
+                heightInputLayout.setError("Invalid height, height must be in meters..  ex: 2.5");
                 heightInputEditText.requestFocus();
             }
             else
@@ -665,17 +837,20 @@ public class PatientHomeActivity extends AppCompatActivity
 
                 batch.update(patientRef, additionalInfo);
 
-                if (diabetes != null) {
+                if (diabetes != null)
+                {
                     DocumentReference diabetesRef = diseasesRef.document();
                     batch.set(diabetesRef, diabetes);
                 }
-                if (hypertension != null) {
+                if (hypertension != null)
+                {
                     DocumentReference hypertensionRef = diseasesRef.document();
                     batch.set(hypertensionRef, hypertension);
                 }
-                if (cholestrol != null) {
-                    DocumentReference cholestrolRef = diseasesRef.document();
-                    batch.set(cholestrolRef, cholestrol);
+                if (cholesterol != null)
+                {
+                    DocumentReference cholesterolRef = diseasesRef.document();
+                    batch.set(cholesterolRef, cholesterol);
                 }
 
                 batch.commit().addOnCompleteListener(task ->
@@ -684,7 +859,10 @@ public class PatientHomeActivity extends AppCompatActivity
                     progressDialog.showProgressDialog("Updating Profile...");
                     if (task.isSuccessful())
                     {
+                        setupCardViews();
                         patientDialog2.dismiss();
+
+
                         Handler handler = new Handler(Looper.getMainLooper());
                         handler.postDelayed(new Runnable()
                         {
@@ -692,11 +870,12 @@ public class PatientHomeActivity extends AppCompatActivity
                             public void run()
                             {
                                 progressDialog.dismissProgressDialog();
-                                Toasty.showText(PatientHomeActivity.this, "your profile updated successfully",
+                                Toasty.showText(PatientHomeActivity.this, "Your profile updated successfully",
                                         Toasty.INFORMATION, Toast.LENGTH_LONG);
                             }
                         },3000);
-                        /* this shared oeferences is used when the user is using the app right after register
+
+                        /* this shared preferences is used when the user is using the app right after register
                          *  and update his information */
                         SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -714,47 +893,91 @@ public class PatientHomeActivity extends AppCompatActivity
         });
     }
 
-    private void addOnTextChangeListenersForInputEditText() {
-
-        weightInputEditText.addTextChangedListener(new TextWatcher() {
+    private void addOnTextChangeListenersForInputEditText()
+    {
+        weightInputEditText.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {    }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                String weightString = weightInputEditText.getText().toString();
+                String heightString = heightInputEditText.getText().toString();
+
+                bmiInputEditText.setText("");
+
+                if (isValidWeight(weightString))
+                {
+                    weightInputLayout.setError(null);
+
+                    if(isValidHeight(heightString))
+                    {
+                        double bmi = calculateBMI(weightString, heightString);
+                        bmiInputEditText.setText(bmi + "");
+                    }
+                }
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (isValidHeight(weightInputEditText.getText().toString()))
-                    weightInputlayout.setError(null);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {  }
         });
 
-        heightInputEditText.addTextChangedListener(new TextWatcher() {
+        heightInputEditText.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {    }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                String weightString = weightInputEditText.getText().toString();
+                String heightString = heightInputEditText.getText().toString();
+
+                bmiInputEditText.setText("");
+
+                if (isValidHeight(heightString))
+                {
+                    heightInputLayout.setError(null);
+
+                    if(isValidWeight(weightString))
+                    {
+                        double bmi = calculateBMI(weightString, heightString);
+                        bmiInputEditText.setText(bmi + "");
+                    }
+                        
+                }
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (isValidHeight(heightInputEditText.getText().toString()))
-                    heightInputlayout.setError(null);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {  }
         });
     }
 
+
+    private double calculateBMI(String weightString, String heightString)
+    {
+        double weight = Double.parseDouble(weightString);
+        double height = Double.parseDouble(heightString);
+        double bmi = weight / Math.pow(height, 2);
+
+        BigDecimal bd = new BigDecimal(bmi).setScale(2, RoundingMode.HALF_UP);
+        bmi = bd.doubleValue();
+
+        return  bmi;
+    }
+
+
     private void showDateDialog(TextView textView)
     {
-        MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker
-                .Builder
-                .datePicker()
-                .build();
+        MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder
+                .datePicker();
+
+        CalendarConstraints.Builder constraintsBuilder = new CalendarConstraints.Builder();
+        builder.setCalendarConstraints(constraintsBuilder.setValidator(DateValidatorPointBackward.now()).build());
+
+        MaterialDatePicker<Long> materialDatePicker = builder.build();
 
         materialDatePicker.addOnPositiveButtonClickListener(selection ->
         {
@@ -768,12 +991,13 @@ public class PatientHomeActivity extends AppCompatActivity
         materialDatePicker.show(getSupportFragmentManager(), "PatientHomeActivity");
     }
 
-    public void logOut()
+    private void logOut()
     {
         AlertDialog.Builder   x= new AlertDialog.Builder ( this );
         x.setMessage ( "DO YOU WANT TO LogOut?" ).setTitle ( "Patient LogOut" )
 
-                .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
+                .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener ()
+                {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(getApplicationContext(), "LogedOut...", Toast.LENGTH_SHORT).show();
@@ -795,23 +1019,6 @@ public class PatientHomeActivity extends AppCompatActivity
                 .setPositiveButtonIcon (getDrawable ( R.drawable.yes))
                 .setNegativeButtonIcon(getDrawable ( R.drawable.no))
                 .show ();
-    }
-
-    private String getTestTime(Timestamp timestamp)
-    {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm aa", Locale.US);
-
-        String testTime = simpleDateFormat.format(timestamp.toDate());
-
-        return testTime;
-    }
-
-
-    private String getTodayDate()
-    {
-        Calendar calendar = Calendar.getInstance();
-
-        return DateFormat.format("yyyy-M-d", calendar).toString();
     }
 
     //rotate

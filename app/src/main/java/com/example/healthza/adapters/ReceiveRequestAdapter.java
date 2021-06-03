@@ -15,15 +15,16 @@ import com.example.healthza.models.ReceiveRequest;
 
 import java.util.List;
 
-public class ReceiveRequestAdapter extends RecyclerView.Adapter<ReceiveRequestAdapter.ViewHolder> {
-    private final List<ReceiveRequest> receiveRequests;
+public class ReceiveRequestAdapter extends RecyclerView.Adapter<ReceiveRequestAdapter.ViewHolder>
+{
     private final Context context;
+    private final List<ReceiveRequest> receiveRequests;
     private final OnReceiveRequestItemClickListener onReceiveRequestItemClickListener;
 
     public ReceiveRequestAdapter(Context context, List<ReceiveRequest> receiveRequests, OnReceiveRequestItemClickListener onReceiveRequestItemClickListener)
     {
-        this.receiveRequests = receiveRequests;
         this.context = context;
+        this.receiveRequests = receiveRequests;
         this.onReceiveRequestItemClickListener = onReceiveRequestItemClickListener;
     }
 

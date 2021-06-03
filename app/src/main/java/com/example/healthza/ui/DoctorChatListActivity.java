@@ -44,7 +44,7 @@ public class DoctorChatListActivity extends AppCompatActivity implements ChatAda
     private FloatingActionButton addChatFloatingActionButton;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -70,9 +70,7 @@ public class DoctorChatListActivity extends AppCompatActivity implements ChatAda
         chatRecyclerView.setAdapter(chatAdapter);
 
         addChatFloatingActionButton.setOnClickListener(v ->
-        {
-           addNewChat();
-        });
+                addNewChat() );
     }
 
     private void getChats()

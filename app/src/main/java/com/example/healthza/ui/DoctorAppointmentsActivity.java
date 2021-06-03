@@ -3,12 +3,9 @@ package com.example.healthza.ui;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.core.util.Pair;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -16,7 +13,6 @@ import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -25,7 +21,7 @@ import android.widget.ViewFlipper;
 
 import com.example.healthza.R;
 import com.example.healthza.Toasty;
-import com.example.healthza.adapters.PatientAppointmentAdapter;
+import com.example.healthza.adapters.DoctorAppointmentAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -35,9 +31,7 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -52,15 +46,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+public class DoctorAppointmentsActivity extends AppCompatActivity {
 
-public class appointmentsP extends AppCompatActivity {
-//
     List<Map<String, Object>> NEW;
     List<Map<String, Object>> EXPIERD;
-    PatientAppointmentAdapter adp;
-
-    private Long selectedDate;
-    private String pickedDate;
+    DoctorAppointmentAdapter adp;
 
     FirebaseFirestore db;
     FirebaseAuth firebaseAuth;
@@ -76,6 +66,9 @@ public class appointmentsP extends AppCompatActivity {
     int child1=0,child2=0;
     Long sd,ed;
 
+    private Long selectedDate;
+    private String pickedDate;
+
     FloatingActionButton update;
     FloatingActionButton Range;
 
@@ -89,10 +82,10 @@ public class appointmentsP extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
-        String pId = firebaseAuth.getCurrentUser().getUid();
+        String dId = firebaseAuth.getCurrentUser().getUid();
         getData();
 
-        setContentView(R.layout.activity_appointments_p);
+        setContentView(R.layout.activity_appointments_d);
 
         stu = true;
         bn1=true;
@@ -129,7 +122,6 @@ public class appointmentsP extends AppCompatActivity {
                 viewFlipper.setInAnimation(getApplicationContext(), android.R.anim.slide_in_left);
                 viewFlipper.setOutAnimation(getApplicationContext(), android.R.anim.slide_out_right);
                 viewFlipper.showNext();
-
             }
         });
 
@@ -138,6 +130,7 @@ public class appointmentsP extends AppCompatActivity {
         bt2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 bt1.setEnabled(true);
                 bt2.setEnabled(false);
                 btngg.clearChecked();
@@ -156,8 +149,8 @@ public class appointmentsP extends AppCompatActivity {
                 viewFlipper.showNext();
                 //viewFlipper.showPrevious();
             }
-
         });
+
 
         update = findViewById(R.id.fpa2);
         update.setOnClickListener(new View.OnClickListener() {
@@ -182,6 +175,7 @@ public class appointmentsP extends AppCompatActivity {
             }
         });
     }
+
 
     private void setDateRange(long x,long y)
     {
@@ -211,11 +205,11 @@ public class appointmentsP extends AppCompatActivity {
             cls();
             sd=dateRange.first;
             ed=dateRange.second;
-            //Toasty.showText(getApplicationContext(),new Date(dateRange.first).toString()+"  \n------------\n  "+new Date(dateRange.second).toString(),Toasty.INFORMATION,Toast.LENGTH_SHORT);
-        getData(new Date(dateRange.first), new Date(dateRange.second));
+
+            getData(new Date(dateRange.first), new Date(dateRange.second));
         });
 
-        materialDatePicker.show(getSupportFragmentManager(), "appointmentsP");
+        materialDatePicker.show(getSupportFragmentManager(), "DoctorAppointmentsActivity");
     }
 
     void getData(Date d1,Date d2)
@@ -234,29 +228,29 @@ public class appointmentsP extends AppCompatActivity {
         cal.add(Calendar.DATE, 1);
         d2=new Date(String.valueOf(cal.getTime()));
 
-       for(int i=0;i<NEW.size();i++)
-       {
-           Date d=((Timestamp)NEW.get(i).get("timestamp")).toDate();
-           Toasty.showText(getApplicationContext(),d.toString(),Toasty.INFORMATION,Toast.LENGTH_SHORT);
-           if((d.compareTo(d1)>=0)
-           &&(d.compareTo(d2)<0))
-           {
-               NEW_.add(NEW.get(i));
-           }
-       }
+        for(int i=0;i<NEW.size();i++)
+        {
+            Date d=((Timestamp)NEW.get(i).get("timestamp")).toDate();
+            Toasty.showText(getApplicationContext(),d.toString(),Toasty.INFORMATION, Toast.LENGTH_SHORT);
+            if((d.compareTo(d1)>=0)
+                    &&(d.compareTo(d2)<0))
+            {
+                NEW_.add(NEW.get(i));
+            }
+        }
 
         for(int i=0;i<EXPIERD.size();i++)
         {
             Date d=((Timestamp)EXPIERD.get(i).get("timestamp")).toDate();
             if((d.compareTo(d1)>=0)
-            &&(d.compareTo(d2)<0))
+                    &&(d.compareTo(d2)<0))
             {
                 EXPIERD_.add(EXPIERD.get(i));
             }
         }
-                showN(NEW_);
-                showE(EXPIERD_);
-                x.dismiss();
+        showN(NEW_);
+        showE(EXPIERD_);
+        x.dismiss();
 
     }
 
@@ -271,9 +265,9 @@ public class appointmentsP extends AppCompatActivity {
         EXPIERD = new ArrayList<>();
 
         //List<Map<String, Object>> data = new ArrayList<>();
-        String pId = firebaseAuth.getCurrentUser().getUid();
-        Query DRC = db.collection("patients")
-                .document(pId).collection("appointments")
+        String dId = firebaseAuth.getCurrentUser().getUid();
+        Query DRC = db.collection("doctors")
+                .document(dId).collection("appointments")
                 .orderBy("timestamp");
         DRC.get().addOnCompleteListener(task -> {
 
@@ -281,7 +275,7 @@ public class appointmentsP extends AppCompatActivity {
                 for (QueryDocumentSnapshot document : task.getResult()) {
 
                     Map<String, Object> record = new HashMap<>();
-                    record.put("doctorName", document.getString("doctorName"));
+                    record.put("patientName", document.getString("patientName"));
                     record.put("doctorId", document.getString("doctorId"));
                     record.put("type", document.getString("type"));
                     record.put("timestamp", document.getTimestamp("timestamp"));
@@ -289,14 +283,23 @@ public class appointmentsP extends AppCompatActivity {
                     record.put("description", document.getString("description"));
                     record.put("id", document.getId());
 
+                    Query DRC0 =  db.collection("patients")
+                            .whereEqualTo("identificationNumber",document.get("patientId"));
+
+                    DRC0.get().addOnCompleteListener(task1 -> {
+
+                        task1.getResult().getDocuments().get(0).get("identificationNumber");
+                        record.put("pid", (""+task1.getResult().getDocuments().get(0).getId()));
+                    });
+
                     if(document.getBoolean("expired"))EXPIERD.add(record);
                     else {
 
                         com.google.firebase.Timestamp t2 = document.getTimestamp("timestamp");
                         if (t2.compareTo(t1) <= 0) {
 
-                            DocumentReference DRC1 =db.collection("patients")
-                                    .document(pId).collection("appointments").document(document.getId());
+                            DocumentReference DRC1 =db.collection("doctors")
+                                    .document(dId).collection("appointments").document(document.getId());
                             DRC1.update("expired", true)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
@@ -341,6 +344,13 @@ public class appointmentsP extends AppCompatActivity {
             tr1.setScrollBarFadeDuration(0);
 
             TextView textview = new TextView(this);
+            textview.setText("---------");
+            textview.setLayoutParams(mw); // match warp wighet
+            textview.setGravity(Gravity.CENTER); //gravity center
+            // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            tr1.addView(textview);
+
+            textview = new TextView(this);
             textview.setText("---------");
             textview.setLayoutParams(mw); // match warp wighet
             textview.setGravity(Gravity.CENTER); //gravity center
@@ -444,7 +454,7 @@ public class appointmentsP extends AppCompatActivity {
             tr1.addView(textview);
 
             textview = new TextView(this);
-            textview.setText(EXPIERD.get(i).get("doctorName").toString());
+            textview.setText(EXPIERD.get(i).get("patientName").toString());
             textview.setLayoutParams(mw); // match warp wighet
             textview.setGravity(Gravity.CENTER); //gravity center
             // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -462,9 +472,14 @@ public class appointmentsP extends AppCompatActivity {
             }
             else
             {
+                TableRow.LayoutParams mw1 = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT,1);
+
+                mw1.setMarginEnd(5);
+
                 textview = new TextView(this);
                 textview.setText("Description");
-                textview.setLayoutParams(mw);
+                textview.setLayoutParams(mw1);
                 textview.setForeground(getResources().getDrawable(R.drawable.round_blue_prel));
                 textview.setTextColor(Color.rgb(41, 182, 246));
                 textview.setTypeface(Typeface.DEFAULT_BOLD);
@@ -472,7 +487,7 @@ public class appointmentsP extends AppCompatActivity {
                 textview.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new AlertDialog.Builder(appointmentsP.this)
+                        new AlertDialog.Builder(DoctorAppointmentsActivity.this)
                                 .setMessage(description)
                                 .setPositiveButton(android.R.string.ok, null)
                                 .show();
@@ -481,6 +496,97 @@ public class appointmentsP extends AppCompatActivity {
                 });
                 tr1.addView(textview);
             }
+
+            textview = new TextView(this);
+            textview.setText("Remove");
+            textview.setLayoutParams(mw);
+            textview.setForeground(getResources().getDrawable(R.drawable.round_red));
+            textview.setTextColor(Color.rgb(255,0,0));
+            textview.setTypeface(Typeface.DEFAULT_BOLD);
+            textview.setGravity(Gravity.CENTER);
+            int finalI = i;
+            textview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    DocumentReference Refs = db.collection("doctors")
+                            .document(firebaseAuth.getCurrentUser().getUid())
+                            .collection("appointments").document(EXPIERD.get(finalI).get("id").toString());
+                    Refs.delete().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentReference refs = db.collection("patients")
+                                    .document(EXPIERD.get(finalI).get("pid").toString())
+                                    .collection("appointments").document(EXPIERD.get(finalI).get("id").toString());
+
+                            refs.delete().addOnCompleteListener(task1 -> {
+                                if (task1.isSuccessful()) {
+                                    //
+                                    tb2.removeView(tr1);
+                                    if(tb2.getChildCount()==child2)
+                                    {
+                                        TableRow.LayoutParams mw = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                                                TableRow.LayoutParams.WRAP_CONTENT,1);
+
+                                        TableRow tr1 = new TableRow(DoctorAppointmentsActivity.this);
+                                        tr1.setPaddingRelative(5,5,5,5);
+                                        tr1.setGravity(Gravity.CENTER);
+                                        tr1.setScrollbarFadingEnabled(false);
+                                        tr1.setScrollBarFadeDuration(0);
+
+                                        TextView textview = new TextView(DoctorAppointmentsActivity.this);
+                                        textview.setText("---------");
+                                        textview.setLayoutParams(mw); // match warp wighet
+                                        textview.setGravity(Gravity.CENTER); //gravity center
+                                        // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                        tr1.addView(textview);
+
+                                        textview = new TextView(DoctorAppointmentsActivity.this);
+                                        textview.setText("---------");
+                                        textview.setLayoutParams(mw); // match warp wighet
+                                        textview.setGravity(Gravity.CENTER); //gravity center
+                                        // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                        tr1.addView(textview);
+
+                                        textview = new TextView(DoctorAppointmentsActivity.this);
+                                        textview.setText("---------");
+                                        textview.setLayoutParams(mw); // match warp wighet
+                                        textview.setGravity(Gravity.CENTER); //gravity center
+                                        // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                        tr1.addView(textview);
+
+                                        textview = new TextView(DoctorAppointmentsActivity.this);
+                                        textview.setText("---------");
+                                        textview.setLayoutParams(mw); // match warp wighet
+                                        textview.setGravity(Gravity.CENTER); //gravity center
+                                        // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                        tr1.addView(textview);
+
+                                        textview = new TextView(DoctorAppointmentsActivity.this);
+                                        textview.setText("---------");
+                                        textview.setLayoutParams(mw); // match warp wighet
+                                        textview.setGravity(Gravity.CENTER); //gravity center
+                                        // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                        tr1.addView(textview);
+
+                                        textview = new TextView(DoctorAppointmentsActivity.this);
+                                        textview.setText("---------");
+                                        textview.setLayoutParams(mw); // match warp wighet
+                                        textview.setGravity(Gravity.CENTER); //gravity center
+                                        // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                        tr1.addView(textview);
+
+                                        tb2.addView(tr1);
+                                    }
+                                    //
+                                }
+                            });
+                        }
+                    });
+                    return;
+                }
+            });
+            tr1.addView(textview);
+
             tb2.addView(tr1);
 
         }
@@ -503,6 +609,13 @@ public class appointmentsP extends AppCompatActivity {
             tr1.setScrollBarFadeDuration(0);
 
             TextView textview = new TextView(this);
+            textview.setText("---------");
+            textview.setLayoutParams(mw); // match warp wighet
+            textview.setGravity(Gravity.CENTER); //gravity center
+            // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            tr1.addView(textview);
+
+            textview = new TextView(this);
             textview.setText("---------");
             textview.setLayoutParams(mw); // match warp wighet
             textview.setGravity(Gravity.CENTER); //gravity center
@@ -584,7 +697,7 @@ public class appointmentsP extends AppCompatActivity {
             tr1.addView(textview);
 
             textview = new TextView(this);
-            textview.setText(NEW.get(i).get("doctorName").toString());
+            textview.setText(NEW.get(i).get("patientName").toString());
             textview.setLayoutParams(mw); // match warp wighet
             textview.setGravity(Gravity.CENTER); //gravity center
             // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -602,9 +715,14 @@ public class appointmentsP extends AppCompatActivity {
             }
             else
             {
+                TableRow.LayoutParams mw1 = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT,1);
+
+                mw1.setMarginEnd(5);
+
                 textview = new TextView(this);
                 textview.setText("Description");
-                textview.setLayoutParams(mw);
+                textview.setLayoutParams(mw1);
                 textview.setForeground(getResources().getDrawable(R.drawable.round_blue_prel));
                 textview.setTextColor(Color.rgb(41, 182, 246));
                 textview.setTypeface(Typeface.DEFAULT_BOLD);
@@ -612,7 +730,7 @@ public class appointmentsP extends AppCompatActivity {
                 textview.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new AlertDialog.Builder(appointmentsP.this)
+                        new AlertDialog.Builder(DoctorAppointmentsActivity.this)
                                 .setMessage(description)
                                 .setPositiveButton(android.R.string.ok, null)
                                 .show();
@@ -621,6 +739,95 @@ public class appointmentsP extends AppCompatActivity {
                 });
                 tr1.addView(textview);
             }
+
+            textview = new TextView(this);
+            textview.setText("Remove");
+            textview.setLayoutParams(mw);
+            textview.setForeground(getResources().getDrawable(R.drawable.round_red));
+            textview.setTextColor(Color.rgb(255,0,0));
+            textview.setTypeface(Typeface.DEFAULT_BOLD);
+            textview.setGravity(Gravity.CENTER);
+            int finalI = i;
+            textview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DocumentReference Refs = db.collection("doctors")
+                            .document(firebaseAuth.getCurrentUser().getUid())
+                            .collection("appointments").document(NEW.get(finalI).get("id").toString());
+                    Refs.delete().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentReference refs = db.collection("patients")
+                                    .document(NEW.get(finalI).get("pid").toString())
+                                    .collection("appointments").document(NEW.get(finalI).get("id").toString());
+
+                            refs.delete().addOnCompleteListener(task1 -> {
+                                if (task1.isSuccessful()) {
+                                    //
+                                    tb1.removeView(tr1);
+                                    if(tb1.getChildCount()==child1)
+                                    {
+                                        TableRow.LayoutParams mw = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                                                TableRow.LayoutParams.WRAP_CONTENT,1);
+
+                                        TableRow tr1 = new TableRow(DoctorAppointmentsActivity.this);
+                                        tr1.setPaddingRelative(5,5,5,5);
+                                        tr1.setGravity(Gravity.CENTER);
+                                        tr1.setScrollbarFadingEnabled(false);
+                                        tr1.setScrollBarFadeDuration(0);
+
+                                        TextView textview = new TextView(DoctorAppointmentsActivity.this);
+                                        textview.setText("---------");
+                                        textview.setLayoutParams(mw); // match warp wighet
+                                        textview.setGravity(Gravity.CENTER); //gravity center
+                                        // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                        tr1.addView(textview);
+
+                                        textview = new TextView(DoctorAppointmentsActivity.this);
+                                        textview.setText("---------");
+                                        textview.setLayoutParams(mw); // match warp wighet
+                                        textview.setGravity(Gravity.CENTER); //gravity center
+                                        // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                        tr1.addView(textview);
+
+                                        textview = new TextView(DoctorAppointmentsActivity.this);
+                                        textview.setText("---------");
+                                        textview.setLayoutParams(mw); // match warp wighet
+                                        textview.setGravity(Gravity.CENTER); //gravity center
+                                        // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                        tr1.addView(textview);
+
+                                        textview = new TextView(DoctorAppointmentsActivity.this);
+                                        textview.setText("---------");
+                                        textview.setLayoutParams(mw); // match warp wighet
+                                        textview.setGravity(Gravity.CENTER); //gravity center
+                                        // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                        tr1.addView(textview);
+
+                                        textview = new TextView(DoctorAppointmentsActivity.this);
+                                        textview.setText("---------");
+                                        textview.setLayoutParams(mw); // match warp wighet
+                                        textview.setGravity(Gravity.CENTER); //gravity center
+                                        // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                        tr1.addView(textview);
+
+                                        textview = new TextView(DoctorAppointmentsActivity.this);
+                                        textview.setText("---------");
+                                        textview.setLayoutParams(mw); // match warp wighet
+                                        textview.setGravity(Gravity.CENTER); //gravity center
+                                        // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                        tr1.addView(textview);
+
+                                        tb1.addView(tr1);
+                                    }
+                                    //
+                                }
+                            });
+                        }
+                    });
+                    return;
+                }
+            });
+            tr1.addView(textview);
 
             tb1.addView(tr1);
 
@@ -708,5 +915,6 @@ public class appointmentsP extends AppCompatActivity {
     {
         return DateFormat.format("yyyy-M-d", new Date()).toString();
     }
+
 
 }

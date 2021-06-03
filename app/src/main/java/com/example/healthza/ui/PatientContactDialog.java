@@ -54,7 +54,7 @@ public class PatientContactDialog implements ContactAdapter.OnContactItemClickLi
     {
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View view = inflater.inflate(R.layout.contact_dialog, null);
+        View view = inflater.inflate(R.layout.dialog_contact, null);
 
         emptyContactListimageView = view.findViewById(R.id.emptyContactListimageView);
         emptyContactListTextView = view.findViewById(R.id.emptyContactListTextView);
@@ -87,7 +87,7 @@ public class PatientContactDialog implements ContactAdapter.OnContactItemClickLi
                     emptyContactListTextView.setVisibility(View.VISIBLE);
                 }
 
-                contactAdapter = new ContactAdapter(contacts, context, this);
+                contactAdapter = new ContactAdapter(context, contacts, this);
 
                 contactsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
                 contactsRecyclerView.setAdapter(contactAdapter);

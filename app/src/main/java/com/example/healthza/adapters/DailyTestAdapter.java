@@ -24,10 +24,10 @@ public class DailyTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final Context context;
     private List<DailyTest> dailyTests;
     private static final int HEADER = 0, DAILY_TEST = 1;
-    public DailyTestAdapter(List<DailyTest> dailyTests, Context context)
+    public DailyTestAdapter(Context context, List<DailyTest> dailyTests)
     {
-        this.dailyTests = dailyTests;
         this.context = context;
+        this.dailyTests = dailyTests;
     }
 
 
@@ -43,13 +43,11 @@ public class DailyTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         public HeaderViewHolder(@NonNull View itemView)
         {
-
             super(itemView);
         }
 
         private void setTestsHeader()
         {
-
 
         }
     }
@@ -71,24 +69,44 @@ public class DailyTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         private void setDailyTest(DailyTest dailyTest)
         {
-            String testType = dailyTest.getTestType();
+            String unit = "";
+            String testType = dailyTest.getType();
             testTypeTextView.setText(testType);
+
             if(testType.equals("Glucose"))
+            {
+                unit = "mg/dl";
                 testTypeTextView.setTextColor(context.getColor(R.color.glucose_color));
+            }
             else if(testType.equals("Blood Pressure"))
+            {
+                unit = "mm Hg";
                 testTypeTextView.setTextColor(context.getColor(R.color.blood_pressure_color));
+            }
             else if(testType.equals("Total Cholesterol"))
+            {
+                unit = "mg/dl";
                 testTypeTextView.setTextColor(context.getColor(R.color.total_cholesterol_color));
+            }
             else if(testType.equals("HDL"))
+            {
+                unit = "u/l";
                 testTypeTextView.setTextColor(context.getColor(R.color.hdl_color));
+            }
             else if(testType.equals("LDL"))
+            {
+                unit = "u/l";
                 testTypeTextView.setTextColor(context.getColor(R.color.ldl_color));
+            }
             else if(testType.equals("Triglyceride"))
+            {
+                unit = "mg/dl";
                 testTypeTextView.setTextColor(context.getColor(R.color.triglyceride_color));
+            }
 
-            testLevelTextView.setText(dailyTest.getTestLevel() + "");
+            testLevelTextView.setText(dailyTest.getLevel() + " " + unit);
 
-            Timestamp timestamp = dailyTest.getTestTime();
+            Timestamp timestamp = dailyTest.getTimestamp();
             Date date = timestamp.toDate();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm aa", Locale.US);
             testTimeTextView.setText(simpleDateFormat.format(date));
@@ -103,7 +121,7 @@ public class DailyTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (viewType == HEADER)
         {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.daily_tests_header, parent, false);
+                    .inflate(R.layout.header_daily_tests, parent, false);
 
             return new HeaderViewHolder(view);
         }
@@ -161,7 +179,7 @@ public class DailyTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public int getHeaderLayout(int headerPosition)
     {
-        return R.layout.daily_tests_header;
+        return R.layout.header_daily_tests;
     }
 
     @Override

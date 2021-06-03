@@ -10,8 +10,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class TextInputEditTextFocusListenerHelper {
 
-    private TextInputEditTextFocusListenerHelper() {
-
+    private TextInputEditTextFocusListenerHelper()
+    {
     }
 
     public static void add(Context activity, TextInputEditText textInputEditText) {

@@ -13,7 +13,7 @@
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
         android:paddingStart="4dp"
-        android:text="@string/start_conversation_with_your_contacts"
+        android:text="@string/start_chat_with_your_contacts"
         android:textColor="@color/txt_black"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"

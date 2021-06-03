@@ -6,14 +6,311 @@
     android:background="@color/background_color"
     android:clickable="true"
     android:focusable="true"
-    tools:context=".ui.DoctorHomeActivity">
+    tools:context=".ui.PatientHomeActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="6dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="6dp"
+                android:paddingBottom="6dp">
+
+                <TextView
+                    android:id="@+id/nextAppointmentsTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:text="Latest Appointments"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/nextAppointmentsCardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="5dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/nextAppointmentsTextView"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:strokeColor="@color/colorPrimary"
+                    app:strokeWidth="2dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/background_color">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/latestAppointmentsHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#4f8dca"
+                            android:paddingBottom="2dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:id="@+id/patientNameTextView"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+                                android:text="@string/patient"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.30"
+                                tools:text="doctor" />
+
+                            <TextView
+                                android:id="@+id/appointmentTimeTextView"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+                                android:text="@string/time"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/patientNameTextView"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.35"
+                                tools:text="time" />
+
+                            <TextView
+                                android:id="@+id/appointmentTypeTextView"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+                                android:text="@string/type"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/appointmentTimeTextView"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.35"
+                                tools:text="type" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/firstAppointmentLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:visibility="invisible"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/latestAppointmentsHeader"
+                            tools:visibility="visible">
+
+                            <TextView
+                                android:id="@+id/firstPatientNameTextView"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+                                android:text=""
+                                android:textColor="@color/txt_black"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.30"
+                                tools:text="patient1" />
+
+                            <TextView
+                                android:id="@+id/firstAppointmentTimeTextView"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+                                android:text=""
+                                android:textColor="@color/txt_black"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/firstPatientNameTextView"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.35"
+                                tools:text="time1" />
+
+                            <TextView
+                                android:id="@+id/firstAppointmentTypeTextView"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+                                android:text=""
+                                android:textColor="@color/txt_black"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/firstAppointmentTimeTextView"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.35"
+                                tools:text="type1" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/secondAppointmentLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:background="@color/white"
+                            android:visibility="invisible"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/firstAppointmentLayout"
+                            tools:visibility="visible">
+
+                            <TextView
+                                android:id="@+id/secondPatientNameTextView"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+                                android:text=""
+                                android:textColor="@color/txt_black"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.30"
+                                tools:text="patient2" />
+
+                            <TextView
+                                android:id="@+id/secondAppointmentTimeTextView"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+                                android:text=""
+                                android:textColor="@color/txt_black"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/secondPatientNameTextView"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.35"
+                                tools:text="time2" />
+
+                            <TextView
+                                android:id="@+id/secondAppointmentTypeTextView"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+                                android:text=""
+                                android:textColor="@color/txt_black"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/secondAppointmentTimeTextView"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.35"
+                                tools:text="type2" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/thirdAppointmentLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:background="@color/white"
+                            android:visibility="invisible"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/secondAppointmentLayout"
+                            tools:visibility="visible">
+
+                            <TextView
+                                android:id="@+id/thirdPatientNameTextView"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+                                android:text=""
+                                android:textColor="@color/txt_black"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_bias="0.0"
+                                app:layout_constraintWidth_percent="0.30"
+                                tools:text="patient3" />
+
+                            <TextView
+                                android:id="@+id/thirdAppointmentTimeTextView"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+                                android:text=""
+                                android:textColor="@color/txt_black"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/thirdPatientNameTextView"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.35"
+                                tools:text="time3" />
+
+                            <TextView
+                                android:id="@+id/thirdAppointmentTypeTextView"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:padding="8dp"
+                                android:text=""
+                                android:textColor="@color/txt_black"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/thirdAppointmentTimeTextView"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintWidth_percent="0.35"
+                                tools:text="type3" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.ismaeldivita.chipnavigation.ChipNavigationBar
         android:id="@+id/bottomNavigationBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/white"
+        android:background="@drawable/bottom_navigation_background"
         android:paddingVertical="6dp"
         app:cnb_menuResource="@menu/bottom_menu_doctor"
         app:cnb_orientationMode="horizontal"

@@ -22,9 +22,9 @@
     <string name="height_hint">Height(M)</string>
     <string name="weight_hint">Weight(KG)</string>
     <string name="start_text">Start</string>
-    <string name="welcome_dialog_message">Hello,</string>
+    <string name="welcome_dialog_message">"Hello, "</string>
     <string name="welcome_dialog_text">before start using our app we need you to fill some useful information
-                                       so press "start button" to fill these information.</string>
+                                       so press \"start button\" to fill these information.</string>
     <string name="already_have_account">already have account? login</string>
     <string name="specialty_hint">Specialty</string>
     <string name="years_of_experience_hint">Years of experience</string>
@@ -52,7 +52,7 @@
     <string name="register">Register</string>
     <string name="diabetes">Diabetes</string>
     <string name="hypertension">Hypertension</string>
-    <string name="cholesterol">Cholestrol</string>
+    <string name="cholesterol">Cholesterol</string>
     <string name="select_disease_text">select at least on disease</string>
     <string name="reset_password">Reset password</string>
     <string name="login_to_your_account">log in to your account.</string>
@@ -74,11 +74,11 @@
     <string name="diseases_types">Disease(s) type(s):</string>
     <string name="diabetes_type">Diabetes type:</string>
     <string name="hypertension_type">Hypertension type:</string>
-    <string name="cholestrol_type">Cholestrol type:</string>
+    <string name="cholesterol_type">Cholesterol type:</string>
     <string name="detection_date">Detection date:</string>
     <string name="diabetes_detection_date">Diabetes detection date</string>
     <string name="hypertension_detection_date">Hypertension detection date</string>
-    <string name="cholestrol_detection_date">Cholestrol detection date</string>
+    <string name="cholesterol_detection_date">Cholesterol detection date</string>
     <string name="hh_mm">HH:MM</string>
     <string name="ldl_cholesterol_percent">LDL Cholesterol Percent:</string>
     <string name="yyyy_mm_dd">YYYY/MM/DD</string>
@@ -206,21 +206,21 @@
     <string name="empty_doctor_list">You don\'t have any doctors!</string>
     <string name="empty_receive_request_list">There is no add requests yet!</string>
     <string name="empty_contact_list">You don\'t have any contacts!</string>
-    <string name="empty_conversation_list">You don\'t have any chats!</string>
-    <string name="no_messages">You didn\'t send any messages yet!</string>
+    <string name="empty_chat_list">No Chats With Your Contacts Yet</string>
+    <string name="no_messages">No Messages Yet</string>
     <string name="name">"Name: "</string>
-    <string name="start_conversation_with_your_contacts">Start chat with your contacts</string>
+    <string name="start_chat_with_your_contacts">Start chat with your contacts</string>
     <string name="hi">Hi!</string>
     <string name="loading">Loading...</string>
     <string name="completed">Completed</string>
     <string name="enter_identification_number">enter identification number</string>
     <string name="enter_email">enter email</string>
-    <string name="enter_phonenumber">enter phonenumber</string>
+    <string name="enter_phone_number">enter phonenumber</string>
     <string name="identification_number">Identification Number</string>
     <string name="add1">Add</string>
     <string name="enter_name">enter name</string>
-    <string name="patient_name_or_id_or_phonenumber">Patient Name OR ID OR Phonenumber</string>
-    <string name="doctor_name_or_phonenumber">Doctor Name OR Phonenumber</string>
+    <string name="patient_name_or_id_or_phone_number">Patient Name OR ID OR Phonenumber</string>
+    <string name="doctor_name_or_phone_number">Doctor Name OR Phonenumber</string>
     <string name="account_information">Account Information</string>
     <string name="change_password">Change password?</string>
     <string name="current_password">Current password</string>
@@ -247,4 +247,17 @@
     <string name="total_tests">"Total Tests: "</string>
     <string name="single_date">single date</string>
     <string name="date_range">date range</string>
+    <string name="multi_dates">multi dates</string>
+    <string name="body_info">Body Info</string>
+    <string name="glucose_title">"Glucose: "</string>
+    <string name="hypertension_title">"Hypertension: "</string>
+    <string name="cholesterol_and_fats"><![CDATA[\Cholesterol & Fats: \]]></string>
+    <string name="doctor">doctor</string>
+    <string name="type">type</string>
+    <string name="next_three_appointments">Next Three Appointments</string>
+    <string name="latest_three_tests">Latest Three Tests</string>
+    <string name="no_tests_yet">No Tests Yet</string>
+    <string name="tests_statistics">Tests Statistics</string>
+    <string name="patient">patient</string>
+    <string name="no_records_yet">No Records Yet</string>
 </resources>

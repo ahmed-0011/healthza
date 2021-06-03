@@ -29,13 +29,14 @@ import java.util.Map;
 
 public class RecordsAdapter extends RecyclerView.Adapter<RecordsAdapter.ViewHolder>
 {
+    /////////////////varable///////////
     Map<String, Object> record;
     List<Map<String, Object>> recordsList;
     private Context context;
     private OnRecordItemClickListener onRecordItemClickListener;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
-
+//////////////////////////////////////////
     public RecordsAdapter(Context context, List<Map<String, Object>> recordsList , OnRecordItemClickListener onRecordItemClickListener)
     {
         this.context = context;

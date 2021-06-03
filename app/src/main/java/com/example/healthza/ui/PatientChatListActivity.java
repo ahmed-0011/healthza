@@ -28,6 +28,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -36,6 +37,7 @@ import java.util.Set;
 
 public class PatientChatListActivity extends AppCompatActivity implements ChatAdapter.OnChatItemClickListener
 {
+
     private ListenerRegistration chatEventListener;
     private ImageView emptyChatListimageView;
     private TextView emptyChatListTextView;
@@ -45,6 +47,7 @@ public class PatientChatListActivity extends AppCompatActivity implements ChatAd
     private Set<String> chatsIds;
     private String patientId;
     private FloatingActionButton addChatFloatingActionButton;
+    private ChipNavigationBar chipNavigationBar;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
 
@@ -59,6 +62,10 @@ public class PatientChatListActivity extends AppCompatActivity implements ChatAd
         emptyChatListimageView = findViewById(R.id.emptyChatListimageView);
         emptyChatListTextView = findViewById(R.id.emptyChatListTextView);
         addChatFloatingActionButton = findViewById(R.id.addChatFloatingActionButton);
+        chipNavigationBar = findViewById(R.id.bottomNavigationBar);
+
+        setupBottomNavigationBar();
+
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
@@ -74,9 +81,38 @@ public class PatientChatListActivity extends AppCompatActivity implements ChatAd
         chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         chatRecyclerView.setAdapter(chatAdapter);
 
-        addChatFloatingActionButton.setOnClickListener(v ->
+        addChatFloatingActionButton.setOnClickListener(v -> addNewChat());
+    }
+
+
+    private void setupBottomNavigationBar()
+    {
+        chipNavigationBar.setItemSelected(R.id.chatItem, true);
+
+        chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener()
         {
-            addNewChat();
+            @Override
+            public void onItemSelected(int i)
+            {
+
+                Intent intent = null;
+
+                if (i == R.id.chatItem)
+                    return;
+                else if (i == R.id.homeItem)
+                    intent = new Intent(PatientChatListActivity.this, PatientHomeActivity.class);
+                else if (i == R.id.medicalHistoryItem)
+                    intent = new Intent(PatientChatListActivity.this, medicalRecords.class);
+                else if (i == R.id.chartsItem)
+                    intent = new Intent(PatientChatListActivity.this, PatientChartsActivity.class);
+                else if (i == R.id.appointmentsItem)
+                    intent = new Intent(PatientChatListActivity.this, PatientAppointmentsActivity.class);
+
+
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
         });
     }
 
@@ -152,6 +188,7 @@ public class PatientChatListActivity extends AppCompatActivity implements ChatAd
         intent.putExtra("chatName", chatName);
 
         startActivity(intent);
+        overridePendingTransition(R.anim.zoom_in, R.anim.static_animation);
     }
 
     @Override
@@ -198,5 +235,14 @@ public class PatientChatListActivity extends AppCompatActivity implements ChatAd
             emptyChatListTextView.setVisibility(View.VISIBLE);
             emptyChatListimageView.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(this, PatientHomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

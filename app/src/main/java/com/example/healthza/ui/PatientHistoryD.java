@@ -48,6 +48,7 @@ import java.util.List;
 
 public class PatientHistoryD extends AppCompatActivity {
 
+    ///////////////////////varable//////////////////////
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
 
@@ -73,7 +74,7 @@ public class PatientHistoryD extends AppCompatActivity {
 
     int child;
 
-
+///////////////////////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -1526,7 +1527,7 @@ public class PatientHistoryD extends AppCompatActivity {
         final boolean[] change = {false};
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View view = inflater.inflate(R.layout.history_dialog2, null);
+        View view = inflater.inflate(R.layout.dialog_history2, null);
 
         Spinner spinnerP;
         EditText searchP;

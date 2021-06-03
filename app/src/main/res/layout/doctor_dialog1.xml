@@ -4,12 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fillViewport="true"
+    android:fadeScrollbars="false"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    android:scrollbarFadeDuration="0"
     android:scrollbarThumbVertical="@color/colorAccent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
         android:clickable="true"
         android:focusable="true"
         android:paddingLeft="4dp"
@@ -48,7 +50,7 @@
                 android:id="@+id/specialityInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="@color/background_color"
                 android:inputType="text"
                 android:selectAllOnFocus="true"
                 android:textColorHint="@color/colorPrimary" />
@@ -73,7 +75,7 @@
                 android:id="@+id/yearsOfExperienceInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="@color/background_color"
                 android:inputType="number"
                 android:selectAllOnFocus="true"
                 android:textColorHint="@color/colorPrimary" />
@@ -98,7 +100,7 @@
                 android:id="@+id/workplaceInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="@color/background_color"
                 android:inputType="text"
                 android:selectAllOnFocus="true"
                 android:textColorHint="@color/colorPrimary" />

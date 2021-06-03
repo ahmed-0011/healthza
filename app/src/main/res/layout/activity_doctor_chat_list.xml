@@ -18,7 +18,6 @@
         tools:itemCount="6"
         tools:listitem="@layout/list_item_chat" />
 
-
     <ImageView
         android:id="@+id/emptyChatListimageView"
         android:layout_width="match_parent"
@@ -28,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_message" />
+        app:srcCompat="@drawable/ic_chats" />
 
     <TextView
         android:id="@+id/emptyChatListTextView"
@@ -36,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="@string/empty_conversation_list"
+        android:text="@string/empty_chat_list"
         android:textSize="22sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,6 +55,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add_button" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,6 @@
 package com.example.healthza.ui;
 
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,64 +9,51 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.healthza.DrawerUtil;
 import com.example.healthza.ProgressDialog;
 import com.example.healthza.R;
 import com.example.healthza.Toasty;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButtonToggleGroup;
-import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.example.healthza.ui.Functions.TAG_CT;
-
 public class DoctorHomeActivity extends AppCompatActivity
 {
-
-    private DrawerLayout drawerLayout;
-    private Toolbar toolbar;
-    private NavigationView navigationView;
-    private ActionBarDrawerToggle drawerToggle;
+    private ChipNavigationBar chipNavigationBar;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
-    private String userId;
-    private String patientName;
+    private String doctorId;
+    private String doctorName;
     private TextInputLayout specialityInputLayout, yearsOfExperienceInputLayout, workplaceInputLayout;
     private TextInputEditText specialityInputEditText,
             yearsOfExperienceInputEditText, workplaceInputEditText;
@@ -79,10 +65,15 @@ public class DoctorHomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_home);
 
+
+        chipNavigationBar = findViewById(R.id.bottomNavigationBar);
+
+        setupBottomNavigationBar();
+
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        userId = firebaseAuth.getCurrentUser().getUid();
-        patientName = firebaseAuth.getCurrentUser().getDisplayName();
+        doctorId = firebaseAuth.getCurrentUser().getUid();
+        doctorName = firebaseAuth.getCurrentUser().getDisplayName();
 
         SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
 
@@ -90,25 +81,14 @@ public class DoctorHomeActivity extends AppCompatActivity
 
         if (!userCompleteinfo)
             showWelcomeDialog();
+        else
+            setupCardViews();
 
         ChipNavigationBar chipNavigationBar = findViewById(R.id.bottomNavigationBar);
 
-        chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(int i)
-            {
-                if (i == R.id.homeItem);
-                else if (i == R.id.patientsItem)
-                    startActivity(new Intent(DoctorHomeActivity.this, PatientListActivity.class));
-                else if (i == R.id.appointmentsItem){startActivity(new Intent(DoctorHomeActivity.this, appointmentsD.class));}
-                    //TODO
-                else if (i == R.id.chatItem)
-                    startActivity(new Intent(DoctorHomeActivity.this, DoctorChatListActivity.class));
-            }
-        });
 
         LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.drawer_header, null);
+        View view = inflater.inflate(R.layout.header_drawer, null);
 
         TextView nameTextView = view.findViewById(R.id.nameTextView);
         TextView emailTextView = view.findViewById(R.id.emailTextView);
@@ -117,19 +97,123 @@ public class DoctorHomeActivity extends AppCompatActivity
         emailTextView.setText(firebaseAuth.getCurrentUser().getEmail());
         DrawerUtil.headerView = view;
         DrawerUtil.getDoctorDrawer(this, -1);
-
-        //addMed();
-
     }
+
+
+    private void setupBottomNavigationBar()
+    {
+        chipNavigationBar.setItemSelected(R.id.homeItem, true);
+
+        chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(int i)
+            {
+                Intent intent = null;
+
+                if (i == R.id.homeItem)
+                    return;
+                else if (i == R.id.patientsItem)
+                    intent = new Intent(DoctorHomeActivity.this, PatientListActivity.class);
+                else if (i == R.id.appointmentsItem)
+                    intent = new Intent(DoctorHomeActivity.this, DoctorAppointmentsActivity.class);
+                else if (i == R.id.chatItem)
+                    intent = new Intent(DoctorHomeActivity.this, DoctorChatListActivity.class);
+
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
+    }
+
+
+    private void setupCardViews()
+    {
+        setupNextThreeAppointmentsCardViews();
+    }
+
+
+
+    private void setupNextThreeAppointmentsCardViews()
+    {
+        ConstraintLayout firstAppointmentLayout, secondAppointmentLayout, thirdAppointmentLayout;
+
+        TextView firstPatientNameTextView, firstAppointmentTypeTextView, firstAppointmentTimeTextView,
+                secondPatientNameTextView, secondAppointmentTypeTextView, secondAppointmentTimeTextView,
+                thirdPatientNameTextView, thirdAppointmentTypeTextView,  thirdAppointmentTimeTextView;
+
+
+        firstAppointmentLayout = findViewById(R.id.firstAppointmentLayout);
+        secondAppointmentLayout = findViewById(R.id.secondAppointmentLayout);
+        thirdAppointmentLayout = findViewById(R.id.thirdAppointmentLayout);
+
+        firstAppointmentTypeTextView = findViewById(R.id.firstAppointmentTypeTextView);
+        firstPatientNameTextView = findViewById(R.id.firstPatientNameTextView);
+        firstAppointmentTimeTextView = findViewById(R.id.firstAppointmentTimeTextView);
+        secondAppointmentTypeTextView = findViewById(R.id.secondAppointmentTypeTextView);
+        secondPatientNameTextView = findViewById(R.id. secondPatientNameTextView);
+        secondAppointmentTimeTextView = findViewById(R.id.secondAppointmentTimeTextView);
+        thirdAppointmentTypeTextView = findViewById(R.id.thirdAppointmentTypeTextView);
+        thirdPatientNameTextView = findViewById(R.id.thirdPatientNameTextView);
+        thirdAppointmentTimeTextView = findViewById(R.id.thirdAppointmentTimeTextView);
+
+        db
+                .collection("doctors")
+                .document(doctorId)
+                .collection("appointments")
+                .whereEqualTo("expired", false)
+                .orderBy("timestamp", Query.Direction.ASCENDING)
+                .limit(3)
+                .get().addOnSuccessListener(nextThreeAppointmentsDocuments ->
+        {
+            if (!nextThreeAppointmentsDocuments.isEmpty())
+            {
+                List<DocumentSnapshot> appointments = nextThreeAppointmentsDocuments.getDocuments();
+
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d hh:mm aa", Locale.US);
+
+                for (int i = 0; i < appointments.size(); i++)
+                {
+                    String patientName = appointments.get(i).getString("patientName");
+                    String appointmentType = appointments.get(i).getString("type");
+                    Timestamp timestamp = appointments.get(i).getTimestamp("timestamp");
+
+                    if(i == 0)
+                    {
+                        firstPatientNameTextView.setText(patientName);
+                        firstAppointmentTypeTextView.setText(appointmentType);
+                        firstAppointmentTimeTextView.setText(simpleDateFormat.format(timestamp.toDate()));
+                        firstAppointmentLayout.setVisibility(View.VISIBLE);
+                    }
+                    else if(i == 1)
+                    {
+                        secondPatientNameTextView.setText(patientName);
+                        secondAppointmentTypeTextView.setText(appointmentType);
+                        secondAppointmentTimeTextView.setText(simpleDateFormat.format(timestamp.toDate()));
+                        secondAppointmentLayout.setVisibility(View.VISIBLE);
+                    }
+                    else if(i == 2)
+                    {
+                        thirdPatientNameTextView.setText(patientName);
+                        thirdAppointmentTypeTextView.setText(appointmentType);
+                        thirdAppointmentTimeTextView.setText(simpleDateFormat.format(timestamp.toDate()));
+                        thirdAppointmentLayout.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+    }
+
 
     @SuppressLint("SetTextI18n")
     void showWelcomeDialog()
     {
         LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.welcome_dialog, null);
+        View view = inflater.inflate(R.layout.dialog_welcome, null);
         Button startButton = view.findViewById(R.id.startButton);
         TextView welcomeTextView = view.findViewById(R.id.welcomeTextView);
-        welcomeTextView.setText(welcomeTextView.getText() + " " + patientName);
+        welcomeTextView.setText(welcomeTextView.getText() + " " + doctorName);
         AlertDialog welcomeDialog = new AlertDialog.Builder(this)
                 .setCancelable(false)
                 .create();
@@ -157,6 +241,9 @@ public class DoctorHomeActivity extends AppCompatActivity
 
     private boolean isValidYearsOfExperience(String yearsOfExperience)
     {
+        if(yearsOfExperience.isEmpty())
+            return false;
+
         int yearsOfExperience1 = Integer.parseInt(yearsOfExperience);
 
         return yearsOfExperience1 <= 60;
@@ -184,18 +271,17 @@ public class DoctorHomeActivity extends AppCompatActivity
         yearsOfExperienceInputEditText = view.findViewById(R.id.yearsOfExperienceInputEditText);
         workplaceInputEditText = view.findViewById(R.id.workplaceInputEditText);
 
+        addOnTextChangeListenersForInputEditText();
 
-        /*
-        TextInputEditTextFocusListenerHelper.add(this, specialityInputEditText);
-        TextInputEditTextFocusListenerHelper.add(this,yearsOfExperienceInputEditText);
-        TextInputEditTextFocusListenerHelper.add(this,workplaceInputEditText);
-        */
 
         AlertDialog doctorDialog = new AlertDialog.Builder(this)
                 .setView(view)
-                .setTitle("Welcome, " + patientName)
+                .setTitle("Welcome, " + doctorName)
                 .setPositiveButton("Next", null)
+                .setCancelable(false)
                 .create();
+
+
         doctorDialog.show();
 
         Button positiveButton = doctorDialog.getButton(DialogInterface.BUTTON_POSITIVE);
@@ -242,7 +328,7 @@ public class DoctorHomeActivity extends AppCompatActivity
                 additionalData.put("workdays", workdays);
                 additionalData.put("completeInfo", true);
 
-                DocumentReference doctorRef = db.collection("doctors").document(userId);
+                DocumentReference doctorRef = db.collection("doctors").document(doctorId);
 
                 doctorRef.set(additionalData, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>()
                 {
@@ -252,7 +338,10 @@ public class DoctorHomeActivity extends AppCompatActivity
                         progressDialog.showProgressDialog("Updating Profile...");
                         if (task.isSuccessful())
                         {
+                            setupCardViews();
                             doctorDialog.dismiss();
+
+
                             Handler handler = new Handler(Looper.getMainLooper());
                             handler.postDelayed(new Runnable()
                             {
@@ -280,7 +369,8 @@ public class DoctorHomeActivity extends AppCompatActivity
     }
 
 
-    private void clearInputsErrors() {
+    private void clearInputsErrors()
+    {
         specialityInputLayout.setError(null);
         yearsOfExperienceInputLayout.setError(null);
         workplaceInputLayout.setError(null);
@@ -314,12 +404,12 @@ public class DoctorHomeActivity extends AppCompatActivity
         return workdays;
     }
 
-    private void addOnTextChangeListenersForInputEditText() {
+    private void addOnTextChangeListenersForInputEditText()
+    {
 
         specialityInputEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -328,8 +418,7 @@ public class DoctorHomeActivity extends AppCompatActivity
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) { }
         });
 
         yearsOfExperienceInputEditText.addTextChangedListener(new TextWatcher() {
@@ -344,14 +433,12 @@ public class DoctorHomeActivity extends AppCompatActivity
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) { }
         });
 
         workplaceInputEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -360,86 +447,7 @@ public class DoctorHomeActivity extends AppCompatActivity
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) { }
         });
     }
-
-  /*  void addMed()
-    {
-        String medicines_drugs[] = new String[]
-                {
-                        "Acarbose",
-                        "Albiglutide (Tanzeum)",
-                        "Alogliptin (Nesina)",
-                        "Alogliptin-metformin (Kazano)",
-                        "Alogliptin-pioglitazone (Oseni)",
-                        "Bromocriptine mesylate (Cycloset, Parlodel)",
-                        "Canaglifozin (Invokana)",
-                        "Canagliflozin-metformin (Invokamet)",
-                        "Dapagliflozin (Farxiga)",
-                        "Dapagliflozin-metformin (Xigduo XR)",
-                        "Dulaglutide (Trulicity)",
-                        "Empagliflozin (Jardiance)",
-                        "Empagliflozin-linagliptin (Glyxambi)",
-                        "Empagliflozin-metformin (Synjardy)",
-                        "Ertugliflozin (Steglatro)",
-                        "Ertugliflozin-metformin (Segluromet)",
-                        "Ertugliflozin-sitagliptin (Steglujan)",
-                        "Exenatide (Byetta)",
-                        "Exenatide ER (Bydureon)",
-                        "Glimepiride (Amaryl)",
-                        "Glipizide (Glucotrol)",
-                        "Glipizide-metformin (Metaglip)",
-                        "Glyburide (DiaBeta, Glynase)",
-                        "Glyburide-metformin (Glucovance)",
-                        "Insulin aspart (Fiasp, NovoLog)",
-                        "Insulin degludec (Tresiba)",
-                        "Insulin glargine (Basaglar, Lantus, Toujeo)",
-                        "Insulin inhaled (Afrezza)",
-                        "Insulin Isophane (Humulin N, Novolin N)",
-                        "Insulin Isophane/regular insulin (Humulin 70/30, Novolin 70/30)",
-                        "Insulin lispro (Humalog)",
-                        "Linagliptin (Tradjenta)",
-                        "Lixisenatide (Adlyxin)",
-                        "Liraglutide (Victoza)",
-                        "Metformin (Glucophage)",
-                        "Miglitol (Glyset)",
-                        "Nateglinide (Starlix)",
-                        "Pioglitazone (Actos)",
-                        "Pioglitazone-metformin (ACTOplus met)",
-                        "Pramlintide (Symlin)",
-                        "Repaglinide (Prandin)",
-                        "Repaglinide (PrandiMet)",
-                        "Rosiglitazone (Avandia)",
-                        "Rosiglitazone-glimepiride (Avandaryl)",
-                        "Rosiglitazone-metformin (Avandamet)",
-                        "Saxagliptin (Onglyza)",
-                        "Semaglutide (Ozempic)",
-                        "Sitagliptin (Januvia)",
-                        "Sitagliptin-metformin (Janumet, Jentadueto)"
-                };
-
-        List<String> list1 = new ArrayList<String>();
-        Collections.addAll(list1, medicines_drugs);
-
-        Map<String, Object> medicines = new HashMap<>();
-        medicines.put("general",list1);
-
-        db.collection("medicines")
-                .document("medicinal_drugs")
-                .set(medicines)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG_CT, "DocumentSnapshot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG_CT, "Error writing document", e);
-                    }
-                });
-    }*/
 }

@@ -21,9 +21,9 @@ import java.util.List;
 
 public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder> implements Filterable
 {
+    private final Context context;
     private final List<Doctor> doctorsAll;
     private final List<Doctor> doctors;
-    private final Context context;
     private final OnDoctorItemClickListener onDoctorItemClickListener;
 
     public DoctorAdapter(Context context, List<Doctor> doctors, OnDoctorItemClickListener onDoctorItemClickListener)
@@ -34,14 +34,15 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
         this.onDoctorItemClickListener = onDoctorItemClickListener;
     }
 
-    private final Filter filter = new Filter() {
+    private final Filter filter = new Filter()
+    {
         @Override
         protected FilterResults performFiltering(CharSequence constraint)
         {
-            List<Doctor> doctorsfilteredList = new ArrayList<>();
+            List<Doctor> doctorsFilteredList = new ArrayList<>();
 
             if(constraint.toString().isEmpty())
-                doctorsfilteredList.addAll(doctorsAll);
+                doctorsFilteredList.addAll(doctorsAll);
             else
             {
                 for(Doctor doctor : doctorsAll)
@@ -51,15 +52,13 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
                     String doctorPhoneNumber = doctor.getPhoneNumber();
 
                     if (doctorName.startsWith(key) || doctorPhoneNumber.startsWith(key))
-                    {
-                        doctorsfilteredList.add(doctor);
-                    }
+                        doctorsFilteredList.add(doctor);
 
                 }
             }
 
             FilterResults  filterResults = new FilterResults();
-            filterResults.values = doctorsfilteredList;
+            filterResults.values = doctorsFilteredList;
 
             return filterResults;
         }
@@ -76,11 +75,8 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
     public interface OnDoctorItemClickListener
     {
         void onItemClick(int position);
-
         void onItemLongClick(int position);
-
         void onProfileButtonClick(int position);
-
         void onRemoveButtonClick(int position);
     }
 
@@ -100,22 +96,21 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
             profileButton = itemView.findViewById(R.id.profileButton);
             removeButton = itemView.findViewById(R.id.removeButton);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onDoctorItemClickListener.onItemClick(getBindingAdapterPosition());
-                }
-            });
+            itemView.setOnClickListener(v ->
+                    onDoctorItemClickListener.onItemClick(getBindingAdapterPosition()));
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            itemView.setOnLongClickListener(new View.OnLongClickListener()
+            {
                 @Override
-                public boolean onLongClick(View v) {
+                public boolean onLongClick(View v)
+                {
                     onDoctorItemClickListener.onItemLongClick(getBindingAdapterPosition());
                     return true;
                 }
             });
         }
     }
+
 
     @NonNull
     @Override
@@ -154,7 +149,8 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.ViewHolder
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return doctors.size();
     }
 

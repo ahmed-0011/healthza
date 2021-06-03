@@ -19,17 +19,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.healthza.DrawerUtil;
 import com.example.healthza.ProgressDialog;
 import com.example.healthza.R;
 import com.example.healthza.Toasty;
+import com.example.healthza.models.BodyInfo;
 import com.example.healthza.models.Patient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.DateValidatorPointBackward;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.math.BigDecimal;
@@ -43,7 +49,6 @@ import java.util.regex.Pattern;
 
 public class PatientAccountActivity extends AppCompatActivity
 {
-
     private EditText patientNameEditText, patientIdentificationNumberEditText, patientEmailEditText
             , patientPhoneNumberEditText, patientWeightEditText, patientHeightEditText, patientBMIEditText;
     private RadioGroup patientSexRadioGroup;
@@ -345,6 +350,16 @@ public class PatientAccountActivity extends AppCompatActivity
                 accountInformation.put("height", newHeight);
                 accountInformation.put("bmi", newBmi);
 
+                Timestamp timestamp = Timestamp.now();
+
+                DocumentReference bodyInfoRef = db.collection("patients")
+                        .document(patientId)
+                        .collection("bodyInfoRecords")
+                        .document();
+
+                BodyInfo bodyInfo = new BodyInfo(bodyInfoRef.getId(), newWeight, newHeight, newBmi, timestamp);
+                bodyInfoRef.set(bodyInfo);
+
                 weight = weightString;
                 height = heightString;
                 informationChanged = true;
@@ -358,10 +373,10 @@ public class PatientAccountActivity extends AppCompatActivity
                         .addOnCompleteListener(task ->
                         {
                             if (task.isSuccessful())
-                                Toasty.showText(this, "account information updated successfully",
+                                Toasty.showText(this, "Account information updated successfully",
                                         Toasty.SUCCESS, Toast.LENGTH_LONG);
                             else
-                                Toasty.showText(this, "something went wrong...",
+                                Toasty.showText(this, "Something went wrong...",
                                         Toasty.ERROR, Toast.LENGTH_LONG);
                             progressDialog.dismissProgressDialog();
                         });
@@ -374,11 +389,10 @@ public class PatientAccountActivity extends AppCompatActivity
     
     private void addOnTextChangeListenersForWeightAndHeightEditText()
     {
-        patientHeightEditText.addTextChangedListener(new TextWatcher() {
+        patientHeightEditText.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {    }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count)
@@ -391,19 +405,16 @@ public class PatientAccountActivity extends AppCompatActivity
                     patientBMIEditText.setText(bmi + "");
                 }
                 else
-                {
                     patientBMIEditText.setText("");
-                }
+
             }
 
             @Override
-            public void afterTextChanged(Editable s)
-            {
-
-            }
+            public void afterTextChanged(Editable s) {  }
         });
 
-        patientWeightEditText.addTextChangedListener(new TextWatcher() {
+        patientWeightEditText.addTextChangedListener(new TextWatcher()
+        {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
@@ -418,9 +429,8 @@ public class PatientAccountActivity extends AppCompatActivity
                 patientBMIEditText.setText(bmi + "");
             }
             else
-            {
                 patientBMIEditText.setText("");
-            }
+
         }
 
         @Override
@@ -444,10 +454,13 @@ public class PatientAccountActivity extends AppCompatActivity
 
     private void showDateDialog()
     {
-        MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker
-                .Builder
-                .datePicker()
-                .build();
+        MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder
+                .datePicker();
+
+        CalendarConstraints.Builder constraintsBuilder = new CalendarConstraints.Builder();
+        builder.setCalendarConstraints(constraintsBuilder.setValidator(DateValidatorPointBackward.now()).build());
+
+        MaterialDatePicker<Long> materialDatePicker = builder.build();
 
         materialDatePicker.addOnPositiveButtonClickListener(selection ->
         {
@@ -459,4 +472,5 @@ public class PatientAccountActivity extends AppCompatActivity
 
         materialDatePicker.show(getSupportFragmentManager(), "PatientAccountActivity");
     }
+
 }

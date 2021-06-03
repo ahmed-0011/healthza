@@ -14,7 +14,8 @@ public class ResetPasswordMessageActivity extends AppCompatActivity {
     private Button goToLogin;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password_message);
 

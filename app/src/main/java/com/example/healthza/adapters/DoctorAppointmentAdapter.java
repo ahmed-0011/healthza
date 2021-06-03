@@ -264,7 +264,7 @@ public class DoctorAppointmentAdapter
                 break;
             }
         }
-          return new String[]{(d+" "+m),y};
+        return new String[]{(d+" "+m),y};
     }
 
     @Override
