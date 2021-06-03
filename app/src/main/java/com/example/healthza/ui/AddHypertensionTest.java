@@ -31,21 +31,29 @@ import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.healthza.R;
+import com.example.healthza.Toasty;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.example.healthza.ui.Functions.TAG_CT;
@@ -55,11 +63,11 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
         , View.OnFocusChangeListener
 {
 
-    private static final  String ChannelID= "AddHypertensionTestNote";
+   // private static final  String ChannelID= "AddHypertensionTestNote";
 
     CheckBox autoTD;
-    ImageView dateI;
-    ImageView timeI;
+    FloatingActionButton stamp;
+    SwitchDateTimeDialogFragment dateTimeDialogFragment;
 
     TextView datE;
     TextView timE;
@@ -80,6 +88,8 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
 
     boolean first=false;
     float latest;
+
+    boolean f = true;
 
     public boolean onSupportNavigateUp()
     {
@@ -109,7 +119,8 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.w ("Add Hypertension test.", "end");
-                        Toast.makeText(getApplicationContext(), "Back...", Toast.LENGTH_SHORT).show();
+                        Toasty.showText(getApplicationContext(),"Back...",Toasty.INFORMATION,Toast.LENGTH_SHORT);
+
                         //complet
                         finish();
                     }
@@ -145,20 +156,21 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
         DrawerUtil.headerView = view1_;
         DrawerUtil.getPatientDrawer(this, -1);*/
 
-        Log.w ("Add Hypertension test.", "start");
-        Toast.makeText(getApplicationContext(), "Add Hypertension test....", Toast.LENGTH_SHORT).show();
+       Log.w ("Add Hypertension test.", "start");
+        Toasty.showText(getApplicationContext(),"New Hypertension test...",Toasty.INFORMATION,Toast.LENGTH_SHORT);
+
 
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        datE = findViewById(R.id.dateText3);
-        timE = findViewById(R.id.timeText3);
-        td = findViewById(R.id.textView);
+        datE = findViewById(R.id.dateText0);
+        timE = findViewById(R.id.timeText0);
+        td = findViewById(R.id.textView10);
 
         datE.setText("YYYY/MM/DD");
         timE.setText("HH:MM");
 
-        dateI = findViewById(R.id.DateIcon3);
+        /*dateI = findViewById(R.id.DateIcon3);
         dateI.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -178,10 +190,66 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
                 //complet
             }
         });
+*/
+        dateTimeDialogFragment = SwitchDateTimeDialogFragment.newInstance(
+                "Set Date And Time",
+                "OK",
+                "Cancel"
+        );
 
-        autoTD = findViewById(R.id.TimeDateAuto3);
+//Assign values
+        dateTimeDialogFragment.startAtCalendarView();
+        dateTimeDialogFragment.set24HoursMode(true);
+        dateTimeDialogFragment.setMinimumDateTime(new GregorianCalendar(1900, Calendar.JANUARY, 1).getTime());
+        dateTimeDialogFragment.setMaximumDateTime(new GregorianCalendar(3000, Calendar.DECEMBER, 31).getTime());
+        //dateTimeDialogFragment.setDefaultDateTime(new GregorianCalendar(2017, Calendar.MARCH, 4, 15, 20).getTime());
+
+//Define new day and month format
+
+        try {
+            dateTimeDialogFragment.setSimpleDateMonthAndDayFormat(new SimpleDateFormat("YYYY/MM/DD", Locale.getDefault()));
+        } catch (SwitchDateTimeDialogFragment.SimpleDateMonthAndDayFormatException e) {
+            Log.e(TAG, e.getMessage());
+        }
+//Set listener
+        dateTimeDialogFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonClickListener() {
+            @Override
+            public void onPositiveButtonClick(Date date) {
+                String year =""+ dateTimeDialogFragment.getYear();
+                String month =""+ (dateTimeDialogFragment.getMonth()+1);// if(month.length()==1)month = "0"+month;
+                String day =""+ dateTimeDialogFragment.getDay(); //if(day.length()==1)day= "0"+day;
+                String hour =""+ dateTimeDialogFragment.getHourOfDay(); //if(hour.length()==1)hour = "0"+hour;
+                String mnt =""+ dateTimeDialogFragment.getMinute();  //if(mnt.length()==1)mnt = "0"+mnt;
+                String date_T = dateTimeDialogFragment.getYear()+"-"+dateTimeDialogFragment.getMonth()+"-"+dateTimeDialogFragment.getDay()
+                        +" "+dateTimeDialogFragment.getHourOfDay()+":"+dateTimeDialogFragment.getMinute();
+
+                datE.setText(year+"-"+month+"-"+day);
+                timE.setText(hour+":"+mnt);
+                //  java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
+                //timestamp;
+                //Toasty.showText(getApplicationContext(),(""+timestamp),Toasty.INFORMATION,Toast.LENGTH_SHORT);
+            }
+
+            @Override
+            public void onNegativeButtonClick(Date date) {
+
+            }
+        });
+
+//Show
+
+        stamp = findViewById(R.id.fpat);
+        stamp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dateTimeDialogFragment.show(getSupportFragmentManager(),"dialog_time");
+            }
+        });
+
+        autoTD = findViewById(R.id.TimeDateAuto0);
         autoTD.setChecked(false);
         autoTD.setOnClickListener(this);
+
         td.setVisibility(View.VISIBLE);
 
         hypertension = findViewById(R.id.innerHypertensionPercent);
@@ -190,44 +258,9 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
         clear = findViewById(R.id.ClearHypertensionTest); clear.setOnClickListener (this);
         add = findViewById(R.id.AddHypertensionTest); add.setOnClickListener(this);
 
-        //complet
-
-        //<!--get tests Count
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user != null) {
-            // User is signed in
-            String userId = user.getUid();
-            DocumentReference docRef = db.collection("patients") // table
-                    .document(userId) // patient id
-                    .collection("tests")// table inside patient table
-                    .document("count");
-
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                            String cte = "" + document.getData().toString();
-                            ct = Integer.parseInt(cte.substring(7,cte.length()-1));
-                        } else {
-                            Log.d(TAG, "No such document");
-                            ct = 0;
-                        }
-                    } else {
-                        Log.d(TAG, "get failed with ", task.getException());
-                        ct = 0;
-                    }
-                }
-            });
-        }
-        //end get tests Count-->
-
-        MaxMinThisTestCountSet();
     }
 
-    //Date Picker
+    /*//Date Picker
     public void showDatePickerDialog() {
         Functions.DatePickerFragment.setYear(0); Functions.DatePickerFragment.setMonth(0); Functions.DatePickerFragment.setDay(0);
         DialogFragment newFragment = new Functions.DatePickerFragment(datE);
@@ -241,7 +274,7 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
         DialogFragment newFragment = new Functions.TimePickerFragment(timE);
         newFragment.show(getSupportFragmentManager(), "timePicker");
         newFragment = null;
-    }
+    }*/
 
     //time and date auto
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -252,19 +285,22 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
         // Check which checkbox was clicked
         if (autoTD.equals(view)) {
             if (checked) {
-                timeI.setEnabled(false);
-                dateI.setEnabled(false);
+                stamp.setEnabled(false);
                 td.setVisibility(View.INVISIBLE);
 
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/mm/dd hh:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
-                Functions.timeS = now.getHour()+":"+now.getMinute();
-                Functions.dateS = now.getYear()+"-"+now.getMonthValue()+"-"+now.getDayOfMonth();
+                Functions.timeS = (now.getHour()>9?now.getHour():(/*"0"+*/now.getHour()))
+                        +":"+
+                        (now.getMinute()>9?now.getMinute():(/*"0"+*/now.getMinute()));
+                Functions.dateS = now.getYear()+"-"+
+                        (now.getMonthValue()>9?now.getMonthValue():(/*"0"+*/now.getMonthValue()))
+                        +"-"+
+                        (now.getDayOfMonth()>9?now.getDayOfMonth():(/*"0"+*/now.getDayOfMonth()));
                 timE.setText(Functions.timeS);
                 datE.setText(Functions.dateS);
             } else {
-                timeI.setEnabled(true);
-                dateI.setEnabled(true);
+                stamp.setEnabled(true);
                 td.setVisibility(View.VISIBLE);
             }
 
@@ -288,7 +324,7 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
         //complet
         if(ifEmptyFields())
         {
-            AlertDialog.Builder x = new AlertDialog.Builder(this);
+           /* AlertDialog.Builder x = new AlertDialog.Builder(this);
             x.setMessage("Please complete fill the form data.").setTitle("incomplete data")
 
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -301,7 +337,8 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
                     .setIcon(R.drawable.goo)
                     .setPositiveButtonIcon(getDrawable(R.drawable.yes))
 
-                    .show();
+                    .show();*/
+            Toasty.showText(getApplicationContext(),"Please complete fill the form data...",Toasty.ERROR,Toast.LENGTH_SHORT);
             return;
         }
 
@@ -315,11 +352,16 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
                         Log.w ("ADD TEST", "ADD Hypertension TEST");
                         // functions and codes
                         //complet
+                        if(f)
+                        {
+                            setAddOPT();
 
+                            return;
+                        }
                         addTest();
 
-                        notification("Hypertension Test");
-                        Toast.makeText(getApplicationContext(), "Hypertension TEST IS ADD...", Toast.LENGTH_SHORT).show();
+                        //notification("Hypertension Test");
+                        Toasty.showText(getApplicationContext(),"Hypertension TEST IS ADD...",Toasty.SUCCESS,Toast.LENGTH_SHORT);
 
 
                     }
@@ -349,7 +391,8 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.w ("CLEAR FIELDS", "Hypertension TEST CLEAR FIELDS");
-                        Toast.makeText(getApplicationContext(), "FIELDS IS CLEARD...", Toast.LENGTH_SHORT).show();
+                        Toasty.showText(getApplicationContext(),"FIELDS IS CLEARD...",Toasty.INFORMATION,Toast.LENGTH_SHORT);
+
                         // functions and codes
                         //complet
                         autoTD.setChecked(false);
@@ -392,7 +435,7 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
                 Log.d("focus", "focus lost");
                 // Do whatever you want here
             } else {
-                Toast.makeText(getApplicationContext(), " Tap outside edittext to lose focus ", Toast.LENGTH_SHORT).show();
+                Toasty.showText(getApplicationContext(),"Tap outside edittext to lose focus ",Toasty.INFORMATION,Toast.LENGTH_SHORT);
                 Log.d("focus", "focused");
             }
 
@@ -427,7 +470,7 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
     }
 // "Clear focus input" -->
 
-    // notification
+   /* // notification
     private void createChannel() {
 
 
@@ -441,9 +484,9 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
 
 
         }
-    }
+    }*/
 
-    void notification(String text)
+   /* void notification(String text)
     {
         NotificationManager man= (NotificationManager)getSystemService ( NOTIFICATION_SERVICE );
         NotificationCompat.Builder  note=null;
@@ -462,7 +505,7 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
                         +"\nTest Date:"+ datE.getText().toString()
                         +"\nTest Time:"+timE.getText().toString()  )
                 .setContentText ("")*/
-                .setOngoing ( false )
+               /* .setOngoing ( false )
                 .setColor ( Color.RED  )
                 .setColorized ( true )
                 .setPriority ( NotificationManager.IMPORTANCE_HIGH )
@@ -479,7 +522,7 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
 
         man.notify (++Functions.ne, note.build ());
 
-    }
+    }*/
 
     //rotate
     @Override
@@ -536,6 +579,7 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
             dataTest.put("date_add", datE.getText().toString());
             dataTest.put("time_add", timE.getText().toString());
             dataTest.put("hypertension_percent", Float.parseFloat(hypertension.getText().toString()));
+            dataTest.put("type", "hypertension");
             //Time Stamp
             String Date =datE.getText().toString();
             int i1 = Date.indexOf("-");
@@ -577,6 +621,8 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Log.d(TAG, "DocumentSnapshot successfully written!");
+                                            Toasty.showText(getApplicationContext(),"successfully Add Blood Pressure...",Toasty.SUCCESS,Toast.LENGTH_SHORT);
+                                            f=false;
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
@@ -601,6 +647,7 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                            Toasty.showText(getApplicationContext(),"successfully Add Blood Pressure...",Toasty.SUCCESS,Toast.LENGTH_SHORT);
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
@@ -624,6 +671,7 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Log.d(TAG, "DocumentSnapshot successfully written!");
+                                        Toasty.showText(getApplicationContext(),"successfully Add Blood Pressure...",Toasty.SUCCESS,Toast.LENGTH_SHORT);
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -632,10 +680,12 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
                                         Log.w(TAG, "Error writing document", e);
                                     }
                                 });
+                        f=false;
                     } else {
                         Log.d(TAG, "get failed with ", task.getException());
-
+                        f=false;
                     }
+                    f=false;
                 }
             });
             //end add test -->
@@ -678,7 +728,7 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-
+                                    addTest();
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -693,6 +743,7 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
                     ctt = Integer.parseInt(document.get("count").toString());
                     latest = Float.parseFloat(document.get("latest").toString());
                     first = false;
+                    addTest();
                 }
             }
         });
@@ -788,4 +839,40 @@ public class AddHypertensionTest extends AppCompatActivity implements View.OnCli
         //
     }
 
+    void setAddOPT()
+    {
+//<!--get tests Count
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            // User is signed in
+            String userId = user.getUid();
+            DocumentReference docRef = db.collection("patients") // table
+                    .document(userId) // patient id
+                    .collection("tests")// table inside patient table
+                    .document("count");
+
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            String cte = "" + document.getData().toString();
+                            ct = Integer.parseInt(cte.substring(7,cte.length()-1));
+                        } else {
+                            Log.d(TAG, "No such document");
+                            ct = 0;
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                        ct = 0;
+                    }
+                }
+            });
+        }
+        //end get tests Count-->
+
+        MaxMinThisTestCountSet();
+    }
 }
