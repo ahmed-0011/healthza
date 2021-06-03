@@ -4,14 +4,14 @@ public class Disease
 {
     String diseaseName;
     String diseaseType;
-    String diagnosisDate;
+    String detectionDate;
     boolean inherited;
 
-    public Disease(String diseaseName, String diseaseType, String diagnosisDate, boolean inherited)
+    public Disease(String diseaseName, String diseaseType, String detectionDate, boolean inherited)
     {
         this.diseaseName = diseaseName;
         this.diseaseType = diseaseType;
-        this.diagnosisDate = diagnosisDate;
+        this.detectionDate = detectionDate;
         this.inherited = inherited;
     }
 
@@ -37,12 +37,12 @@ public class Disease
         this.diseaseType = diseaseType;
     }
 
-    public String getDiagnosisDate() {
-        return diagnosisDate;
+    public String getDetectionDate() {
+        return detectionDate;
     }
 
-    public void setDiagnosisDate(String diagnosisDate) {
-        this.diagnosisDate = diagnosisDate;
+    public void setDetectionDate(String detectionDate) {
+        this.detectionDate = detectionDate;
     }
 
     public boolean isInherited() {

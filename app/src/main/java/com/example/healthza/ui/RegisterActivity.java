@@ -32,6 +32,8 @@ import com.example.healthza.models.Doctor;
 import com.example.healthza.models.Patient;
 import com.example.healthza.R;
 import com.example.healthza.TextInputEditTextFocusListenerHelper;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.DateValidatorPointBackward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -314,14 +316,17 @@ public class RegisterActivity extends AppCompatActivity
                                                 doctorReference.set(newDoctor);
                                             }
 
+                                            Intent intent;
 
-                                            Intent intent = new Intent(this, EmailVerificationCodeActivity.class);
-                                            intent.putExtra("userType", userType);
+                                            if (userType.equals("patient"))
+                                                intent = new Intent(this, PatientHomeActivity.class);
+                                            else
+                                                intent = new Intent(this, DoctorHomeActivity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startActivity(intent);
                                         }
                                         else
                                             Toasty.showText(this, "email is already used", Toasty.ERROR, Toast.LENGTH_LONG);
-                                        ;
                                     });
                         }
                     });
@@ -368,10 +373,7 @@ public class RegisterActivity extends AppCompatActivity
 
         emailInputEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -380,46 +382,42 @@ public class RegisterActivity extends AppCompatActivity
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) { }
         });
 
         phoneNumberInputEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
                 if (isValidPhoneNumber(phoneNumberInputEditText.getText().toString()))
                     phoneNumberInputLayout.setError(null);
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) { }
         });
 
         passwordInputEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
                 if (isValidPassword(passwordInputEditText.getText().toString()))
                     passwordInputLayout.setError(null);
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) { }
         });
 
         confirmPasswordInputEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -428,8 +426,7 @@ public class RegisterActivity extends AppCompatActivity
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) { }
         });
     }
 
@@ -445,28 +442,8 @@ public class RegisterActivity extends AppCompatActivity
     }
 
 
-    private void showDateDialog()
+    private void progressButtonAnimation()
     {
-        MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker
-                .Builder
-                .datePicker()
-                .build();
-
-        materialDatePicker.addOnPositiveButtonClickListener(selection ->
-        {
-            Long selectedDate = (Long) selection;
-            String birthDate = DateFormat.format("MM/dd/yyyy", new Date(selectedDate)).toString();
-
-            selectedBirthDateTextView.setText(birthDate);
-            selectedBirthDateTextView.setVisibility(TextView.VISIBLE);
-
-        });
-
-        materialDatePicker.show(getSupportFragmentManager(), "RegisterActivity");
-    }
-
-
-    private void progressButtonAnimation() {
         GradientDrawable drawable = (GradientDrawable) registerButton.getBackground();
 
         int initialButtonWidth = registerButton.getWidth();
@@ -533,11 +510,38 @@ public class RegisterActivity extends AppCompatActivity
         });
     }
 
+
     private void progressButtonReverseAnimation()
     {
         for (int i = 0; i < animations.size(); i++)
             animations.get(i).reverse();
 
         animations.clear();
+    }
+
+
+    private void showDateDialog()
+    {
+        MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder
+                .datePicker();
+
+        builder.setSelection(MaterialDatePicker.todayInUtcMilliseconds());
+
+        CalendarConstraints.Builder constraintsBuilder = new CalendarConstraints.Builder();
+        builder.setCalendarConstraints(constraintsBuilder.setValidator(DateValidatorPointBackward.now()).build());
+
+        MaterialDatePicker<Long> materialDatePicker = builder.build();
+
+        materialDatePicker.addOnPositiveButtonClickListener(selection ->
+        {
+            Long selectedDate = (Long) selection;
+            String birthDate = DateFormat.format("MM/dd/yyyy", new Date(selectedDate)).toString();
+
+            selectedBirthDateTextView.setText(birthDate);
+            selectedBirthDateTextView.setVisibility(TextView.VISIBLE);
+
+        });
+
+        materialDatePicker.show(getSupportFragmentManager(), "RegisterActivity");
     }
 }

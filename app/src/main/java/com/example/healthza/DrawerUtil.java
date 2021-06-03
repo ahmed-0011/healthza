@@ -62,10 +62,6 @@ public class DrawerUtil
                                 .withName("Account").withIcon(R.drawable.ic_account)
                                 .withIconTintingEnabled(true),
 
-                        new PrimaryDrawerItem().withIdentifier(1)
-                                .withName("Notification").withIcon(R.drawable.ic_notifications)
-                                .withIconTintingEnabled(true),
-
                         new DividerDrawerItem(),
 
                         new PrimaryDrawerItem().withIdentifier(2)
@@ -246,36 +242,32 @@ public class DrawerUtil
                                 .withName("Account").withIcon(R.drawable.ic_account)
                                 .withIconTintingEnabled(true),
 
-                        new PrimaryDrawerItem().withIdentifier(1)
-                                .withName("Notification").withIcon(R.drawable.ic_notifications)
-                                .withIconTintingEnabled(true),
-
                         new DividerDrawerItem(),
 
                         new PrimaryDrawerItem().withIdentifier(2)
-                                .withName("New Requests").withIcon(R.drawable.ic_notifications)
+                                .withName("New Requests").withIcon(R.drawable.ic_new_requests)
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(3)
-                                .withName("My Doctors").withIcon(R.drawable.ic_doctor)
+                                .withName("My Doctors").withIcon(R.drawable.ic_my_doctors)
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(15)
-                                .withName("Add Chronic Diseases").withIcon(R.drawable.iconchronic)
+                                .withName("Add Chronic Diseases").withIcon(R.drawable.ic_add_chronic_disease)
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(19)
-                                .withName("View Complications").withIcon(R.drawable.compico)
+                                .withName("View Complications").withIcon(R.drawable.ic_complications)
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(16)
-                                .withName("Manage Identifier").withIcon(R.drawable.mange_identfiers)
+                                .withName("Manage Relatives").withIcon(R.drawable.ic_relatives)
                                 .withIconTintingEnabled(true)
                                 .withSubItems(
                                         new SecondaryDrawerItem().withIdentifier(17)
-                                                .withName("New Identifier"),
+                                                .withName("New Relative"),
                                         new SecondaryDrawerItem().withIdentifier(18)
-                                                .withName("View Identifier")
+                                                .withName("View Relatives")
                                 ),
 
                       /*  new PrimaryDrawerItem().withIdentifier(13)
@@ -289,7 +281,7 @@ public class DrawerUtil
                         new DividerDrawerItem(),
 
                         new PrimaryDrawerItem().withIdentifier(4)
-                                .withName("New Test").withIcon(R.drawable.iconat)
+                                .withName("New Test").withIcon(R.drawable.ic_new_test)
                                 .withIconTintingEnabled(true)
                                 .withSubItems(
                                         new SecondaryDrawerItem().withIdentifier(5)
@@ -319,14 +311,14 @@ public class DrawerUtil
 
 
                         new PrimaryDrawerItem().withIdentifier(21)
-                                .withName("Medicines").withIcon(R.drawable.ic_medicens_)
+                                .withName("Medicines").withIcon(R.drawable.ic_medicines)
                                 .withIconTintingEnabled(true),
 
 
                         new DividerDrawerItem(),
 
                         new PrimaryDrawerItem().withIdentifier(14)
-                                .withName("LogOut").withIcon(R.drawable.logoutm)
+                                .withName("LogOut").withIcon(R.drawable.ic_logout)
                                 .withIconTintingEnabled(true)
                 )
 
@@ -483,12 +475,12 @@ public class DrawerUtil
 
                                         .setPositiveButton ( "YES_EXIT", new DialogInterface.OnClickListener () {
                                             @Override
-                                            public void onClick(DialogInterface dialog, int which) {
+                                            public void onClick(DialogInterface dialog, int which)
+                                            {
                                                 FirebaseAuth.getInstance().signOut();
                                                 activity.finishAffinity();
                                                 Intent I = new Intent(activity, WelcomeActivity.class);
                                                 view.getContext().startActivity(I);
-
                                             }
                                         } )
 
@@ -504,9 +496,7 @@ public class DrawerUtil
 
                                 break;
                             }
-
                         }
-
                         return true;
                     }
                 })

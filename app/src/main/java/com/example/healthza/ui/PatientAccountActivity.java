@@ -350,14 +350,15 @@ public class PatientAccountActivity extends AppCompatActivity
                 accountInformation.put("height", newHeight);
                 accountInformation.put("bmi", newBmi);
 
-                Timestamp timestamp = Timestamp.now();
 
                 DocumentReference bodyInfoRef = db.collection("patients")
                         .document(patientId)
                         .collection("bodyInfoRecords")
                         .document();
 
-                BodyInfo bodyInfo = new BodyInfo(bodyInfoRef.getId(), newWeight, newHeight, newBmi, timestamp);
+                BodyInfo bodyInfo = new BodyInfo(bodyInfoRef.getId(), newWeight, newHeight,
+                        newBmi, Timestamp.now());
+
                 bodyInfoRef.set(bodyInfo);
 
                 weight = weightString;

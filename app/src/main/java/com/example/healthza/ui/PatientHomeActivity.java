@@ -27,6 +27,7 @@ import com.example.healthza.DrawerUtil;
 import com.example.healthza.ProgressDialog;
 import com.example.healthza.TextInputEditTextFocusListenerHelper;
 import com.example.healthza.Toasty;
+import com.example.healthza.models.BodyInfo;
 import com.example.healthza.models.DailyTest;
 import com.example.healthza.models.Disease;
 import com.example.healthza.R;
@@ -327,7 +328,7 @@ public class PatientHomeActivity extends AppCompatActivity
 
                                                             int countTests = 0;
 
-                                                         /*   for (int i = 0; i < testsDocuments.size() && countTests != 3; i++) {
+                                                            for (int i = 0; i < testsDocuments.size() && countTests != 3; i++) {
                                                                 String testType = tests.get(i).getString("type");
                                                                 String testLevel = "";
                                                                 if (testType.equals("glucose"))
@@ -341,6 +342,14 @@ public class PatientHomeActivity extends AppCompatActivity
 
                                                                 if (i == 0)
                                                                 {
+                                                                    if(testType.equals("glucose"))
+                                                                        firstTestTypeTextView.setTextColor(getColor(R.color.glucose_color));
+                                                                    else if(testType.equals("hypertension"))
+                                                                        firstTestTypeTextView.setTextColor(getColor(R.color.blood_pressure_color));
+                                                                    else if(testType.equals("cholesterol"))
+                                                                        firstTestTypeTextView.setTextColor(getColor(R.color.total_cholesterol_color));
+
+
                                                                     firstTestTypeTextView.setText(testType);
                                                                     firstTestLevelTextView.setText(testLevel);
                                                                     firstTestTimeTextView.setText(simpleDateFormat.format(timestamp.toDate()));
@@ -350,6 +359,13 @@ public class PatientHomeActivity extends AppCompatActivity
                                                                 }
                                                                 else if (i == 1)
                                                                 {
+                                                                    if(testType.equals("glucose"))
+                                                                        secondTestTypeTextView.setTextColor(getColor(R.color.glucose_color));
+                                                                    else if(testType.equals("hypertension"))
+                                                                        secondTestTypeTextView.setTextColor(getColor(R.color.blood_pressure_color));
+                                                                    else if(testType.equals("cholesterol"))
+                                                                        secondTestTypeTextView.setTextColor(getColor(R.color.total_cholesterol_color));
+
                                                                     secondTestTypeTextView.setText(testType);
                                                                     secondTestLevelTextView.setText(testLevel);
                                                                     secondTestTimeTextView.setText(simpleDateFormat.format(timestamp.toDate()));
@@ -359,6 +375,13 @@ public class PatientHomeActivity extends AppCompatActivity
                                                                 }
                                                                 else if (i == 2)
                                                                 {
+                                                                    if(testType.equals("glucose"))
+                                                                        thirdTestTypeTextView.setTextColor(getColor(R.color.glucose_color));
+                                                                    else if(testType.equals("hypertension"))
+                                                                        thirdTestTypeTextView.setTextColor(getColor(R.color.blood_pressure_color));
+                                                                    else if(testType.equals("cholesterol"))
+                                                                        thirdTestTypeTextView.setTextColor(getColor(R.color.total_cholesterol_color));
+
                                                                     thirdTestTypeTextView.setText(testType);
                                                                     thirdTestLevelTextView.setText(testLevel);
                                                                     thirdTestTimeTextView.setText(simpleDateFormat.format(timestamp.toDate()));
@@ -366,7 +389,7 @@ public class PatientHomeActivity extends AppCompatActivity
 
                                                                     countTests++;
                                                                 }
-                                                            }*/
+                                                            }
                                                         });
                                             }
                                         });
@@ -515,7 +538,7 @@ public class PatientHomeActivity extends AppCompatActivity
     {
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View view = inflater.inflate(R.layout.dialog1_patient1, null);
+        View view = inflater.inflate(R.layout.dialog_patient1, null);
 
         CheckBox diabetesCheckBox, hypertensionCheckBox, cholesterolCheckBox;
         TextInputLayout diabetesTypeInputLayout, hypertensionTypeInputLayout, cholesterolTypeInputLayout;
@@ -685,6 +708,8 @@ public class PatientHomeActivity extends AppCompatActivity
 
         Button selectDiabetesDetectionDateButton, selectHypertensionDetectionDateButton, selectCholesterolDetectionDateButton;
 
+        CheckBox diabetesInheritedCheckBox, hypertensionInheritedCheckBox, cholesterolInheritedCheckBox;
+
         TextView selectedDiabetesDetectionDateTextView, selectedHypertensionDetectionDateTextView,
                 selectedCholesterolDetectionDateTextView, diabetesDetectionTextView,
                 hypertensionDetectionDateTextView, cholesterolDetectionDateTextView;
@@ -698,6 +723,10 @@ public class PatientHomeActivity extends AppCompatActivity
         selectDiabetesDetectionDateButton = view.findViewById(R.id.selectDiabetesDetectionDateButton);
         selectHypertensionDetectionDateButton = view.findViewById(R.id.selectHypertensionDetectionDateButton);
         selectCholesterolDetectionDateButton = view.findViewById(R.id.selectCholesterolDateButton);
+
+        diabetesInheritedCheckBox = view.findViewById(R.id.diabetesInheritedCheckBox);
+        hypertensionInheritedCheckBox = view.findViewById(R.id.hypertensionInheritedCheckBox);
+        cholesterolInheritedCheckBox = view.findViewById(R.id.cholesterolInheritedCheckBox);
 
         weightInputLayout = view.findViewById(R.id.weightInputLayout);
         heightInputLayout = view.findViewById(R.id.heightInputLayout);
@@ -721,24 +750,27 @@ public class PatientHomeActivity extends AppCompatActivity
         selectCholesterolDetectionDateButton.setOnClickListener(view1 ->
         {
             showDateDialog(selectedCholesterolDetectionDateTextView);
-            cholesterol.setDiagnosisDate(selectedCholesterolDetectionDateTextView.getText().toString());
+            cholesterol.setDetectionDate(selectedCholesterolDetectionDateTextView.getText().toString());
         });
 
 
         if (diabetes == null)
         {
+            diabetesInheritedCheckBox.setVisibility(View.GONE);
             diabetesDetectionTextView.setVisibility(View.GONE);
             selectDiabetesDetectionDateButton.setVisibility(View.GONE);
         }
 
         if (hypertension == null)
         {
+            hypertensionInheritedCheckBox.setVisibility(View.GONE);
             hypertensionDetectionDateTextView.setVisibility(View.GONE);
             selectHypertensionDetectionDateButton.setVisibility(View.GONE);
         }
 
         if (cholesterol == null)
         {
+            cholesterolInheritedCheckBox.setVisibility(View.GONE);
             cholesterolDetectionDateTextView.setVisibility(View.GONE);
             selectCholesterolDetectionDateButton.setVisibility(View.GONE);
         }
@@ -768,7 +800,7 @@ public class PatientHomeActivity extends AppCompatActivity
                 if (diabetesDetectionDate.isEmpty())
                     error = error + "Please enter detection date for diabetes.\n";
                 else
-                    diabetes.setDiagnosisDate(selectedDiabetesDetectionDateTextView.getText().toString());
+                    diabetes.setDetectionDate(selectedDiabetesDetectionDateTextView.getText().toString());
             }
 
             if (hypertension != null)
@@ -777,7 +809,7 @@ public class PatientHomeActivity extends AppCompatActivity
                 if (hypertensionDetectionDate.isEmpty())
                     error = error + "Please enter detection date for hypertension.\n";
                 else
-                    hypertension.setDiagnosisDate(selectedHypertensionDetectionDateTextView.getText().toString());
+                    hypertension.setDetectionDate(selectedHypertensionDetectionDateTextView.getText().toString());
             }
 
             if (cholesterol != null)
@@ -786,7 +818,7 @@ public class PatientHomeActivity extends AppCompatActivity
                 if (cholesterolDetectionDate.isEmpty())
                     error = error + "Please enter detection date for cholesterol.\n";
                 else
-                    cholesterol.setDiagnosisDate(selectedCholesterolDetectionDateTextView.getText().toString());
+                    cholesterol.setDetectionDate(selectedCholesterolDetectionDateTextView.getText().toString());
             }
 
 
@@ -829,25 +861,47 @@ public class PatientHomeActivity extends AppCompatActivity
                 additionalInfo.put("bmi", bmi);
                 additionalInfo.put("completeInfo", true);
 
+
+                DocumentReference bodyInfoRef = db.collection("patients")
+                        .document(patientId).collection("bodyInfoRecords").document();
+                BodyInfo bodyInfo = new BodyInfo(bodyInfoRef.getId(), weight, height,
+                        bmi, Timestamp.now());
+
                 DocumentReference patientRef = db.collection("patients").document(patientId);
                 CollectionReference diseasesRef = patientRef.collection("diseases");
 
                 WriteBatch batch = db.batch();
 
+                batch.set(bodyInfoRef, bodyInfo);
                 batch.update(patientRef, additionalInfo);
 
                 if (diabetes != null)
                 {
+                    if(diabetesInheritedCheckBox.isChecked())
+                        diabetes.setInherited(true);
+                    else
+                        diabetes.setInherited(false);
+
                     DocumentReference diabetesRef = diseasesRef.document();
                     batch.set(diabetesRef, diabetes);
                 }
                 if (hypertension != null)
                 {
+                    if(hypertensionInheritedCheckBox.isChecked())
+                        hypertension.setInherited(true);
+                    else
+                        hypertension.setInherited(false);
+
                     DocumentReference hypertensionRef = diseasesRef.document();
                     batch.set(hypertensionRef, hypertension);
                 }
                 if (cholesterol != null)
                 {
+                    if(cholesterolInheritedCheckBox.isChecked())
+                        cholesterol.setInherited(true);
+                    else
+                        cholesterol.setInherited(false);
+
                     DocumentReference cholesterolRef = diseasesRef.document();
                     batch.set(cholesterolRef, cholesterol);
                 }
@@ -972,6 +1026,8 @@ public class PatientHomeActivity extends AppCompatActivity
     {
         MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder
                 .datePicker();
+
+        builder.setSelection(MaterialDatePicker.todayInUtcMilliseconds());
 
         CalendarConstraints.Builder constraintsBuilder = new CalendarConstraints.Builder();
         builder.setCalendarConstraints(constraintsBuilder.setValidator(DateValidatorPointBackward.now()).build());

@@ -260,4 +260,5 @@
     <string name="tests_statistics">Tests Statistics</string>
     <string name="patient">patient</string>
     <string name="no_records_yet">No Records Yet</string>
+    <string name="inherited">inherited</string>
 </resources>
