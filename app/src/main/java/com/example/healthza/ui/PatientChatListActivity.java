@@ -106,7 +106,7 @@ public class PatientChatListActivity extends AppCompatActivity implements ChatAd
                 else if (i == R.id.chartsItem)
                     intent = new Intent(PatientChatListActivity.this, PatientChartsActivity.class);
                 else if (i == R.id.appointmentsItem)
-                    intent = new Intent(PatientChatListActivity.this, appointmentsP.class);
+                    intent = new Intent(PatientChatListActivity.this, PatientAppointmentsActivity.class);
 
 
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -21,6 +21,7 @@ import android.widget.ViewFlipper;
 
 import com.example.healthza.R;
 import com.example.healthza.Toasty;
+import com.example.healthza.adapters.DoctorAppointmentAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -45,11 +46,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class appointmentsD extends AppCompatActivity {
+public class DoctorAppointmentsActivity extends AppCompatActivity {
 
     List<Map<String, Object>> NEW;
     List<Map<String, Object>> EXPIERD;
-    PatientAppointmentAdapter adp;
+    DoctorAppointmentAdapter adp;
 
     FirebaseFirestore db;
     FirebaseAuth firebaseAuth;
@@ -208,7 +209,7 @@ public class appointmentsD extends AppCompatActivity {
             getData(new Date(dateRange.first), new Date(dateRange.second));
         });
 
-        materialDatePicker.show(getSupportFragmentManager(), "appointmentsD");
+        materialDatePicker.show(getSupportFragmentManager(), "DoctorAppointmentsActivity");
     }
 
     void getData(Date d1,Date d2)
@@ -486,7 +487,7 @@ public class appointmentsD extends AppCompatActivity {
                 textview.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new AlertDialog.Builder(appointmentsD.this)
+                        new AlertDialog.Builder(DoctorAppointmentsActivity.this)
                                 .setMessage(description)
                                 .setPositiveButton(android.R.string.ok, null)
                                 .show();
@@ -526,48 +527,48 @@ public class appointmentsD extends AppCompatActivity {
                                         TableRow.LayoutParams mw = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
                                                 TableRow.LayoutParams.WRAP_CONTENT,1);
 
-                                        TableRow tr1 = new TableRow(appointmentsD.this);
+                                        TableRow tr1 = new TableRow(DoctorAppointmentsActivity.this);
                                         tr1.setPaddingRelative(5,5,5,5);
                                         tr1.setGravity(Gravity.CENTER);
                                         tr1.setScrollbarFadingEnabled(false);
                                         tr1.setScrollBarFadeDuration(0);
 
-                                        TextView textview = new TextView(appointmentsD.this);
+                                        TextView textview = new TextView(DoctorAppointmentsActivity.this);
                                         textview.setText("---------");
                                         textview.setLayoutParams(mw); // match warp wighet
                                         textview.setGravity(Gravity.CENTER); //gravity center
                                         // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                                         tr1.addView(textview);
 
-                                        textview = new TextView(appointmentsD.this);
+                                        textview = new TextView(DoctorAppointmentsActivity.this);
                                         textview.setText("---------");
                                         textview.setLayoutParams(mw); // match warp wighet
                                         textview.setGravity(Gravity.CENTER); //gravity center
                                         // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                                         tr1.addView(textview);
 
-                                        textview = new TextView(appointmentsD.this);
+                                        textview = new TextView(DoctorAppointmentsActivity.this);
                                         textview.setText("---------");
                                         textview.setLayoutParams(mw); // match warp wighet
                                         textview.setGravity(Gravity.CENTER); //gravity center
                                         // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                                         tr1.addView(textview);
 
-                                        textview = new TextView(appointmentsD.this);
+                                        textview = new TextView(DoctorAppointmentsActivity.this);
                                         textview.setText("---------");
                                         textview.setLayoutParams(mw); // match warp wighet
                                         textview.setGravity(Gravity.CENTER); //gravity center
                                         // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                                         tr1.addView(textview);
 
-                                        textview = new TextView(appointmentsD.this);
+                                        textview = new TextView(DoctorAppointmentsActivity.this);
                                         textview.setText("---------");
                                         textview.setLayoutParams(mw); // match warp wighet
                                         textview.setGravity(Gravity.CENTER); //gravity center
                                         // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                                         tr1.addView(textview);
 
-                                        textview = new TextView(appointmentsD.this);
+                                        textview = new TextView(DoctorAppointmentsActivity.this);
                                         textview.setText("---------");
                                         textview.setLayoutParams(mw); // match warp wighet
                                         textview.setGravity(Gravity.CENTER); //gravity center
@@ -729,7 +730,7 @@ public class appointmentsD extends AppCompatActivity {
                 textview.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new AlertDialog.Builder(appointmentsD.this)
+                        new AlertDialog.Builder(DoctorAppointmentsActivity.this)
                                 .setMessage(description)
                                 .setPositiveButton(android.R.string.ok, null)
                                 .show();
@@ -768,48 +769,48 @@ public class appointmentsD extends AppCompatActivity {
                                         TableRow.LayoutParams mw = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
                                                 TableRow.LayoutParams.WRAP_CONTENT,1);
 
-                                        TableRow tr1 = new TableRow(appointmentsD.this);
+                                        TableRow tr1 = new TableRow(DoctorAppointmentsActivity.this);
                                         tr1.setPaddingRelative(5,5,5,5);
                                         tr1.setGravity(Gravity.CENTER);
                                         tr1.setScrollbarFadingEnabled(false);
                                         tr1.setScrollBarFadeDuration(0);
 
-                                        TextView textview = new TextView(appointmentsD.this);
+                                        TextView textview = new TextView(DoctorAppointmentsActivity.this);
                                         textview.setText("---------");
                                         textview.setLayoutParams(mw); // match warp wighet
                                         textview.setGravity(Gravity.CENTER); //gravity center
                                         // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                                         tr1.addView(textview);
 
-                                        textview = new TextView(appointmentsD.this);
+                                        textview = new TextView(DoctorAppointmentsActivity.this);
                                         textview.setText("---------");
                                         textview.setLayoutParams(mw); // match warp wighet
                                         textview.setGravity(Gravity.CENTER); //gravity center
                                         // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                                         tr1.addView(textview);
 
-                                        textview = new TextView(appointmentsD.this);
+                                        textview = new TextView(DoctorAppointmentsActivity.this);
                                         textview.setText("---------");
                                         textview.setLayoutParams(mw); // match warp wighet
                                         textview.setGravity(Gravity.CENTER); //gravity center
                                         // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                                         tr1.addView(textview);
 
-                                        textview = new TextView(appointmentsD.this);
+                                        textview = new TextView(DoctorAppointmentsActivity.this);
                                         textview.setText("---------");
                                         textview.setLayoutParams(mw); // match warp wighet
                                         textview.setGravity(Gravity.CENTER); //gravity center
                                         // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                                         tr1.addView(textview);
 
-                                        textview = new TextView(appointmentsD.this);
+                                        textview = new TextView(DoctorAppointmentsActivity.this);
                                         textview.setText("---------");
                                         textview.setLayoutParams(mw); // match warp wighet
                                         textview.setGravity(Gravity.CENTER); //gravity center
                                         // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                                         tr1.addView(textview);
 
-                                        textview = new TextView(appointmentsD.this);
+                                        textview = new TextView(DoctorAppointmentsActivity.this);
                                         textview.setText("---------");
                                         textview.setLayoutParams(mw); // match warp wighet
                                         textview.setGravity(Gravity.CENTER); //gravity center

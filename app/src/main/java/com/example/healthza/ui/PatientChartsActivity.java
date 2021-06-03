@@ -172,7 +172,7 @@ public class PatientChartsActivity extends AppCompatActivity
                 else if (i == R.id.medicalHistoryItem)
                     intent = new Intent(PatientChartsActivity.this, medicalRecords.class);
                 else if (i == R.id.appointmentsItem)
-                    intent = new Intent(PatientChartsActivity.this, appointmentsP.class);
+                    intent = new Intent(PatientChartsActivity.this, PatientAppointmentsActivity.class);
                 else if (i == R.id.chatItem)
                     intent = new Intent(PatientChartsActivity.this, PatientChatListActivity.class);
 

@@ -22,6 +22,7 @@ import android.widget.ViewFlipper;
 
 import com.example.healthza.R;
 import com.example.healthza.Toasty;
+import com.example.healthza.adapters.PatientAppointmentAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -48,8 +49,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
-public class appointmentsP extends AppCompatActivity {
-//
+public class PatientAppointmentsActivity extends AppCompatActivity
+{
     List<Map<String, Object>> NEW;
     List<Map<String, Object>> EXPIERD;
     PatientAppointmentAdapter adp;
@@ -199,13 +200,13 @@ public class appointmentsP extends AppCompatActivity {
                 if (i == R.id.appointmentsItem)
                     return;
                 else if (i == R.id.homeItem)
-                    intent = new Intent(appointmentsP.this, PatientHomeActivity.class);
+                    intent = new Intent(PatientAppointmentsActivity.this, PatientHomeActivity.class);
                // else if (i == R.id.medicalHistoryItem)
-                    //intent = new Intent(appointmentsP.this, patientMedicalRecords.class);
+                    //intent = new Intent(PatientAppointmentsActivity.this, patientMedicalRecords.class);
                 else if (i == R.id.chartsItem)
-                    intent = new Intent(appointmentsP.this, PatientChartsActivity.class);
+                    intent = new Intent(PatientAppointmentsActivity.this, PatientChartsActivity.class);
                 else if (i == R.id.chatItem)
-                    intent = new Intent(appointmentsP.this, PatientChatListActivity.class);
+                    intent = new Intent(PatientAppointmentsActivity.this, PatientChatListActivity.class);
 
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -248,7 +249,7 @@ public class appointmentsP extends AppCompatActivity {
         getData(new Date(dateRange.first), new Date(dateRange.second));
         });
 
-        materialDatePicker.show(getSupportFragmentManager(), "appointmentsP");
+        materialDatePicker.show(getSupportFragmentManager(), "PatientAppointmentsActivity");
     }
 
     void getData(Date d1,Date d2)
@@ -505,7 +506,7 @@ public class appointmentsP extends AppCompatActivity {
                 textview.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new AlertDialog.Builder(appointmentsP.this)
+                        new AlertDialog.Builder(PatientAppointmentsActivity.this)
                                 .setMessage(description)
                                 .setPositiveButton(android.R.string.ok, null)
                                 .show();
@@ -645,7 +646,7 @@ public class appointmentsP extends AppCompatActivity {
                 textview.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new AlertDialog.Builder(appointmentsP.this)
+                        new AlertDialog.Builder(PatientAppointmentsActivity.this)
                                 .setMessage(description)
                                 .setPositiveButton(android.R.string.ok, null)
                                 .show();

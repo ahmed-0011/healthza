@@ -116,7 +116,7 @@ public class DoctorHomeActivity extends AppCompatActivity
                 else if (i == R.id.patientsItem)
                     intent = new Intent(DoctorHomeActivity.this, PatientListActivity.class);
                 else if (i == R.id.appointmentsItem)
-                    intent = new Intent(DoctorHomeActivity.this,appointmentsD.class);
+                    intent = new Intent(DoctorHomeActivity.this, DoctorAppointmentsActivity.class);
                 else if (i == R.id.chatItem)
                     intent = new Intent(DoctorHomeActivity.this, DoctorChatListActivity.class);
 
