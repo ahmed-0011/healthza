@@ -5,6 +5,7 @@ import com.google.firebase.Timestamp;
 
 public class BodyInfo
 {
+    /////
     private double weight;
     private double height;
     private double bmi;
