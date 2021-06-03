@@ -96,6 +96,8 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
     boolean first=false;
     float latest;
 
+    boolean f=true;
+
 
     public boolean onSupportNavigateUp()
     {
@@ -125,7 +127,8 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.w ("Add Glucose test.", "end");
-                        Toast.makeText(getApplicationContext(), "Back...", Toast.LENGTH_SHORT).show();
+                        Toasty.showText(getApplicationContext(), "Back...",Toasty.INFORMATION, Toast.LENGTH_SHORT);
+
                         //complet
                         finish();
                     }
@@ -165,7 +168,7 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
         db = FirebaseFirestore.getInstance();
 
         Log.w ("Add Glucose test.", "start");
-        Toast.makeText(getApplicationContext(), "Add Glucose test....", Toast.LENGTH_SHORT).show();
+        Toasty.showText(getApplicationContext(), "New Glucose test...",Toasty.INFORMATION, Toast.LENGTH_SHORT);
 
         datE = findViewById(R.id.dateText0);
         timE = findViewById(R.id.timeText0);
@@ -261,41 +264,7 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
         clear = findViewById(R.id.ClearGlucoseTest); clear.setOnClickListener (this);
         add = findViewById(R.id.AddGlucoseTest); add.setOnClickListener(this);
 
-        //complet
 
-        //<!--get tests Count
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user != null) {
-            // User is signed in
-            String userId = user.getUid();
-            DocumentReference docRef = db.collection("patients") // table
-                    .document(userId) // patient id
-                    .collection("tests")// table inside patient table
-                    .document("count");
-
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                            String cte = "" + document.getData().toString();
-                            ct = Integer.parseInt(cte.substring(7,cte.length()-1));
-                        } else {
-                            Log.d(TAG, "No such document");
-                            ct = 0;
-                        }
-                    } else {
-                        Log.d(TAG, "get failed with ", task.getException());
-                        ct = 0;
-                    }
-                }
-            });
-        }
-        //end get tests Count-->
-
-        MaxMinThisTestCountSet();
 
     }
 
@@ -363,7 +332,7 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
         //complet
         if(ifEmptyFields())
         {
-            AlertDialog.Builder x = new AlertDialog.Builder(this);
+            /*AlertDialog.Builder x = new AlertDialog.Builder(this);
             x.setMessage("Please complete fill the form data.").setTitle("incomplete data")
 
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -376,7 +345,8 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                     .setIcon(R.drawable.goo)
                     .setPositiveButtonIcon(getDrawable(R.drawable.yes))
 
-                    .show();
+                    .show();*/
+            Toasty.showText(getApplicationContext(), "Please complete fill the form data...",Toasty.ERROR, Toast.LENGTH_SHORT);
             return;
         }
 
@@ -392,10 +362,16 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                         // functions and codes
                         //complet
 
+                        if(f)
+                        {
+                            setAddOPT();
+
+                            return;
+                        }
                         addTest();
 
-                        notification("Glucose Test");
-                        Toast.makeText(getApplicationContext(), "Glucose TEST IS ADD...", Toast.LENGTH_SHORT).show();
+                        //notification("Glucose Test");
+                        Toasty.showText(getApplicationContext(), "Glucose TEST IS ADD...",Toasty.SUCCESS, Toast.LENGTH_SHORT);
 
 
                     }
@@ -502,7 +478,7 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
     }
 // "Clear focus input" -->
 
-    // notification
+   /* // notification
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createChannel() {
 
@@ -517,9 +493,9 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
 
 
         }
-    }
+    }*/
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+   /* @RequiresApi(api = Build.VERSION_CODES.O)
     void notification(String text)
     {
         NotificationManager man= (NotificationManager)getSystemService ( NOTIFICATION_SERVICE );
@@ -533,13 +509,13 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
         bigtext.bigText ("Test Date:"+ datE.getText().toString()+ " && Test Time:"+timE.getText().toString() );
         bigtext.setSummaryText ("New  Test ADD");
 
-        note = new NotificationCompat.Builder ( getApplicationContext(),ChannelID )
+        note = new NotificationCompat.Builder ( getApplicationContext(),ChannelID )*/
                 /*.setContentTitle ( "New  Test ADD"  )
                 .setSubText ( "Test Type:"+text
                         +"\nTest Date:"+ datE.getText().toString()
                         +"\nTest Time:"+timE.getText().toString()  )
                 .setContentText ("")*/
-                .setOngoing ( false )
+               /* .setOngoing ( false )
                 .setColor ( Color.RED  )
                 .setColorized ( true )
                 .setPriority ( NotificationManager.IMPORTANCE_HIGH )
@@ -556,7 +532,7 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
 
         man.notify (++Functions.ne, note.build ());
 
-    }
+    }*/
 
     //rotate
     @Override
@@ -597,6 +573,8 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d(TAG_CT, "DocumentSnapshot successfully written!");
+                            Toasty.showText(getApplicationContext(), "Glucose TEST IS ADD...",Toasty.SUCCESS, Toast.LENGTH_SHORT);
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -610,6 +588,7 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
             dataTest.put("date_add", datE.getText().toString());
             dataTest.put("time_add", timE.getText().toString());
             dataTest.put("glucose_percent", Float.parseFloat(glucose.getText().toString()));
+            dataTest.put("type", "glucose");
 
             //Time Stamp
             String Date =datE.getText().toString();
@@ -651,6 +630,9 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Log.d(TAG, "DocumentSnapshot successfully written!");
+                                            f=false;
+                                            Toasty.showText(getApplicationContext(), "Glucose TEST IS ADD...",Toasty.SUCCESS, Toast.LENGTH_SHORT);
+
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
@@ -675,6 +657,8 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                            Toasty.showText(getApplicationContext(), "Glucose TEST IS ADD...",Toasty.SUCCESS, Toast.LENGTH_SHORT);
+
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
@@ -699,6 +683,8 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Log.d(TAG, "DocumentSnapshot successfully written!");
+                                        Toasty.showText(getApplicationContext(), "Glucose TEST IS ADD...",Toasty.SUCCESS, Toast.LENGTH_SHORT);
+
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -737,6 +723,7 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
 
         DRC.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
@@ -761,9 +748,10 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
 
                     DRC.set(Mp)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @RequiresApi(api = Build.VERSION_CODES.O)
                                 @Override
                                 public void onSuccess(Void aVoid) {
-
+                                    addTest();
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -781,6 +769,7 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                   //  MaxL = Float.parseFloat(document.get("max_level").toString());
                   //  MinL = Float.parseFloat(document.get("min_level").toString());
                     first =false;
+                    addTest();
                 }
             }
         });
@@ -894,6 +883,45 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
             first = false;
         }
 
+    }
+
+    void setAddOPT()
+    {
+        //complet
+
+        //<!--get tests Count
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            // User is signed in
+            String userId = user.getUid();
+            DocumentReference docRef = db.collection("patients") // table
+                    .document(userId) // patient id
+                    .collection("tests")// table inside patient table
+                    .document("count");
+
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            String cte = "" + document.getData().toString();
+                            ct = Integer.parseInt(cte.substring(7,cte.length()-1));
+                        } else {
+                            Log.d(TAG, "No such document");
+                            ct = 0;
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                        ct = 0;
+                    }
+                }
+            });
+        }
+        //end get tests Count-->
+
+        MaxMinThisTestCountSet();
     }
 
 }
