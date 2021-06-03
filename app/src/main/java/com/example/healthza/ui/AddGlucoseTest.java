@@ -69,7 +69,7 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
         , View.OnFocusChangeListener
 {
 
-    private static final  String ChannelID= "AddGlucoseTestNote";
+   // private static final  String ChannelID= "AddGlucoseTestNote";
 
     CheckBox autoTD;
     FloatingActionButton stamp;
@@ -268,21 +268,21 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    //Date Picker
+    /*//Date Picker
     public void showDatePickerDialog() {
         Functions.DatePickerFragment.setYear(0); Functions.DatePickerFragment.setMonth(0); Functions.DatePickerFragment.setDay(0);
         DialogFragment newFragment = new Functions.DatePickerFragment(datE);
         newFragment.show(getSupportFragmentManager(), "datePicker");
         newFragment = null;
-    }
+    }*/
 
-    //Time Picker
+   /* //Time Picker
     public void showTimePickerDialog() {
         Functions.TimePickerFragment.setHour(0); Functions.TimePickerFragment.setMinute(0);
         DialogFragment newFragment = new Functions.TimePickerFragment(timE);
         newFragment.show(getSupportFragmentManager(), "timePicker");
         newFragment = null;
-    }
+    }*/
 
     //time and date auto
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -401,7 +401,8 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.w ("CLEAR FIELDS", "Glucose TEST CLEAR FIELDS");
-                        Toast.makeText(getApplicationContext(), "FIELDS IS CLEARD...", Toast.LENGTH_SHORT).show();
+                        Toasty.showText(getApplicationContext(),"FIELDS IS CLEARD...",Toasty.INFORMATION,Toast.LENGTH_SHORT);
+
                         // functions and codes
                         //complet
                         autoTD.setChecked(false);
@@ -443,7 +444,7 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                 Log.d("focus", "focus lost");
                 // Do whatever you want here
             } else {
-                Toast.makeText(getApplicationContext(), " Tap outside edittext to lose focus ", Toast.LENGTH_SHORT).show();
+                Toasty.showText(getApplicationContext(),"Tap outside edittext to lose focus...",Toasty.INFORMATION,Toast.LENGTH_SHORT);
                 Log.d("focus", "focused");
             }
 
@@ -694,13 +695,15 @@ public class AddGlucoseTest extends AppCompatActivity implements View.OnClickLis
                                     }
                                 });
 
-
+                        f=false;
                     }
                     else {
                         Log.d(TAG, "get failed with ", task.getException());
-
+                        f=false;
                     }
+                    f=false;
                 }
+
             });
 
             //end add test -->
