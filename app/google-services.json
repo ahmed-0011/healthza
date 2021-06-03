@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "263246403633",
+    "project_id": "cdh-b3523",
+    "storage_bucket": "cdh-b3523.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:263246403633:android:ec5d9ed9c00ba6dd679d10",
+        "android_client_info": {
+          "package_name": "com.project.cdh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "263246403633-rcrjsv6ooamdrekt0sujp5v0c3tisto5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.project.cdh",
+            "certificate_hash": "f9762d3d83d55b298e27d13d665bcb6708d46337"
+          }
+        },
+        {
+          "client_id": "263246403633-n2gpv7cl3p9jcqe22m4vo08hljjn43rf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM7CqGRaxF_MUofmY_MsCDVF0Jpdvx9UU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "263246403633-n2gpv7cl3p9jcqe22m4vo08hljjn43rf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
