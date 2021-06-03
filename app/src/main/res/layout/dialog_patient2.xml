@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fadeScrollbars="false"
     android:fillViewport="true"
     android:scrollbarAlwaysDrawVerticalTrack="true"
     android:scrollbarFadeDuration="0"
@@ -13,10 +14,7 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
-        android:paddingLeft="4dp"
-        android:paddingTop="4dp"
-        android:paddingRight="4dp"
-        android:paddingBottom="4dp">
+        android:padding="4dp">
 
         <TextView
             android:id="@+id/fillInformationTextView"
@@ -69,7 +67,7 @@
             android:textSize="20sp"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/diabetesDetectionDateTextView" />
+            app:layout_constraintTop_toBottomOf="@id/selectDiabetesDetectionDateButton" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/selectDiabetesDetectionDateButton"
@@ -81,9 +79,21 @@
             android:backgroundTint="@color/white"
             android:text="@string/select_text"
             android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/diabetesDetectionDateTextView" />
+
+        <CheckBox
+            android:id="@+id/diabetesInheritedCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="@string/inherited"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.05"
-            app:layout_constraintStart_toEndOf="@id/selectedDiabetesDetectionDateTextView"
             app:layout_constraintTop_toBottomOf="@id/diabetesDetectionDateTextView" />
 
         <TextView
@@ -99,19 +109,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/selectDiabetesDetectionDateButton" />
-
-        <TextView
-            android:id="@+id/selectedHypertensionDetectionDateTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:paddingTop="8dp"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/hypertensionDetectionDateTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/selectedDiabetesDetectionDateTextView" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/selectHypertensionDetectionDateButton"
@@ -123,9 +121,33 @@
             android:backgroundTint="@color/white"
             android:text="@string/select_text"
             android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hypertensionDetectionDateTextView" />
+
+        <TextView
+            android:id="@+id/selectedHypertensionDetectionDateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:paddingTop="8dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/selectHypertensionDetectionDateButton" />
+
+        <CheckBox
+            android:id="@+id/hypertensionInheritedCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="@string/inherited"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.05"
-            app:layout_constraintStart_toEndOf="@id/selectedHypertensionDetectionDateTextView"
             app:layout_constraintTop_toBottomOf="@id/hypertensionDetectionDateTextView" />
 
         <TextView
@@ -141,19 +163,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/selectHypertensionDetectionDateButton" />
+            app:layout_constraintTop_toBottomOf="@id/selectedHypertensionDetectionDateTextView" />
 
-        <TextView
-            android:id="@+id/selectedCholesterolDetectionDateTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:paddingTop="8dp"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cholesterolDetectionDateTextView" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/selectCholesterolDateButton"
@@ -165,9 +176,33 @@
             android:backgroundTint="@color/white"
             android:text="@string/select_text"
             android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cholesterolDetectionDateTextView" />
+
+        <TextView
+            android:id="@+id/selectedCholesterolDetectionDateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:paddingTop="8dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/selectCholesterolDateButton" />
+
+        <CheckBox
+            android:id="@+id/cholesterolInheritedCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="@string/inherited"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.05"
-            app:layout_constraintStart_toEndOf="@id/selectedCholesterolDetectionDateTextView"
             app:layout_constraintTop_toBottomOf="@id/cholesterolDetectionDateTextView" />
 
         <View
@@ -180,7 +215,7 @@
             android:background="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/selectCholesterolDateButton" />
+            app:layout_constraintTop_toBottomOf="@id/selectedCholesterolDetectionDateTextView" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/weightInputLayout"
