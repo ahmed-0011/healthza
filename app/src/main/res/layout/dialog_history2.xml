@@ -154,8 +154,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="10dp"
-                android:text="Glucose Test"
-                app:icon="@drawable/checkmark" />
+                android:text="Glucose Test" />
 
             <Button
                 android:id="@+id/btn2"
@@ -166,8 +165,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="10dp"
-                android:text="F.B.S test"
-                app:icon="@drawable/checkmark" />
+                android:text="F.B.S test" />
 
             <Button
                 android:id="@+id/btn3"
@@ -178,8 +176,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="10dp"
-                android:text="Cumulative test"
-                app:icon="@drawable/checkmark" />
+                android:text="Cumulative test" />
 
             <Button
                 android:id="@+id/btn4"
@@ -190,8 +187,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="10dp"
-                android:text="Hypertension test"
-                app:icon="@drawable/checkmark" />
+                android:text="Hypertension test" />
 
             <Button
                 android:id="@+id/btn5"
@@ -202,8 +198,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="10dp"
-                android:text="Cholesterol and Fats test"
-                app:icon="@drawable/checkmark" />
+                android:text="Cholesterol and Fats test" />
 
             <Button
                 android:id="@+id/btn6"
@@ -214,8 +209,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="10dp"
-                android:text="Liver test"
-                app:icon="@drawable/checkmark" />
+                android:text="Liver test" />
 
             <Button
                 android:id="@+id/btn7"
@@ -226,8 +220,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="10dp"
-                android:text="Kidneys Test"
-                app:icon="@drawable/checkmark" />
+                android:text="Kidneys Test" />
 
             <Button
                 android:id="@+id/btn8"
@@ -238,8 +231,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="10dp"
-                android:text="Comprehensive Test"
-                app:icon="@drawable/checkmark" />
+                android:text="Comprehensive Test" />
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
@@ -254,18 +246,101 @@
             app:layout_constraintTop_toBottomOf="@+id/toggleButtonGroup" />
 
 
-        <DatePicker
-            android:id="@+id/datePicker"
-            android:layout_width="250dp"
-            android:layout_height="95dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:calendarTextColor="@color/purple_700"
-            android:calendarViewShown="false"
-            android:datePickerMode="spinner"
-            android:drawSelectorOnTop="true"
+        <TextView
+            android:id="@+id/singleDateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/date_textview"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/single_date"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/pickASingleDateFloatingActionButton"
+            app:layout_constraintStart_toStartOf="@+id/pickASingleDateFloatingActionButton"
+            app:layout_constraintTop_toBottomOf="@+id/pickASingleDateFloatingActionButton" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/pickASingleDateFloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="120dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:scaleType="center"
+            app:backgroundTint="@color/white"
+            app:fabCustomSize="52dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/pickDateRangeFloatingActionButton"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+            app:layout_constraintTop_toBottomOf="@+id/textView9"
+            app:srcCompat="@drawable/ic_calendar"
+            app:tint="@null" />
+
+
+        <TextView
+            android:id="@+id/dateRangeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/date_textview"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/date_range"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/pickDateRangeFloatingActionButton"
+            app:layout_constraintStart_toStartOf="@+id/pickDateRangeFloatingActionButton"
+            app:layout_constraintTop_toBottomOf="@+id/pickDateRangeFloatingActionButton" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/pickDateRangeFloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:backgroundTint="@color/white"
+            app:fabCustomSize="52dp"
+            app:layout_constraintEnd_toStartOf="@+id/pickMultipleDatesFloatingActionButton"
+            app:layout_constraintStart_toEndOf="@+id/pickASingleDateFloatingActionButton"
+            app:layout_constraintTop_toTopOf="@+id/pickASingleDateFloatingActionButton"
+            app:srcCompat="@drawable/ic_calendar"
+            app:tint="@null" />
+
+        <TextView
+            android:id="@+id/multipleDatesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/date_textview"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="multiple date"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/pickMultipleDatesFloatingActionButton"
+            app:layout_constraintStart_toStartOf="@+id/pickMultipleDatesFloatingActionButton"
+            app:layout_constraintTop_toBottomOf="@+id/pickMultipleDatesFloatingActionButton" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/pickMultipleDatesFloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="84dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:backgroundTint="@color/white"
+            app:fabCustomSize="52dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/pickDateRangeFloatingActionButton"
+            app:layout_constraintTop_toTopOf="@+id/pickDateRangeFloatingActionButton"
+            app:srcCompat="@drawable/ic_calendar"
+            app:tint="@null" />
 
         <CheckBox
             android:id="@+id/checkBox"

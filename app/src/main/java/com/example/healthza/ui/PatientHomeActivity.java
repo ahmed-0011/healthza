@@ -126,7 +126,7 @@ public class PatientHomeActivity extends AppCompatActivity
                 if (i == R.id.homeItem)
                     return;
                 else if (i == R.id.medicalHistoryItem)
-                    intent = new Intent(PatientHomeActivity.this, medicalRecords.class);
+                    intent = new Intent(PatientHomeActivity.this, PatientHistory.class);
                 else if (i == R.id.chartsItem)
                     intent = new Intent(PatientHomeActivity.this, PatientChartsActivity.class);
                 else if (i == R.id.appointmentsItem)
@@ -327,7 +327,7 @@ public class PatientHomeActivity extends AppCompatActivity
 
                                                             int countTests = 0;
 
-                                                            for (int i = 0; i < testsDocuments.size() && countTests != 3; i++) {
+                                                         /*   for (int i = 0; i < testsDocuments.size() && countTests != 3; i++) {
                                                                 String testType = tests.get(i).getString("type");
                                                                 String testLevel = "";
                                                                 if (testType.equals("glucose"))
@@ -366,7 +366,7 @@ public class PatientHomeActivity extends AppCompatActivity
 
                                                                     countTests++;
                                                                 }
-                                                            }
+                                                            }*/
                                                         });
                                             }
                                         });
