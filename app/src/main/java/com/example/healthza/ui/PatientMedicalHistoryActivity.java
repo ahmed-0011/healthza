@@ -1070,15 +1070,15 @@ public class PatientMedicalHistoryActivity extends AppCompatActivity
         tr2.addView(textview1);
 
 
-        TableLayout tb_ = new TableLayout(this);
-        tb_.setLayoutParams(mw);
+        /*TableLayout tb_ = new TableLayout(this);
+        tb_.setLayoutParams(mw);*/
 
-        tb_.addView(tr2);
+        tb1.addView(tr2);
 
-        TableRow tr_ = new TableRow(this);
+        /*TableRow tr_ = new TableRow(this);
         tr_.setGravity(Gravity.CENTER);
         tr_.addView(tb_);
-        tb1.addView(tr_);
+        tb1.addView(tr_);*/
 
 
         String finalPercent [] = percent;
@@ -1209,12 +1209,12 @@ public class PatientMedicalHistoryActivity extends AppCompatActivity
 
 
 
-                                                    TableLayout tb2 = new TableLayout(this);
+                                                   /* TableLayout tb2 = new TableLayout(this);
                                                     tb2.setLayoutParams(mw);
 
 
                                                     TableRow tr__ = new TableRow(this);
-                                                    tr__.setGravity(Gravity.CENTER);
+                                                    tr__.setGravity(Gravity.CENTER);*/
 
                                                     //
                                                     TableRow tr1 = new TableRow(this);
@@ -1285,7 +1285,7 @@ public class PatientMedicalHistoryActivity extends AppCompatActivity
                                                                 }
 
                                                                 Toasty.showText(getApplicationContext(), document.getId() + " IS Deleted...", Toasty.INFORMATION, Toast.LENGTH_SHORT);
-                                                                tb1.removeView(tr__);
+                                                                tb1.removeView(tr1);
                                                                 if (tb1.getChildCount() == 1) {
                                                                     TableLayout tb1__ = new TableLayout(PatientMedicalHistoryActivity.this);
                                                                     tb1__.setLayoutParams(mw);
@@ -1322,9 +1322,9 @@ public class PatientMedicalHistoryActivity extends AppCompatActivity
                                                     });
 
                                                     tr1.addView(textview);
-                                                    tb2.addView(tr1);
-                                                    tr__.addView(tb2);
-                                                    tb1.addView(tr__);
+                                                    tb1.addView(tr1);
+                                                 //   tr__.addView(tb2);
+                                                   // tb1.addView(tr__);
 
                                                     //
                                                     //System.out.println("Finish un auto print1____2");
@@ -1335,6 +1335,8 @@ public class PatientMedicalHistoryActivity extends AppCompatActivity
 
                                                         TableRow tr3 = new TableRow(this);
                                                         tr3.setGravity(Gravity.CENTER);
+
+
                                                         tr3.addView(tb1);
                                                         tb.addView(tr3);
 
