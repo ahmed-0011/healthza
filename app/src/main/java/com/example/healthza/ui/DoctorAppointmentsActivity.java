@@ -85,7 +85,7 @@ public class DoctorAppointmentsActivity extends AppCompatActivity {
         String dId = firebaseAuth.getCurrentUser().getUid();
         getData();
 
-        setContentView(R.layout.activity_appointments_d);
+        setContentView(R.layout.activity_doctor_appointments);
 
         stu = true;
         bn1=true;

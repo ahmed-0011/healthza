@@ -23,8 +23,7 @@ import com.example.healthza.ui.DoctorSendRequestActivity;
 import com.example.healthza.ui.Functions;
 import com.example.healthza.ui.HbAlc;
 import com.example.healthza.ui.PatientAccountActivity;
-import com.example.healthza.ui.PatientHistory;
-import com.example.healthza.ui.PatientHistoryD;
+import com.example.healthza.ui.DoctorPatientMedicalHistory;
 import com.example.healthza.ui.PatientReceiveRequestActivity;
 import com.example.healthza.ui.ViewIdentifiersP;
 import com.example.healthza.ui.ViewMedicines;
@@ -188,7 +187,7 @@ public class DrawerUtil
 
                             case 20:
                             {
-                                Intent intent = new Intent(activity, PatientHistoryD.class);
+                                Intent intent = new Intent(activity, DoctorPatientMedicalHistory.class);
                                 view.getContext().startActivity(intent);
                                 break;
                             }
@@ -441,7 +440,7 @@ public class DrawerUtil
 
                            /* case 20:
                             {
-                                Intent intent = new Intent(activity, PatientHistory.class);
+                                Intent intent = new Intent(activity, PatientMedicalHistoryActivity.class);
                                 view.getContext().startActivity(intent);
                                 break;
                             }*/

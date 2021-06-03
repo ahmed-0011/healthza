@@ -13,9 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.healthza.adapters.ChatAdapter;
 import com.example.healthza.models.Chat;
-import com.example.healthza.models.Doctor;
 import com.example.healthza.R;
-import com.example.healthza.models.Message;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -24,7 +22,6 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
@@ -37,7 +34,6 @@ import java.util.Set;
 
 public class PatientChatListActivity extends AppCompatActivity implements ChatAdapter.OnChatItemClickListener
 {
-
     private ListenerRegistration chatEventListener;
     private ImageView emptyChatListimageView;
     private TextView emptyChatListTextView;
@@ -102,7 +98,7 @@ public class PatientChatListActivity extends AppCompatActivity implements ChatAd
                 else if (i == R.id.homeItem)
                     intent = new Intent(PatientChatListActivity.this, PatientHomeActivity.class);
                 else if (i == R.id.medicalHistoryItem)
-                    intent = new Intent(PatientChatListActivity.this, medicalRecords.class);
+                    intent = new Intent(PatientChatListActivity.this, PatientMedicalHistoryActivity.class);
                 else if (i == R.id.chartsItem)
                     intent = new Intent(PatientChatListActivity.this, PatientChartsActivity.class);
                 else if (i == R.id.appointmentsItem)
@@ -115,6 +111,7 @@ public class PatientChatListActivity extends AppCompatActivity implements ChatAd
             }
         });
     }
+
 
     private void getChats()
     {
@@ -156,10 +153,12 @@ public class PatientChatListActivity extends AppCompatActivity implements ChatAd
                 });
     }
 
+
     private void addNewChat()
     {
         new PatientContactDialog(this, emptyChatListimageView, emptyChatListTextView);
     }
+
 
     @Override
     protected void onResume()
@@ -168,6 +167,7 @@ public class PatientChatListActivity extends AppCompatActivity implements ChatAd
         getChats();
     }
 
+
     @Override
     protected void onDestroy()
     {
@@ -175,6 +175,7 @@ public class PatientChatListActivity extends AppCompatActivity implements ChatAd
         if (chatEventListener != null)
             chatEventListener.remove();
     }
+
 
     @Override
     public void onChatItemClick(int position)
@@ -190,6 +191,7 @@ public class PatientChatListActivity extends AppCompatActivity implements ChatAd
         startActivity(intent);
         overridePendingTransition(R.anim.zoom_in, R.anim.static_animation);
     }
+
 
     @Override
     public void onChatItemLongClick(int position)
@@ -236,6 +238,7 @@ public class PatientChatListActivity extends AppCompatActivity implements ChatAd
             emptyChatListimageView.setVisibility(View.VISIBLE);
         }
     }
+
 
     @Override
     public void onBackPressed()

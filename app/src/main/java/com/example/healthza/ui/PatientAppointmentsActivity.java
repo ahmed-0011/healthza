@@ -89,7 +89,7 @@ public class PatientAppointmentsActivity extends AppCompatActivity
         String pId = firebaseAuth.getCurrentUser().getUid();
         getData();
 
-        setContentView(R.layout.activity_appointments_p);
+        setContentView(R.layout.activity_patient_appointments);
 
         stu = true;
         bn1=true;

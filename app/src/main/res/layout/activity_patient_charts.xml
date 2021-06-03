@@ -207,7 +207,7 @@
                     app:layout_constraintEnd_toEndOf="@id/lineChart"
                     app:layout_constraintStart_toStartOf="@id/lineChart"
                     app:layout_constraintTop_toTopOf="@id/lineChart"
-                    tools:visibility="visible"/>
+                    tools:visibility="visible" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 

@@ -126,7 +126,7 @@ public class PatientHomeActivity extends AppCompatActivity
                 if (i == R.id.homeItem)
                     return;
                 else if (i == R.id.medicalHistoryItem)
-                    intent = new Intent(PatientHomeActivity.this, PatientHistory.class);
+                    intent = new Intent(PatientHomeActivity.this, PatientMedicalHistoryActivity.class);
                 else if (i == R.id.chartsItem)
                     intent = new Intent(PatientHomeActivity.this, PatientChartsActivity.class);
                 else if (i == R.id.appointmentsItem)

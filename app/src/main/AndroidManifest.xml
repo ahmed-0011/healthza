@@ -33,7 +33,7 @@
             android:name=".ui.PatientTestsStatisticsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
-            android:name=".ui.PatientHistoryD"
+            android:name=".ui.DoctorPatientMedicalHistory"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
         <activity
@@ -45,7 +45,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
         <activity
-            android:name=".ui.PatientHistory"
+            android:name=".ui.PatientMedicalHistoryActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/noActionBarTheme" />
         <activity
@@ -94,10 +94,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/noActionBarTheme" />
 
-        <activity
-            android:name=".ui.medicalRecords"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/noActionBarTheme" />
         <activity
             android:name=".ui.DoctorListActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

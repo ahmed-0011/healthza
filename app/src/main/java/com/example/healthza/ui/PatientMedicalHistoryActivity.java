@@ -2,6 +2,7 @@ package com.example.healthza.ui;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -42,13 +43,13 @@ import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointBackward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -66,11 +67,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-public class PatientHistory extends AppCompatActivity {
+public class PatientMedicalHistoryActivity extends AppCompatActivity
+{
 
-
+    private ChipNavigationBar chipNavigationBar;
     ImageView set;
-
     String date_ = "";
     int yy = -1 , mm = -1, dd = -1;
     boolean tic = false;
@@ -100,11 +101,11 @@ public class PatientHistory extends AppCompatActivity {
     Long re;
 
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patient_history);
+        setContentView(R.layout.activity_patient_medical_history);
 
         sd=Long.parseLong("-1");
         ed=Long.parseLong("-1");
@@ -116,6 +117,12 @@ public class PatientHistory extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
+
+
+        chipNavigationBar = findViewById(R.id.bottomNavigationBar);
+
+        setupBottomNavigationBar();
+
 
         pb = new ProgressDialog(this);
         tb = findViewById(R.id.idf);
@@ -133,8 +140,39 @@ public class PatientHistory extends AppCompatActivity {
                 VS_();
             }
         });
-
     }
+
+
+    private void setupBottomNavigationBar()
+    {
+        chipNavigationBar.setItemSelected(R.id.medicalHistoryItem, true);
+
+        chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(int i)
+            {
+                Intent intent = null;
+
+                if (i == R.id.medicalHistoryItem)
+                    return;
+                else if (i == R.id.homeItem)
+                    intent = new Intent(PatientMedicalHistoryActivity.this, PatientHomeActivity.class);
+                else if (i == R.id.chartsItem)
+                    intent = new Intent(PatientMedicalHistoryActivity.this, PatientChartsActivity.class);
+                else if (i == R.id.appointmentsItem)
+                    intent = new Intent(PatientMedicalHistoryActivity.this, PatientAppointmentsActivity.class);
+                else if (i == R.id.chatItem)
+                    intent = new Intent(PatientMedicalHistoryActivity.this, PatientChatListActivity.class);
+
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
+    }
+
+
 
     void viweLog()
     {
@@ -180,7 +218,7 @@ public class PatientHistory extends AppCompatActivity {
     {
         List<String> dates = new ArrayList<String>();
 
-        ProgressDialog x0= ProgressDialog.show(PatientHistory.this, "",
+        ProgressDialog x0= ProgressDialog.show(PatientMedicalHistoryActivity.this, "",
                 "Please Wait TO get Dates...", true);
 
         getAllDate(dates,1,8,x0);
@@ -285,7 +323,7 @@ public class PatientHistory extends AppCompatActivity {
     void P_(List<String> dates,int date,int ed)
     {
 
-        ProgressDialog x0= ProgressDialog.show(PatientHistory.this, "",
+        ProgressDialog x0= ProgressDialog.show(PatientMedicalHistoryActivity.this, "",
                 "Please Wait TO get Data...", true);
 
         TableRow.LayoutParams mw = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
@@ -562,11 +600,11 @@ public class PatientHistory extends AppCompatActivity {
                                     if (tb1.getChildCount() == 1 ) {
 
                                         //  tb1.removeView(tb1.getChildAt(tb1.getChildCount() - 1));
-                                        TableRow tr1 = new TableRow(PatientHistory.this);
+                                        TableRow tr1 = new TableRow(PatientMedicalHistoryActivity.this);
                                         //  tr1.setPaddingRelative(5, 5, 5, 5);
                                         tr1.setGravity(Gravity.CENTER);
 
-                                        TextView textview = new TextView(PatientHistory.this);
+                                        TextView textview = new TextView(PatientMedicalHistoryActivity.this);
                                         textview.setText("no data");
                                         Typeface tf = ResourcesCompat.getFont(getApplicationContext(), R.font.candal);
                                         textview.setTypeface(tf, Typeface.BOLD);
@@ -579,11 +617,11 @@ public class PatientHistory extends AppCompatActivity {
                                         tb1.addView(tr1);
 
                                         //white space
-                                        TableRow tr = new TableRow(PatientHistory.this);
+                                        TableRow tr = new TableRow(PatientMedicalHistoryActivity.this);
                                         // tr.setPaddingRelative(5, 5, 5, 5);
                                         tr.setGravity(Gravity.CENTER);
 
-                                        textview = new TextView(PatientHistory.this);
+                                        textview = new TextView(PatientMedicalHistoryActivity.this);
                                         textview.setText("");
                                         textview.setLayoutParams(mw);
                                         textview.setGravity(Gravity.CENTER);
@@ -862,14 +900,14 @@ public class PatientHistory extends AppCompatActivity {
                                     if (tb_.getChildCount() == 1) {
                                         //
 
-                                        TableLayout tb1 = new TableLayout(PatientHistory.this);
+                                        TableLayout tb1 = new TableLayout(PatientMedicalHistoryActivity.this);
                                         tb1.setLayoutParams(mw);
 
-                                        TableRow tr1 = new TableRow(PatientHistory.this);
+                                        TableRow tr1 = new TableRow(PatientMedicalHistoryActivity.this);
                                         //tr1.setPaddingRelative(5, 5, 5, 5);
                                         tr1.setGravity(Gravity.CENTER);
 
-                                        TextView textview = new TextView(PatientHistory.this);
+                                        TextView textview = new TextView(PatientMedicalHistoryActivity.this);
                                         textview.setText("no data");
                                         Typeface tf = ResourcesCompat.getFont(getApplicationContext(), R.font.candal);
                                         textview.setTypeface(tf, Typeface.BOLD);
@@ -1249,14 +1287,14 @@ public class PatientHistory extends AppCompatActivity {
                                                                 Toasty.showText(getApplicationContext(), document.getId() + " IS Deleted...", Toasty.INFORMATION, Toast.LENGTH_SHORT);
                                                                 tb1.removeView(tr__);
                                                                 if (tb1.getChildCount() == 1) {
-                                                                    TableLayout tb1__ = new TableLayout(PatientHistory.this);
+                                                                    TableLayout tb1__ = new TableLayout(PatientMedicalHistoryActivity.this);
                                                                     tb1__.setLayoutParams(mw);
 
-                                                                    TableRow tr1 = new TableRow(PatientHistory.this);
+                                                                    TableRow tr1 = new TableRow(PatientMedicalHistoryActivity.this);
                                                                     //tr1.setPaddingRelative(5, 5, 5, 5);
                                                                     tr1.setGravity(Gravity.CENTER);
 
-                                                                    TextView textview = new TextView(PatientHistory.this);
+                                                                    TextView textview = new TextView(PatientMedicalHistoryActivity.this);
                                                                     textview.setText("no data");
                                                                     Typeface tf = ResourcesCompat.getFont(getApplicationContext(), R.font.candal);
                                                                     textview.setTypeface(tf, Typeface.BOLD);
@@ -1268,7 +1306,7 @@ public class PatientHistory extends AppCompatActivity {
                                                                     tr1.addView(textview);
                                                                     tb1__.addView(tr1);
 
-                                                                    TableRow tr3 = new TableRow(PatientHistory.this);
+                                                                    TableRow tr3 = new TableRow(PatientMedicalHistoryActivity.this);
                                                                     tr3.setGravity(Gravity.CENTER);
                                                                     tr3.addView(tb1__);
                                                                     tb1.addView(tr3);
@@ -1367,7 +1405,7 @@ public class PatientHistory extends AppCompatActivity {
 
         btt[0] = view.findViewById(R.id.btn1);
         {
-            ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_remove);
+            ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_remove);
             SpannableString content = new SpannableString(name[0]);
             content.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, 1, Spanned.SPAN_MARK_MARK);
             btt[0].setText(content);
@@ -1381,7 +1419,7 @@ public class PatientHistory extends AppCompatActivity {
                 String f = "Glucose Test";
                 if(bttn[0])
                 {
-                    ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_check);
+                    ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_check);
                     SpannableString content = new SpannableString(name[0]);
                     content.setSpan(imageSpan, 0, 1, Spanned.SPAN_MARK_MARK);
                     btt[0].setText(content);
@@ -1389,7 +1427,7 @@ public class PatientHistory extends AppCompatActivity {
                 }
                 else
                 {
-                    ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_remove);
+                    ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_remove);
                     SpannableString content = new SpannableString(name[0]);
                     content.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, 1, Spanned.SPAN_MARK_MARK);
                     btt[0].setText(content);
@@ -1400,7 +1438,7 @@ public class PatientHistory extends AppCompatActivity {
 
         btt[1] = view.findViewById(R.id.btn2);
         {
-            ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_remove);
+            ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_remove);
             SpannableString content = new SpannableString(name[1]);
             content.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, 1, Spanned.SPAN_MARK_MARK);
             btt[1].setText(content);
@@ -1414,7 +1452,7 @@ public class PatientHistory extends AppCompatActivity {
 
                 if(bttn[1])
                 {
-                    ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_check);
+                    ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_check);
                     SpannableString content = new SpannableString(name[1]);
                     content.setSpan(imageSpan, 0, 1, Spanned.SPAN_MARK_MARK);
                     btt[1].setText(content);
@@ -1422,7 +1460,7 @@ public class PatientHistory extends AppCompatActivity {
                 }
                 else
                 {
-                    ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_remove);
+                    ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_remove);
                     SpannableString content = new SpannableString(name[1]);
                     content.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, 1, Spanned.SPAN_MARK_MARK);
                     btt[1].setText(content);
@@ -1433,7 +1471,7 @@ public class PatientHistory extends AppCompatActivity {
 
         btt[2] = view.findViewById(R.id.btn3);
         {
-            ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_remove);
+            ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_remove);
             SpannableString content = new SpannableString(name[2]);
             content.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, 1, Spanned.SPAN_MARK_MARK);
             btt[2].setText(content);
@@ -1447,7 +1485,7 @@ public class PatientHistory extends AppCompatActivity {
 
                 if(bttn[2])
                 {
-                    ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_check);
+                    ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_check);
                     SpannableString content = new SpannableString(name[2]);
                     content.setSpan(imageSpan, 0, 1, Spanned.SPAN_MARK_MARK);
                     btt[2].setText(content);
@@ -1455,7 +1493,7 @@ public class PatientHistory extends AppCompatActivity {
                 }
                 else
                 {
-                    ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_remove);
+                    ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_remove);
                     SpannableString content = new SpannableString(name[2]);
                     content.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, 1, Spanned.SPAN_MARK_MARK);
                     btt[2].setText(content);
@@ -1466,7 +1504,7 @@ public class PatientHistory extends AppCompatActivity {
 
         btt[3] = view.findViewById(R.id.btn4);
         {
-            ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_remove);
+            ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_remove);
             SpannableString content = new SpannableString(name[3]);
             content.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, 1, Spanned.SPAN_MARK_MARK);
             btt[3].setText(content);
@@ -1480,7 +1518,7 @@ public class PatientHistory extends AppCompatActivity {
 
                 if(bttn[3])
                 {
-                    ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_check);
+                    ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_check);
                     SpannableString content = new SpannableString(name[3]);
                     content.setSpan(imageSpan, 0, 1, Spanned.SPAN_MARK_MARK);
                     btt[3].setText(content);
@@ -1488,7 +1526,7 @@ public class PatientHistory extends AppCompatActivity {
                 }
                 else
                 {
-                    ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_remove);
+                    ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_remove);
                     SpannableString content = new SpannableString(name[3]);
                     content.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, 1, Spanned.SPAN_MARK_MARK);
                     btt[3].setText(content);
@@ -1499,7 +1537,7 @@ public class PatientHistory extends AppCompatActivity {
 
         btt[4] = view.findViewById(R.id.btn5);
         {
-            ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_remove);
+            ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_remove);
             SpannableString content = new SpannableString(name[4]);
             content.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, 1, Spanned.SPAN_MARK_MARK);
             btt[4].setText(content);
@@ -1512,7 +1550,7 @@ public class PatientHistory extends AppCompatActivity {
                 bttn[4]=!bttn[4];
                 if(bttn[4])
                 {
-                    ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_check);
+                    ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_check);
                     SpannableString content = new SpannableString(name[4]);
                     content.setSpan(imageSpan, 0, 1, Spanned.SPAN_MARK_MARK);
                     btt[4].setText(content);
@@ -1520,7 +1558,7 @@ public class PatientHistory extends AppCompatActivity {
                 }
                 else
                 {
-                    ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_remove);
+                    ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_remove);
                     SpannableString content = new SpannableString(name[4]);
                     content.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, 1, Spanned.SPAN_MARK_MARK);
                     btt[4].setText(content);
@@ -1531,7 +1569,7 @@ public class PatientHistory extends AppCompatActivity {
 
         btt[5] = view.findViewById(R.id.btn6);
         {
-            ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_remove);
+            ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_remove);
             SpannableString content = new SpannableString(name[5]);
             content.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, 1, Spanned.SPAN_MARK_MARK);
             btt[5].setText(content);
@@ -1544,7 +1582,7 @@ public class PatientHistory extends AppCompatActivity {
                 bttn[5]=!bttn[5];
                 if(bttn[5])
                 {
-                    ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_check);
+                    ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_check);
                     SpannableString content = new SpannableString(name[5]);
                     content.setSpan(imageSpan, 0, 1, Spanned.SPAN_MARK_MARK);
                     btt[5].setText(content);
@@ -1552,7 +1590,7 @@ public class PatientHistory extends AppCompatActivity {
                 }
                 else
                 {
-                    ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_remove);
+                    ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_remove);
                     SpannableString content = new SpannableString(name[5]);
                     content.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, 1, Spanned.SPAN_MARK_MARK);
                     btt[5].setText(content);
@@ -1563,7 +1601,7 @@ public class PatientHistory extends AppCompatActivity {
 
         btt[6] = view.findViewById(R.id.btn7);
         {
-            ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_remove);
+            ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_remove);
             SpannableString content = new SpannableString(name[6]);
             content.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, 1, Spanned.SPAN_MARK_MARK);
             btt[6].setText(content);
@@ -1577,7 +1615,7 @@ public class PatientHistory extends AppCompatActivity {
                 // Toasty.makeText(getApplicationContext(),"GGGGG  : "+bttn[6],Toasty.LENGTH_SHORT).show();
                 if(bttn[6])
                 {
-                    ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_check);
+                    ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_check);
                     SpannableString content = new SpannableString(name[6]);
                     content.setSpan(imageSpan, 0, 1, Spanned.SPAN_MARK_MARK);
                     btt[6].setText(content);
@@ -1585,7 +1623,7 @@ public class PatientHistory extends AppCompatActivity {
                 }
                 else
                 {
-                    ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_remove);
+                    ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_remove);
                     SpannableString content = new SpannableString(name[6]);
                     content.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, 1, Spanned.SPAN_MARK_MARK);
                     btt[6].setText(content);
@@ -1596,7 +1634,7 @@ public class PatientHistory extends AppCompatActivity {
 
         btt[7] = view.findViewById(R.id.btn8);
         {
-            ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_remove);
+            ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_remove);
             SpannableString content = new SpannableString(name[7]);
             content.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, 1, Spanned.SPAN_MARK_MARK);
             btt[7].setText(content);
@@ -1610,7 +1648,7 @@ public class PatientHistory extends AppCompatActivity {
                 //Toasty.makeText(getApplicationContext(),"GGGGG  : "+bttn[7],Toasty.LENGTH_SHORT).show();
                 if(bttn[7])
                 {
-                    ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_check);
+                    ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_check);
                     SpannableString content = new SpannableString(name[7]);
                     content.setSpan(imageSpan, 0, 1, Spanned.SPAN_MARK_MARK);
                     btt[7].setText(content);
@@ -1618,7 +1656,7 @@ public class PatientHistory extends AppCompatActivity {
                 }
                 else
                 {
-                    ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_remove);
+                    ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_remove);
                     SpannableString content = new SpannableString(name[7]);
                     content.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER), 0, 1, Spanned.SPAN_MARK_MARK);
                     btt[7].setText(content);
@@ -1640,7 +1678,7 @@ public class PatientHistory extends AppCompatActivity {
         {
             if(bttn[i])
             {
-                ImageSpan imageSpan = new ImageSpan(PatientHistory.this, R.drawable.ic_check);
+                ImageSpan imageSpan = new ImageSpan(PatientMedicalHistoryActivity.this, R.drawable.ic_check);
                 SpannableString content = new SpannableString(name[i]);
                 content.setSpan(imageSpan, 0, 1, Spanned.SPAN_MARK_MARK);
                 btt[i].setText(content);
@@ -1824,7 +1862,7 @@ public class PatientHistory extends AppCompatActivity {
                 change_=true;
             }
         });
-        materialDatePicker.show(getSupportFragmentManager(), "PatientHistory");
+        materialDatePicker.show(getSupportFragmentManager(), "PatientMedicalHistoryActivity");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -1869,7 +1907,7 @@ public class PatientHistory extends AppCompatActivity {
             //  getData(new Date(dateRange.first), new Date(dateRange.second));
         });
 
-        materialDatePicker.show(getSupportFragmentManager(), "PatientHistory");
+        materialDatePicker.show(getSupportFragmentManager(), "PatientMedicalHistoryActivity");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -2057,6 +2095,15 @@ public class PatientHistory extends AppCompatActivity {
         return TimeUnit.MILLISECONDS.toDays(date);
     }
 
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(this, PatientHomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    }
 
     //rotate
     @Override
