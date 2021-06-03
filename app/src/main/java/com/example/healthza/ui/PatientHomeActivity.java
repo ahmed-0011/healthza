@@ -304,7 +304,7 @@ public class PatientHomeActivity extends AppCompatActivity
                                             Collections.sort(dates, new Comparator<String>() {
                                                 @Override
                                                 public int compare(String o1, String o2) {
-                                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
+                                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d", Locale.US);
 
                                                     try {
                                                         Timestamp timestamp1 = new Timestamp(sdf.parse(o2));
@@ -341,7 +341,6 @@ public class PatientHomeActivity extends AppCompatActivity
 
                                                                 if (i == 0)
                                                                 {
-                                                                    Toast.makeText(PatientHomeActivity.this, simpleDateFormat.format(timestamp.toDate()), Toast.LENGTH_LONG).show();
                                                                     firstTestTypeTextView.setText(testType);
                                                                     firstTestLevelTextView.setText(testLevel);
                                                                     firstTestTimeTextView.setText(simpleDateFormat.format(timestamp.toDate()));

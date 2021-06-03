@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
@@ -60,6 +61,7 @@ import java.util.concurrent.TimeUnit;
 public class PatientChartsActivity extends AppCompatActivity
 {
     private LineChart chart;
+    private ProgressBar chartProgressBar;
     private CheckBox glucoseCheckBox, bloodPressureCheckBox, hdlCheckBox, ldlCheckBox,
             triglycerideCheckBox, totalCholesterolCheckBox;
     private FloatingActionButton pickDateFloatingActionButton, pickASingleDateFloatingActionButton, pickDateRangeFloatingActionButton, pickMultiDatesFloatingActionButton;
@@ -104,6 +106,7 @@ public class PatientChartsActivity extends AppCompatActivity
         pickMultiDatesFloatingActionButton = findViewById(R.id.pickMultiDatesFloatingActionButton);
 
         chart = findViewById(R.id.lineChart);
+        chartProgressBar = findViewById(R.id.chartProgressBar);
 
         hoursRangeSeekBar = findViewById(R.id.hoursRangeSeekBar);
         daysRangeSeekBar = findViewById(R.id.daysRangeSeekBar);
@@ -263,9 +266,13 @@ public class PatientChartsActivity extends AppCompatActivity
                 .orderBy("timestamp")
                 .get().addOnSuccessListener(glucoseDocuments ->
         {
+
             ProgressDialog progressDialog = new ProgressDialog(this);
+
             if (selectState == PICKER)
                 progressDialog.showProgressDialog("Displaying Data...");
+            else if(selectState == DAYS_SLIDER)
+                    chartProgressBar.setVisibility(View.VISIBLE);
 
             for (DocumentSnapshot glucoseDocument : glucoseDocuments.getDocuments())
             {
@@ -480,6 +487,8 @@ public class PatientChartsActivity extends AppCompatActivity
 
                     if (selectState == PICKER)
                         progressDialog.dismissProgressDialog();
+                    else if(selectState == DAYS_SLIDER)
+                        chartProgressBar.setVisibility(View.GONE);
 
                     pickDateFloatingActionButton.setEnabled(true);
                 });

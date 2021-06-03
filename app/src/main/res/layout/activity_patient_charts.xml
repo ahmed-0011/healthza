@@ -7,7 +7,6 @@
     android:background="@color/background_color"
     tools:context=".ui.PatientChartsActivity">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -197,6 +196,18 @@
                     tools:itemCount="4"
                     tools:listitem="@layout/list_item_daily_test" />
 
+                <ProgressBar
+                    android:id="@+id/chartProgressBar"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:elevation="4dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/lineChart"
+                    app:layout_constraintEnd_toEndOf="@id/lineChart"
+                    app:layout_constraintStart_toStartOf="@id/lineChart"
+                    app:layout_constraintTop_toTopOf="@id/lineChart"
+                    tools:visibility="visible"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
