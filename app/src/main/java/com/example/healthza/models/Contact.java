@@ -6,7 +6,7 @@ public class Contact
     private String name;
     private String phoneNumber;
     private String contactId;
-//////////////////////////////////////
+/////////////////////////////////////
     public Contact(Doctor doctor)
     {
         name = doctor.getName();

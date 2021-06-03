@@ -55,7 +55,7 @@ public class AddCholesterolAndFatsTest extends AppCompatActivity implements View
         ,CompoundButton.OnCheckedChangeListener
         , View.OnFocusChangeListener {
 
-    /////////////////////////varible////////////////////////////////////
+    /////////////////////////varible///////////////////////////////////
 
     private static final String ChannelID = "AddCholesterolAndFatsTestNote";
 
