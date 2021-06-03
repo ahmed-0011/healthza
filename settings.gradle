@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "healthza"
+rootProject.name = "com.project.cdh"
