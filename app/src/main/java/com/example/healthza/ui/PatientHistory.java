@@ -294,7 +294,7 @@ public class PatientHistory extends AppCompatActivity {
         //mw.setMargins(5,-1,5,-1);
 
         TableRow tr1 = new TableRow(this);
-       // tr1.setPaddingRelative(5,5,5,5);
+        // tr1.setPaddingRelative(5,5,5,5);
         tr1.setGravity(Gravity.CENTER);
 
         TextView textview = new TextView(this);
@@ -359,7 +359,7 @@ public class PatientHistory extends AppCompatActivity {
                 TableRow.LayoutParams.WRAP_CONTENT,1);
         mw.topMargin=5;
         mw.bottomMargin=5;
-       // mw.setMargins(10,-1,10,-1);
+        // mw.setMargins(10,-1,10,-1);
 
         TableLayout tb1 = new TableLayout(this);
         tb1.setLayoutParams(mw);
@@ -469,9 +469,9 @@ public class PatientHistory extends AppCompatActivity {
             if (task.isSuccessful()) {
                 if (task.getResult().size() == 0) {
 
-                   // tb.removeView(tb.getChildAt(tb.getChildCount() - 1));
+                    // tb.removeView(tb.getChildAt(tb.getChildCount() - 1));
                     TableRow tr1 = new TableRow(this);
-                  //  tr1.setPaddingRelative(5, 5, 5, 5);
+                    //  tr1.setPaddingRelative(5, 5, 5, 5);
                     tr1.setGravity(Gravity.CENTER);
 
                     tr1.addView(tb1);
@@ -487,7 +487,7 @@ public class PatientHistory extends AppCompatActivity {
                     textview.setTypeface(tf, Typeface.BOLD);
                     textview.setLayoutParams(mw);
                     textview.setGravity(Gravity.CENTER);
-                   // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     textview.setTextSize(18);
                     textview.setTextColor(Color.rgb(255, 0, 0));
                     tr1.addView(textview);
@@ -495,7 +495,7 @@ public class PatientHistory extends AppCompatActivity {
 
                     //white space
                     TableRow tr = new TableRow(this);
-                   // tr.setPaddingRelative(5, 5, 5, 5);
+                    // tr.setPaddingRelative(5, 5, 5, 5);
                     tr.setGravity(Gravity.CENTER);
 
                     textview = new TextView(this);
@@ -561,7 +561,7 @@ public class PatientHistory extends AppCompatActivity {
                                     tb1.removeView(tr1);
                                     if (tb1.getChildCount() == 1 ) {
 
-                                      //  tb1.removeView(tb1.getChildAt(tb1.getChildCount() - 1));
+                                        //  tb1.removeView(tb1.getChildAt(tb1.getChildCount() - 1));
                                         TableRow tr1 = new TableRow(PatientHistory.this);
                                         //  tr1.setPaddingRelative(5, 5, 5, 5);
                                         tr1.setGravity(Gravity.CENTER);
@@ -757,7 +757,7 @@ public class PatientHistory extends AppCompatActivity {
                     textview.setTypeface(tf, Typeface.BOLD);
                     textview.setLayoutParams(mw);
                     textview.setGravity(Gravity.CENTER);
-                   // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     textview.setTextSize(18);
                     textview.setTextColor(Color.rgb(255, 0, 0));
                     tr1.addView(textview);
@@ -830,7 +830,7 @@ public class PatientHistory extends AppCompatActivity {
 
                     TableRow tr2 = new TableRow(this);
                     tr2.setBackgroundColor(Color.rgb(236, 239, 241));
-                  //  tr2.setPaddingRelative(5, 5, 5, 5);
+                    //  tr2.setPaddingRelative(5, 5, 5, 5);
                     tr2.setGravity(Gravity.CENTER);
 
 
@@ -875,7 +875,7 @@ public class PatientHistory extends AppCompatActivity {
                                         textview.setTypeface(tf, Typeface.BOLD);
                                         textview.setLayoutParams(mw);
                                         textview.setGravity(Gravity.CENTER);
-                                      //  textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                        //  textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                                         textview.setTextSize(18);
                                         textview.setTextColor(Color.rgb(255, 0, 0));
                                         tr1.addView(textview);
@@ -907,7 +907,7 @@ public class PatientHistory extends AppCompatActivity {
 
                 //white space
                 TableRow tr = new TableRow(this);
-               // tr.setPaddingRelative(5, 5, 5, 5);
+                // tr.setPaddingRelative(5, 5, 5, 5);
                 tr.setGravity(Gravity.CENTER);
 
                 TextView textview = new TextView(this);
@@ -933,7 +933,7 @@ public class PatientHistory extends AppCompatActivity {
         mw.topMargin=5;
         mw.bottomMargin=5;
         //mw.leftMargin=5;
-      //  mw.rightMargin=5;
+        //  mw.rightMargin=5;
 
         TableRow.LayoutParams mw1 = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
                 TableRow.LayoutParams.WRAP_CONTENT,1);
@@ -979,7 +979,7 @@ public class PatientHistory extends AppCompatActivity {
         //test name
         TableRow tr1_ = new TableRow(this);
         tr1_.setBackgroundColor(Color.rgb(69,151,188));
-       // tr1_.setPaddingRelative(5,5,5,5);
+        // tr1_.setPaddingRelative(5,5,5,5);
         tr1_.setGravity(Gravity.CENTER);
         tr1_.setLayoutParams(mw);
 
@@ -996,7 +996,7 @@ public class PatientHistory extends AppCompatActivity {
 
         TableRow tr2 = new TableRow(this);
         tr2.setBackgroundColor(Color.rgb(236,239,241));
-       // tr2.setPaddingRelative(5,5,5,5);
+        // tr2.setPaddingRelative(5,5,5,5);
         tr2.setGravity(Gravity.CENTER);
         tr2.setLayoutParams(mw);
 
@@ -1008,8 +1008,8 @@ public class PatientHistory extends AppCompatActivity {
         textview1.setLayoutParams(mw1);
         textview1.setTypeface(null,Typeface.BOLD);
         textview1.setGravity(Gravity.CENTER);
-       // textview1.setTextSize(14);
-       // textview1.setWidth(100);
+        // textview1.setTextSize(14);
+        // textview1.setWidth(100);
         tr2.addView(textview1);
 
         textview1 = new TextView(this);
@@ -1017,7 +1017,7 @@ public class PatientHistory extends AppCompatActivity {
         textview1.setLayoutParams(mw1);
         textview1.setTypeface(null,Typeface.BOLD);
         textview1.setGravity(Gravity.CENTER);
-       // textview1.setTextSize(14);
+        // textview1.setTextSize(14);
         //textview1.setWidth(100);
         tr2.addView(textview1);
 
@@ -1026,8 +1026,8 @@ public class PatientHistory extends AppCompatActivity {
         textview1.setLayoutParams(mw1);
         textview1.setTypeface(null,Typeface.BOLD);
         textview1.setGravity(Gravity.CENTER);
-       // textview1.setTextSize(14);
-       // textview1.setWidth(100);
+        // textview1.setTextSize(14);
+        // textview1.setWidth(100);
         textview1.setVisibility(View.INVISIBLE);
         tr2.addView(textview1);
 
@@ -1181,7 +1181,7 @@ public class PatientHistory extends AppCompatActivity {
                                                     //
                                                     TableRow tr1 = new TableRow(this);
                                                     tr1.setBackgroundColor(Color.rgb(236, 239, 241));
-                                                   // tr1.setPaddingRelative(5, 5, 5, 5);
+                                                    // tr1.setPaddingRelative(5, 5, 5, 5);
                                                     tr1.setGravity(Gravity.CENTER);
                                                     tr1.setLayoutParams(mw);
 
@@ -1196,7 +1196,7 @@ public class PatientHistory extends AppCompatActivity {
                                                     TextView textview = new TextView(this);
                                                     textview.setText(time);
                                                     textview.setLayoutParams(mw1);
-                                                   // textview.setWidth(100);
+                                                    // textview.setWidth(100);
                                                     textview.setGravity(Gravity.CENTER);
                                                     tr1.addView(textview);
 
@@ -1208,7 +1208,7 @@ public class PatientHistory extends AppCompatActivity {
                                                     textview.setTextColor(Color.rgb(41, 182, 246));
                                                     textview.setTypeface(Typeface.DEFAULT_BOLD);
                                                     textview.setGravity(Gravity.CENTER);
-                                                   // textview.setWidth(100);
+                                                    // textview.setWidth(100);
                                                     textview.setOnClickListener(new View.OnClickListener() {
                                                         @Override
                                                         public void onClick(View v) {
@@ -1226,7 +1226,7 @@ public class PatientHistory extends AppCompatActivity {
                                                     textview.setTextColor(Color.rgb(255, 0, 0));
                                                     textview.setTypeface(Typeface.DEFAULT_BOLD);
                                                     textview.setGravity(Gravity.CENTER);
-                                                  //  textview.setWidth(100);
+                                                    //  textview.setWidth(100);
                                                     textview.setOnClickListener(new View.OnClickListener() {
                                                         @Override
                                                         public void onClick(View v) {
@@ -1262,7 +1262,7 @@ public class PatientHistory extends AppCompatActivity {
                                                                     textview.setTypeface(tf, Typeface.BOLD);
                                                                     textview.setLayoutParams(mw);
                                                                     textview.setGravity(Gravity.CENTER);
-                                                                   // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                                                    // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                                                                     textview.setTextSize(18);
                                                                     textview.setTextColor(Color.rgb(255, 0, 0));
                                                                     tr1.addView(textview);
@@ -1302,7 +1302,7 @@ public class PatientHistory extends AppCompatActivity {
 
                                                         //white space
                                                         TableRow tr = new TableRow(this);
-                                                       // tr.setPaddingRelative(5, 5, 5, 5);
+                                                        // tr.setPaddingRelative(5, 5, 5, 5);
                                                         tr.setGravity(Gravity.CENTER);
 
                                                         textview = new TextView(this);
@@ -1351,7 +1351,7 @@ public class PatientHistory extends AppCompatActivity {
         final boolean[] change = {false};
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View view = inflater.inflate(R.layout.history_dialog, null);
+        View view = inflater.inflate(R.layout.dialog_history, null);
 
         String name[]= new String[]{"  Glucose Test ",
                 "  F.B.S test ",
@@ -1665,9 +1665,9 @@ public class PatientHistory extends AppCompatActivity {
           //  datePicker.setVisibility(View.INVISIBLE);
         }*/
 
-     FloatingActionButton  pickASingleDateFloatingActionButton,
-             pickDateRangeFloatingActionButton,
-             pickMultipleDatesFloatingActionButton;
+        FloatingActionButton  pickASingleDateFloatingActionButton,
+                pickDateRangeFloatingActionButton,
+                pickMultipleDatesFloatingActionButton;
 
         pickASingleDateFloatingActionButton =  view.findViewById(R.id.pickASingleDateFloatingActionButton);
         pickDateRangeFloatingActionButton =  view.findViewById(R.id.pickDateRangeFloatingActionButton);
@@ -1726,7 +1726,7 @@ public class PatientHistory extends AppCompatActivity {
                 if(tic)
                 {
                     //datePicker.setEnabled(false);
-                   // datePicker.setVisibility(View.INVISIBLE);
+                    // datePicker.setVisibility(View.INVISIBLE);
 
                     pickASingleDateFloatingActionButton.hide();
                     pickDateRangeFloatingActionButton.hide();
@@ -1739,14 +1739,14 @@ public class PatientHistory extends AppCompatActivity {
                 }
                 else
                 {
-                        pickASingleDateFloatingActionButton.show();
-                        pickDateRangeFloatingActionButton.show();
-                        pickMultipleDatesFloatingActionButton.show();
+                    pickASingleDateFloatingActionButton.show();
+                    pickDateRangeFloatingActionButton.show();
+                    pickMultipleDatesFloatingActionButton.show();
 
-                      view.findViewById(R.id.textView9).setVisibility(View.VISIBLE);
-                      view.findViewById(R.id.singleDateTextView).setVisibility(View.VISIBLE);
-                      view.findViewById(R.id.dateRangeTextView).setVisibility(View.VISIBLE);
-                      view.findViewById(R.id.multipleDatesTextView).setVisibility(View.VISIBLE);
+                    view.findViewById(R.id.textView9).setVisibility(View.VISIBLE);
+                    view.findViewById(R.id.singleDateTextView).setVisibility(View.VISIBLE);
+                    view.findViewById(R.id.dateRangeTextView).setVisibility(View.VISIBLE);
+                    view.findViewById(R.id.multipleDatesTextView).setVisibility(View.VISIBLE);
 
                 }
             }
@@ -1762,8 +1762,8 @@ public class PatientHistory extends AppCompatActivity {
         imgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // yy = datePicker.getYear();
-              //  mm = datePicker.getMonth();
+                // yy = datePicker.getYear();
+                //  mm = datePicker.getMonth();
                 //dd = datePicker.getDayOfMonth();
                 //date_ = yy+"-"+(mm+1)+"-"+dd;
 
@@ -1780,7 +1780,7 @@ public class PatientHistory extends AppCompatActivity {
                 }*/
                 System.out.println(bttn[7]);
 
-               if(change[0] || change_) viweLog();
+                if(change[0] || change_) viweLog();
 
                 return;
             }
@@ -1819,7 +1819,7 @@ public class PatientHistory extends AppCompatActivity {
             dates1=dates;
 
             if((dates1!=null)&&(dates2!=null)
-            ||(!dates1.equals(dates2)))
+                    ||(!dates1.equals(dates2)))
             {
                 change_=true;
             }
@@ -1857,7 +1857,7 @@ public class PatientHistory extends AppCompatActivity {
             sd=dateRange.first;
             ed=dateRange.second;
 
-           dates1 = getDateS(  Instant.ofEpochMilli(sd).atZone(ZoneId.systemDefault()).toLocalDate(),
+            dates1 = getDateS(  Instant.ofEpochMilli(sd).atZone(ZoneId.systemDefault()).toLocalDate(),
                     Instant.ofEpochMilli(ed).atZone(ZoneId.systemDefault()).toLocalDate());
 
             if((dates1!=null)&&(dates2!=null)
@@ -1866,7 +1866,7 @@ public class PatientHistory extends AppCompatActivity {
                 change_=true;
             }
 
-          //  getData(new Date(dateRange.first), new Date(dateRange.second));
+            //  getData(new Date(dateRange.first), new Date(dateRange.second));
         });
 
         materialDatePicker.show(getSupportFragmentManager(), "PatientHistory");
@@ -1887,9 +1887,9 @@ public class PatientHistory extends AppCompatActivity {
         for(int i=0;i<listOfDates.size();i++)
         {
             System.out.println(listOfDates.get(i).getYear()+" "+listOfDates.get(i).getMonthValue()+" "+listOfDates.get(i).getDayOfMonth());
-        dates.add(listOfDates.get(i).getYear()+"-"+
-                listOfDates.get(i).getMonthValue()+"-"+
-                listOfDates.get(i).getDayOfMonth());
+            dates.add(listOfDates.get(i).getYear()+"-"+
+                    listOfDates.get(i).getMonthValue()+"-"+
+                    listOfDates.get(i).getDayOfMonth());
         }
 
         return dates;
@@ -2004,7 +2004,7 @@ public class PatientHistory extends AppCompatActivity {
             textview1.setLayoutParams(mw);
             textview1.setTypeface(null, Typeface.BOLD);
             textview1.setGravity(Gravity.CENTER);
-           // textview1.setTextSize(14);
+            // textview1.setTextSize(14);
             tr2.addView(textview1);
 
             textview1 = new TextView(this);
@@ -2012,7 +2012,7 @@ public class PatientHistory extends AppCompatActivity {
             textview1.setLayoutParams(mw);
             textview1.setTypeface(null, Typeface.BOLD);
             textview1.setGravity(Gravity.CENTER);
-           // textview1.setTextSize(14);
+            // textview1.setTextSize(14);
             tr2.addView(textview1);
 
             tb1.addView(tr2);
