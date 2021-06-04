@@ -23,6 +23,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.project.cdh.DrawerUtil;
 import com.project.cdh.R;
 import com.project.cdh.Toasty;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -781,5 +782,12 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
 
         MaxMinThisTestCountSet();
     }
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
 
+        DrawerUtil.getPatientDrawer(this, 9);
+
+    }
 }

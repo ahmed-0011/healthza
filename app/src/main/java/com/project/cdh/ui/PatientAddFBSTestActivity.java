@@ -32,6 +32,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
+import com.project.cdh.DrawerUtil;
 import com.project.cdh.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -713,6 +714,7 @@ public class PatientAddFBSTestActivity extends AppCompatActivity implements View
                     .document("count");
 
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @SuppressLint("LongLogTag")
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
@@ -736,5 +738,12 @@ public class PatientAddFBSTestActivity extends AppCompatActivity implements View
 
         MaxMinThisTestCountSet();
     }
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
 
+        DrawerUtil.getPatientDrawer(this, 10);
+
+    }
 }

@@ -23,6 +23,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.project.cdh.DrawerUtil;
 import com.project.cdh.R;
 import com.project.cdh.Toasty;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -735,6 +736,7 @@ public class PatientAddHypertensionTestActivity extends AppCompatActivity implem
                     .document("count");
 
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @SuppressLint("LongLogTag")
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
@@ -757,5 +759,14 @@ public class PatientAddHypertensionTestActivity extends AppCompatActivity implem
         //end get tests Count-->
 
         MaxMinThisTestCountSet();
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+
+        DrawerUtil.getPatientDrawer(this, 11);
+
     }
 }
