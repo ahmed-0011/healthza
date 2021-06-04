@@ -92,7 +92,7 @@ public class Functions extends AppCompatActivity{
             final MaterialDatePicker materialDatePicker = materialDateBuilder.build();
 
             // handle select date button which opens the
-            materialDatePicker.show(((AddHypertensionTest)This).getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
+            materialDatePicker.show(((PatientAddHypertensionTestActivity)This).getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
 
 
             // now handle the positive button click from the

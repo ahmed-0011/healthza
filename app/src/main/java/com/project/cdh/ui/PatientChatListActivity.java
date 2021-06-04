@@ -104,10 +104,12 @@ public class PatientChatListActivity extends AppCompatActivity implements ChatAd
                 else if (i == R.id.appointmentsItem)
                     intent = new Intent(PatientChatListActivity.this, PatientAppointmentsActivity.class);
 
-
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                if(intent != null)
+                {
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
             }
         });
     }

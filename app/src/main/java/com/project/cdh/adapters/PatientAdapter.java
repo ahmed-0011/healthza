@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.cdh.models.Patient;
 import com.project.cdh.R;
-import com.project.cdh.ui.AddMedicines;
-import com.project.cdh.ui.ViewMedicines;
-import com.project.cdh.ui.medicineEffectiveness;
-import com.project.cdh.ui.updateMedicines;
+import com.project.cdh.ui.DoctorAddPatientMedicinesActivity;
+import com.project.cdh.ui.PatientMedicinesActivity;
+import com.project.cdh.ui.MedicineEffectivenessActivity;
+import com.project.cdh.ui.DoctorUpdatePatientMedicinesActivity;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -207,28 +207,28 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
 
         assignButton.setOnClickListener(v ->
         {
-            Intent intent = new Intent(context, AddMedicines.class);
+            Intent intent = new Intent(context, DoctorAddPatientMedicinesActivity.class);
             intent.putExtra("patientID", patient.getPatientId());
             context.startActivity(intent);
         });
 
         viewButton.setOnClickListener(v ->
         {
-            Intent intent = new Intent(context, ViewMedicines.class);
+            Intent intent = new Intent(context, PatientMedicinesActivity.class);
             intent.putExtra("patientID", patient.getPatientId());
             context.startActivity(intent);
         });
 
         updateButton.setOnClickListener(v ->
         {
-            Intent intent = new Intent(context, updateMedicines.class);
+            Intent intent = new Intent(context, DoctorUpdatePatientMedicinesActivity.class);
             intent.putExtra("patientID", patient.getPatientId());
             context.startActivity(intent);
         });
 
         effectivenessButton.setOnClickListener(v ->
         {
-            Intent intent = new Intent(context, medicineEffectiveness.class);
+            Intent intent = new Intent(context, MedicineEffectivenessActivity.class);
             intent.putExtra("patientID", patient.getPatientId());
             context.startActivity(intent);
         });

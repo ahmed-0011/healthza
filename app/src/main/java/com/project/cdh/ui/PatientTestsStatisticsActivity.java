@@ -367,14 +367,6 @@ public class PatientTestsStatisticsActivity extends AppCompatActivity
     }
 
 
-    private void setupActionBar()
-    {
-        getSupportActionBar().setTitle("Patient Tests Statistics");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-    }
-
-
     private String getTestTime(Timestamp timestamp)
     {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMMM yyyy h:mm aa", Locale.US);
@@ -388,6 +380,15 @@ public class PatientTestsStatisticsActivity extends AppCompatActivity
         return DateFormat.format("yyyy-M-d", new Date()).toString();
     }
 
+
+    private void setupActionBar()
+    {
+        getSupportActionBar().setTitle("Patient Tests Statistics");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
@@ -399,5 +400,4 @@ public class PatientTestsStatisticsActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
-
 }

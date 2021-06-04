@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CDH HealthCare</string>
+    <string name="app_name">CDH</string>
     <string name="login_text">Login</string>
     <string name="register_text">Register</string>
     <string name="sign_in_text">Sign in</string>
@@ -101,10 +101,10 @@
     <string name="set_name_and_type">Set Name and Type:</string>
     <string name="set_detection_date">Set Detection Date:</string>
     <string name="test">test</string>
-    <string name="add_patient_identifier">Add Patient Identifier</string>
-    <string name="enter_identifier_name">Enter Identifier Name:</string>
-    <string name="enter_identifier_phone">Enter Identifier Phone:</string>
-    <string name="enter_identifier_relationship">Enter Identifier Relationship:</string>
+    <string name="add_patient_relative">Add Patient Relative</string>
+    <string name="enter_relative_name">Enter Relative Name:</string>
+    <string name="enter_relative_phone">Enter Relative Phone:</string>
+    <string name="enter_relative_relationship">Enter Relative Relationship:</string>
     <string name="enter_hypertension_percent">Enter Hypertension percent:</string>
     <string name="hypertension_test">Hypertension Test</string>
     <string name="f_b_s_test">F.B.S Test</string>
@@ -201,11 +201,11 @@
     <string name="years_of_experience">"Years of Experience: "</string>
     <string name="workplace">"Workplace: "</string>
     <string name="workdays">"Workdays: "</string>
-    <string name="empty_send_request_list">You did\'t add new requests recently</string>
-    <string name="empty_patient_list">You don\'t have any patients!</string>
-    <string name="empty_doctor_list">You don\'t have any doctors!</string>
-    <string name="empty_receive_request_list">There is no add requests yet!</string>
-    <string name="empty_contact_list">You don\'t have any contacts!</string>
+    <string name="empty_send_request_list">No Requests Has Been Sent Yet</string>
+    <string name="empty_patient_list">No Patients on Your List Yet</string>
+    <string name="empty_doctor_list">No Doctors on Your List Yet</string>
+    <string name="empty_receive_request_list">No Add Requests Received Yet</string>
+    <string name="empty_contact_list">You don\'t have any contacts</string>
     <string name="empty_chat_list">No Chats With Your Contacts Yet</string>
     <string name="no_messages">No Messages Yet</string>
     <string name="name">"Name: "</string>
@@ -261,4 +261,6 @@
     <string name="patient">patient</string>
     <string name="no_records_yet">No Records Yet</string>
     <string name="inherited">inherited</string>
+    <string name="no_data_available">No Data Available...</string>
+    <string name="patient_relatives">Patient Relatives</string>
 </resources>

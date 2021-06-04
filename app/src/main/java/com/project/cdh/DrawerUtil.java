@@ -1,4 +1,4 @@
-package com.example.healthza;
+package com.project.cdh;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -6,34 +6,6 @@ import android.content.Intent;
 import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
-
-import com.example.healthza.ui.AddCholesterolAndFatsTest;
-import com.example.healthza.ui.AddFBStest;
-import com.example.healthza.ui.AddGlucoseTest;
-import com.example.healthza.ui.AddHypertensionTest;
-import com.example.healthza.ui.AddKidneysTest;
-import com.example.healthza.ui.AddLiverTest;
-import com.example.healthza.ui.AddPatientIdentifier;
-import com.example.healthza.ui.ComprehensiveTest;
-import com.example.healthza.ui.DViewIdentifiersP;
-import com.example.healthza.ui.DoctorAccountActivity;
-import com.example.healthza.ui.DoctorListActivity;
-import com.example.healthza.ui.DoctorSendRequestActivity;
-import com.example.healthza.ui.Functions;
-import com.example.healthza.ui.HbAlc;
-import com.example.healthza.ui.PatientAccountActivity;
-import com.example.healthza.ui.DoctorPatientMedicalHistory;
-import com.example.healthza.ui.PatientReceiveRequestActivity;
-import com.example.healthza.ui.ViewIdentifiersP;
-import com.example.healthza.ui.ViewMedicines;
-import com.example.healthza.ui.WelcomeActivity;
-import com.example.healthza.ui.addComplications;
-import com.example.healthza.ui.addNewTestAppointment;
-import com.example.healthza.ui.newChronicDiseases;
-import com.example.healthza.ui.updateComplicationStatus;
-import com.example.healthza.ui.viewComplications;
-import com.example.healthza.ui.viewComplicationsP;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -41,12 +13,37 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.project.cdh.ui.PatientAddCholesterolAndFatsTestActivity;
+import com.project.cdh.ui.PatientAddChronicDiseaseActivity;
+import com.project.cdh.ui.PatientAddFBSTestActivity;
+import com.project.cdh.ui.PatientAddGlucoseTestActivity;
+import com.project.cdh.ui.PatientAddHbAlcTestActivity;
+import com.project.cdh.ui.PatientAddHypertensionTestActivity;
+import com.project.cdh.ui.PatientAddKidneysTestActivity;
+import com.project.cdh.ui.PatientAddLiverTestActivity;
+import com.project.cdh.ui.PatientAddRelativeActivity;
+import com.project.cdh.ui.PatientAddComprehensiveTestActivity;
+import com.project.cdh.ui.DoctorViewPatientsRelativesActivity;
+import com.project.cdh.ui.DoctorAccountActivity;
+import com.project.cdh.ui.DoctorListActivity;
+import com.project.cdh.ui.DoctorPatientMedicalHistoryActivity;
+import com.project.cdh.ui.DoctorSendRequestActivity;
+import com.project.cdh.ui.Functions;
+import com.project.cdh.ui.PatientAccountActivity;
+import com.project.cdh.ui.PatientReceiveRequestActivity;
+import com.project.cdh.ui.PatientViewRelatives;
+import com.project.cdh.ui.PatientMedicinesActivity;
+import com.project.cdh.ui.WelcomeActivity;
+import com.project.cdh.ui.DoctorAddPatientComplicationsActivity;
+import com.project.cdh.ui.DoctorAddPatientAppointmentActivity;
+import com.project.cdh.ui.DoctorUpdatePatientComplicationsActivity;
+import com.project.cdh.ui.PatientViewComplicationsActivity;
+import com.project.cdh.ui.DoctorViewPatientComplicationsActivity;
 
 public class DrawerUtil
 {
     public static Drawer drawer;
     public static View headerView;
-    public static Toolbar toolbar;
 
     public static void getDoctorDrawer(final Activity activity, int identifier)
     {
@@ -74,11 +71,11 @@ public class DrawerUtil
 
 
                         new PrimaryDrawerItem().withIdentifier(3)
-                                .withName("View Identifier").withIcon(R.drawable.mange_identfiers)
+                                .withName("View Identifier").withIcon(R.drawable.ic_relatives)
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(4)
-                                .withName("New Appointment").withIcon(R.drawable.appointmenicon)
+                                .withName("New Appointment").withIcon(R.drawable.ic_appointments)
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(5)
@@ -92,14 +89,14 @@ public class DrawerUtil
                                                 .withName("UPDATE").withIcon(R.drawable.updatecomp)
                                                 .withIconTintingEnabled(true),
                                         new SecondaryDrawerItem().withIdentifier(8)
-                                                .withName("View").withIcon(R.drawable.compico)
+                                                .withName("View").withIcon(R.drawable.ic_complications)
                                                 .withIconTintingEnabled(true)
                                 ),
 
                         new DividerDrawerItem(),
 
                         new PrimaryDrawerItem().withIdentifier(9)
-                                .withName("LogOut").withIcon(R.drawable.logoutm)
+                                .withName("LogOut").withIcon(R.drawable.ic_logout)
                                 .withIconTintingEnabled(true)
                 )
 
@@ -108,41 +105,59 @@ public class DrawerUtil
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem)
                     {
+                        if((int) drawerItem.getIdentifier() != 5)
+                            drawer.closeDrawer();
+
                         switch ((int) drawerItem.getIdentifier())
                         {
                             case 0:
                             {
-                                Intent intent = new Intent(activity,  DoctorAccountActivity.class);
-                                view.getContext().startActivity(intent);
+                                if(!(activity instanceof DoctorAccountActivity))
+                                {
+                                    Intent intent = new Intent(activity, DoctorAccountActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
 
                             case 1:
                             {
-                                Intent intent = new Intent(activity, DoctorSendRequestActivity.class);
-                                view.getContext().startActivity(intent);
+                                if(!(activity instanceof DoctorSendRequestActivity))
+                                {
+                                    Intent intent = new Intent(activity, DoctorSendRequestActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
 
                             case 2:
                             {
-                                Intent intent = new Intent(activity, DoctorPatientMedicalHistory.class);
-                                view.getContext().startActivity(intent);
+                                if(!(activity instanceof DoctorPatientMedicalHistoryActivity))
+                                {
+                                    Intent intent = new Intent(activity, DoctorPatientMedicalHistoryActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
 
 
                             case 3:
                             {
-                                Intent intent = new Intent(activity, DViewIdentifiersP.class);
-                                view.getContext().startActivity(intent);
+                                if(!(activity instanceof DoctorViewPatientsRelativesActivity))
+                                {
+                                    Intent intent = new Intent(activity, DoctorViewPatientsRelativesActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
 
                             case 4:
                             {
-                                Intent intent = new Intent(activity, addNewTestAppointment.class);
-                                view.getContext().startActivity(intent);
+                                if(!(activity instanceof DoctorAddPatientAppointmentActivity))
+                                {
+                                    Intent intent = new Intent(activity, DoctorAddPatientAppointmentActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
 
@@ -151,23 +166,32 @@ public class DrawerUtil
 
                             case 6:
                             {
-                                Intent intent = new Intent(activity, addComplications.class);
-                                view.getContext().startActivity(intent);
+                                if(!(activity instanceof DoctorAddPatientComplicationsActivity))
+                                {
+                                    Intent intent = new Intent(activity, DoctorAddPatientComplicationsActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
 
                             case 7:
                             {
-                                Intent intent = new Intent(activity, updateComplicationStatus.class);
-                                view.getContext().startActivity(intent);
+                                if(!(activity instanceof DoctorUpdatePatientComplicationsActivity))
+                                {
+                                    Intent intent = new Intent(activity, DoctorUpdatePatientComplicationsActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
 
 
                             case 8:
                             {
-                                Intent intent = new Intent(activity, viewComplicationsP.class);
-                                view.getContext().startActivity(intent);
+                                if(!(activity instanceof DoctorViewPatientComplicationsActivity))
+                                {
+                                    Intent intent = new Intent(activity, DoctorViewPatientComplicationsActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
 
@@ -228,35 +252,35 @@ public class DrawerUtil
                         new DividerDrawerItem(),
 
                         new PrimaryDrawerItem().withIdentifier(1)
-                                .withName("New Requests").withIcon(R.drawable.ic_notifications)
+                                .withName("New Requests").withIcon(R.drawable.ic_new_requests)
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(2)
-                                .withName("My Doctors").withIcon(R.drawable.ic_doctor)
+                                .withName("My Doctors").withIcon(R.drawable.ic_my_doctors)
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(3)
-                                .withName("Add Chronic Diseases").withIcon(R.drawable.iconchronic)
+                                .withName("Add Chronic Diseases").withIcon(R.drawable.ic_add_chronic_disease)
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(4)
-                                .withName("View Complications").withIcon(R.drawable.compico)
+                                .withName("View Complications").withIcon(R.drawable.ic_complications)
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(5)
-                                .withName("Manage Identifier").withIcon(R.drawable.mange_identfiers)
+                                .withName("Manage Relatives").withIcon(R.drawable.ic_relatives)
                                 .withIconTintingEnabled(true)
                                 .withSubItems(
                                         new SecondaryDrawerItem().withIdentifier(6)
-                                                .withName("New"),
+                                                .withName("New Relative"),
                                         new SecondaryDrawerItem().withIdentifier(7)
-                                                .withName("View")
+                                                .withName("View Relatives")
                                 ),
 
                         new DividerDrawerItem(),
 
                         new PrimaryDrawerItem().withIdentifier(8)
-                                .withName("New Test").withIcon(R.drawable.iconat)
+                                .withName("New Test").withIcon(R.drawable.ic_new_test)
                                 .withIconTintingEnabled(true)
                                 .withSubItems(
                                         new SecondaryDrawerItem().withIdentifier(9)
@@ -281,19 +305,19 @@ public class DrawerUtil
                                                 .withName("Cholesterol And Fats Test")
                                         ,
                                         new SecondaryDrawerItem().withIdentifier(16)
-                                                .withName("Comprehensive Test")
+                                                .withName("Comprehensive Test").withSelectable(true)
                                 ),
 
 
                         new PrimaryDrawerItem().withIdentifier(17)
-                                .withName("Medicines").withIcon(R.drawable.ic_medicens_)
+                                .withName("Medicines").withIcon(R.drawable.ic_medicines)
                                 .withIconTintingEnabled(true),
 
 
                         new DividerDrawerItem(),
 
                         new PrimaryDrawerItem().withIdentifier(18)
-                                .withName("LogOut").withIcon(R.drawable.logoutm)
+                                .withName("LogOut").withIcon(R.drawable.ic_logout)
                                 .withIconTintingEnabled(true)
                 )
 
@@ -302,43 +326,58 @@ public class DrawerUtil
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem)
                     {
 
-                        if((int) drawerItem.getIdentifier() != 4)
+                        if( (int) drawerItem.getIdentifier() != 8 &&
+                                (int) drawerItem.getIdentifier() != 5)
                             drawer.closeDrawer();
-
 
                         switch ((int) drawerItem.getIdentifier())
                         {
                             case 0:
                             {
-                                Intent intent = new Intent(activity, PatientAccountActivity.class);
-                                view.getContext().startActivity(intent);
+                                if(!(activity instanceof PatientAccountActivity))
+                                {
+                                    Intent intent = new Intent(activity, PatientAccountActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
 
                             case 1:
                             {
-                                Intent intent = new Intent(activity, PatientReceiveRequestActivity.class);
-                                view.getContext().startActivity(intent);
+                                if(!(activity instanceof PatientReceiveRequestActivity))
+                                {
+                                    Intent intent = new Intent(activity, PatientReceiveRequestActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
                             case 2:
                             {
-                                Intent intent = new Intent(activity, DoctorListActivity.class);
-                                view.getContext().startActivity(intent);
+                                if(!(activity instanceof DoctorListActivity))
+                                {
+                                    Intent intent = new Intent(activity, DoctorListActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
 
                             case 3:
                             {
-                                Intent intent = new Intent(activity, newChronicDiseases.class);
-                                view.getContext().startActivity(intent);
+                                if(!(activity instanceof PatientAddChronicDiseaseActivity))
+                                {
+                                    Intent intent = new Intent(activity, PatientAddChronicDiseaseActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
 
                             case 4:
                             {
-                                Intent intent = new Intent(activity, viewComplications.class);
-                                view.getContext().startActivity(intent);
+                                if(!(activity instanceof PatientViewComplicationsActivity))
+                                {
+                                    Intent intent = new Intent(activity, PatientViewComplicationsActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
 
@@ -346,15 +385,21 @@ public class DrawerUtil
 
                             case 6:
                             {
-                                Intent intent = new Intent(activity, AddPatientIdentifier.class);
-                                view.getContext().startActivity(intent);
-                                break;
+                                if(!(activity instanceof PatientAddRelativeActivity))
+                                {
+                                    Intent intent = new Intent(activity, PatientAddRelativeActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
+                                    break;
                             }
 
                             case 7:
                             {
-                                Intent intent = new Intent(activity, ViewIdentifiersP.class);
-                                view.getContext().startActivity(intent);
+                                if(!(activity instanceof PatientViewRelatives))
+                                {
+                                    Intent intent = new Intent(activity, PatientViewRelatives.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
 
@@ -362,67 +407,99 @@ public class DrawerUtil
 
                             case 9:
                             {
-                                Intent I = new Intent(activity, AddGlucoseTest.class);
-                                view.getContext().startActivity(I);
+                                if(!(activity instanceof PatientAddGlucoseTestActivity))
+                                {
+                                    Intent I = new Intent(activity, PatientAddGlucoseTestActivity.class);
+                                    view.getContext().startActivity(I);
+                                }
                                 break;
                             }
 
                             case 10:
                             {
-                                if(Functions.pact == 6)break;
-                                Intent intent = new Intent(activity, AddFBStest.class);
-                                view.getContext().startActivity(intent);
+                                if(Functions.pact == 6)
+                                    break;
+
+                                if(!(activity instanceof PatientAddFBSTestActivity))
+                                {
+                                    Intent intent = new Intent(activity, PatientAddFBSTestActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
 
                             case 11:
                             {
-                                Intent intent = new Intent(activity, AddHypertensionTest.class);
-                                view.getContext().startActivity(intent);
+                                if(!(activity instanceof PatientAddHypertensionTestActivity))
+                                {
+                                    Intent intent = new Intent(activity, PatientAddHypertensionTestActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
 
 
                             case 12:
                             {
-                                if(Functions.pact == 8)break;
-                                Intent intent = new Intent(activity, HbAlc.class);
-                                view.getContext().startActivity(intent);
+                                if(Functions.pact == 8)
+                                    break;
+
+                                if(!(activity instanceof PatientAddHbAlcTestActivity))
+                                {
+                                    Intent intent = new Intent(activity, PatientAddHbAlcTestActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
+
                                 break;
                             }
 
                             case 13:
                             {
-                                Intent intent = new Intent(activity, AddKidneysTest.class);
-                                view.getContext().startActivity(intent);
+                                if(!(activity instanceof PatientAddKidneysTestActivity))
+                                {
+                                    Intent intent = new Intent(activity, PatientAddKidneysTestActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
 
                             case 14:
                             {
-                                Intent intent = new Intent(activity,  AddLiverTest.class);
-                                view.getContext().startActivity(intent);
+                                if(!(activity instanceof PatientAddLiverTestActivity))
+                                {
+                                    Intent intent = new Intent(activity, PatientAddLiverTestActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
 
                             case 15:
                             {
-                                Intent intent = new Intent(activity,  AddCholesterolAndFatsTest.class);
-                                view.getContext().startActivity(intent);
+                                if(!(activity instanceof PatientAddCholesterolAndFatsTestActivity))
+                                {
+                                    Intent intent = new Intent(activity, PatientAddCholesterolAndFatsTestActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
 
                             case 16:
                             {
-                                Intent intent = new Intent(activity, ComprehensiveTest.class);
-                                view.getContext().startActivity(intent);
+                                if(!(activity instanceof PatientAddComprehensiveTestActivity))
+                                {
+                                    Intent intent = new Intent(activity, PatientAddComprehensiveTestActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
 
                             case 17:
                             {
-                                Intent intent = new Intent(activity, ViewMedicines.class);
-                                view.getContext().startActivity(intent);
+                                if(!(activity instanceof PatientMedicinesActivity))
+                                {
+                                    Intent intent = new Intent(activity, PatientMedicinesActivity.class);
+                                    view.getContext().startActivity(intent);
+                                }
                                 break;
                             }
 
@@ -461,13 +538,7 @@ public class DrawerUtil
                     }
                 })
                 .build();
+
         drawer.getDrawerLayout().setStatusBarBackgroundColor(activity.getColor(R.color.primary_dark));
     }
-
-
-    public static void clearSelection()
-    {
-        drawer.setSelection(-1);
-    }
-
 }

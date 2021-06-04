@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.project.cdh.DrawerUtil;
 import com.project.cdh.ProgressDialog;
 import com.project.cdh.R;
 import com.project.cdh.Toasty;
@@ -470,4 +471,12 @@ public class PatientAccountActivity extends AppCompatActivity
         materialDatePicker.show(getSupportFragmentManager(), "PatientAccountActivity");
     }
 
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+
+        DrawerUtil.getPatientDrawer(this, 0);
+    }
 }

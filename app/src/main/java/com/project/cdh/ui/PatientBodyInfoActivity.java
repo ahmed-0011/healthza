@@ -1,15 +1,18 @@
 package com.project.cdh.ui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.project.cdh.ProgressDialog;
 import com.project.cdh.R;
 import com.project.cdh.Toasty;
 import com.project.cdh.adapters.BodyInfoAdapter;
@@ -32,6 +35,7 @@ public class PatientBodyInfoActivity extends AppCompatActivity implements BodyIn
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     private String patientId;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -53,6 +57,9 @@ public class PatientBodyInfoActivity extends AppCompatActivity implements BodyIn
         bodyInfoRecyclerView = findViewById(R.id.bodyInfoRecyclerView);
 
         setupActionBar();
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.showProgressDialog("Displaying body info records...");
 
         setupBodyInfoRecyclerView();
     }
@@ -79,15 +86,10 @@ public class PatientBodyInfoActivity extends AppCompatActivity implements BodyIn
                         bodyInfoAdapter = new BodyInfoAdapter(this, bodyInfoList, this);
                         bodyInfoRecyclerView.setLayoutManager(new LinearLayoutManager(this));
                         bodyInfoRecyclerView.setAdapter(bodyInfoAdapter);
+
+
+                        progressDialog.dismissProgressDialog();
                 });
-    }
-
-
-    private void setupActionBar()
-    {
-        getSupportActionBar().setTitle("Patient Body Info Records");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
 
@@ -131,5 +133,26 @@ public class PatientBodyInfoActivity extends AppCompatActivity implements BodyIn
                 Toasty.showText(this, "An error occurred while trying to remove this record",
                         Toasty.ERROR, Toast.LENGTH_LONG);
         });
+    }
+
+
+    private void setupActionBar()
+    {
+        getSupportActionBar().setTitle("Patient Body Info Records");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        if (item.getItemId() == android.R.id.home)
+        {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
