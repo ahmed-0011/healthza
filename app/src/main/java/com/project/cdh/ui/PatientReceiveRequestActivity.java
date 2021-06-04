@@ -50,7 +50,6 @@ public class PatientReceiveRequestActivity extends AppCompatActivity implements 
         firebaseAuth = FirebaseAuth.getInstance();
         String patientId = firebaseAuth.getCurrentUser().getUid();
 
-        DrawerUtil.getPatientDrawer(this, 2);
 
         receiveRequests = new ArrayList<>();
         receiveRequestsRecyclerView = findViewById(R.id.receiveRequestsRecyclerView);
@@ -86,10 +85,7 @@ public class PatientReceiveRequestActivity extends AppCompatActivity implements 
     }
 
     @Override
-    public void onItemLongClick(int position)
-    {
-
-    }
+    public void onItemLongClick(int position) { }
 
     @Override
     public void onAcceptClick(int position) {
@@ -213,5 +209,13 @@ public class PatientReceiveRequestActivity extends AppCompatActivity implements 
                 Toasty.showText(this, "Something went wrong...", Toasty.ERROR,
                         Toast.LENGTH_LONG);
         });
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+
+        DrawerUtil.getPatientDrawer(this, 1);
     }
 }

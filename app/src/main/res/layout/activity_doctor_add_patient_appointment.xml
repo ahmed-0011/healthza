@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".ui.DoctorAddPatientAppointmentActivity">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fpa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:backgroundTint="@color/colorSecondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/timestampgreen"
+            app:tint="@null" />
+
+        <Button
+            android:id="@+id/addAppointment"
+            android:layout_width="163dp"
+            android:layout_height="57dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="3dp"
+            android:backgroundTint="@color/purple_500"
+            android:fontFamily="@font/bubblegum_sans"
+            android:text="@string/add"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="24sp"
+            android:textStyle="bold|italic"
+            app:icon="@android:drawable/ic_input_add"
+            app:iconGravity="textEnd"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="30dp"
+            android:background="#ffff"
+            android:backgroundTint="#CA1A1A"
+            app:layout_constraintBottom_toTopOf="@+id/addAppointment"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/outerPatient" />
+
+        <Button
+            android:id="@+id/clearSearch"
+            android:layout_width="115dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/design_default_color_error"
+            android:fontFamily="@font/bubblegum_sans"
+            android:text="@string/clearT"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="18sp"
+            android:textStyle="bold|italic"
+            app:icon="@android:drawable/ic_input_delete"
+            app:iconGravity="textEnd"
+            app:layout_constraintBottom_toTopOf="@+id/divider3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/outerPatient"
+            app:layout_constraintTop_toBottomOf="@+id/SearchPatient" />
+
+        <Button
+            android:id="@+id/SearchPatient"
+            android:layout_width="115dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="@color/teal_700"
+            android:fontFamily="@font/bubblegum_sans"
+            android:text="@string/search"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="18sp"
+            android:textStyle="bold|italic"
+            app:icon="?android:attr/actionModeWebSearchDrawable"
+            app:iconGravity="textEnd"
+            app:layout_constraintBottom_toTopOf="@+id/clearSearch"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/outerPatient"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/bubblegum_sans"
+            android:text="@string/or_search_on_patient"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+            android:textSize="18sp"
+            app:drawableStartCompat="@android:drawable/arrow_down_float"
+            app:layout_constraintBottom_toTopOf="@+id/outerPatient"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerPatient" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/outerPatient"
+            android:layout_width="220dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/divider3"
+            app:layout_constraintEnd_toStartOf="@+id/SearchPatient"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView5">
+
+            <EditText
+                android:id="@+id/innerPatient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:background="@drawable/round_empty"
+                android:ems="10"
+                android:focusableInTouchMode="true"
+                android:fontFamily="@font/bubblegum_sans"
+                android:hint="@string/enter_patient_name_or_id"
+                android:inputType="text"
+                android:paddingStart="10dp"
+                android:selectAllOnFocus="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Spinner
+            android:id="@+id/spinnerPatient"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:drawSelectorOnTop="true"
+            android:entries="@array/SelectPatient"
+            android:foreground="@drawable/round_empty"
+            android:prompt="@string/SelectPatientPrompt"
+            android:spinnerMode="dropdown"
+            app:layout_constraintBottom_toTopOf="@+id/textView5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/bubblegum_sans"
+            android:text="@string/select_patient"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+            android:textSize="18sp"
+            app:drawableStartCompat="@android:drawable/arrow_down_float"
+            app:layout_constraintBottom_toTopOf="@+id/spinnerPatient"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="15dp"
+            android:background="#ffff"
+            android:backgroundTint="#CA1A1A"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/outerDescribe" />
+
+        <Spinner
+            android:id="@+id/spinnerTest"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:drawSelectorOnTop="true"
+            android:entries="@array/arrayTests"
+            android:foreground="@drawable/round_empty"
+            android:prompt="@string/TypeTestPrompt"
+            android:spinnerMode="dropdown"
+            app:layout_constraintBottom_toTopOf="@+id/outerDescribe"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/bubblegum_sans"
+            android:text="@string/set_test"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+            android:textSize="18sp"
+            app:drawableStartCompat="@android:drawable/ic_input_get"
+            app:layout_constraintBottom_toTopOf="@+id/spinnerTest"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="#ffff"
+            android:backgroundTint="#CA1A1A"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/bubblegum_sans"
+            android:text="New Appointment"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+            android:textSize="40sp"
+            app:drawableEndCompat="@android:drawable/ic_menu_my_calendar"
+            app:layout_constraintBottom_toTopOf="@+id/divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/outerDescribe"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/divider2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerTest">
+
+            <EditText
+                android:id="@+id/innerDescribe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:background="@drawable/round_empty"
+                android:ems="10"
+                android:focusableInTouchMode="true"
+                android:fontFamily="@font/bubblegum_sans"
+                android:hint="Enter Appointment Description:"
+                android:inputType="textMultiLine"
+                android:paddingStart="10dp"
+                android:selectAllOnFocus="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

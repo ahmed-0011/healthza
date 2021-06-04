@@ -100,16 +100,6 @@ public class PatientHomeActivity extends AppCompatActivity
 
         setupBottomNavigationBar();
 
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.header_drawer, null);
-
-        TextView nameTextView = view.findViewById(R.id.nameTextView);
-        TextView emailTextView = view.findViewById(R.id.emailTextView);
-
-        nameTextView.setText(firebaseAuth.getCurrentUser().getDisplayName());
-        emailTextView.setText(firebaseAuth.getCurrentUser().getEmail());
-        DrawerUtil.headerView = view;
-        DrawerUtil.getPatientDrawer(this, -1);
     }
 
 
@@ -135,9 +125,12 @@ public class PatientHomeActivity extends AppCompatActivity
                 else if (i == R.id.chatItem)
                     intent = new Intent(PatientHomeActivity.this, PatientChatListActivity.class);
 
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                if(intent != null)
+                {
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
             }
         });
     }
@@ -251,7 +244,9 @@ public class PatientHomeActivity extends AppCompatActivity
 
         TextView firstTestTypeTextView, firstTestLevelTextView, firstTestTimeTextView,
                  secondTestTypeTextView, secondTestLevelTextView, secondTestTimeTextView,
-                 thirdTestTypeTextView, thirdTestLevelTextView, thirdTestTimeTextView;
+                 thirdTestTypeTextView, thirdTestLevelTextView, thirdTestTimeTextView,
+                 noTestsAvailableTextView;
+
 
         firstTestLayout = findViewById(R.id.firstTestLayout);
         secondTestLayout = findViewById(R.id.secondTestLayout);
@@ -266,6 +261,8 @@ public class PatientHomeActivity extends AppCompatActivity
         thirdTestTypeTextView = findViewById(R.id.thirdTestTypeTextView);
         thirdTestLevelTextView = findViewById(R.id.thirdTestLevelTextView);
         thirdTestTimeTextView = findViewById(R.id.thirdTestTimeTextView);
+
+        noTestsAvailableTextView = findViewById(R.id.noTestsAvailableTextView);
 
         List<DailyTest> glucoseTests = new ArrayList<>();
 
@@ -318,17 +315,22 @@ public class PatientHomeActivity extends AppCompatActivity
                                                 }
                                             });
 
-                                            if(dates.size() > 0) {
+                                            if(dates.size() > 0)
+                                            {
                                                 db.collectionGroup(dates.get(0))
                                                         .get()
                                                         .addOnSuccessListener(testsDocuments ->
                                                         {
-
                                                             List<DocumentSnapshot> tests = testsDocuments.getDocuments();
+
+                                                            if(testsDocuments.size() == 0)
+                                                                noTestsAvailableTextView.setVisibility(View.VISIBLE);
 
                                                             int countTests = 0;
 
-                                                            for (int i = 0; i < testsDocuments.size() && countTests != 3; i++) {
+                                                            for (int i = 0; i < testsDocuments.size() && countTests != 3; i++)
+                                                            {
+
                                                                 String testType = tests.get(i).getString("type");
                                                                 String testLevel = "";
                                                                 if (testType.equals("glucose"))
@@ -392,6 +394,9 @@ public class PatientHomeActivity extends AppCompatActivity
                                                             }
                                                         });
                                             }
+                                            else
+                                                noTestsAvailableTextView.setVisibility(View.VISIBLE);
+
                                         });
                             });
                 });
@@ -403,8 +408,10 @@ public class PatientHomeActivity extends AppCompatActivity
         ConstraintLayout firstAppointmentLayout, secondAppointmentLayout, thirdAppointmentLayout;
 
         TextView firstDoctorNameTextView, firstAppointmentTypeTextView, firstAppointmentTimeTextView,
-                secondDoctorNameTextView, secondAppointmentTypeTextView, secondAppointmentTimeTextView,
-                thirdDoctorNameTextView, thirdAppointmentTypeTextView,  thirdAppointmentTimeTextView;
+                 secondDoctorNameTextView, secondAppointmentTypeTextView, secondAppointmentTimeTextView,
+                 thirdDoctorNameTextView, thirdAppointmentTypeTextView,  thirdAppointmentTimeTextView,
+                 noAppointmentsAvailableTextView;
+
 
 
         firstAppointmentLayout = findViewById(R.id.firstAppointmentLayout);
@@ -421,6 +428,8 @@ public class PatientHomeActivity extends AppCompatActivity
         thirdDoctorNameTextView = findViewById(R.id.thirdDoctorNameTextView);
         thirdAppointmentTimeTextView = findViewById(R.id.thirdAppointmentTimeTextView);
 
+        noAppointmentsAvailableTextView = findViewById(R.id.noAppointmentsAvailableTextView);
+
         patientRef
                 .collection("appointments")
                 .whereEqualTo("expired", false)
@@ -431,6 +440,7 @@ public class PatientHomeActivity extends AppCompatActivity
             if (!nextThreeAppointmentsDocuments.isEmpty())
             {
                 List<DocumentSnapshot> appointments = nextThreeAppointmentsDocuments.getDocuments();
+
 
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-M-d hh:mm aa", Locale.US);
 
@@ -463,6 +473,8 @@ public class PatientHomeActivity extends AppCompatActivity
                     }
                 }
             }
+            else
+                noAppointmentsAvailableTextView.setVisibility(View.VISIBLE);
         });
     }
 
@@ -1075,6 +1087,25 @@ public class PatientHomeActivity extends AppCompatActivity
                 .setNegativeButtonIcon(getDrawable ( R.drawable.no))
                 .show ();
     }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.header_drawer, null);
+
+        TextView nameTextView = view.findViewById(R.id.nameTextView);
+        TextView emailTextView = view.findViewById(R.id.emailTextView);
+
+        nameTextView.setText(firebaseAuth.getCurrentUser().getDisplayName());
+        emailTextView.setText(firebaseAuth.getCurrentUser().getEmail());
+        DrawerUtil.headerView = view;
+        DrawerUtil.getPatientDrawer(this, -1);
+    }
+
 
     //rotate
     @Override

@@ -52,13 +52,10 @@ public class DoctorListActivity extends AppCompatActivity implements DoctorAdapt
         firebaseAuth = FirebaseAuth.getInstance();
         patientId = firebaseAuth.getCurrentUser().getUid();
 
-        DrawerUtil.getPatientDrawer(this, 3);
-
         doctors = new ArrayList<>();
         doctorsRecyclerView = findViewById(R.id.doctorsRecyclerView);
 
         setupDoctorsRecyclerView();
-
     }
 
 
@@ -199,5 +196,14 @@ public class DoctorListActivity extends AppCompatActivity implements DoctorAdapt
             else
                 Toasty.showText(this, "An error occurred while trying to remove this patient", Toasty.ERROR, Toast.LENGTH_LONG);
         });
+    }
+
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+
+        DrawerUtil.getPatientDrawer(this, 2);
     }
 }

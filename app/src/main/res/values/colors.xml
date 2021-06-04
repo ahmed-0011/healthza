@@ -26,7 +26,6 @@
     <color name="error_color">#DD0000</color>
     <color name="info_color">#077BCD</color>
     <color name="glucose_color">#FF6B31</color>
-    <color name="glucose_color_ligh">#ff9d5f</color>
     <color name="blood_pressure_color">#F10000</color>
     <color name="total_cholesterol_color">#8500ff</color>
     <color name="hdl_color">#749B23</color>
