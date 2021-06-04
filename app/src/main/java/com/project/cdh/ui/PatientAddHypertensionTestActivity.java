@@ -57,7 +57,6 @@ public class PatientAddHypertensionTestActivity extends AppCompatActivity implem
         , View.OnFocusChangeListener
 {
 
-   // private static final  String ChannelID= "AddHypertensionTestNote";
 
     CheckBox autoTD;
     FloatingActionButton stamp;
@@ -72,7 +71,7 @@ public class PatientAddHypertensionTestActivity extends AppCompatActivity implem
     private Button clear;
     private Button add;
 
-    private static final String TAG = "PatientHypertensionTest";
+    private static final String TAG = "PatientAddHypertensionTestActivity ";
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
     int ct = 0;
@@ -135,22 +134,17 @@ public class PatientAddHypertensionTestActivity extends AppCompatActivity implem
     @Override
     public void onDestroy(){
         super.onDestroy();
-       // Functions.pact=-999;
+        // Functions.pact=-999;
         //complet
     }
 
+    @SuppressLint("LongLogTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_add_hypertension_test);
 
-        /*Functions.pact=7;
-        LayoutInflater inflater1_ = LayoutInflater.from(this);
-        View view1_ = inflater1_.inflate(R.layout.drawer_header, null);
-        DrawerUtil.headerView = view1_;
-        DrawerUtil.getPatientDrawer(this, -1);*/
-
-       Log.w ("Add Hypertension test.", "start");
+        Log.w ("Add Hypertension test.", "start");
         Toasty.showText(getApplicationContext(),"New Hypertension test...",Toasty.INFORMATION,Toast.LENGTH_SHORT);
 
 
@@ -164,27 +158,6 @@ public class PatientAddHypertensionTestActivity extends AppCompatActivity implem
         datE.setText("YYYY/MM/DD");
         timE.setText("HH:MM");
 
-        /*dateI = findViewById(R.id.DateIcon3);
-        dateI.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                Toast.makeText(getApplicationContext(), "ٌٌSet Date...", Toast.LENGTH_SHORT).show();
-                showDatePickerDialog();
-                //complet
-
-            }
-        });
-
-        timeI = findViewById(R.id.TimeIcon3);
-        timeI.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                Toast.makeText(getApplicationContext(), "Set Time...", Toast.LENGTH_SHORT).show();
-                showTimePickerDialog();
-                //complet
-            }
-        });
-*/
         dateTimeDialogFragment = SwitchDateTimeDialogFragment.newInstance(
                 "Set Date And Time",
                 "OK",
@@ -195,7 +168,7 @@ public class PatientAddHypertensionTestActivity extends AppCompatActivity implem
         dateTimeDialogFragment.startAtCalendarView();
         dateTimeDialogFragment.set24HoursMode(true);
         dateTimeDialogFragment.setMinimumDateTime(new GregorianCalendar(1900, Calendar.JANUARY, 1).getTime());
-        dateTimeDialogFragment.setMaximumDateTime(new GregorianCalendar(3000, Calendar.DECEMBER, 31).getTime());
+        dateTimeDialogFragment.setMaximumDateTime(Calendar.getInstance().getTime());
         //dateTimeDialogFragment.setDefaultDateTime(new GregorianCalendar(2017, Calendar.MARCH, 4, 15, 20).getTime());
 
 //Define new day and month format
@@ -254,22 +227,6 @@ public class PatientAddHypertensionTestActivity extends AppCompatActivity implem
 
     }
 
-    /*//Date Picker
-    public void showDatePickerDialog() {
-        Functions.DatePickerFragment.setYear(0); Functions.DatePickerFragment.setMonth(0); Functions.DatePickerFragment.setDay(0);
-        DialogFragment newFragment = new Functions.DatePickerFragment(datE);
-        newFragment.show(getSupportFragmentManager(), "datePicker");
-        newFragment = null;
-    }
-
-    //Time Picker
-    public void showTimePickerDialog() {
-        Functions.TimePickerFragment.setHour(0); Functions.TimePickerFragment.setMinute(0);
-        DialogFragment newFragment = new Functions.TimePickerFragment(timE);
-        newFragment.show(getSupportFragmentManager(), "timePicker");
-        newFragment = null;
-    }*/
-
     //time and date auto
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onCheckboxClicked(View view) {
@@ -318,20 +275,6 @@ public class PatientAddHypertensionTestActivity extends AppCompatActivity implem
         //complet
         if(ifEmptyFields())
         {
-           /* AlertDialog.Builder x = new AlertDialog.Builder(this);
-            x.setMessage("Please complete fill the form data.").setTitle("incomplete data")
-
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            return;
-                        }
-                    })
-
-                    .setIcon(R.drawable.goo)
-                    .setPositiveButtonIcon(getDrawable(R.drawable.yes))
-
-                    .show();*/
             Toasty.showText(getApplicationContext(),"Please complete fill the form data...",Toasty.ERROR,Toast.LENGTH_SHORT);
             return;
         }
@@ -355,7 +298,7 @@ public class PatientAddHypertensionTestActivity extends AppCompatActivity implem
                         addTest();
 
                         //notification("Hypertension Test");
-                        Toasty.showText(getApplicationContext(),"Hypertension TEST IS ADD...",Toasty.SUCCESS,Toast.LENGTH_SHORT);
+                        // Toasty.showText(getApplicationContext(),"Hypertension TEST IS ADD...",Toasty.SUCCESS,Toast.LENGTH_SHORT);
 
 
                     }
@@ -464,60 +407,6 @@ public class PatientAddHypertensionTestActivity extends AppCompatActivity implem
     }
 // "Clear focus input" -->
 
-   /* // notification
-    private void createChannel() {
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel x;
-            x = new NotificationChannel(ChannelID, "My  Hi Channel with you", NotificationManager.IMPORTANCE_HIGH);
-
-            NotificationManager man = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-            man.createNotificationChannel(x);
-
-
-        }
-    }*/
-
-   /* void notification(String text)
-    {
-        NotificationManager man= (NotificationManager)getSystemService ( NOTIFICATION_SERVICE );
-        NotificationCompat.Builder  note=null;
-
-
-        createChannel();
-
-        NotificationCompat.BigTextStyle bigtext = new NotificationCompat.BigTextStyle ();
-        bigtext.setBigContentTitle ("Test Type:"+text);
-        bigtext.bigText ("Test Date:"+ datE.getText().toString()+ " && Test Time:"+timE.getText().toString() );
-        bigtext.setSummaryText ("New  Test ADD");
-
-        note = new NotificationCompat.Builder ( getApplicationContext(),ChannelID )
-                /*.setContentTitle ( "New  Test ADD"  )
-                .setSubText ( "Test Type:"+text
-                        +"\nTest Date:"+ datE.getText().toString()
-                        +"\nTest Time:"+timE.getText().toString()  )
-                .setContentText ("")*/
-               /* .setOngoing ( false )
-                .setColor ( Color.RED  )
-                .setColorized ( true )
-                .setPriority ( NotificationManager.IMPORTANCE_HIGH )
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setShowWhen ( true )
-                .setUsesChronometer ( true )
-                .setSmallIcon ( R.drawable.icof)
-                .setStyle ( bigtext )
-                .setLargeIcon ( BitmapFactory.decodeResource ( getResources (),R.drawable.icof ) )
-                .setAutoCancel ( true )
-        //.setOnlyAlertOnce(true)
-        //.addAction ( R.drawable.no,"Mark Complete", markCompleteIntent);
-        ;
-
-        man.notify (++Functions.ne, note.build ());
-
-    }*/
-
     //rotate
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -615,7 +504,6 @@ public class PatientAddHypertensionTestActivity extends AppCompatActivity implem
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Log.d(TAG, "DocumentSnapshot successfully written!");
-                                            Toasty.showText(getApplicationContext(),"successfully Add Blood Pressure...",Toasty.SUCCESS,Toast.LENGTH_SHORT);
                                             f=false;
                                         }
                                     })
@@ -635,23 +523,23 @@ public class PatientAddHypertensionTestActivity extends AppCompatActivity implem
                             }
                             if(!bool)
                             {
-                            dates.add(datE.getText().toString());
-                            DRC.update("dates", dates)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Log.d(TAG, "DocumentSnapshot successfully updated!");
-                                            Toasty.showText(getApplicationContext(),"successfully Add Blood Pressure...",Toasty.SUCCESS,Toast.LENGTH_SHORT);
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w(TAG, "Error updating document", e);
-                                            // Toasty.makeText(getApplicationContext(),d+" 11 "+c,Toasty.LENGTH_SHORT).show();
-                                        }
-                                    });
-                        }
+                                dates.add(datE.getText().toString());
+                                DRC.update("dates", dates)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                                // Toasty.showText(getApplicationContext(),"successfully Add Blood Pressure...",Toasty.SUCCESS,Toast.LENGTH_SHORT);
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error updating document", e);
+                                                // Toasty.makeText(getApplicationContext(),d+" 11 "+c,Toasty.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
                         }
 
                         MaxMinThisTestCountUpdate(DRC,document);
@@ -665,7 +553,7 @@ public class PatientAddHypertensionTestActivity extends AppCompatActivity implem
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Log.d(TAG, "DocumentSnapshot successfully written!");
-                                        Toasty.showText(getApplicationContext(),"successfully Add Blood Pressure...",Toasty.SUCCESS,Toast.LENGTH_SHORT);
+                                        // Toasty.showText(getApplicationContext(),"successfully Add Blood Pressure...",Toasty.SUCCESS,Toast.LENGTH_SHORT);
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -688,6 +576,8 @@ public class PatientAddHypertensionTestActivity extends AppCompatActivity implem
         } else {
             // No user is signed in
         }
+
+        Toasty.showText(getApplicationContext(),"successfully Submit Blood Pressure...",Toasty.SUCCESS,Toast.LENGTH_SHORT);
 
     }
 
@@ -846,6 +736,7 @@ public class PatientAddHypertensionTestActivity extends AppCompatActivity implem
                     .document("count");
 
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @SuppressLint("LongLogTag")
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
@@ -869,7 +760,6 @@ public class PatientAddHypertensionTestActivity extends AppCompatActivity implem
 
         MaxMinThisTestCountSet();
     }
-
 
     @Override
     protected void onStart()

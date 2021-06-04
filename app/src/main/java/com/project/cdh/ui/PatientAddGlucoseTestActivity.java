@@ -39,6 +39,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -56,8 +57,6 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
         ,CompoundButton.OnCheckedChangeListener
         , View.OnFocusChangeListener
 {
-
-   // private static final  String ChannelID= "AddGlucoseTestNote";
 
     CheckBox autoTD;
     FloatingActionButton stamp;
@@ -137,20 +136,15 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
     @Override
     public void onDestroy(){
         super.onDestroy();
-        //Functions.pact=-999;
         //complet
     }
 
+    @SuppressLint("LongLogTag")
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_add_glucose_test);
-
-        /*Functions.pact=5;
-        LayoutInflater inflater1_ = LayoutInflater.from(this);
-        View view1_ = inflater1_.inflate(R.layout.drawer_header, null);
-        DrawerUtil.headerView = view1_;
-        DrawerUtil.getPatientDrawer(this, -1);*/
 
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -165,25 +159,6 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
         datE.setText("YYYY/MM/DD");
         timE.setText("HH:MM");
 
-        /*dateI = findViewById(R.id.DateIcon0);
-        dateI.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                Toast.makeText(getApplicationContext(), "ٌٌSet Date...", Toast.LENGTH_SHORT).show();
-                showDatePickerDialog();
-                //complet
-            }
-        });
-
-        timeI = findViewById(R.id.TimeIcon0);
-        timeI.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                Toast.makeText(getApplicationContext(), "Set Time...", Toast.LENGTH_SHORT).show();
-                showTimePickerDialog();
-                //complet
-            }
-        });*/
 
         dateTimeDialogFragment = SwitchDateTimeDialogFragment.newInstance(
                 "Set Date And Time",
@@ -195,7 +170,7 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
         dateTimeDialogFragment.startAtCalendarView();
         dateTimeDialogFragment.set24HoursMode(true);
         dateTimeDialogFragment.setMinimumDateTime(new GregorianCalendar(1900, Calendar.JANUARY, 1).getTime());
-        dateTimeDialogFragment.setMaximumDateTime(new GregorianCalendar(3000, Calendar.DECEMBER, 31).getTime());
+        dateTimeDialogFragment.setMaximumDateTime(Calendar.getInstance().getTime());
         //dateTimeDialogFragment.setDefaultDateTime(new GregorianCalendar(2017, Calendar.MARCH, 4, 15, 20).getTime());
 
 //Define new day and month format
@@ -219,8 +194,8 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
 
                 datE.setText(year+"-"+month+"-"+day);
                 timE.setText(hour+":"+mnt);
-              //  java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
-              //timestamp;
+                //  java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
+                //timestamp;
                 //Toasty.showText(getApplicationContext(),(""+timestamp),Toasty.INFORMATION,Toast.LENGTH_SHORT);
             }
 
@@ -256,22 +231,6 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
 
     }
 
-    /*//Date Picker
-    public void showDatePickerDialog() {
-        Functions.DatePickerFragment.setYear(0); Functions.DatePickerFragment.setMonth(0); Functions.DatePickerFragment.setDay(0);
-        DialogFragment newFragment = new Functions.DatePickerFragment(datE);
-        newFragment.show(getSupportFragmentManager(), "datePicker");
-        newFragment = null;
-    }*/
-
-   /* //Time Picker
-    public void showTimePickerDialog() {
-        Functions.TimePickerFragment.setHour(0); Functions.TimePickerFragment.setMinute(0);
-        DialogFragment newFragment = new Functions.TimePickerFragment(timE);
-        newFragment.show(getSupportFragmentManager(), "timePicker");
-        newFragment = null;
-    }*/
-
     //time and date auto
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onCheckboxClicked(View view) {
@@ -296,7 +255,7 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
                 timE.setText(Functions.timeS);
                 datE.setText(Functions.dateS);
             } else {
-               stamp.setEnabled(true);
+                stamp.setEnabled(true);
                 td.setVisibility(View.VISIBLE);
             }
 
@@ -320,20 +279,6 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
         //complet
         if(ifEmptyFields())
         {
-            /*AlertDialog.Builder x = new AlertDialog.Builder(this);
-            x.setMessage("Please complete fill the form data.").setTitle("incomplete data")
-
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            return;
-                        }
-                    })
-
-                    .setIcon(R.drawable.goo)
-                    .setPositiveButtonIcon(getDrawable(R.drawable.yes))
-
-                    .show();*/
             Toasty.showText(getApplicationContext(), "Please complete fill the form data...",Toasty.ERROR, Toast.LENGTH_SHORT);
             return;
         }
@@ -359,7 +304,7 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
                         addTest();
 
                         //notification("Glucose Test");
-                        Toasty.showText(getApplicationContext(), "Glucose TEST IS ADD...",Toasty.SUCCESS, Toast.LENGTH_SHORT);
+                        //  Toasty.showText(getApplicationContext(), "Glucose TEST IS ADD...",Toasty.SUCCESS, Toast.LENGTH_SHORT);
 
 
                     }
@@ -467,61 +412,6 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
     }
 // "Clear focus input" -->
 
-   /* // notification
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void createChannel() {
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel x;
-            x = new NotificationChannel(ChannelID, "My  Hi Channel with you", NotificationManager.IMPORTANCE_HIGH);
-
-            NotificationManager man = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-            man.createNotificationChannel(x);
-
-
-        }
-    }*/
-
-   /* @RequiresApi(api = Build.VERSION_CODES.O)
-    void notification(String text)
-    {
-        NotificationManager man= (NotificationManager)getSystemService ( NOTIFICATION_SERVICE );
-        NotificationCompat.Builder  note=null;
-
-
-        createChannel();
-
-        NotificationCompat.BigTextStyle bigtext = new NotificationCompat.BigTextStyle ();
-        bigtext.setBigContentTitle ("Test Type:"+text);
-        bigtext.bigText ("Test Date:"+ datE.getText().toString()+ " && Test Time:"+timE.getText().toString() );
-        bigtext.setSummaryText ("New  Test ADD");
-
-        note = new NotificationCompat.Builder ( getApplicationContext(),ChannelID )*/
-                /*.setContentTitle ( "New  Test ADD"  )
-                .setSubText ( "Test Type:"+text
-                        +"\nTest Date:"+ datE.getText().toString()
-                        +"\nTest Time:"+timE.getText().toString()  )
-                .setContentText ("")*/
-               /* .setOngoing ( false )
-                .setColor ( Color.RED  )
-                .setColorized ( true )
-                .setPriority ( NotificationManager.IMPORTANCE_HIGH )
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setShowWhen ( true )
-                .setUsesChronometer ( true )
-                .setSmallIcon ( R.drawable.icof)
-                .setStyle ( bigtext )
-                .setLargeIcon ( BitmapFactory.decodeResource ( getResources (),R.drawable.icof ) )
-                .setAutoCancel ( true )
-        //.setOnlyAlertOnce(true)
-        //.addAction ( R.drawable.no,"Mark Complete", markCompleteIntent);
-        ;
-
-        man.notify (++Functions.ne, note.build ());
-
-    }*/
 
     //rotate
     @Override
@@ -562,7 +452,7 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d(TAG_CT, "DocumentSnapshot successfully written!");
-                            Toasty.showText(getApplicationContext(), "Glucose TEST IS ADD...",Toasty.SUCCESS, Toast.LENGTH_SHORT);
+                            //Toasty.showText(getApplicationContext(), "Glucose TEST IS ADD...",Toasty.SUCCESS, Toast.LENGTH_SHORT);
 
                         }
                     })
@@ -595,12 +485,12 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
             java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
             dataTest.put("timestamp", timestamp);
 
-           DocumentReference DRC = db.collection("patients") // table
+            DocumentReference DRC = db.collection("patients") // table
                     .document(userId) // patient id
                     .collection("tests")// table inside patient table
                     .document("glucose_test");
 
-           DRC.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            DRC.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @SuppressLint("LongLogTag")
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -620,7 +510,7 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
                                         public void onSuccess(Void aVoid) {
                                             Log.d(TAG, "DocumentSnapshot successfully written!");
                                             f=false;
-                                            Toasty.showText(getApplicationContext(), "Glucose TEST IS ADD...",Toasty.SUCCESS, Toast.LENGTH_SHORT);
+                                            //Toasty.showText(getApplicationContext(), "Glucose TEST IS ADD...",Toasty.SUCCESS, Toast.LENGTH_SHORT);
 
                                         }
                                     })
@@ -640,27 +530,27 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
                             }
                             if(!bool)
                             {
-                            dates.add(datE.getText().toString());
-                            DRC.update("dates", dates)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            Log.d(TAG, "DocumentSnapshot successfully updated!");
-                                            Toasty.showText(getApplicationContext(), "Glucose TEST IS ADD...",Toasty.SUCCESS, Toast.LENGTH_SHORT);
+                                dates.add(datE.getText().toString());
+                                DRC.update("dates", dates)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                                //Toasty.showText(getApplicationContext(), "Glucose TEST IS ADD...",Toasty.SUCCESS, Toast.LENGTH_SHORT);
 
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w(TAG, "Error updating document", e);
-                                            // Toasty.makeText(getApplicationContext(),d+" 11 "+c,Toasty.LENGTH_SHORT).show();
-                                        }
-                                    });
-                        }
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error updating document", e);
+                                                // Toasty.makeText(getApplicationContext(),d+" 11 "+c,Toasty.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
                         }
 
-                      MaxMinThisTestCountUpdate(DRC,document);
+                        MaxMinThisTestCountUpdate(DRC,document);
 
                         dataTest.put("this_test_count", ctt);
 
@@ -672,7 +562,7 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Log.d(TAG, "DocumentSnapshot successfully written!");
-                                        Toasty.showText(getApplicationContext(), "Glucose TEST IS ADD...",Toasty.SUCCESS, Toast.LENGTH_SHORT);
+                                        // Toasty.showText(getApplicationContext(), "Glucose TEST IS ADD...",Toasty.SUCCESS, Toast.LENGTH_SHORT);
 
                                     }
                                 })
@@ -699,7 +589,7 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
         } else {
             // No user is signed in
         }
-
+        Toasty.showText(getApplicationContext(),"successfully submit Glucose...",Toasty.SUCCESS,Toast.LENGTH_SHORT);
     }
 
     void MaxMinThisTestCountSet()
@@ -733,9 +623,6 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
                     Mp.put("max_glucose",Float.MIN_VALUE);
                     Mp.put("min_glucose",Float.MAX_VALUE);
                     first = true;
-                  /*  Mp.put("total", 0);
-                    Mp.put("max_level",Float.MIN_VALUE);
-                    Mp.put("min_min", Float.MAX_VALUE);;*/
 
                     DRC.set(Mp)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -756,9 +643,7 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
                     Min = Float.parseFloat(document.get("min_glucose").toString());
                     ctt = Integer.parseInt(document.get("count").toString());
                     latest = Float.parseFloat(document.get("latest").toString());
-                  //  cttt = Integer.parseInt(document.get("total").toString());
-                  //  MaxL = Float.parseFloat(document.get("max_level").toString());
-                  //  MinL = Float.parseFloat(document.get("min_level").toString());
+
                     first =false;
                     addTest();
                 }
@@ -772,11 +657,7 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
         Min = Float.parseFloat(document.get("min_glucose").toString());
         ctt = Integer.parseInt(document.get("count").toString());
         latest = Float.parseFloat(glucose.getText().toString());
-        //
-        /*cttt = Integer.parseInt(document.get("total").toString());
-        MaxL = Float.parseFloat(document.get("max_level").toString());
-        MinL = Float.parseFloat(document.get("min_level").toString());
-       //*/
+
         DRC.update("count", ++ctt)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -791,21 +672,7 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
                     }
                 });
 
-        //
-        /*DRC.update("total", ++cttt)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
 
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });*/
-        //
         if (Float.parseFloat(glucose.getText().toString()) > Max) {
             Max = Float.parseFloat(glucose.getText().toString());
         }
@@ -891,6 +758,7 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
                     .document("count");
 
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @SuppressLint("LongLogTag")
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
@@ -914,8 +782,6 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
 
         MaxMinThisTestCountSet();
     }
-
-
     @Override
     protected void onStart()
     {
@@ -924,5 +790,4 @@ public class PatientAddGlucoseTestActivity extends AppCompatActivity implements 
         DrawerUtil.getPatientDrawer(this, 9);
 
     }
-
 }
