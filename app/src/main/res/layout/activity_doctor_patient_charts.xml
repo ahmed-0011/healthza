@@ -16,6 +16,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <ProgressBar
+        android:id="@+id/chartProgressBar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:elevation="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/lineChart"
+        app:layout_constraintEnd_toEndOf="@id/lineChart"
+        app:layout_constraintStart_toStartOf="@id/lineChart"
+        app:layout_constraintTop_toTopOf="@id/lineChart"
+        tools:visibility="visible" />
+
     <View
         android:id="@+id/chartSeperatorView"
         android:layout_width="match_parent"

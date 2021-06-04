@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.project.cdh.DrawerUtil;
@@ -37,6 +38,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
+import com.project.cdh.models.Doctor;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -120,9 +122,12 @@ public class DoctorHomeActivity extends AppCompatActivity
                 else if (i == R.id.chatItem)
                     intent = new Intent(DoctorHomeActivity.this, DoctorChatListActivity.class);
 
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                if(intent != null)
+                {
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
             }
         });
     }
@@ -130,23 +135,61 @@ public class DoctorHomeActivity extends AppCompatActivity
 
     private void setupCardViews()
     {
+        setupDoctorInfoCardView();
         setupNextThreeAppointmentsCardViews();
     }
 
 
+    private void setupDoctorInfoCardView()
+    {
+        TextView doctorNameTextView, doctorSpecialityTextView, doctorWorkplaceTextView;
+
+        doctorNameTextView = findViewById(R.id.doctorNameTextView);
+        doctorSpecialityTextView = findViewById(R.id.doctorSpecialityTextView);
+        doctorWorkplaceTextView = findViewById(R.id.doctorWorkplaceTextView);
+
+
+        db
+                .collection("doctors")
+                .document(doctorId)
+                .get()
+                .addOnSuccessListener(doctorDocument ->
+                {
+
+                    if(doctorDocument.exists())
+                    {
+                        Doctor doctor = doctorDocument.toObject(Doctor.class);
+
+                        String doctorName = doctor.getName();
+                        String doctorSpeciality = doctor.getSpeciality();
+                        String doctorWorkplace = doctor.getWorkplace();
+
+                        doctorNameTextView.append(doctorName);
+                        doctorSpecialityTextView.append(doctorSpeciality);
+                        doctorWorkplaceTextView.append(doctorWorkplace);
+                    }
+                });
+    }
+
 
     private void setupNextThreeAppointmentsCardViews()
     {
-        ConstraintLayout firstAppointmentLayout, secondAppointmentLayout, thirdAppointmentLayout;
+        ConstraintLayout firstAppointmentLayout, secondAppointmentLayout, thirdAppointmentLayout,
+                         fourthAppointmentLayout, fifthAppointmentLayout;
 
         TextView firstPatientNameTextView, firstAppointmentTypeTextView, firstAppointmentTimeTextView,
-                secondPatientNameTextView, secondAppointmentTypeTextView, secondAppointmentTimeTextView,
-                thirdPatientNameTextView, thirdAppointmentTypeTextView,  thirdAppointmentTimeTextView;
+                 secondPatientNameTextView, secondAppointmentTypeTextView, secondAppointmentTimeTextView,
+                 thirdPatientNameTextView, thirdAppointmentTypeTextView,  thirdAppointmentTimeTextView,
+                 fourthPatientNameTextView, fourthAppointmentTypeTextView, fourthAppointmentTimeTextView,
+                 fifthPatientNameTextView, fifthAppointmentTypeTextView, fifthAppointmentTimeTextView,
+                 noAppointmentsAvailableTextView;
 
 
         firstAppointmentLayout = findViewById(R.id.firstAppointmentLayout);
         secondAppointmentLayout = findViewById(R.id.secondAppointmentLayout);
         thirdAppointmentLayout = findViewById(R.id.thirdAppointmentLayout);
+        fourthAppointmentLayout = findViewById(R.id.fourthAppointmentLayout);
+        fifthAppointmentLayout = findViewById(R.id.fifthAppointmentLayout);
 
         firstAppointmentTypeTextView = findViewById(R.id.firstAppointmentTypeTextView);
         firstPatientNameTextView = findViewById(R.id.firstPatientNameTextView);
@@ -157,6 +200,14 @@ public class DoctorHomeActivity extends AppCompatActivity
         thirdAppointmentTypeTextView = findViewById(R.id.thirdAppointmentTypeTextView);
         thirdPatientNameTextView = findViewById(R.id.thirdPatientNameTextView);
         thirdAppointmentTimeTextView = findViewById(R.id.thirdAppointmentTimeTextView);
+        fourthAppointmentTypeTextView = findViewById(R.id.fourthAppointmentTypeTextView);
+        fourthPatientNameTextView = findViewById(R.id.fourthPatientNameTextView);
+        fourthAppointmentTimeTextView = findViewById(R.id.fourthAppointmentTimeTextView);
+        fifthAppointmentTypeTextView = findViewById(R.id.fifthAppointmentTypeTextView);
+        fifthPatientNameTextView = findViewById(R.id.fifthPatientNameTextView);
+        fifthAppointmentTimeTextView = findViewById(R.id.fifthAppointmentTimeTextView);
+
+        noAppointmentsAvailableTextView = findViewById(R.id.noAppointmentsAvailableTextView);
 
         db
                 .collection("doctors")
@@ -200,8 +251,24 @@ public class DoctorHomeActivity extends AppCompatActivity
                         thirdAppointmentTimeTextView.setText(simpleDateFormat.format(timestamp.toDate()));
                         thirdAppointmentLayout.setVisibility(View.VISIBLE);
                     }
+                    else if(i == 2)
+                    {
+                        fourthPatientNameTextView.setText(patientName);
+                        fourthAppointmentTypeTextView.setText(appointmentType);
+                        fourthAppointmentTimeTextView.setText(simpleDateFormat.format(timestamp.toDate()));
+                        fourthAppointmentLayout.setVisibility(View.VISIBLE);
+                    }
+                    else if(i == 2)
+                    {
+                        fifthPatientNameTextView.setText(patientName);
+                        fifthAppointmentTypeTextView.setText(appointmentType);
+                        fifthAppointmentTimeTextView.setText(simpleDateFormat.format(timestamp.toDate()));
+                        fifthAppointmentLayout.setVisibility(View.VISIBLE);
+                    }
                 }
             }
+            else
+                noAppointmentsAvailableTextView.setVisibility(View.VISIBLE);
         });
     }
 

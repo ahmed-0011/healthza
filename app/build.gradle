@@ -37,8 +37,6 @@ buildscript {
 }
 
 
-
-
 dependencies {
 
     //noinspection GradleCompatible

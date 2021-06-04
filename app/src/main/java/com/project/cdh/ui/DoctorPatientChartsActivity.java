@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
@@ -57,6 +58,7 @@ import java.util.concurrent.TimeUnit;
 
 public class DoctorPatientChartsActivity extends AppCompatActivity
 {
+    private ProgressBar chartProgressBar;
     private LineChart chart;
     private CheckBox glucoseCheckBox, bloodPressureCheckBox, hdlCheckBox, ldlCheckBox,
             triglycerideCheckBox, totalCholesterolCheckBox;
@@ -223,9 +225,13 @@ public class DoctorPatientChartsActivity extends AppCompatActivity
                 .orderBy("timestamp")
                 .get().addOnSuccessListener(glucoseDocuments ->
         {
+
             ProgressDialog progressDialog = new ProgressDialog(this);
+
             if (selectState == PICKER)
                 progressDialog.showProgressDialog("Displaying Data...");
+            else if(selectState == DAYS_SLIDER)
+                chartProgressBar.setVisibility(View.VISIBLE);
 
             for (DocumentSnapshot glucoseDocument : glucoseDocuments.getDocuments())
             {
@@ -440,6 +446,8 @@ public class DoctorPatientChartsActivity extends AppCompatActivity
 
                     if (selectState == PICKER)
                         progressDialog.dismissProgressDialog();
+                    else if(selectState == DAYS_SLIDER)
+                        chartProgressBar.setVisibility(View.GONE);
 
                     pickDateFloatingActionButton.setEnabled(true);
                 });

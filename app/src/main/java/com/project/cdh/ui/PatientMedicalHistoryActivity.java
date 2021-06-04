@@ -36,6 +36,7 @@ import com.applandeo.materialcalendarview.CalendarWeekDay;
 import com.applandeo.materialcalendarview.DatePicker;
 import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
+import com.project.cdh.DrawerUtil;
 import com.project.cdh.R;
 import com.project.cdh.Toasty;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -106,6 +107,8 @@ public class PatientMedicalHistoryActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_medical_history);
+
+        DrawerUtil.getPatientDrawer(this, -1);
 
         sd=Long.parseLong("-1");
         ed=Long.parseLong("-1");

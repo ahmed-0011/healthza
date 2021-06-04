@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.project.cdh.R;
 import com.project.cdh.Toasty;
 import com.project.cdh.adapters.DoctorAppointmentAdapter;
@@ -46,11 +48,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class DoctorAppointmentsActivity extends AppCompatActivity {
+public class DoctorAppointmentsActivity extends AppCompatActivity
+{
 
     List<Map<String, Object>> NEW;
     List<Map<String, Object>> EXPIERD;
     DoctorAppointmentAdapter adp;
+
+    private ChipNavigationBar chipNavigationBar;
 
     FirebaseFirestore db;
     FirebaseAuth firebaseAuth;
@@ -91,6 +96,10 @@ public class DoctorAppointmentsActivity extends AppCompatActivity {
         bn1=true;
         bn2=true;
         mod = true;
+
+        chipNavigationBar = findViewById(R.id.bottomNavigationBar);
+
+        setupBottomNavigationBar();
 
         tb1 = findViewById(R.id.idf);
         child1 = tb1.getChildCount();
@@ -172,6 +181,39 @@ public class DoctorAppointmentsActivity extends AppCompatActivity {
                 getData();*/
                 setDateRange(sd,ed);
                 return;
+            }
+        });
+    }
+
+
+    private void setupBottomNavigationBar()
+    {
+        chipNavigationBar.setItemSelected(R.id.appointmentsItem, true);
+
+        chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(int i)
+            {
+
+                Intent intent = null;
+
+                if (i == R.id.appointmentsItem)
+                    return;
+                else if (i == R.id.homeItem)
+                    intent = new Intent(DoctorAppointmentsActivity.this, DoctorHomeActivity.class);
+                else if (i == R.id.patientsItem)
+                    intent = new Intent(DoctorAppointmentsActivity.this, PatientListActivity.class);
+                else if (i == R.id.chatItem)
+                    intent = new Intent(DoctorAppointmentsActivity.this, DoctorChatListActivity.class);
+
+
+                if(intent != null)
+                {
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
             }
         });
     }
@@ -917,4 +959,12 @@ public class DoctorAppointmentsActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(this, DoctorHomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    }
 }

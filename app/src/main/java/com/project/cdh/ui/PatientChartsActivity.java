@@ -18,6 +18,7 @@ import com.applandeo.materialcalendarview.DatePicker;
 import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
 import com.project.cdh.DetailsMarkerView;
+import com.project.cdh.DrawerUtil;
 import com.project.cdh.ProgressDialog;
 import com.project.cdh.R;
 import com.project.cdh.StickHeaderItemDecoration;
@@ -87,6 +88,8 @@ public class PatientChartsActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_charts);
+
+        DrawerUtil.getPatientDrawer(this, -1);
 
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.project.cdh.R;
 import com.project.cdh.adapters.ChatAdapter;
 import com.project.cdh.models.Chat;
@@ -42,6 +43,7 @@ public class DoctorChatListActivity extends AppCompatActivity implements ChatAda
     private Set<String> chatsIds;
     private String doctorId;
     private FloatingActionButton addChatFloatingActionButton;
+    private ChipNavigationBar chipNavigationBar;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore db;
 
@@ -57,6 +59,10 @@ public class DoctorChatListActivity extends AppCompatActivity implements ChatAda
         emptyChatListimageView = findViewById(R.id.emptyChatListimageView);
         emptyChatListTextView = findViewById(R.id.emptyChatListTextView);
         addChatFloatingActionButton = findViewById(R.id.addChatFloatingActionButton);
+        chipNavigationBar = findViewById(R.id.bottomNavigationBar);
+
+        setupBottomNavigationBar();
+
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         doctorId = firebaseAuth.getCurrentUser().getUid();
@@ -69,9 +75,42 @@ public class DoctorChatListActivity extends AppCompatActivity implements ChatAda
         chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         chatRecyclerView.setAdapter(chatAdapter);
 
-        addChatFloatingActionButton.setOnClickListener(v ->
-                addNewChat() );
+        addChatFloatingActionButton.setOnClickListener(v -> addNewChat() );
     }
+
+
+    private void setupBottomNavigationBar()
+    {
+        chipNavigationBar.setItemSelected(R.id.chatItem, true);
+
+        chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(int i)
+            {
+
+                Intent intent = null;
+
+                if (i == R.id.chatItem)
+                    return;
+                else if (i == R.id.homeItem)
+                    intent = new Intent(DoctorChatListActivity.this, DoctorHomeActivity.class);
+                else if (i == R.id.patientsItem)
+                    intent = new Intent(DoctorChatListActivity.this, PatientListActivity.class);
+                else if (i == R.id.appointmentsItem)
+                    intent = new Intent(DoctorChatListActivity.this, DoctorAppointmentsActivity.class);
+
+
+                if(intent != null)
+                {
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
+            }
+        });
+    }
+
 
     private void getChats()
     {
@@ -193,5 +232,15 @@ public class DoctorChatListActivity extends AppCompatActivity implements ChatAda
             emptyChatListTextView.setVisibility(View.VISIBLE);
             emptyChatListimageView.setVisibility(View.VISIBLE);
         }
+    }
+
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(this, DoctorHomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

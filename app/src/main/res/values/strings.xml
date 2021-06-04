@@ -263,4 +263,6 @@
     <string name="inherited">inherited</string>
     <string name="no_data_available">No Data Available...</string>
     <string name="patient_relatives">Patient Relatives</string>
+    <string name="next_five_appointments">Next Five Appointments</string>
+    <string name="doctor_info">Doctor Info</string>
 </resources>

@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.project.cdh.DrawerUtil;
 import com.project.cdh.R;
 import com.project.cdh.Toasty;
 import com.project.cdh.adapters.PatientAppointmentAdapter;
@@ -90,6 +91,8 @@ public class PatientAppointmentsActivity extends AppCompatActivity
         getData();
 
         setContentView(R.layout.activity_patient_appointments);
+
+        DrawerUtil.getPatientDrawer(this, -1);
 
         stu = true;
         bn1=true;
@@ -201,8 +204,8 @@ public class PatientAppointmentsActivity extends AppCompatActivity
                     return;
                 else if (i == R.id.homeItem)
                     intent = new Intent(PatientAppointmentsActivity.this, PatientHomeActivity.class);
-               // else if (i == R.id.medicalHistoryItem)
-                    //intent = new Intent(PatientAppointmentsActivity.this, patientMedicalRecords.class);
+               else if (i == R.id.medicalHistoryItem)
+                   intent = new Intent(PatientAppointmentsActivity.this, PatientMedicalHistoryActivity.class);
                 else if (i == R.id.chartsItem)
                     intent = new Intent(PatientAppointmentsActivity.this, PatientChartsActivity.class);
                 else if (i == R.id.chatItem)
@@ -217,7 +220,6 @@ public class PatientAppointmentsActivity extends AppCompatActivity
             }
         });
     }
-
 
 
     private void setDateRange(long x,long y)

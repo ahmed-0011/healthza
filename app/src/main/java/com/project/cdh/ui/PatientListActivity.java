@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.project.cdh.R;
 import com.project.cdh.Toasty;
 import com.project.cdh.adapters.PatientAdapter;
@@ -37,7 +38,7 @@ import java.util.Map;
 
 public class PatientListActivity extends AppCompatActivity implements PatientAdapter.OnPatientItemClickListener
 {
-
+    private ChipNavigationBar chipNavigationBar;
     private ImageView emptyPatientListImageView;
     private TextView emptyPatientListTextView;
     private SearchView patientsSearchView;
@@ -57,16 +58,50 @@ public class PatientListActivity extends AppCompatActivity implements PatientAda
         emptyPatientListImageView = findViewById(R.id.emptyPatientListImageView);
         emptyPatientListTextView = findViewById(R.id.emptyPatientListTextView);
         patientsSearchView = findViewById(R.id.patientsSearchView);
+
+        chipNavigationBar = findViewById(R.id.bottomNavigationBar);
+
+        setupBottomNavigationBar();
+
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         doctorId = firebaseAuth.getCurrentUser().getUid();
-
-       // DrawerUtil.getDoctorDrawer(this, 3);
 
         patients = new ArrayList<>();
         patientsRecyclerView = findViewById(R.id.patientsRecyclerView);
 
         setupPatientsRecyclerView();
+    }
+
+
+    private void setupBottomNavigationBar()
+    {
+        chipNavigationBar.setItemSelected(R.id.patientsItem, true);
+
+        chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(int i)
+            {
+                Intent intent = null;
+
+                if (i == R.id.patientsItem)
+                    return;
+                else if (i == R.id.homeItem)
+                    intent = new Intent(PatientListActivity.this, DoctorHomeActivity.class);
+                else if (i == R.id.appointmentsItem)
+                    intent = new Intent(PatientListActivity.this, DoctorAppointmentsActivity.class);
+                else if (i == R.id.chatItem)
+                    intent = new Intent(PatientListActivity.this, DoctorChatListActivity.class);
+
+                if (intent != null)
+                {
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
+            }
+        });
     }
 
 
@@ -257,5 +292,14 @@ public class PatientListActivity extends AppCompatActivity implements PatientAda
                 Toasty.showText(this, "Something went wrong...", Toasty.ERROR
                         , Toast.LENGTH_LONG);
         });
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(this, DoctorHomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

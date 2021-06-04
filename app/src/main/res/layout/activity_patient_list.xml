@@ -5,32 +5,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
-    android:padding="6dp"
     tools:context=".ui.PatientListActivity">
 
-    <SearchView
-        android:id="@+id/patientsSearchView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/search_background"
-        android:iconifiedByDefault="false"
-        android:queryHint="@string/patient_name_or_id_or_phone_number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/patientsRecyclerView"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/rounded_recyclerview"
         android:padding="4dp"
-        app:layout_constraintTop_toBottomOf="@id/patientsSearchView"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:itemCount="4"
-        tools:listitem="@layout/list_item_patient" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <SearchView
+            android:id="@+id/patientsSearchView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_background"
+            android:iconifiedByDefault="false"
+            android:queryHint="@string/patient_name_or_id_or_phone_number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/patientsRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/rounded_recyclerview"
+            android:padding="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/patientsSearchView"
+            tools:itemCount="4"
+            tools:listitem="@layout/list_item_patient" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/emptyPatientListImageView"
@@ -55,5 +66,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emptyPatientListImageView" />
+
+    <com.ismaeldivita.chipnavigation.ChipNavigationBar
+        android:id="@+id/bottomNavigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bottom_navigation_background"
+        android:paddingVertical="6dp"
+        app:cnb_menuResource="@menu/bottom_menu_doctor"
+        app:cnb_orientationMode="horizontal"
+        app:cnb_unselectedColor="@color/txt_black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
