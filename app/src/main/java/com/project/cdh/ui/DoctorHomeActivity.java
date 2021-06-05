@@ -86,19 +86,6 @@ public class DoctorHomeActivity extends AppCompatActivity
         else
             setupCardViews();
 
-        ChipNavigationBar chipNavigationBar = findViewById(R.id.bottomNavigationBar);
-
-
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.header_drawer, null);
-
-        TextView nameTextView = view.findViewById(R.id.nameTextView);
-        TextView emailTextView = view.findViewById(R.id.emailTextView);
-
-        nameTextView.setText(firebaseAuth.getCurrentUser().getDisplayName());
-        emailTextView.setText(firebaseAuth.getCurrentUser().getEmail());
-        DrawerUtil.headerView = view;
-        DrawerUtil.getDoctorDrawer(this, -1);
     }
 
 
@@ -516,5 +503,23 @@ public class DoctorHomeActivity extends AppCompatActivity
             @Override
             public void afterTextChanged(Editable s) { }
         });
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.header_drawer, null);
+
+        TextView nameTextView = view.findViewById(R.id.nameTextView);
+        TextView emailTextView = view.findViewById(R.id.emailTextView);
+
+        nameTextView.setText(firebaseAuth.getCurrentUser().getDisplayName());
+        emailTextView.setText(firebaseAuth.getCurrentUser().getEmail());
+        DrawerUtil.headerView = view;
+        DrawerUtil.getDoctorDrawer(this, -1);
     }
 }
