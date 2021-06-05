@@ -76,15 +76,12 @@ public class ChatMessagesActivity extends AppCompatActivity
         setChatName();
         initChatRecyclerView();
 
-        sendNewMessageImageButton.setOnClickListener(v ->
-        {
-            sendNewMessage();
-        });
+        sendNewMessageImageButton.setOnClickListener(v -> sendNewMessage());
     }
 
     private void initChatRecyclerView()
     {
-        chatMessageAdapter = new MessageAdapter(this,messages, userId);
+        chatMessageAdapter = new MessageAdapter(this, messages, userId);
         chatMessageRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         chatMessageRecyclerView.setAdapter(chatMessageAdapter);
 

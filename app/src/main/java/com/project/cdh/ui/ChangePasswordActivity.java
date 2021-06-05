@@ -47,11 +47,7 @@ public class ChangePasswordActivity extends AppCompatActivity
         db = FirebaseFirestore.getInstance();
 
 
-        changePasswordButton.setOnClickListener(v ->
-        {
-            changePassword();
-        });
-
+        changePasswordButton.setOnClickListener(v -> changePassword());
     }
 
     private boolean isValidPassword(String password) {
