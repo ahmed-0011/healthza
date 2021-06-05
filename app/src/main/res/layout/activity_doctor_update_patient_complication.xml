@@ -327,6 +327,7 @@
             android:fontFamily="@font/bubblegum_sans"
             android:text="@string/update_complication"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+            android:textColor="@color/colorPrimary"
             android:textSize="40sp"
             app:drawableEndCompat="@drawable/updates"
             app:layout_constraintBottom_toTopOf="@+id/divider"

@@ -178,6 +178,7 @@
         android:fontFamily="@font/bubblegum_sans"
         android:text="Assign Medicines"
         android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textColor="@color/colorPrimary"
         android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@+id/divider2"
         app:layout_constraintEnd_toEndOf="parent"

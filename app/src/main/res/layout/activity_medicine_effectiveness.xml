@@ -88,7 +88,7 @@
                             android:gravity="center"
                             android:text="Medicine Effectiveness on Glucose(mg\\dl)"
                             android:textAlignment="center"
-                            android:textColor="#7E6D6D"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="12sp"
                             android:textStyle="bold" />
 

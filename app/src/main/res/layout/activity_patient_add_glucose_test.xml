@@ -138,7 +138,7 @@
             android:fontFamily="@font/bubblegum_sans"
             android:text="@string/glucose_test"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-            android:textColor="#81D4FA"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"

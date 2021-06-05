@@ -244,7 +244,7 @@
             android:fontFamily="@font/bubblegum_sans"
             android:text="Liver Test"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-            android:textColor="#81D4FA"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toTopOf="@+id/divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

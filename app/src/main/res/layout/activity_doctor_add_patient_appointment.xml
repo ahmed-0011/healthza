@@ -237,7 +237,7 @@
             android:fontFamily="@font/bubblegum_sans"
             android:text="Assign Appointment"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-            android:textColor="#81D4FA"
+            android:textColor="@color/colorPrimary"
             android:textSize="40sp"
             app:drawableEndCompat="@android:drawable/ic_menu_my_calendar"
             app:layout_constraintBottom_toTopOf="@+id/divider"

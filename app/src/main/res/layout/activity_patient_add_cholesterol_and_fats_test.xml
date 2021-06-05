@@ -247,7 +247,7 @@
             android:fontFamily="@font/bubblegum_sans"
             android:text="@string/cholesterol_and_fats_test"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-            android:textColor="#81D4FA"
+            android:textColor="@color/colorPrimary"
             android:textSize="40sp"
             app:layout_constraintBottom_toTopOf="@+id/divider"
             app:layout_constraintEnd_toEndOf="parent"

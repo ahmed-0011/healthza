@@ -137,7 +137,7 @@
             android:fontFamily="@font/bubblegum_sans"
             android:text="@string/f_b_s_test"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-            android:textColor="#81D4FA"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toTopOf="@+id/divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

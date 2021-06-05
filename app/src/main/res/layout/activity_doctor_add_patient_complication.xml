@@ -252,6 +252,7 @@
             android:fontFamily="@font/bubblegum_sans"
             android:text="@string/add_complication"
             android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+            android:textColor="@color/colorPrimary"
             android:textSize="40sp"
             app:drawableEndCompat="@drawable/complications"
             app:layout_constraintBottom_toTopOf="@+id/divider2"
