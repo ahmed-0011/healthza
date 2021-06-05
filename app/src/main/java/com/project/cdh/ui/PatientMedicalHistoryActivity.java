@@ -108,7 +108,6 @@ public class PatientMedicalHistoryActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_medical_history);
 
-        DrawerUtil.getPatientDrawer(this, -1);
 
         sd=Long.parseLong("-1");
         ed=Long.parseLong("-1");
@@ -2124,5 +2123,14 @@ public class PatientMedicalHistoryActivity extends AppCompatActivity
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        DrawerUtil.getPatientDrawer(this, -1);
     }
 }

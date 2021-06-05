@@ -230,7 +230,7 @@ public class DoctorAddPatientMedicinesActivity extends AppCompatActivity impleme
 
         if(index == -1)
         {
-            Toasty.showText(getApplicationContext(),"This Medicine does not exist",Toasty.WARNING,Toast.LENGTH_SHORT);
+            Toasty.showText(getApplicationContext(),"This medicine does not exist",Toasty.WARNING,Toast.LENGTH_SHORT);
             return;
         }
 

@@ -39,7 +39,7 @@
     <string name="friday">Fri</string>
     <string name="sex_text">Sex:</string>
     <string name="you_are_text">You are:</string>
-    <string name="birth_date_text">Date birth:</string>
+    <string name="birth_date">Date birth:</string>
     <string name="select_text">Select</string>
     <string name="male_text">Male</string>
     <string name="female_text">Female</string>
@@ -193,7 +193,7 @@
     <string name="profile">Profile</string>
     <string name="accept">Accept</string>
     <string name="doctor_name">"Doctor Name: "</string>
-    <string name="add_patient">Add patient</string>
+    <string name="new_patient">New patient</string>
     <string name="request_date">request date:</string>
     <string name="remove">Remove</string>
     <string name="request_status">"Request status: "</string>

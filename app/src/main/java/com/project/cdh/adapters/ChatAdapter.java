@@ -25,13 +25,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>
     private final List<Chat> chats;
     private final OnChatItemClickListener onChatItemClickListener;
     private final FirebaseFirestore db;
+    private final String userId;
 
-    public ChatAdapter(Context context, List<Chat> chats, FirebaseFirestore db, OnChatItemClickListener onChatItemClickListener)
+    public ChatAdapter(Context context, List<Chat> chats, FirebaseFirestore db, String userId,OnChatItemClickListener onChatItemClickListener)
     {
         this.context = context;
         this.chats = chats;
         this.onChatItemClickListener = onChatItemClickListener;
         this.db = db;
+        this.userId = userId;
     }
 
     public interface OnChatItemClickListener
@@ -110,7 +112,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>
                         latestMessageTimeStampTextViewTextView.setText(simpleDateFormat.format(timestamp.toDate()));
                     }
                 });
-        nameTextView.setText(chat.getDoctorName());
+
+        if(userId.equals(chat.getPatientId()))
+            nameTextView.setText(chat.getDoctorName());
+        else
+            nameTextView.setText(chat.getPatientName());
+
     }
 
     @Override

@@ -32,6 +32,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
+import com.project.cdh.DrawerUtil;
 import com.project.cdh.R;
 import com.project.cdh.Toasty;
 import com.project.cdh.models.Patient;
@@ -430,7 +431,7 @@ public class DoctorAddPatientAppointmentActivity extends AppCompatActivity imple
 
         if(Stamp.isEmpty())
         {
-            Toasty.showText(getApplicationContext(),"Pales Set Time And Date to Appoitmenta",Toasty.WARNING,Toast.LENGTH_LONG);
+            Toasty.showText(getApplicationContext(),"Please Set Time And Date to Appoitmenta",Toasty.WARNING,Toast.LENGTH_LONG);
             return;
         }
 
@@ -699,5 +700,14 @@ public class DoctorAddPatientAppointmentActivity extends AppCompatActivity imple
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         //  Log.i(COMMON_TAG,"MainActivity onSaveInstanceState");
+    }
+
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+
+        DrawerUtil.getDoctorDrawer(this, 4);
     }
 }

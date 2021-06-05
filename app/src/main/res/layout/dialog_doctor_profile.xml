@@ -8,154 +8,174 @@
     android:scrollbarFadeDuration="0"
     android:scrollbarThumbVertical="@color/colorAccent">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
-    android:paddingStart="8dp"
-    android:paddingTop="8dp"
-    android:paddingBottom="44dp">
-
-    <TextView
-        android:id="@+id/doctorEmailTitleTextView"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:padding="3dp"
-        android:text="@string/email"
-        android:textColor="@color/hint_color"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="10dp">
 
-    <TextView
-        android:id="@+id/doctorEmailTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:padding="3dp"
-        android:textColor="@color/colorAccent"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/doctorEmailTitleTextView"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/doctorEmailTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="3dp"
+            android:text="@string/email"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/doctorSexTitleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:padding="3dp"
-        android:text="@string/sex"
-        android:textColor="@color/hint_color"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/doctorEmailTextView" />
+        <TextView
+            android:id="@+id/doctorEmailTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="3dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/doctorEmailTitleTextView"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/doctorSexTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="3dp"
-        android:textColor="@color/colorAccent"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/doctorSexTitleTextView"
-        app:layout_constraintTop_toTopOf="@+id/doctorSexTitleTextView" />
+        <TextView
+            android:id="@+id/doctorSexTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="3dp"
+            android:text="@string/sex"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/doctorEmailTitleTextView" />
 
+        <TextView
+            android:id="@+id/doctorSexTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/doctorSexTitleTextView"
+            app:layout_constraintTop_toTopOf="@+id/doctorSexTitleTextView" />
 
-    <TextView
-        android:id="@+id/doctorSpecialityTitleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:padding="3dp"
-        android:text="@string/speciality"
-        android:textColor="@color/hint_color"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/doctorSexTextView" />
+        <TextView
+            android:id="@+id/doctorBirthDateTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="3dp"
+            android:text="@string/birth_date"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/doctorSexTitleTextView" />
 
-    <TextView
-        android:id="@+id/doctorSpecialityTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="3dp"
-        android:textColor="@color/colorAccent"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/doctorSpecialityTitleTextView"
-        app:layout_constraintTop_toTopOf="@+id/doctorSpecialityTitleTextView" />
+        <TextView
+            android:id="@+id/doctorBirthDateTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/doctorBirthDateTitleTextView"
+            app:layout_constraintTop_toTopOf="@+id/doctorBirthDateTitleTextView" />
 
-    <TextView
-        android:id="@+id/doctorYearsOfExperienceTitleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:padding="3dp"
-        android:text="@string/years_of_experience"
-        android:textColor="@color/hint_color"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/doctorSpecialityTitleTextView" />
+        <TextView
+            android:id="@+id/doctorSpecialityTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="3dp"
+            android:text="@string/speciality"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/doctorBirthDateTitleTextView" />
 
-    <TextView
-        android:id="@+id/doctorYearsOfExperienceTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="3dp"
-        android:textColor="@color/colorAccent"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/doctorYearsOfExperienceTitleTextView"
-        app:layout_constraintTop_toTopOf="@+id/doctorYearsOfExperienceTitleTextView" />
+        <TextView
+            android:id="@+id/doctorSpecialityTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/doctorSpecialityTitleTextView"
+            app:layout_constraintTop_toTopOf="@+id/doctorSpecialityTitleTextView" />
 
-    <TextView
-        android:id="@+id/doctorworkplaceTitleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:padding="3dp"
-        android:text="@string/workplace"
-        android:textColor="@color/hint_color"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/doctorYearsOfExperienceTitleTextView" />
+        <TextView
+            android:id="@+id/doctorYearsOfExperienceTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="3dp"
+            android:text="@string/years_of_experience"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/doctorSpecialityTitleTextView" />
 
-    <TextView
-        android:id="@+id/doctorworkplaceTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="3dp"
-        android:textColor="@color/colorAccent"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/doctorworkplaceTitleTextView"
-        app:layout_constraintTop_toTopOf="@+id/doctorworkplaceTitleTextView" />
+        <TextView
+            android:id="@+id/doctorYearsOfExperienceTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/doctorYearsOfExperienceTitleTextView"
+            app:layout_constraintTop_toTopOf="@+id/doctorYearsOfExperienceTitleTextView" />
 
-    <TextView
-        android:id="@+id/doctorWorkdaysTitleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:padding="3dp"
-        android:text="@string/workdays"
-        android:textColor="@color/hint_color"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/doctorworkplaceTextView" />
+        <TextView
+            android:id="@+id/doctorWorkplaceTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="3dp"
+            android:text="@string/workplace"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/doctorYearsOfExperienceTitleTextView" />
 
-    <TextView
-        android:id="@+id/doctorWorkdaysTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="3dp"
-        android:textColor="@color/colorAccent"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/doctorWorkdaysTitleTextView"
-        app:layout_constraintTop_toTopOf="@+id/doctorWorkdaysTitleTextView" />
+        <TextView
+            android:id="@+id/doctorWorkplaceTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/doctorWorkplaceTitleTextView"
+            app:layout_constraintTop_toTopOf="@+id/doctorWorkplaceTitleTextView" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/doctorWorkdaysTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="3dp"
+            android:text="@string/workdays"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/doctorWorkplaceTitleTextView" />
+
+        <TextView
+            android:id="@+id/doctorWorkdaysTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/doctorWorkdaysTitleTextView"
+            app:layout_constraintTop_toTopOf="@+id/doctorWorkdaysTitleTextView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

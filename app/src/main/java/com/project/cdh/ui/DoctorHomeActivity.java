@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -22,8 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.project.cdh.DrawerUtil;
 import com.project.cdh.ProgressDialog;
 import com.project.cdh.R;
@@ -45,15 +42,12 @@ import com.project.cdh.models.Doctor;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static com.project.cdh.ui.Functions.TAG_CT;
 
 public class DoctorHomeActivity extends AppCompatActivity
 {
@@ -82,7 +76,7 @@ public class DoctorHomeActivity extends AppCompatActivity
         db = FirebaseFirestore.getInstance();
         doctorId = firebaseAuth.getCurrentUser().getUid();
         doctorName = firebaseAuth.getCurrentUser().getDisplayName();
-        //addMed();
+
         SharedPreferences sharedPreferences = getSharedPreferences("User", MODE_PRIVATE);
 
         boolean userCompleteinfo = sharedPreferences.getBoolean("user_complete_info", false);
@@ -523,82 +517,4 @@ public class DoctorHomeActivity extends AppCompatActivity
             public void afterTextChanged(Editable s) { }
         });
     }
-
-   /*  void addMed()
-    {
-        String medicines_drugs[] = new String[]
-                {
-                        "Acarbose",
-                        "Albiglutide (Tanzeum)",
-                        "Alogliptin (Nesina)",
-                        "Alogliptin-metformin (Kazano)",
-                        "Alogliptin-pioglitazone (Oseni)",
-                        "Bromocriptine mesylate (Cycloset, Parlodel)",
-                        "Canaglifozin (Invokana)",
-                        "Canagliflozin-metformin (Invokamet)",
-                        "Dapagliflozin (Farxiga)",
-                        "Dapagliflozin-metformin (Xigduo XR)",
-                        "Dulaglutide (Trulicity)",
-                        "Empagliflozin (Jardiance)",
-                        "Empagliflozin-linagliptin (Glyxambi)",
-                        "Empagliflozin-metformin (Synjardy)",
-                        "Ertugliflozin (Steglatro)",
-                        "Ertugliflozin-metformin (Segluromet)",
-                        "Ertugliflozin-sitagliptin (Steglujan)",
-                        "Exenatide (Byetta)",
-                        "Exenatide ER (Bydureon)",
-                        "Glimepiride (Amaryl)",
-                        "Glipizide (Glucotrol)",
-                        "Glipizide-metformin (Metaglip)",
-                        "Glyburide (DiaBeta, Glynase)",
-                        "Glyburide-metformin (Glucovance)",
-                        "Insulin aspart (Fiasp, NovoLog)",
-                        "Insulin degludec (Tresiba)",
-                        "Insulin glargine (Basaglar, Lantus, Toujeo)",
-                        "Insulin inhaled (Afrezza)",
-                        "Insulin Isophane (Humulin N, Novolin N)",
-                        "Insulin Isophane/regular insulin (Humulin 70/30, Novolin 70/30)",
-                        "Insulin lispro (Humalog)",
-                        "Linagliptin (Tradjenta)",
-                        "Lixisenatide (Adlyxin)",
-                        "Liraglutide (Victoza)",
-                        "Metformin (Glucophage)",
-                        "Miglitol (Glyset)",
-                        "Nateglinide (Starlix)",
-                        "Pioglitazone (Actos)",
-                        "Pioglitazone-metformin (ACTOplus met)",
-                        "Pramlintide (Symlin)",
-                        "Repaglinide (Prandin)",
-                        "Repaglinide (PrandiMet)",
-                        "Rosiglitazone (Avandia)",
-                        "Rosiglitazone-glimepiride (Avandaryl)",
-                        "Rosiglitazone-metformin (Avandamet)",
-                        "Saxagliptin (Onglyza)",
-                        "Semaglutide (Ozempic)",
-                        "Sitagliptin (Januvia)",
-                        "Sitagliptin-metformin (Janumet, Jentadueto)"
-                };
-
-        List<String> list1 = new ArrayList<String>();
-        Collections.addAll(list1, medicines_drugs);
-
-        Map<String, Object> medicines = new HashMap<>();
-        medicines.put("general",list1);
-
-        db.collection("medicines")
-                .document("medicinal_drugs")
-                .set(medicines)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG_CT, "DocumentSnapshot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG_CT, "Error writing document", e);
-                    }
-                });
-    }*/
 }

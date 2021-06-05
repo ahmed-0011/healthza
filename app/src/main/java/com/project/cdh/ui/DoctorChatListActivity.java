@@ -71,7 +71,7 @@ public class DoctorChatListActivity extends AppCompatActivity implements ChatAda
         chatsIds = new HashSet<>();
         chatRecyclerView = findViewById(R.id.chatRecyclerView);
 
-        chatAdapter = new ChatAdapter(this, chats,db, this);
+        chatAdapter = new ChatAdapter(this, chats, db, doctorId, this);
         chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         chatRecyclerView.setAdapter(chatAdapter);
 
@@ -116,7 +116,7 @@ public class DoctorChatListActivity extends AppCompatActivity implements ChatAda
     {
         CollectionReference chatsRef = db.collection("chat");
 
-        chatEventListener = chatsRef.whereEqualTo("doctorId",doctorId)
+        chatEventListener = chatsRef.whereEqualTo("doctorId", doctorId)
                 .addSnapshotListener(new EventListener<QuerySnapshot>()
                 {
                     @Override

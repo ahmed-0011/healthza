@@ -22,6 +22,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.project.cdh.DrawerUtil;
 import com.project.cdh.R;
 import com.project.cdh.models.Patient;
 import com.google.firebase.auth.FirebaseAuth;
@@ -335,5 +336,13 @@ public class DoctorViewPatientsRelativesActivity extends AppCompatActivity imple
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
 
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+
+        DrawerUtil.getDoctorDrawer(this, 3);
     }
 }

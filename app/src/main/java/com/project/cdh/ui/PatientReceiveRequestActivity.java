@@ -158,11 +158,11 @@ public class PatientReceiveRequestActivity extends AppCompatActivity implements 
                                 receiveRequests.remove(position);
                                 receiveRequestAdapter.notifyItemRemoved(position);
 
-                                Toasty.showText(this, "add request from "
+                                Toasty.showText(this, "Add request from "
                                         + receiveRequest.getDoctorName() +
                                         " accepted successfully", Toasty.SUCCESS, Toast.LENGTH_LONG);
                             } else
-                                Toasty.showText(this, "something went wrong...", Toasty.ERROR,Toast.LENGTH_LONG);
+                                Toasty.showText(this, "Something went wrong...", Toasty.ERROR,Toast.LENGTH_LONG);
                         }
                     });
                 }

@@ -33,6 +33,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
+import com.project.cdh.DrawerUtil;
 import com.project.cdh.R;
 import com.project.cdh.models.Patient;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -567,6 +568,15 @@ public class DoctorAddPatientComplicationsActivity extends AppCompatActivity imp
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
+    }
+
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+
+        DrawerUtil.getDoctorDrawer(this, 6);
     }
 
 }

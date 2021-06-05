@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
+import com.project.cdh.DrawerUtil;
 import com.project.cdh.R;
 import com.project.cdh.Toasty;
 import com.project.cdh.adapters.PatientAdapter;
@@ -54,6 +55,7 @@ public class PatientListActivity extends AppCompatActivity implements PatientAda
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_list);
+
 
         emptyPatientListImageView = findViewById(R.id.emptyPatientListImageView);
         emptyPatientListTextView = findViewById(R.id.emptyPatientListTextView);
@@ -128,22 +130,23 @@ public class PatientListActivity extends AppCompatActivity implements PatientAda
                         patientAdapter = new PatientAdapter(this, patients, this);
                         patientsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
                         patientsRecyclerView.setAdapter(patientAdapter);
+
+
+                        patientsSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                            @Override
+                            public boolean onQueryTextSubmit(String query) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onQueryTextChange(String newText)
+                            {
+                                patientAdapter.getFilter().filter(patientsSearchView.getQuery().toString().trim());
+                                return true;
+                            }
+                        });
                     }
                 });
-
-        patientsSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText)
-            {
-                patientAdapter.getFilter().filter(patientsSearchView.getQuery().toString().trim());
-                return true;
-            }
-        });
     }
 
 
@@ -180,77 +183,59 @@ public class PatientListActivity extends AppCompatActivity implements PatientAda
 
         String patientId = patient.getPatientId();
 
-        DocumentReference patientRef = db.collection("patients")
-                .document(patientId);
+
 
         LayoutInflater inflater = LayoutInflater.from(this);
 
         View view = inflater.inflate(R.layout.dialog_patient_profile, null);
 
-        EditText patientEmailEditText = view.findViewById(R.id.patientEmailEditText);
-        EditText patientWeightEditText = view.findViewById(R.id.patientWeightEditText);
-        EditText patientHeightEditText = view.findViewById(R.id.patientHeightEditText);
-        RadioGroup patientSexRadioGroup = view.findViewById(R.id.patientSexRadioGroup);
-        Button saveButton = view.findViewById(R.id.saveButton);
 
-        patientRef.get()
+        TextView patientEmailTextView, patientSexTextView, patientIdentificationNumberTextView,
+                 patientPhoneNumberTextView, patientBirthDateTextView, patientWeightTextView,
+                 patientHeightTextView, patientBMITextView;
+
+        patientEmailTextView = view.findViewById(R.id.patientEmailTextView);
+
+        patientSexTextView = view.findViewById(R.id. patientSexTextView);
+        patientIdentificationNumberTextView = view.findViewById(R.id.patientIdentificationNumberTextView);
+        patientPhoneNumberTextView = view.findViewById(R.id.patientPhoneNumberTextView);
+        patientBirthDateTextView = view.findViewById(R.id.patientBirthDateTextView);
+        patientWeightTextView = view.findViewById(R.id.patientWeightTextView);
+        patientHeightTextView = view.findViewById(R.id.patientHeightTextView);
+        patientBMITextView = view.findViewById(R.id.patientBMITextView);
+
+        DocumentReference patientRef = db.collection("patients")
+                .document(patientId);
+
+
+        patientRef
+                .get()
                 .addOnSuccessListener(patientDocument ->
-        {
-
-            if(patientDocument.exists())
-            {
-                Patient patient1 = patientDocument.toObject(Patient.class);
-
-                patientEmailEditText.setText(patient1.getEmail());
-                if(patient1.getSex().equals("male"))
-                    patientSexRadioGroup.check(R.id.maleRadioButton);
-                else
-                    patientSexRadioGroup.check(R.id.femaleRadioButton);
-                patientWeightEditText.setText(patient1.getWeight() + "");
-                patientHeightEditText.setText(patient1.getHeight() + "");
-
-
-                AlertDialog patientProfileDialog = new AlertDialog.Builder(this)
-                        .setView(view)
-                        .setTitle("Edit information for " + patient.getName())
-                        .create();
-
-                patientProfileDialog.show();
-
-                saveButton.setOnClickListener(v ->
                 {
-                    String sex;
-                    String email = patientEmailEditText.getText().toString().trim();
-                    String weightString = patientWeightEditText.getText().toString();
-                    String heightString = patientHeightEditText.getText().toString();
-                    if(patientSexRadioGroup.getCheckedRadioButtonId() == R.id.maleRadioButton)
-                        sex = "male";
-                    else
-                        sex = "female";
+                    if (patientDocument.exists())
+                    {
+                        Patient patient1 = patientDocument.toObject(Patient.class);
 
-                    double weight = Double.parseDouble(weightString);
-                    double height = Double.parseDouble(heightString);
-                    double bmi = weight / Math.pow(height, 2);
-                    BigDecimal bd = new BigDecimal(weight).setScale(2, RoundingMode.HALF_UP);
-                    weight = bd.doubleValue();
-                    bd = new BigDecimal(height).setScale(2, RoundingMode.HALF_UP);
-                    height = bd.doubleValue();
-                    bd = new BigDecimal(bmi).setScale(2, RoundingMode.HALF_UP);
-                    bmi = bd.doubleValue();
+                        patientEmailTextView.setText(patient1.getEmail());
+                        patientSexTextView.setText(patient1.getSex());
+                        patientIdentificationNumberTextView.setText(patient1.getIdentificationNumber());
+                        patientPhoneNumberTextView.setText(patient1.getPhoneNumber());
+                        patientBirthDateTextView.setText(patient1.getBirthDate());
+                        patientWeightTextView.setText(patient1.getWeight() + "");
+                        patientHeightTextView.setText(patient1.getHeight() + "");
+                        patientBMITextView.setText(patient1.getBmi() + "");
 
 
-                    Map<String, Object> patientInfo = new HashMap<>();
-                    patientInfo.put("email",email);
-                    patientInfo.put("sex", sex);
-                    patientInfo.put("weight", weight);
-                    patientInfo.put("height", height);
-                    patientInfo.put("bmi",bmi);
+                        AlertDialog patientProfileDialog = new AlertDialog.Builder(this)
+                                .setView(view)
+                                .setTitle("Information about " + patient.getName())
+                                .create();
 
-                    patientRef.update(patientInfo);
+                        patientProfileDialog.show();
+                    }
                 });
-            }
-        });
     }
+
 
     @Override
     public void onRemoveButtonClick(int position) {
@@ -301,5 +286,14 @@ public class PatientListActivity extends AppCompatActivity implements PatientAda
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        DrawerUtil.getDoctorDrawer(this, -1);
     }
 }

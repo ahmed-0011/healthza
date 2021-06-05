@@ -8,157 +8,201 @@
     android:scrollbarFadeDuration="0"
     android:scrollbarThumbVertical="@color/colorAccent">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:clickable="true"
-    android:focusable="true"
-    android:padding="10dp">
-
-    <TextView
-        android:id="@+id/patientEmailTextView"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:paddingTop="7dp"
-        android:paddingBottom="7dp"
-        android:text="@string/email"
-        android:textColor="@color/hint_color"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="10dp">
 
-    <EditText
-        android:id="@+id/patientEmailEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_edittext"
-        android:inputType="textEmailAddress"
-        android:padding="10dp"
-        android:textColor="@color/txt_black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/patientEmailTextView"
-        app:layout_constraintTop_toTopOf="@id/patientEmailTextView" />
-
-    <TextView
-        android:id="@+id/patientSexTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:paddingTop="9dp"
-        android:paddingBottom="9dp"
-        android:text="@string/sex"
-        android:textColor="@color/hint_color"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/patientEmailTextView" />
-
-    <RadioGroup
-        android:id="@+id/patientSexRadioGroup"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/patientSexTextView"
-        app:layout_constraintTop_toTopOf="@id/patientSexTextView">
-
-        <RadioButton
-            android:id="@+id/maleRadioButton"
+        <TextView
+            android:id="@+id/patientEmailTitleTextView"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:buttonTint="@color/colorPrimaryDark"
-            android:drawableStart="@drawable/ic_male"
-            android:elevation="4dp"
-            android:paddingEnd="8dp"
-            android:text="@string/male_text"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="3dp"
+            android:text="@string/email"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioButton
-            android:id="@+id/femaleRadioButton"
+        <TextView
+            android:id="@+id/patientEmailTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="3dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/patientEmailTitleTextView"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/patientSexTitleTextView"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:buttonTint="@color/colorPrimaryDark"
-            android:drawableStart="@drawable/ic_female"
-            android:elevation="4dp"
-            android:paddingEnd="8dp"
-            android:text="@string/female_text"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="3dp"
+            android:text="@string/sex"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/patientEmailTitleTextView" />
 
-    </RadioGroup>
+        <TextView
+            android:id="@+id/patientSexTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/patientSexTitleTextView"
+            app:layout_constraintTop_toTopOf="@+id/patientSexTitleTextView" />
 
-    <TextView
-        android:id="@+id/patientWeightTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:paddingTop="7dp"
-        android:paddingBottom="7dp"
-        android:text="@string/weight"
-        android:textColor="@color/hint_color"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/patientSexTextView" />
 
-    <EditText
-        android:id="@+id/patientWeightEditText"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_edittext"
-        android:inputType="numberDecimal"
-        android:padding="10dp"
-        android:textColor="@color/txt_black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@id/patientWeightTextView"
-        app:layout_constraintTop_toTopOf="@id/patientWeightTextView" />
+        <TextView
+            android:id="@+id/patientIdentificationNumberTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="3dp"
+            android:text="@string/id"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/patientSexTitleTextView" />
 
-    <TextView
-        android:id="@+id/patientHeightTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:paddingTop="7dp"
-        android:paddingBottom="7dp"
-        android:text="@string/height"
-        android:textColor="@color/hint_color"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/patientWeightTextView" />
+        <TextView
+            android:id="@+id/patientIdentificationNumberTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/patientIdentificationNumberTitleTextView"
+            app:layout_constraintTop_toTopOf="@+id/patientIdentificationNumberTitleTextView" />
 
-    <EditText
-        android:id="@+id/patientHeightEditText"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_edittext"
-        android:inputType="numberDecimal"
-        android:padding="10dp"
-        android:textColor="@color/txt_black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@id/patientHeightTextView"
-        app:layout_constraintTop_toTopOf="@id/patientHeightTextView" />
+        <TextView
+            android:id="@+id/patientPhoneNumberTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="3dp"
+            android:text="@string/phonenumber"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/patientIdentificationNumberTitleTextView" />
 
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorAccent"
-        android:drawableLeft="@drawable/ic_save"
-        android:elevation="10dp"
-        android:gravity="center"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
-        android:text="@string/save"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:shapeAppearanceOverlay="@style/roundedButtonStyle" />
+        <TextView
+            android:id="@+id/patientPhoneNumberTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/patientPhoneNumberTitleTextView"
+            app:layout_constraintTop_toTopOf="@+id/patientPhoneNumberTitleTextView" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/patientBirthDateTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="3dp"
+            android:text="@string/birth_date"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/patientPhoneNumberTitleTextView" />
+
+        <TextView
+            android:id="@+id/patientBirthDateTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/patientBirthDateTitleTextView"
+            app:layout_constraintTop_toTopOf="@+id/patientBirthDateTitleTextView" />
+
+        <TextView
+            android:id="@+id/patientWeightTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="3dp"
+            android:text="@string/weight"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/patientBirthDateTitleTextView" />
+
+        <TextView
+            android:id="@+id/patientWeightTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/patientWeightTitleTextView"
+            app:layout_constraintTop_toTopOf="@+id/patientWeightTitleTextView" />
+
+
+        <TextView
+            android:id="@+id/patientHeightTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="3dp"
+            android:text="@string/height"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/patientWeightTitleTextView" />
+
+        <TextView
+            android:id="@+id/patientHeightTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/patientHeightTitleTextView"
+            app:layout_constraintTop_toTopOf="@+id/patientHeightTitleTextView" />
+
+
+        <TextView
+            android:id="@+id/patientBMITitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="3dp"
+            android:text="@string/bmi"
+            android:textColor="@color/hint_color"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/patientHeightTitleTextView" />
+
+        <TextView
+            android:id="@+id/patientBMITextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/patientBMITitleTextView"
+            app:layout_constraintTop_toTopOf="@+id/patientBMITitleTextView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
