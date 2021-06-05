@@ -1,6 +1,7 @@
 package com.project.cdh.ui;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.firestore.WriteBatch;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.project.cdh.DrawerUtil;
 import com.project.cdh.R;
@@ -238,45 +241,66 @@ public class PatientListActivity extends AppCompatActivity implements PatientAda
 
 
     @Override
-    public void onRemoveButtonClick(int position) {
+    public void onRemoveButtonClick(int position)
+    {
+
         Patient patient = patients.get(position);
 
-        String doctorId = firebaseAuth.getCurrentUser().getUid();
-        String patientId = patient.getPatientId();
+        String patientName = patient.getName();
 
-        DocumentReference doctorRef = db.collection("patients")
-                .document(patientId)
-                .collection("doctors")
-                .document(doctorId);
-
-        DocumentReference patientRef = db.collection("doctors")
-                .document(doctorId)
-                .collection("patients")
-                .document(patientId);
-
-
-        doctorRef.delete().addOnCompleteListener(task ->
-        {
-            if (task.isSuccessful())
-            {
-                    patientRef.delete();
-                    patients.remove(position);
-                    patientAdapter.notifyItemRemoved(position);
-
-                    if (patients.isEmpty())
+        new MaterialAlertDialogBuilder(this, R.style.DeleteDialogTheme)
+                .setTitle("Delete Patient")
+                .setMessage("Do you want to delete patient" +  patientName + " ?")
+                .setPositiveButton("DELETE", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
                     {
-                        emptyPatientListImageView.setVisibility(View.VISIBLE);
-                        emptyPatientListTextView                 // check if there is no item and
-                                .setVisibility(View.VISIBLE);    // show text view that there is no patients
+                        String doctorId = firebaseAuth.getCurrentUser().getUid();
+                        String patientId = patient.getPatientId();
+
+
+                        DocumentReference doctorRef = db.collection("patients")
+                                .document(patientId)
+                                .collection("doctors")
+                                .document(doctorId);
+
+                        DocumentReference patientRef = db.collection("doctors")
+                                .document(doctorId)
+                                .collection("patients")
+                                .document(patientId);
+
+
+                        doctorRef.delete().addOnCompleteListener(task ->
+                        {
+                            if (task.isSuccessful())
+                            {
+                                patientRef.delete();
+                                patients.remove(position);
+                                patientAdapter.notifyItemRemoved(position);
+
+                                if (patients.isEmpty())
+                                {
+                                    emptyPatientListImageView.setVisibility(View.VISIBLE);
+                                    emptyPatientListTextView                 // check if there is no item and
+                                            .setVisibility(View.VISIBLE);    // show text view that there is no patients
+                                }
+                                Toasty.showText(PatientListActivity.this, "Patient " + "\"" + patient.getName()
+                                                + "\" " + "has been deleted successfully.", Toasty.SUCCESS
+                                        , Toast.LENGTH_LONG);
+                            }
+                            else
+                                Toasty.showText(PatientListActivity.this, "An error occurred while trying to remove this patient", Toasty.ERROR, Toast.LENGTH_LONG);
+                        });
+
                     }
-                    Toasty.showText(this, "Patient " + "\"" + patient.getName()
-                            + "\" " + "has been deleted successfully.", Toasty.SUCCESS
-                            , Toast.LENGTH_LONG);
-            }
-            else
-                Toasty.showText(this, "Something went wrong...", Toasty.ERROR
-                        , Toast.LENGTH_LONG);
-        });
+                })
+                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) { }
+                })
+                .show();
     }
 
     @Override
