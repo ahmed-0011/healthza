@@ -11,18 +11,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.PatientViewRelatives">
 
-    <ImageView
-        android:id="@+id/imageViewT"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/idf"
-        app:layout_constraintEnd_toEndOf="@+id/idf"
-        app:layout_constraintStart_toStartOf="@+id/idf"
-        app:layout_constraintTop_toTopOf="@+id/idf"
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/no_data"
-        tools:srcCompat="@drawable/no_data" />
-
     <TableLayout
         android:id="@+id/idf"
         android:layout_width="match_parent"

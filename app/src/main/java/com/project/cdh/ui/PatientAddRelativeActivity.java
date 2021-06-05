@@ -42,8 +42,6 @@ public class PatientAddRelativeActivity extends AppCompatActivity implements Vie
         ,CompoundButton.OnCheckedChangeListener
         , View.OnFocusChangeListener {
 
-    private static final String ChannelID = "AddPatientRelativeNote";
-
     private EditText inputField[];
 
     private Button clear;
@@ -183,7 +181,6 @@ public class PatientAddRelativeActivity extends AppCompatActivity implements Vie
 
                         addRelative();
 
-                        notification();
                         Toast.makeText(getApplicationContext(), "Patient Relative IS ADD...", Toast.LENGTH_SHORT).show();
 
                     }
@@ -296,57 +293,7 @@ public class PatientAddRelativeActivity extends AppCompatActivity implements Vie
     }
 // "Clear focus input" -->
 
-    // notification
-    private void createChannel() {
 
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel x;
-            x = new NotificationChannel(ChannelID, "My  Hi Channel with you", NotificationManager.IMPORTANCE_HIGH);
-
-            NotificationManager man = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-            man.createNotificationChannel(x);
-
-
-        }
-    }
-
-    void notification() {
-        NotificationManager man = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        NotificationCompat.Builder note = null;
-
-
-        createChannel();
-
-        NotificationCompat.BigTextStyle bigtext = new NotificationCompat.BigTextStyle();
-        bigtext.setBigContentTitle("Relative Name:" + inputField[0].getText().toString());
-        bigtext.bigText("Relative Phone:" + inputField[1].getText().toString());
-        bigtext.setSummaryText("New Relative,t Relationship:" + inputField[2].getText().toString());
-
-        note = new NotificationCompat.Builder(getApplicationContext(), ChannelID)
-                /*.setContentTitle ( "New  Test ADD"  )
-                .setSubText ( "Test Type:"+text
-                        +"\nTest Date:"+ datE.getText().toString()
-                        +"\nTest Time:"+timE.getText().toString()  )
-                .setContentText ("")*/
-                .setOngoing(false)
-                .setColor(Color.RED)
-                .setColorized(true)
-                .setPriority(NotificationManager.IMPORTANCE_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setShowWhen(true)
-                .setUsesChronometer(true)
-                .setSmallIcon(R.drawable.icof)
-                .setStyle(bigtext)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.icof))
-                .setAutoCancel(true)
-        //.setOnlyAlertOnce(true)
-        //.addAction ( R.drawable.no,"Mark Complete", markCompleteIntent);
-        ;
-
-        man.notify(++Functions.ne, note.build());
-    }
 
     //rotate
     @Override

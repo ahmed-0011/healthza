@@ -33,7 +33,6 @@ public class PatientViewRelatives extends AppCompatActivity {
     TableLayout tb;
     ProgressDialog pb;
 
-    ImageView nod;
     int child;
 ///////////////////////////////////
     @Override
@@ -43,10 +42,6 @@ public class PatientViewRelatives extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
-
-        nod = findViewById(R.id.imageViewT);
-        nod.setEnabled(true);
-        nod.setVisibility(View.INVISIBLE);
 
         pb = new ProgressDialog(this);
         tb = findViewById(R.id.idf);
@@ -71,7 +66,37 @@ public class PatientViewRelatives extends AppCompatActivity {
 
                 if( task.getResult().size() == 0)
                 {
-                    nod.setVisibility(View.VISIBLE);
+                    TableRow.LayoutParams mw = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                            TableRow.LayoutParams.WRAP_CONTENT,1);
+
+                    TableRow tr1 = new TableRow(this);
+                    tr1.setGravity(Gravity.CENTER);
+
+                    TextView textview = new TextView(this);
+                    textview.setText("---------");
+                    textview.setLayoutParams(mw); // match warp wighet
+                    textview.setGravity(Gravity.CENTER); //gravity center
+                    tr1.addView(textview);
+
+                    textview = new TextView(this);
+                    textview.setText("---------");
+                    textview.setLayoutParams(mw); // match warp wighet
+                    textview.setGravity(Gravity.CENTER); //gravity center
+                    tr1.addView(textview);
+
+                    textview = new TextView(this);
+                    textview.setText("---------");
+                    textview.setLayoutParams(mw); // match warp wighet
+                    textview.setGravity(Gravity.CENTER); //gravity center
+                    tr1.addView(textview);
+
+                    textview = new TextView(this);
+                    textview.setText("---------");
+                    textview.setLayoutParams(mw); // match warp wighet
+                    textview.setGravity(Gravity.CENTER); //gravity center
+                    tr1.addView(textview);
+
+                    tb.addView(tr1);
                     AlertDialog.Builder x = new AlertDialog.Builder(PatientViewRelatives.this);
                     x.setMessage("You not have Relatives.").setTitle("No Relatives")
 
@@ -141,7 +166,37 @@ public class PatientViewRelatives extends AppCompatActivity {
                                     tb.removeView(tr1);
                                     if(tb.getChildCount()==child)
                                     {
-                                        nod.setVisibility(View.VISIBLE);
+                                        TableRow.LayoutParams mw = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                                                TableRow.LayoutParams.WRAP_CONTENT,1);
+
+                                        TableRow tr1 = new TableRow(PatientViewRelatives.this);
+                                        tr1.setGravity(Gravity.CENTER);
+
+                                        TextView textview = new TextView(PatientViewRelatives.this);
+                                        textview.setText("---------");
+                                        textview.setLayoutParams(mw); // match warp wighet
+                                        textview.setGravity(Gravity.CENTER); //gravity center
+                                        tr1.addView(textview);
+
+                                        textview = new TextView(PatientViewRelatives.this);
+                                        textview.setText("---------");
+                                        textview.setLayoutParams(mw); // match warp wighet
+                                        textview.setGravity(Gravity.CENTER); //gravity center
+                                        tr1.addView(textview);
+
+                                        textview = new TextView(PatientViewRelatives.this);
+                                        textview.setText("---------");
+                                        textview.setLayoutParams(mw); // match warp wighet
+                                        textview.setGravity(Gravity.CENTER); //gravity center
+                                        tr1.addView(textview);
+
+                                        textview = new TextView(PatientViewRelatives.this);
+                                        textview.setText("---------");
+                                        textview.setLayoutParams(mw); // match warp wighet
+                                        textview.setGravity(Gravity.CENTER); //gravity center
+                                        tr1.addView(textview);
+
+                                        tb.addView(tr1);
 
                                         AlertDialog.Builder x = new AlertDialog.Builder(PatientViewRelatives.this);
                                         x.setMessage("You not have Relatives.").setTitle("No Relatives")

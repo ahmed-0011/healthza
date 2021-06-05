@@ -71,7 +71,7 @@ public class DrawerUtil
 
 
                         new PrimaryDrawerItem().withIdentifier(3)
-                                .withName("View Identifier").withIcon(R.drawable.ic_relatives)
+                                .withName("View Relatives").withIcon(R.drawable.ic_relatives)
                                 .withIconTintingEnabled(true),
 
                         new PrimaryDrawerItem().withIdentifier(4)

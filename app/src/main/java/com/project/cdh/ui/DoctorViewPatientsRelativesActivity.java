@@ -42,7 +42,6 @@ public class DoctorViewPatientsRelativesActivity extends AppCompatActivity imple
     ArrayAdapter<String> adapter1;
 
     EditText searchP;
-    public final int holo_green_dark = 17170453;
     private Spinner spinnerP;
     List<String> dataP;
     List<String> idsP;
@@ -56,7 +55,6 @@ public class DoctorViewPatientsRelativesActivity extends AppCompatActivity imple
     TableLayout tb;
     ProgressDialog pb;
 
-    ImageView nod;
     int child;
 
     @Override
@@ -65,10 +63,6 @@ public class DoctorViewPatientsRelativesActivity extends AppCompatActivity imple
         setContentView(R.layout.activity_doctor_view_patient_relatives);
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
-
-        nod = findViewById(R.id.imageViewT);
-        nod.setEnabled(true);
-        nod.setVisibility(View.INVISIBLE);
 
         pb = new ProgressDialog(this);
         tb = findViewById(R.id.idf);
@@ -138,8 +132,8 @@ public class DoctorViewPatientsRelativesActivity extends AppCompatActivity imple
                         patientName = temp.substring(0,temp.indexOf(" : "));
                         patientId = temp.substring((temp.indexOf(" : ")+3),temp.length());
                         patientPOS = position;
-                        ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
-                        nod.setVisibility(View.INVISIBLE);
+                        ((TextView) spinnerP.getSelectedView()).setTextColor(Color.rgb(129,212,250));
+
                         getIdf();
                         //!complet
                     }
@@ -149,7 +143,7 @@ public class DoctorViewPatientsRelativesActivity extends AppCompatActivity imple
                         String temp = "" + parent.getItemAtPosition(patientPOS).toString();
                         patientName = temp.substring(0,temp.indexOf(" : "));
                         patientId = temp.substring((temp.indexOf(" : ")+3),temp.length());
-                        ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                        ((TextView) spinnerP.getSelectedView()).setTextColor(Color.rgb(129,212,250));
                         //!complet
                     }
                 });
@@ -252,7 +246,33 @@ public class DoctorViewPatientsRelativesActivity extends AppCompatActivity imple
 
                 if( task.getResult().size() == 0)
                 {
-                    nod.setVisibility(View.VISIBLE);
+
+                    TableRow.LayoutParams mw = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                            TableRow.LayoutParams.WRAP_CONTENT,1);
+
+                    TableRow tr1 = new TableRow(this);
+                    tr1.setGravity(Gravity.CENTER);
+
+                    TextView textview = new TextView(this);
+                    textview.setText("---------");
+                    textview.setLayoutParams(mw); // match warp wighet
+                    textview.setGravity(Gravity.CENTER); //gravity center
+                    tr1.addView(textview);
+
+                    textview = new TextView(this);
+                    textview.setText("---------");
+                    textview.setLayoutParams(mw); // match warp wighet
+                    textview.setGravity(Gravity.CENTER); //gravity center
+                    tr1.addView(textview);
+
+                    textview = new TextView(this);
+                    textview.setText("---------");
+                    textview.setLayoutParams(mw); // match warp wighet
+                    textview.setGravity(Gravity.CENTER); //gravity center
+                    tr1.addView(textview);
+
+
+                    tb.addView(tr1);
                     AlertDialog.Builder x = new AlertDialog.Builder(DoctorViewPatientsRelativesActivity.this);
                     x.setMessage("You not have Relatives.").setTitle("No Relatives")
 

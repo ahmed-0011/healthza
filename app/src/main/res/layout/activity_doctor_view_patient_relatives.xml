@@ -11,18 +11,6 @@
         android:layout_height="match_parent"
         tools:context=".ui.DoctorViewPatientsRelativesActivity">
 
-        <ImageView
-            android:id="@+id/imageViewT"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
-            app:layout_constraintBottom_toBottomOf="@+id/idf"
-            app:layout_constraintEnd_toEndOf="@+id/idf"
-            app:layout_constraintStart_toStartOf="@+id/idf"
-            app:layout_constraintTop_toTopOf="@+id/idf"
-            app:srcCompat="@drawable/no_data"
-            tools:srcCompat="@drawable/no_data" />
-
         <TableLayout
             android:id="@+id/idf"
             android:layout_width="0dp"
@@ -134,7 +122,7 @@
             android:layout_marginBottom="15dp"
             android:drawSelectorOnTop="true"
             android:entries="@array/SelectPatient"
-            android:foreground="@drawable/round_empty"
+            android:foreground="@drawable/round_blue_prel"
             android:prompt="@string/SelectPatientPrompt"
             android:spinnerMode="dropdown"
             app:layout_constraintBottom_toTopOf="@+id/outerPatient"
@@ -159,7 +147,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
-                android:background="@drawable/round_empty"
+                android:background="@drawable/round_blue_prel"
                 android:ems="10"
                 android:focusableInTouchMode="true"
                 android:fontFamily="@font/bubblegum_sans"
@@ -180,7 +168,7 @@
             android:text="@string/search"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="#81D4FA"
             android:textSize="18sp"
             android:textStyle="bold|italic"
             app:icon="?android:attr/actionModeWebSearchDrawable"
