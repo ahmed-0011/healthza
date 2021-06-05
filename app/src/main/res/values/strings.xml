@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CDH</string>
+    <string name="app_name">CDH System</string>
     <string name="login_text">Login</string>
     <string name="register_text">Register</string>
     <string name="sign_in_text">Sign in</string>
