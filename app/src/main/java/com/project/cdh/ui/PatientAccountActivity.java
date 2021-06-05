@@ -217,11 +217,11 @@ public class PatientAccountActivity extends AppCompatActivity
                     , Toasty.WARNING, Toast.LENGTH_LONG);
         else if (patientSexRadioGroup.getCheckedRadioButtonId() == -1)
         {
-            Toasty.showText(this, "please select your sex", Toasty.WARNING, Toast.LENGTH_LONG);
+            Toasty.showText(this, "Please select your sex", Toasty.WARNING, Toast.LENGTH_LONG);
             patientSexRadioGroup.requestFocus();
         }
         else if (birthDate.isEmpty()) {
-            Toasty.showText(this, "please select your birthdate", Toasty.WARNING, Toast.LENGTH_LONG);
+            Toasty.showText(this, "Please select your birthdate", Toasty.WARNING, Toast.LENGTH_LONG);
             selectedBirthDateTextView.requestFocus();
         }
         else if (!isValidIdentificationNumber(newIdentificationNumber))

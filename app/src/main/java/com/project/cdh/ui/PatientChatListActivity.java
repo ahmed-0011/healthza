@@ -1,5 +1,6 @@
 package com.project.cdh.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.project.cdh.adapters.ChatAdapter;
 import com.project.cdh.models.Chat;
 import com.project.cdh.R;
@@ -72,7 +75,7 @@ public class PatientChatListActivity extends AppCompatActivity implements ChatAd
         chatRecyclerView = findViewById(R.id.chatRecyclerView);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
-        chatAdapter = new ChatAdapter(this, chats, db, this);
+        chatAdapter = new ChatAdapter(this, chats, db, patientId,this);
         chatRecyclerView.addItemDecoration(dividerItemDecoration);
         chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         chatRecyclerView.setAdapter(chatAdapter);
@@ -201,44 +204,62 @@ public class PatientChatListActivity extends AppCompatActivity implements ChatAd
         Chat chat = chats.get(position);
         String chatId = chat.getChatId();
 
-        //batch write can contain up to 500 operation.. so this will work for deleting only 500 messages
-        // other method is to use cloud functions .. but spark plan doesn't include it
-        WriteBatch batch = db.batch();
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Delete Chat")
+                .setMessage("Do you want to delete chat with" + chat.getDoctorName() + "?")
+                .setIcon(R.drawable.ic_delete)
+                .setPositiveButton("GOT IT", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+                        //batch write can contain up to 500 operation.. so this will work for deleting only 500 messages
+                        // other method is to use cloud functions .. but spark plan doesn't include it
+                        WriteBatch batch = db.batch();
 
-        CollectionReference messagesRef = db.collection("chat").document(chatId)
-                .collection("messages");
+                        CollectionReference messagesRef = db.collection("chat").document(chatId)
+                                .collection("messages");
 
-        messagesRef.get().addOnSuccessListener(queryDocumentSnapshots ->
-        {
-            for (QueryDocumentSnapshot document : queryDocumentSnapshots)
-            {
-                String messageId = document.getId();
-                DocumentReference messageRef = messagesRef.document(messageId);
+                        messagesRef.get().addOnSuccessListener(queryDocumentSnapshots ->
+                        {
+                            for (QueryDocumentSnapshot document : queryDocumentSnapshots)
+                            {
+                                String messageId = document.getId();
+                                DocumentReference messageRef = messagesRef.document(messageId);
 
-                batch.delete(messageRef);
-            }
-            batch.commit();
-        });
+                                batch.delete(messageRef);
+                            }
+                            batch.commit();
+                        });
 
-        db.collection("chat").document(chatId)
-                .delete();
+                        db.collection("chat").document(chatId)
+                                .delete();
 
-        chats.remove(position);
-        chatAdapter.notifyItemRemoved(position);
+                        chats.remove(position);
+                        chatAdapter.notifyItemRemoved(position);
 
-        db.collection("patients").document(chat.getPatientId())
-                .collection("doctors").document(chat.getDoctorId())
-                .update("startedChat",false);
+                        db.collection("patients").document(chat.getPatientId())
+                                .collection("doctors").document(chat.getDoctorId())
+                                .update("startedChat",false);
 
-        db.collection("doctors").document(chat.getDoctorId())
-                .collection("patients").document(chat.getPatientId())
-                .update("startedChat",false);
+                        db.collection("doctors").document(chat.getDoctorId())
+                                .collection("patients").document(chat.getPatientId())
+                                .update("startedChat",false);
 
-        if(chats.isEmpty())
-        {
-            emptyChatListTextView.setVisibility(View.VISIBLE);
-            emptyChatListimageView.setVisibility(View.VISIBLE);
-        }
+                        if(chats.isEmpty())
+                        {
+                            emptyChatListTextView.setVisibility(View.VISIBLE);
+                            emptyChatListimageView.setVisibility(View.VISIBLE);
+                        }
+                    }
+                })
+                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) { }
+                })
+
+                .show();
     }
 
 

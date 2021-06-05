@@ -16,6 +16,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.DateValidatorPointBackward;
+import com.project.cdh.DrawerUtil;
 import com.project.cdh.ProgressDialog;
 import com.project.cdh.R;
 import com.project.cdh.Toasty;
@@ -91,15 +94,11 @@ public class DoctorAccountActivity extends AppCompatActivity
 
         initAccountInformation();
 
-        selectBirthDateButton.setOnClickListener(v ->
-        {
-            showDateDialog();
-        });
+        selectBirthDateButton.setOnClickListener(v -> showDateDialog());
 
         changeAccountPasswordButton.setOnClickListener(v ->
-        {
-            startActivity(new Intent(this, ChangePasswordActivity.class));
-        });
+                startActivity(new Intent(this, ChangePasswordActivity.class))
+        );
 
         saveButton.setOnClickListener(v ->
         {
@@ -258,12 +257,12 @@ public class DoctorAccountActivity extends AppCompatActivity
         }
         else if (doctorSexRadioGroup.getCheckedRadioButtonId() == -1)
         {
-            Toasty.showText(this, "please select your sex", Toasty.WARNING, Toast.LENGTH_LONG);
+            Toasty.showText(this, "Please select your sex", Toasty.WARNING, Toast.LENGTH_LONG);
             doctorSexRadioGroup.requestFocus();
         }
         else if (birthDate.isEmpty())
         {
-            Toasty.showText(this, "please select your birthdate", Toasty.WARNING, Toast.LENGTH_LONG);
+            Toasty.showText(this, "Please select your birthdate", Toasty.WARNING, Toast.LENGTH_LONG);
             selectedBirthDateTextView.requestFocus();
         }
         else if (!isValidIdentificationNumber(newIdentificationNumber))
@@ -403,10 +402,10 @@ public class DoctorAccountActivity extends AppCompatActivity
                         .addOnCompleteListener(task ->
                         {
                             if (task.isSuccessful())
-                                Toasty.showText(this, "account information updated successfully",
+                                Toasty.showText(this, "Account information updated successfully",
                                         Toasty.SUCCESS, Toast.LENGTH_LONG);
                             else
-                                Toasty.showText(this, "something went wrong...",
+                                Toasty.showText(this, "Something went wrong...",
                                         Toasty.ERROR, Toast.LENGTH_LONG);
                             progressDialog.dismissProgressDialog();
                         });
@@ -419,10 +418,15 @@ public class DoctorAccountActivity extends AppCompatActivity
 
     private void showDateDialog()
     {
-        MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker
-                .Builder
-                .datePicker()
-                .build();
+        MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder
+                .datePicker();
+
+        builder.setSelection(MaterialDatePicker.todayInUtcMilliseconds());
+
+        CalendarConstraints.Builder constraintsBuilder = new CalendarConstraints.Builder();
+        builder.setCalendarConstraints(constraintsBuilder.setValidator(DateValidatorPointBackward.now()).build());
+
+        MaterialDatePicker<Long> materialDatePicker = builder.build();
 
         materialDatePicker.addOnPositiveButtonClickListener(selection ->
         {
@@ -433,5 +437,14 @@ public class DoctorAccountActivity extends AppCompatActivity
         });
 
         materialDatePicker.show(getSupportFragmentManager(), "DoctorAccountActivity");
+    }
+
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+
+        DrawerUtil.getDoctorDrawer(this, 0);
     }
 }

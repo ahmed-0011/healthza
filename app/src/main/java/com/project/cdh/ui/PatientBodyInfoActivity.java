@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.WriteBatch;
 import com.project.cdh.ProgressDialog;
 import com.project.cdh.R;
 import com.project.cdh.Toasty;
@@ -109,30 +113,48 @@ public class PatientBodyInfoActivity extends AppCompatActivity implements BodyIn
     @Override
     public void onRemoveButtonClick(int position)
     {
-        db.collection("patients")
-                .document(patientId)
-                .collection("bodyInfoRecords")
-                .document(bodyInfoList.get(position).getBodyInfoId())
-                .delete().addOnCompleteListener(task ->
-        {
-            if(task.isSuccessful())
-            {
-                bodyInfoList.remove(position);
-                bodyInfoAdapter.notifyItemRemoved(position);
 
-                if(bodyInfoList.size() == 1)    // empty (contains only the header)
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Delete Chat")
+                .setMessage("Do you want to delete this record")
+                .setIcon(R.drawable.ic_delete)
+                .setPositiveButton("GOT IT", new DialogInterface.OnClickListener()
                 {
-                    noBodyInfoImageView.setVisibility(View.VISIBLE);
-                    noBodyInfoTextView.setVisibility(View.VISIBLE);
-                }
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+                        db.collection("patients")
+                                .document(patientId)
+                                .collection("bodyInfoRecords")
+                                .document(bodyInfoList.get(position).getBodyInfoId())
+                                .delete().addOnCompleteListener(task ->
+                        {
+                            if (task.isSuccessful()) {
+                                bodyInfoList.remove(position);
+                                bodyInfoAdapter.notifyItemRemoved(position);
 
-                Toasty.showText(this, "Record has been deleted successfully",
-                        Toasty.SUCCESS, Toast.LENGTH_LONG);
-            }
-            else
-                Toasty.showText(this, "An error occurred while trying to remove this record",
-                        Toasty.ERROR, Toast.LENGTH_LONG);
-        });
+                                if (bodyInfoList.size() == 1)    // empty (contains only the header)
+                                {
+                                    noBodyInfoImageView.setVisibility(View.VISIBLE);
+                                    noBodyInfoTextView.setVisibility(View.VISIBLE);
+                                }
+
+                                Toasty.showText(PatientBodyInfoActivity.this, "Record has been deleted successfully",
+                                        Toasty.SUCCESS, Toast.LENGTH_LONG);
+                            } else
+                                Toasty.showText(PatientBodyInfoActivity.this, "An error occurred while trying to remove this record",
+                                        Toasty.ERROR, Toast.LENGTH_LONG);
+                        });
+                    }
+                })
+                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) { }
+                })
+
+                .show();
+
     }
 
 

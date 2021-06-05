@@ -36,6 +36,7 @@
         <activity
             android:name=".ui.DoctorPatientMedicalHistoryActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:noHistory="true"
             android:theme="@style/noActionBarTheme" />
         <activity
             android:name=".ui.DoctorAppointmentsActivity"
@@ -77,6 +78,7 @@
         <activity
             android:name=".ui.DoctorViewPatientsRelativesActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:noHistory="true"
             android:theme="@style/noActionBarTheme" />
         <activity
             android:name=".ui.PatientViewRelatives"
@@ -114,6 +116,7 @@
         <activity
             android:name=".ui.DoctorSendRequestActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:noHistory="true"
             android:theme="@style/noActionBarTheme" />
         <activity
             android:name=".ui.PatientListActivity"
@@ -218,14 +221,17 @@
         <activity
             android:name=".ui.DoctorUpdatePatientComplicationsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:noHistory="true"
             android:theme="@style/noActionBarTheme" />
         <activity
             android:name=".ui.DoctorAddPatientComplicationsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:noHistory="true"
             android:theme="@style/noActionBarTheme" />
         <activity
             android:name=".ui.DoctorAddPatientAppointmentActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:noHistory="true"
             android:theme="@style/noActionBarTheme" />
         <activity
             android:name=".ui.PatientAddRelativeActivity"
@@ -237,6 +243,8 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/noActionBarTheme" />
+        <activity
+            android:name=".ui.ChangePasswordActivity"
+            android:theme="@style/noActionBarTheme" />
     </application>
-
 </manifest>

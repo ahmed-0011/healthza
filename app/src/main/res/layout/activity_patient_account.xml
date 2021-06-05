@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:paddingEnd="8dp"
-            android:text="@string/birth_date_text"
+            android:text="@string/birth_date"
             android:textColor="@color/hint_color"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"

@@ -76,23 +76,26 @@ public class DoctorListActivity extends AppCompatActivity implements DoctorAdapt
                     emptyDoctorListImageView.setVisibility(View.VISIBLE);
                     emptyDoctorListTextView.setVisibility(View.VISIBLE);
                 }
+
+
                 doctorAdapter = new DoctorAdapter(this, doctors, this);
                 doctorsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
                 doctorsRecyclerView.setAdapter(doctorAdapter);
-            }
-        });
 
-        doctorsSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String newText)
-            {
-                doctorAdapter.getFilter().filter(doctorsSearchView.getQuery().toString().trim());
-                return true;
+                doctorsSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText)
+                    {
+                        doctorAdapter.getFilter().filter(doctorsSearchView.getQuery().toString().trim());
+                        return true;
+                    }
+                });
             }
         });
     }
@@ -121,41 +124,51 @@ public class DoctorListActivity extends AppCompatActivity implements DoctorAdapt
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.dialog_doctor_profile, null);
 
-        TextView doctorEmailTextView = view.findViewById(R.id.doctorEmailTextView);
-        TextView doctorSexTextView = view.findViewById(R.id.doctorSexTextView);
-        TextView doctorSpecialityTextView = view.findViewById(R.id.doctorSpecialityTextView);
-        TextView doctorYearsOfExperienceTextView = view.findViewById(R.id.doctorYearsOfExperienceTextView);
-        TextView doctorWorkplaceTextView = view.findViewById(R.id.doctorworkplaceTextView);
-        TextView doctorWorkdaysTextView = view.findViewById(R.id.doctorWorkdaysTextView);
+        TextView doctorEmailTextView, doctorSexTextView, doctorBirthDateTextView,
+                 doctorSpecialityTextView, doctorYearsOfExperienceTextView, doctorWorkplaceTextView,
+                 doctorWorkdaysTextView;
 
 
-        doctorRef.get()
-                .addOnSuccessListener(doctorDocument -> {
+        doctorEmailTextView = view.findViewById(R.id.doctorEmailTextView);
+        doctorSexTextView = view.findViewById(R.id.doctorSexTextView);
+        doctorBirthDateTextView = view.findViewById(R.id.doctorBirthDateTextView);
+        doctorSpecialityTextView = view.findViewById(R.id.doctorSpecialityTextView);
+        doctorYearsOfExperienceTextView = view.findViewById(R.id.doctorYearsOfExperienceTextView);
+        doctorWorkplaceTextView = view.findViewById(R.id.doctorWorkplaceTextView);
+        doctorWorkdaysTextView = view.findViewById(R.id.doctorWorkdaysTextView);
 
-            if(doctorDocument.exists())
-            {
-                /* doctor1 is real doctor from root collection ..
-                doctor is just contains the basic info */
-                Doctor doctor1 = doctorDocument.toObject(Doctor.class);
 
-                doctorEmailTextView.append(doctor1.getEmail());
-                doctorSexTextView.append(doctor1.getSex());
-                doctorSpecialityTextView.append(doctor1.getSpeciality());
-                doctorYearsOfExperienceTextView.append(doctor1.getYearsOfExperience() + "");
-                doctorWorkplaceTextView.append(doctor1.getWorkplace());
-                doctorWorkdaysTextView.append(doctor1.getWorkdays().toString().replace("[", "")
+        doctorRef
+                .get()
+                .addOnSuccessListener(doctorDocument ->
+                {
+
+                    if(doctorDocument.exists())
+                    {
+
+                        /* doctor1 is real doctor from root collection ..
+                           doctor is just contains the basic info */
+                        Doctor doctor1 = doctorDocument.toObject(Doctor.class);
+
+                        doctorEmailTextView.setText(doctor1.getEmail());
+                        doctorSexTextView.setText(doctor1.getSex());
+                        doctorBirthDateTextView.setText(doctor1.getBirthDate());
+                        doctorSpecialityTextView.setText(doctor1.getSpeciality());
+                        doctorYearsOfExperienceTextView.setText(doctor1.getYearsOfExperience() + "");
+                        doctorWorkplaceTextView.setText(doctor1.getWorkplace());
+                        doctorWorkdaysTextView.setText(doctor1.getWorkdays().toString().replace("[", "")
                         .replace("]", ""));
 
-                AlertDialog patientProfileDialog = new AlertDialog.Builder(this)
-                        .setView(view)
-                        .setTitle("Information for " + doctor.getName())
-                        .create();
+                        AlertDialog patientProfileDialog = new AlertDialog.Builder(this)
+                                .setView(view)
+                                .setTitle("Information about " + doctor.getName())
+                                .create();
 
-                patientProfileDialog.show();
-
-            }
+                        patientProfileDialog.show();
+                    }
                 });
     }
+
 
     @Override
     public void onRemoveButtonClick(int position)

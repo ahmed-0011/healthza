@@ -92,8 +92,6 @@ public class PatientAppointmentsActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_patient_appointments);
 
-        DrawerUtil.getPatientDrawer(this, -1);
-
         stu = true;
         bn1=true;
         bn2=true;
@@ -688,6 +686,7 @@ public class PatientAppointmentsActivity extends AppCompatActivity
         ed = Long.parseLong("-1");
     }
 
+
     //rotate
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -702,51 +701,12 @@ public class PatientAppointmentsActivity extends AppCompatActivity
     }
 
 
-    private Timestamp getTimestamp(Long millieSeconds)
-    {
-        return new Timestamp(new Date(millieSeconds));
-    }
-
     private Long getHoursInMillies(float hour)
     {
         return TimeUnit.HOURS.toMillis((long) hour);
     }
 
 
-    private float getTestTime(Timestamp timestamp)
-    {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm aa", Locale.US);
-
-        String dayTime = simpleDateFormat.format(timestamp.toDate());
-
-        String period = dayTime.substring(dayTime.indexOf(" ") + 1);
-        String hourString = dayTime.substring(0, dayTime.indexOf(":"));
-        String minuteString = dayTime.substring(dayTime.indexOf(":") + 1, dayTime.indexOf(" "));
-
-        float time;
-        if(period.equals("AM"))
-        {
-            if(!hourString.equals("12"))
-                time = Float.parseFloat(hourString + "." + minuteString);
-            else
-                time = Float.parseFloat(hourString + "." + minuteString)  - 12;
-        }
-        else
-        {
-            if(!hourString.equals("12"))
-                time = Float.parseFloat(hourString + "." + minuteString) + 12;
-            else
-                time = Float.parseFloat(hourString + "." + minuteString);
-        }
-
-        return time;
-    }
-
-
-    private String getTodayDate()
-    {
-        return DateFormat.format("yyyy-M-d", new Date()).toString();
-    }
 
 
     @Override
@@ -758,4 +718,12 @@ public class PatientAppointmentsActivity extends AppCompatActivity
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        DrawerUtil.getPatientDrawer(this, -1);
+    }
 }

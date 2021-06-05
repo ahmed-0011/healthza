@@ -31,7 +31,7 @@
         android:elevation="10dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:text="@string/add_patient"
+        android:text="@string/new_patient"
         android:textAllCaps="false"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"

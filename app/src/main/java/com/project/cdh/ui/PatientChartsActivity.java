@@ -89,8 +89,6 @@ public class PatientChartsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_charts);
 
-        DrawerUtil.getPatientDrawer(this, -1);
-
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
@@ -168,7 +166,6 @@ public class PatientChartsActivity extends AppCompatActivity
             @Override
             public void onItemSelected(int i)
             {
-
                 Intent intent = null;
 
                 if (i == R.id.chartsItem)
@@ -954,5 +951,14 @@ public class PatientChartsActivity extends AppCompatActivity
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        DrawerUtil.getPatientDrawer(this, -1);
     }
 }

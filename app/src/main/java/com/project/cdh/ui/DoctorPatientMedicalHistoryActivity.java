@@ -40,6 +40,7 @@ import com.applandeo.materialcalendarview.CalendarWeekDay;
 import com.applandeo.materialcalendarview.DatePicker;
 import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
+import com.project.cdh.DrawerUtil;
 import com.project.cdh.ProgressDialog;
 import com.project.cdh.R;
 import com.project.cdh.Toasty;
@@ -2241,5 +2242,11 @@ public class DoctorPatientMedicalHistoryActivity extends AppCompatActivity
     }
 
 
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
 
+        DrawerUtil.getDoctorDrawer(this, 2);
+    }
 }

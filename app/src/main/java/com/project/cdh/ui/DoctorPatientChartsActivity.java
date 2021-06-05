@@ -103,6 +103,7 @@ public class DoctorPatientChartsActivity extends AppCompatActivity
         pickMultiDatesFloatingActionButton = findViewById(R.id.pickMultiDatesFloatingActionButton);
 
         chart = findViewById(R.id.lineChart);
+        chartProgressBar = findViewById(R.id.chartProgressBar);
 
         hoursRangeSeekBar = findViewById(R.id.hoursRangeSeekBar);
         daysRangeSeekBar = findViewById(R.id.daysRangeSeekBar);

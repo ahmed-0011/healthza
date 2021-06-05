@@ -96,7 +96,6 @@ public class PatientHomeActivity extends AppCompatActivity
         chipNavigationBar = findViewById(R.id.bottomNavigationBar);
 
         setupBottomNavigationBar();
-
     }
 
 
@@ -104,7 +103,8 @@ public class PatientHomeActivity extends AppCompatActivity
     {
         chipNavigationBar.setItemSelected(R.id.homeItem, true);
 
-        chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
+        chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener()
+        {
             @Override
             public void onItemSelected(int i)
             {
@@ -939,6 +939,7 @@ public class PatientHomeActivity extends AppCompatActivity
         });
     }
 
+
     private void addOnTextChangeListenersForInputEditText()
     {
         weightInputEditText.addTextChangedListener(new TextWatcher() {
@@ -1036,37 +1037,6 @@ public class PatientHomeActivity extends AppCompatActivity
         materialDatePicker.show(getSupportFragmentManager(), "PatientHomeActivity");
     }
 
-    private void logOut()
-    {
-        AlertDialog.Builder x = new AlertDialog.Builder(this);
-        x.setMessage("DO YOU WANT TO LogOut?").setTitle("Patient LogOut")
-
-                .setPositiveButton("YES_EXIT", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(), "LogedOut...", Toast.LENGTH_SHORT).show();
-                        //complet
-                        // finish();
-                        firebaseAuth.signOut();
-                        finishAffinity();
-                        Intent I = new Intent(getApplicationContext(), WelcomeActivity.class);
-                        startActivity(I);
-                    }
-                })
-
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) { }
-                })
-
-                .setIcon(R.drawable.qus)
-                .setPositiveButtonIcon(getDrawable(R.drawable.yes))
-                .setNegativeButtonIcon(getDrawable(R.drawable.no))
-                .show();
-    }
-
-
     private String getTodayDate()
     {
         return DateFormat.format("yyyy-M-d", new Date()).toString();
@@ -1089,6 +1059,7 @@ public class PatientHomeActivity extends AppCompatActivity
         DrawerUtil.headerView = view;
         DrawerUtil.getPatientDrawer(this, -1);
     }
+
 
     //rotate
     @Override

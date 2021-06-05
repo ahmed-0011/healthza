@@ -194,12 +194,12 @@ public class LoginActivity extends AppCompatActivity
                                 });
                             }
 
-                            Toasty.showText(this, "successfully logged in!"
+                            Toasty.showText(this, "Successfully logged in!"
                                     ,Toasty.INFORMATION, Toast.LENGTH_LONG);
                         }
                     });
                 } else
-                    Toasty.showText(this, "account is not found",Toasty.ERROR, Toast.LENGTH_LONG);
+                    Toasty.showText(this, "Account is not found",Toasty.ERROR, Toast.LENGTH_LONG);
                 progressButtonReverseAnimation();
             });
         }

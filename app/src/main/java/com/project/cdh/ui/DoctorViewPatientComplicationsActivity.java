@@ -447,6 +447,6 @@ public class DoctorViewPatientComplicationsActivity extends AppCompatActivity im
     {
         super.onStart();
 
-        DrawerUtil.getPatientDrawer(this, 4);
+        DrawerUtil.getPatientDrawer(this, 8);
     }
 }

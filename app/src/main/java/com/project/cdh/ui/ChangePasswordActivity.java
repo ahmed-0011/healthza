@@ -124,7 +124,7 @@ public class ChangePasswordActivity extends AppCompatActivity
                                             editor.putString("password", password);
                                             editor.apply();
 
-                                            Toasty.showText(ChangePasswordActivity.this, "password updated successfully"
+                                            Toasty.showText(ChangePasswordActivity.this, "Password updated successfully"
                                             ,Toasty.SUCCESS, Toast.LENGTH_LONG);
 
                                         }
@@ -132,7 +132,7 @@ public class ChangePasswordActivity extends AppCompatActivity
                                 });
                             }
                             else
-                                Toasty.showText(ChangePasswordActivity.this, "current password you entered is not correct", Toasty.ERROR, Toast.LENGTH_LONG);
+                                Toasty.showText(ChangePasswordActivity.this, "Current password you entered is not correct", Toasty.ERROR, Toast.LENGTH_LONG);
 
                             progressDialog.dismissProgressDialog();
 

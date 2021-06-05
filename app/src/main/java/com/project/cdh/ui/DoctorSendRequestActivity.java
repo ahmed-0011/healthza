@@ -60,7 +60,6 @@ public class DoctorSendRequestActivity extends AppCompatActivity implements Send
         firebaseAuth = FirebaseAuth.getInstance();
         String doctorId = firebaseAuth.getCurrentUser().getUid();
 
-        DrawerUtil.getDoctorDrawer(this, 2);
 
         sendRequests = new ArrayList<>();
         sendRequestsRecyclerView = findViewById(R.id.sendRequestsRecyclerView);
@@ -191,7 +190,7 @@ public class DoctorSendRequestActivity extends AppCompatActivity implements Send
                                     {
                                         if (patientDocument.exists())
                                         {
-                                            Toasty.showText(this, "this patient is already on your list",
+                                            Toasty.showText(this, "This patient is already on your list",
                                                     Toasty.WARNING, Toast.LENGTH_LONG);
                                         }
                                         else
@@ -202,7 +201,7 @@ public class DoctorSendRequestActivity extends AppCompatActivity implements Send
                                                     .get().addOnSuccessListener(sendRequestDocument ->
                                             {
                                                 if (sendRequestDocument.exists())
-                                                    Toasty.showText(this, "you already sent a request to this patient",
+                                                    Toasty.showText(this, "You already sent a request to this patient",
                                                             Toasty.WARNING, Toast.LENGTH_LONG);
                                                 else
                                                 {
@@ -225,7 +224,7 @@ public class DoctorSendRequestActivity extends AppCompatActivity implements Send
                                                             emptySendRequestListImageView.setVisibility(View.GONE);
                                                             emptySendRequestListTextView.setVisibility(View.GONE);
 
-                                                            Toasty.showText(this, "add request was sent to " + patient.getName(),
+                                                            Toasty.showText(this, "Add request was sent to " + patient.getName(),
                                                                     Toasty.INFORMATION, Toast.LENGTH_LONG);
                                                         }
                                                     });
@@ -235,7 +234,7 @@ public class DoctorSendRequestActivity extends AppCompatActivity implements Send
                                     });
                         }
                         else
-                            Toasty.showText(this, "patient not found",
+                            Toasty.showText(this, "Patient not found",
                                     Toasty.ERROR, Toast.LENGTH_LONG);
                     });
                 addPatientDialog.dismiss();
@@ -302,7 +301,7 @@ public class DoctorSendRequestActivity extends AppCompatActivity implements Send
                     emptySendRequestListTextView            // check if there is no item and
                             .setVisibility(View.VISIBLE);   // show text view that there is no requests
                 }
-                Toasty.showText(this, "request to " + sendRequest.getPatientName() + " has been cancelled successfully",
+                Toasty.showText(this, "Request to " + sendRequest.getPatientName() + " has been cancelled successfully",
                         Toasty.SUCCESS, Toast.LENGTH_LONG);
 
             }
@@ -332,9 +331,17 @@ public class DoctorSendRequestActivity extends AppCompatActivity implements Send
                             .setVisibility(View.VISIBLE);   // show text view that there is no requests
                 }
 
-                Toasty.showText(this, "completed request removed",
+                Toasty.showText(this, "Completed request removed",
                         Toasty.SUCCESS, Toast.LENGTH_LONG);
             }
         });
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+
+        DrawerUtil.getDoctorDrawer(this, 1);
     }
 }

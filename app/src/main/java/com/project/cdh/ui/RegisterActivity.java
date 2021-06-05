@@ -198,11 +198,11 @@ public class RegisterActivity extends AppCompatActivity
             nameInputEditText.requestFocus();
         }
         else if (userTypeRadioGroup.getCheckedRadioButtonId() == -1)
-            Toasty.showText(this, "please select account type", Toasty.WARNING, Toast.LENGTH_LONG);
+            Toasty.showText(this, "Please select account type", Toasty.WARNING, Toast.LENGTH_LONG);
         else if (sexRadioGroup.getCheckedRadioButtonId() == -1)
-            Toasty.showText(this, "please select your sex", Toasty.WARNING, Toast.LENGTH_LONG);
+            Toasty.showText(this, "Please select your sex", Toasty.WARNING, Toast.LENGTH_LONG);
         else if (birthDate.isEmpty())
-            Toasty.showText(this, "please select your birthdate", Toasty.WARNING, Toast.LENGTH_LONG);
+            Toasty.showText(this, "Please select your birthdate", Toasty.WARNING, Toast.LENGTH_LONG);
         else if (!isValidIdentificationNumber(identificationNumber))
         {
             identificationNumberInputLayout.setError(getString(R.string.enter_a_valid_id));
@@ -251,7 +251,7 @@ public class RegisterActivity extends AppCompatActivity
                     {
                         if(phoneNumberDocument.exists())
                         {
-                            Toasty.showText(this, "phonenumber is already used",
+                            Toasty.showText(this, "Phonenumber is already used",
                                     Toasty.ERROR, Toast.LENGTH_LONG);
                         }
                         else
@@ -321,7 +321,7 @@ public class RegisterActivity extends AppCompatActivity
                                             startActivity(intent);
                                         }
                                         else
-                                            Toasty.showText(this, "email is already used", Toasty.ERROR, Toast.LENGTH_LONG);
+                                            Toasty.showText(this, "Email is already used", Toasty.ERROR, Toast.LENGTH_LONG);
                                     });
                         }
                     });
