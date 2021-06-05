@@ -327,6 +327,43 @@ public class PatientMedicalHistoryActivity extends AppCompatActivity
 
     void P_(List<String> dates,int date,int ed)
     {
+        if(dates.size()==0
+                || dates == null ) {  // tb.removeView(tb.getChildAt(tb.getChildCount() - 1));
+
+            TableRow.LayoutParams mw = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.WRAP_CONTENT,1);
+            mw.topMargin=5;
+            mw.bottomMargin=5;
+
+            TableRow tr1 = new TableRow(this);
+            //  tr1.setPaddingRelative(5, 5, 5, 5);
+            tr1.setGravity(Gravity.CENTER);
+
+            TextView textview = new TextView(this);
+            textview.setText("no Tests");
+            Typeface tf = ResourcesCompat.getFont(getApplicationContext(), R.font.candal);
+            textview.setTypeface(tf, Typeface.BOLD);
+            textview.setLayoutParams(mw);
+            textview.setGravity(Gravity.CENTER);
+            // textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            textview.setTextSize(18);
+            textview.setTextColor(Color.rgb(255, 0, 0));
+            tr1.addView(textview);
+            tb.addView(tr1);
+
+            //white space
+            TableRow tr = new TableRow(this);
+            // tr.setPaddingRelative(5, 5, 5, 5);
+            tr.setGravity(Gravity.CENTER);
+
+            textview = new TextView(this);
+            textview.setText("");
+            textview.setLayoutParams(mw);
+            textview.setGravity(Gravity.CENTER);
+            tr.addView(textview);
+            tb.addView(tr);
+            return;
+        }
 
         ProgressDialog x0= ProgressDialog.show(PatientMedicalHistoryActivity.this, "",
                 "Please Wait TO get Data...", true);

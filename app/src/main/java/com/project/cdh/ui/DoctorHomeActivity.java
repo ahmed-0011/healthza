@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.project.cdh.DrawerUtil;
@@ -59,11 +60,17 @@ public class DoctorHomeActivity extends AppCompatActivity
     private TextInputEditText specialityInputEditText,
             yearsOfExperienceInputEditText, workplaceInputEditText;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_home);
+
+
+        chipNavigationBar = findViewById(R.id.bottomNavigationBar);
+
+        setupBottomNavigationBar();
 
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -79,10 +86,19 @@ public class DoctorHomeActivity extends AppCompatActivity
         else
             setupCardViews();
 
+        ChipNavigationBar chipNavigationBar = findViewById(R.id.bottomNavigationBar);
 
-        chipNavigationBar = findViewById(R.id.bottomNavigationBar);
 
-        setupBottomNavigationBar();
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.header_drawer, null);
+
+        TextView nameTextView = view.findViewById(R.id.nameTextView);
+        TextView emailTextView = view.findViewById(R.id.emailTextView);
+
+        nameTextView.setText(firebaseAuth.getCurrentUser().getDisplayName());
+        emailTextView.setText(firebaseAuth.getCurrentUser().getEmail());
+        DrawerUtil.headerView = view;
+        DrawerUtil.getDoctorDrawer(this, -1);
     }
 
 
@@ -139,6 +155,7 @@ public class DoctorHomeActivity extends AppCompatActivity
                 .get()
                 .addOnSuccessListener(doctorDocument ->
                 {
+
                     if(doctorDocument.exists())
                     {
                         Doctor doctor = doctorDocument.toObject(Doctor.class);
@@ -499,23 +516,5 @@ public class DoctorHomeActivity extends AppCompatActivity
             @Override
             public void afterTextChanged(Editable s) { }
         });
-    }
-
-
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.header_drawer, null);
-
-        TextView nameTextView = view.findViewById(R.id.nameTextView);
-        TextView emailTextView = view.findViewById(R.id.emailTextView);
-
-        nameTextView.setText(firebaseAuth.getCurrentUser().getDisplayName());
-        emailTextView.setText(firebaseAuth.getCurrentUser().getEmail());
-        DrawerUtil.headerView = view;
-        DrawerUtil.getDoctorDrawer(this, -1);
     }
 }

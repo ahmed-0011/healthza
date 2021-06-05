@@ -145,6 +145,7 @@ public class PatientAddFBSTestActivity extends AppCompatActivity implements View
         //complet
     }
 
+    @SuppressLint("LongLogTag")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {

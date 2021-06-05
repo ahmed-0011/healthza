@@ -66,8 +66,6 @@ public class DoctorAddPatientAppointmentActivity extends AppCompatActivity imple
 {
     ////////////////varable/////////////////////
 
-    public final int holo_green_dark = 17170453;
-    private static final  String ChannelID= "addNewTestAppointmenNote";
 
     private Button add;
     private Button clear;
@@ -179,7 +177,7 @@ public class DoctorAddPatientAppointmentActivity extends AppCompatActivity imple
 //Assign values
         dateTimeDialogFragment.startAtCalendarView();
         dateTimeDialogFragment.set24HoursMode(true);
-        dateTimeDialogFragment.setMinimumDateTime(new GregorianCalendar(1900, Calendar.JANUARY, 1).getTime());
+        dateTimeDialogFragment.setMinimumDateTime(Calendar.getInstance().getTime());
         dateTimeDialogFragment.setMaximumDateTime(new GregorianCalendar(3000, Calendar.DECEMBER, 31).getTime());
        //dateTimeDialogFragment.setDefaultDateTime(new GregorianCalendar(2017, Calendar.MARCH, 4, 15, 20).getTime());
 
@@ -248,7 +246,7 @@ public class DoctorAddPatientAppointmentActivity extends AppCompatActivity imple
 
                 testName = "" + parent.getItemAtPosition(position).toString();
                 testPOS = position;
-                ((TextView) spinnerT.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                ((TextView) spinnerT.getSelectedView()).setTextColor(Color.rgb(129,212,250));
                 //!complet
 
             }
@@ -256,7 +254,7 @@ public class DoctorAddPatientAppointmentActivity extends AppCompatActivity imple
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 testName = "" + parent.getItemAtPosition(testPOS).toString();
-                ((TextView) spinnerT.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                ((TextView) spinnerT.getSelectedView()).setTextColor(Color.rgb(129,212,250));
                 //!complet
             }
         });
@@ -330,7 +328,7 @@ public class DoctorAddPatientAppointmentActivity extends AppCompatActivity imple
                         patientName = temp.substring(0,temp.indexOf(" : "));
                         patientId = temp.substring((temp.indexOf(" : ")+3),temp.length());
                         patientPOS = position;
-                        ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                        ((TextView) spinnerP.getSelectedView()).setTextColor(Color.rgb(129,212,250));
                         //!complet
                     }
 
@@ -339,7 +337,7 @@ public class DoctorAddPatientAppointmentActivity extends AppCompatActivity imple
                         String temp = "" + parent.getItemAtPosition(patientPOS).toString();
                         patientName = temp.substring(0,temp.indexOf(" : "));
                         patientId = temp.substring((temp.indexOf(" : ")+3),temp.length());
-                        ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                        ((TextView) spinnerP.getSelectedView()).setTextColor(Color.rgb(129,212,250));
                         //!complet
                     }
                 });
@@ -497,7 +495,7 @@ public class DoctorAddPatientAppointmentActivity extends AppCompatActivity imple
         addF(testName, timestamp,patientId,patientName,date_T);
         //-->
 
-        notification("New Appointment added",testName,s3);
+        Toasty.showText(getApplicationContext(),"Assign Appointment is Done",Toasty.SUCCESS,Toast.LENGTH_SHORT);
 
 
     }
@@ -607,49 +605,9 @@ public class DoctorAddPatientAppointmentActivity extends AppCompatActivity imple
         }
     }
 
-    private void createChannel() {
 
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel x;
-            x = new NotificationChannel(ChannelID, "My  Hi Channel with you", NotificationManager.IMPORTANCE_HIGH);
-
-            NotificationManager man = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-            man.createNotificationChannel(x);
-
-
-        }
-    }
 
     //
-    void notification(String s1,String s2 ,String s3) {
-        NotificationManager man = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        NotificationCompat.Builder note = null;
-
-        createChannel();
-
-        note = new NotificationCompat.Builder(getApplicationContext(), ChannelID)
-                .setContentTitle(s1)
-                .setContentText(s2)
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(s3))
-                .setOngoing(false)
-                .setColor(Color.RED)
-                .setColorized(true)
-                .setPriority(NotificationManager.IMPORTANCE_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setShowWhen(true)
-                .setUsesChronometer(true)
-                .setSmallIcon(R.drawable.icof)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.icof))
-                .setAutoCancel(true)
-        //.setOnlyAlertOnce(true)
-        //.addAction ( R.drawable.no,"Mark Complete", markCompleteIntent);
-        ;
-
-        man.notify(++Functions.ne, note.build());
-    }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {

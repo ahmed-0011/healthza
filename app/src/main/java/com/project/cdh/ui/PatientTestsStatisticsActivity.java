@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.project.cdh.Toasty;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,6 +47,15 @@ public class PatientTestsStatisticsActivity extends AppCompatActivity
 
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+
+        patientId = getIntent().getStringExtra("patientID");
+        if(patientId.isEmpty())
+        {
+            Toasty.showText(getApplicationContext(),"Error occurred!!!\\n patient ID is error",Toasty.ERROR, Toast.LENGTH_LONG);
+            finish();
+            return;
+        }
+
         patientId = firebaseAuth.getCurrentUser().getUid();
 
         setupActionBar();
