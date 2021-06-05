@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.PatientMedicalHistoryActivity"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    tools:context=".ui.PatientMedicalHistoryActivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,12 +35,12 @@
                 android:id="@+id/scrolh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fadeScrollbars="false"
-                android:fillViewport="true"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="0dp"
                 android:layout_marginBottom="0dp"
+                android:fadeScrollbars="false"
+                android:fillViewport="true"
                 app:layout_constraintBottom_toBottomOf="@+id/scroll"
                 app:layout_constraintEnd_toEndOf="@+id/scroll"
                 app:layout_constraintStart_toStartOf="@+id/scroll"
@@ -172,17 +173,17 @@
             tools:srcCompat="@drawable/set" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.ismaeldivita.chipnavigation.ChipNavigationBar
-            android:id="@+id/bottomNavigationBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@drawable/bottom_navigation_background"
-            android:paddingVertical="6dp"
-            app:cnb_menuResource="@menu/bottom_menu_patient"
-            app:cnb_orientationMode="horizontal"
-            app:cnb_unselectedColor="@color/txt_black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.ismaeldivita.chipnavigation.ChipNavigationBar
+        android:id="@+id/bottomNavigationBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bottom_navigation_background"
+        android:paddingVertical="6dp"
+        app:cnb_menuResource="@menu/bottom_menu_patient"
+        app:cnb_orientationMode="horizontal"
+        app:cnb_unselectedColor="@color/txt_black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

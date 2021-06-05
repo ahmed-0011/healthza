@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,12 +30,12 @@
                 android:id="@+id/scrolh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fadeScrollbars="false"
-                android:fillViewport="true"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="0dp"
                 android:layout_marginBottom="0dp"
+                android:fadeScrollbars="false"
+                android:fillViewport="true"
                 app:layout_constraintBottom_toBottomOf="@+id/scroll"
                 app:layout_constraintEnd_toEndOf="@+id/scroll"
                 app:layout_constraintStart_toStartOf="@+id/scroll"
