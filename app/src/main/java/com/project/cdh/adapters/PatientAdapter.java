@@ -12,12 +12,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.project.cdh.models.BodyInfo;
 import com.project.cdh.models.Patient;
 import com.project.cdh.R;
 import com.project.cdh.ui.DoctorAddPatientMedicinesActivity;
+import com.project.cdh.ui.PatientBodyInfoActivity;
 import com.project.cdh.ui.PatientMedicinesActivity;
 import com.project.cdh.ui.MedicineEffectivenessActivity;
 import com.project.cdh.ui.DoctorUpdatePatientMedicinesActivity;
+import com.project.cdh.ui.PatientTestsStatisticsActivity;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -107,6 +110,8 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
         private final Button viewButton;
         private final Button updateButton;
         private final Button effectivenessButton;
+        private final Button bodyInfo;
+        private final Button statistics;
 
         public ViewHolder(View itemView)
         {
@@ -123,6 +128,8 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
             updateButton = itemView.findViewById(R.id.medicinesButton3);
             viewButton = itemView.findViewById(R.id.medicinesButton4);
             effectivenessButton = itemView.findViewById(R.id.medicinesButton5);
+            bodyInfo = itemView.findViewById(R.id.BodyInfoB);
+            statistics = itemView.findViewById(R.id.StatisticsB);
 
             itemView.setOnClickListener(v ->
                     onPatientItemClickListener.onItemClick(getBindingAdapterPosition()));
@@ -163,6 +170,8 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
         Button viewButton = holder.viewButton;
         Button updateButton = holder.updateButton;
         Button effectivenessButton = holder.effectivenessButton;
+        Button statistics = holder.statistics;
+        Button bodyInfo = holder.bodyInfo;
         AtomicBoolean vis = new AtomicBoolean(false);
 
         patientNameTextView.append(patient.getName());
@@ -229,6 +238,20 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
         effectivenessButton.setOnClickListener(v ->
         {
             Intent intent = new Intent(context, MedicineEffectivenessActivity.class);
+            intent.putExtra("patientID", patient.getPatientId());
+            context.startActivity(intent);
+        });
+
+        bodyInfo.setOnClickListener(v ->
+        {
+            Intent intent = new Intent(context, PatientBodyInfoActivity.class);
+            intent.putExtra("patientID", patient.getPatientId());
+            context.startActivity(intent);
+        });
+
+        statistics.setOnClickListener(v ->
+        {
+            Intent intent = new Intent(context, PatientTestsStatisticsActivity.class);
             intent.putExtra("patientID", patient.getPatientId());
             context.startActivity(intent);
         });

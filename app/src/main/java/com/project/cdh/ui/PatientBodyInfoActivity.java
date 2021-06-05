@@ -53,6 +53,14 @@ public class PatientBodyInfoActivity extends AppCompatActivity implements BodyIn
         firebaseAuth = firebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
+        patientId = getIntent().getStringExtra("patientID");
+        if(patientId.isEmpty())
+        {
+            Toasty.showText(getApplicationContext(),"Error occurred!!!\\n patient ID is error",Toasty.ERROR, Toast.LENGTH_LONG);
+            finish();
+            return;
+        }
+
         patientId = firebaseAuth.getCurrentUser().getUid();
 
         bodyInfoList = new ArrayList<>();
