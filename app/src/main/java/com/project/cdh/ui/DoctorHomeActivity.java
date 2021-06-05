@@ -329,7 +329,7 @@ public class DoctorHomeActivity extends AppCompatActivity
     {
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View view = inflater.inflate(R.layout.doctor_dialog1, null);
+        View view = inflater.inflate(R.layout.dialog_doctor, null);
 
         specialityInputLayout = view.findViewById(R.id.specialityInputLayout);
         yearsOfExperienceInputLayout = view.findViewById(R.id.yearsOfExperienceInputLayout);

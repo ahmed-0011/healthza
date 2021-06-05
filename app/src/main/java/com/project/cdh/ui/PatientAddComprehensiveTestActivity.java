@@ -402,7 +402,7 @@ public class PatientAddComprehensiveTestActivity extends AppCompatActivity imple
         //complet
         if(ifEmptyFields())
         {
-            Toasty.showText(getApplicationContext(), "Please complete fill the form data...",Toasty.ERROR, Toast.LENGTH_SHORT);
+     //       Toasty.showText(getApplicationContext(), "Please complete fill the form data...",Toasty.ERROR, Toast.LENGTH_SHORT);
             return;
         }
 
@@ -492,7 +492,7 @@ public class PatientAddComprehensiveTestActivity extends AppCompatActivity imple
                     Log.d("focus", "focus lost");
                     // Do whatever you want here
                 } else {
-                    Toasty.showText(getApplicationContext()," Tap outside edittext to lose focus ",Toasty.INFORMATION,Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), " Tap outside edittext to lose focus ", Toast.LENGTH_SHORT).show();
                     Log.d("focus", "focused");
                 }
 
