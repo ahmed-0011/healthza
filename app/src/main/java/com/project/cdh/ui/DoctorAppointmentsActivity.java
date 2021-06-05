@@ -12,7 +12,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -22,7 +21,6 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
-import com.project.cdh.DrawerUtil;
 import com.project.cdh.R;
 import com.project.cdh.Toasty;
 import com.project.cdh.adapters.DoctorAppointmentAdapter;
@@ -93,7 +91,6 @@ public class DoctorAppointmentsActivity extends AppCompatActivity
         getData();
 
         setContentView(R.layout.activity_doctor_appointments);
-
 
         stu = true;
         bn1=true;
@@ -969,14 +966,5 @@ public class DoctorAppointmentsActivity extends AppCompatActivity
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-    }
-
-
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-
-        DrawerUtil.getDoctorDrawer(this, -1);
     }
 }
