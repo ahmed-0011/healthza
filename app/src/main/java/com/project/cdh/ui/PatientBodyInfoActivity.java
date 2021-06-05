@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -114,15 +115,12 @@ public class PatientBodyInfoActivity extends AppCompatActivity implements BodyIn
     public void onRemoveButtonClick(int position)
     {
 
-        new MaterialAlertDialogBuilder(this)
-                .setTitle("Delete Chat")
-                .setMessage("Do you want to delete this record")
-                .setIcon(R.drawable.ic_delete)
-                .setPositiveButton("GOT IT", new DialogInterface.OnClickListener()
-                {
+        new MaterialAlertDialogBuilder(this, R.style.DeleteDialogTheme)
+                .setTitle("Delete Record")
+                .setMessage("Do you want to delete this record ?")
+                .setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i)
-                    {
+                    public void onClick(DialogInterface dialogInterface, int i) {
                         db.collection("patients")
                                 .document(patientId)
                                 .collection("bodyInfoRecords")
@@ -133,6 +131,7 @@ public class PatientBodyInfoActivity extends AppCompatActivity implements BodyIn
                                 bodyInfoList.remove(position);
                                 bodyInfoAdapter.notifyItemRemoved(position);
 
+
                                 if (bodyInfoList.size() == 1)    // empty (contains only the header)
                                 {
                                     noBodyInfoImageView.setVisibility(View.VISIBLE);
@@ -141,21 +140,20 @@ public class PatientBodyInfoActivity extends AppCompatActivity implements BodyIn
 
                                 Toasty.showText(PatientBodyInfoActivity.this, "Record has been deleted successfully",
                                         Toasty.SUCCESS, Toast.LENGTH_LONG);
-                            } else
+                            }
+                            else
                                 Toasty.showText(PatientBodyInfoActivity.this, "An error occurred while trying to remove this record",
                                         Toasty.ERROR, Toast.LENGTH_LONG);
                         });
                     }
                 })
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener()
-                {
+                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) { }
                 })
-
                 .show();
-
     }
+
 
 
     private void setupActionBar()

@@ -71,7 +71,7 @@ public class BodyInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
 
-        private void setBodyInfoRecord(BodyInfo bodyInfo, int position)
+        private void setBodyInfoRecord(BodyInfo bodyInfo)
         {
             String bmi = bodyInfo.getBmi() + "";
             String weight = bodyInfo.getWeight() + "";
@@ -86,19 +86,17 @@ public class BodyInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             timeTextView.setText(simpleDateFormat.format(timestamp.toDate()));
 
 
-            itemView.setOnClickListener(v -> onBodyInfoItemClickListener.onBodyInfoItemClick(position));
+            itemView.setOnClickListener(v -> onBodyInfoItemClickListener.onBodyInfoItemClick(getBindingAdapterPosition()));
 
             itemView.setOnLongClickListener(v ->
             {
-                onBodyInfoItemClickListener.onBodyInfoItemLongClick(position);
+                onBodyInfoItemClickListener.onBodyInfoItemLongClick(getBindingAdapterPosition());
                 return true;
             });
 
             removeButton.setOnClickListener(v ->
-            {
-                removeButton.setEnabled(false);
-                onBodyInfoItemClickListener.onRemoveButtonClick(position);
-            });
+                    onBodyInfoItemClickListener.onRemoveButtonClick(getBindingAdapterPosition())
+            );
         }
 
 
@@ -140,7 +138,7 @@ public class BodyInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if(getItemViewType(position) == HEADER)
             ((HeaderViewHolder) holder).setBodyInfoHeader();
         else
-            ((BodyInfoViewHolder) holder).setBodyInfoRecord(bodyInfo, position);
+            ((BodyInfoViewHolder) holder).setBodyInfoRecord(bodyInfo);
 
     }
 

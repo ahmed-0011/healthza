@@ -1,5 +1,6 @@
 package com.project.cdh.ui;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.project.cdh.DrawerUtil;
 import com.project.cdh.Toasty;
 import com.project.cdh.models.Doctor;
@@ -175,40 +177,58 @@ public class DoctorListActivity extends AppCompatActivity implements DoctorAdapt
     {
         Doctor doctor = doctors.get(position);
 
-        String patientId = firebaseAuth.getCurrentUser().getUid();
-        String doctorId = doctor.getDoctorId();
+        String doctorName = doctor.getName();
 
-        DocumentReference doctorRef = db.collection("patients")
-                .document(patientId)
-                .collection("doctors")
-                .document(doctorId);
-
-        DocumentReference patientRef = db.collection("doctors")
-                .document(doctorId)
-                .collection("patients")
-                .document(patientId);
-
-        patientRef.delete().addOnCompleteListener(task ->
-        {
-            if (task.isSuccessful())
-            {
-                    doctorRef.delete();
-                    doctors.remove(position);
-                    doctorAdapter.notifyItemRemoved(position);
-
-                    if (doctors.isEmpty())
+        new MaterialAlertDialogBuilder(this, R.style.DeleteDialogTheme)
+                .setTitle("Delete Doctor")
+                .setMessage("Do you want to delete doctor" +  doctorName + " ?")
+                .setPositiveButton("DELETE", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
                     {
-                        emptyDoctorListImageView.setVisibility(View.VISIBLE);
-                        emptyDoctorListTextView.setVisibility(View.VISIBLE);    // check if there is no item and
-                                                                                // show text view that there is no doctors
-                    }
+                        String patientId = firebaseAuth.getCurrentUser().getUid();
+                        String doctorId = doctor.getDoctorId();
 
-                    Toasty.showText(this, "Patient " + "\"" + doctor.getName()
-                            + "\" " + "has been removed successfully.", Toasty.SUCCESS, Toast.LENGTH_LONG);
-            }
-            else
-                Toasty.showText(this, "An error occurred while trying to remove this patient", Toasty.ERROR, Toast.LENGTH_LONG);
-        });
+                        DocumentReference doctorRef = db.collection("patients")
+                                .document(patientId)
+                                .collection("doctors")
+                                .document(doctorId);
+
+                        DocumentReference patientRef = db.collection("doctors")
+                                .document(doctorId)
+                                .collection("patients")
+                                .document(patientId);
+
+                        patientRef.delete().addOnCompleteListener(task ->
+                        {
+                            if (task.isSuccessful())
+                            {
+                                doctorRef.delete();
+                                doctors.remove(position);
+                                doctorAdapter.notifyItemRemoved(position);
+
+                                if (doctors.isEmpty())
+                                {
+                                    emptyDoctorListImageView.setVisibility(View.VISIBLE);
+                                    emptyDoctorListTextView.setVisibility(View.VISIBLE);    // check if there is no item and
+                                                                                            // show text view that there is no doctors
+                                }
+
+                                Toasty.showText(DoctorListActivity.this, "Doctor " + "\"" + doctor.getName()
+                                        + "\" " + "has been removed successfully.", Toasty.SUCCESS, Toast.LENGTH_LONG);
+                            }
+                            else
+                                Toasty.showText(DoctorListActivity.this, "An error occurred while trying to remove this doctor", Toasty.ERROR, Toast.LENGTH_LONG);
+                        });
+                    }
+                })
+                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) { }
+                })
+                .show();
     }
 
 

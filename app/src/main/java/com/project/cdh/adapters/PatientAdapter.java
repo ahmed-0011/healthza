@@ -170,20 +170,16 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.ViewHold
         patientIdentificationNumberTextView.append(patient.getIdentificationNumber());
 
         chartsButton.setOnClickListener(v ->
-        {
-            onPatientItemClickListener.onChartsButtonClick(position);
-        });
+                onPatientItemClickListener.onChartsButtonClick(position)
+        );
 
         profileButton.setOnClickListener(v ->
-        {
-            onPatientItemClickListener.onProfileButtonClick(position);
-        });
+                onPatientItemClickListener.onProfileButtonClick(position)
+        );
 
         removeButton.setOnClickListener(v ->
-        {
-            onPatientItemClickListener.onRemoveButtonClick(position);
-            removeButton.setEnabled(false);
-        });
+                onPatientItemClickListener.onRemoveButtonClick(position)
+        );
 
         medicinesButton.setOnClickListener(v ->
         {

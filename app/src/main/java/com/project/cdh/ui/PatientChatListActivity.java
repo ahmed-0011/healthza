@@ -2,6 +2,7 @@ package com.project.cdh.ui;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -202,17 +203,19 @@ public class PatientChatListActivity extends AppCompatActivity implements ChatAd
     public void onChatItemLongClick(int position)
     {
         Chat chat = chats.get(position);
-        String chatId = chat.getChatId();
 
-        new MaterialAlertDialogBuilder(this)
+        new MaterialAlertDialogBuilder(this, R.style.DeleteDialogTheme)
                 .setTitle("Delete Chat")
-                .setMessage("Do you want to delete chat with" + chat.getDoctorName() + "?")
-                .setIcon(R.drawable.ic_delete)
-                .setPositiveButton("GOT IT", new DialogInterface.OnClickListener()
+
+                .setMessage("Do you want to delete chat with " + chat.getDoctorName() + " ?")
+                .setPositiveButton("DELETE", new DialogInterface.OnClickListener()
                 {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i)
                     {
+
+                        String chatId = chat.getChatId();
+
                         //batch write can contain up to 500 operation.. so this will work for deleting only 500 messages
                         // other method is to use cloud functions .. but spark plan doesn't include it
                         WriteBatch batch = db.batch();
@@ -258,7 +261,6 @@ public class PatientChatListActivity extends AppCompatActivity implements ChatAd
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) { }
                 })
-
                 .show();
     }
 
