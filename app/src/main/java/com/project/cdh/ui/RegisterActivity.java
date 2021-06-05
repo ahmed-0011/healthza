@@ -290,6 +290,7 @@ public class RegisterActivity extends AppCompatActivity
                                             {
                                                 editor.putString("password", password);
                                                 editor.putString("user_type", "patient");
+                                                editor.putBoolean("user_complete_info", false);
                                                 editor.apply();
 
                                                 newPatient = new Patient(userId, name, identificationNumber, email, phoneNumber, birthDate, sex, false);
@@ -302,6 +303,7 @@ public class RegisterActivity extends AppCompatActivity
                                             {
                                                 editor.putString("password", password);
                                                 editor.putString("user_type", "doctor");
+                                                editor.putBoolean("user_complete_info", false);
                                                 editor.apply();
 
                                                 newDoctor = new Doctor(userId, name, identificationNumber, email, phoneNumber, birthDate, sex, false);

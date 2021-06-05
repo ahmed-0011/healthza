@@ -81,7 +81,6 @@ public class DoctorHomeActivity extends AppCompatActivity
 
         boolean userCompleteinfo = sharedPreferences.getBoolean("user_complete_info", false);
 
-
         if (!userCompleteinfo)
             showWelcomeDialog();
         else
@@ -268,7 +267,6 @@ public class DoctorHomeActivity extends AppCompatActivity
         View view = inflater.inflate(R.layout.dialog_welcome, null);
         Button startButton = view.findViewById(R.id.startButton);
         TextView welcomeTextView = view.findViewById(R.id.welcomeTextView);
-        Toast.makeText(this, doctorName, Toast.LENGTH_LONG).show();
         welcomeTextView.setText(welcomeTextView.getText() + " " + doctorName);
         AlertDialog welcomeDialog = new AlertDialog.Builder(this)
                 .setCancelable(false)
