@@ -30,6 +30,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 import com.project.cdh.DrawerUtil;
 import com.project.cdh.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,12 +43,18 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.project.cdh.Toasty;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.project.cdh.ui.Functions.TAG_CT;
@@ -56,17 +64,18 @@ public class PatientAddLiverTestActivity extends AppCompatActivity implements Vi
         , View.OnFocusChangeListener
 {
 
-    private static final  String ChannelID= "AddLiverTestNote";
+
+    CheckBox autoTD;
+    FloatingActionButton stamp;
+    SwitchDateTimeDialogFragment dateTimeDialogFragment;
 
     TextView datE;
     TextView timE;
     TextView td;
 
-    ImageView dateI;
-    ImageView timeI;
+    boolean f=true;
 
     private EditText inputField [];
-    CheckBox autoTD;
 
     private Button clear;
     private Button add;
@@ -104,7 +113,7 @@ public class PatientAddLiverTestActivity extends AppCompatActivity implements Vi
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.w ("Add Liver test.", "end");
-                        Toast.makeText(getApplicationContext(), "Back...", Toast.LENGTH_SHORT).show();
+                        Toasty.showText(getApplicationContext(),"Back...",Toasty.INFORMATION,Toast.LENGTH_SHORT);
                         //complet
                         finish();
                     }
@@ -129,6 +138,7 @@ public class PatientAddLiverTestActivity extends AppCompatActivity implements Vi
         //complet
     }
 
+    @SuppressLint("LongLogTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,41 +153,78 @@ public class PatientAddLiverTestActivity extends AppCompatActivity implements Vi
         inputField = new EditText[4];
 
         Log.w ("Add Liver test.", "start");
-        Toast.makeText(getApplicationContext(), "Add Liver test....", Toast.LENGTH_SHORT).show();
+        Toasty.showText(getApplicationContext(),"New Liver test..",Toasty.INFORMATION,Toast.LENGTH_SHORT);
 
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        datE = findViewById(R.id.dateText4);
-        timE = findViewById(R.id.timeText4);
-        td = findViewById(R.id.textView);
+        datE = findViewById(R.id.dateText0);
+        timE = findViewById(R.id.timeText0);
+        td = findViewById(R.id.textView10);
 
         datE.setText("YYYY/MM/DD");
         timE.setText("HH:MM");
 
-        dateI = findViewById(R.id.DateIcon4);
-        dateI.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
 
-                Toast.makeText(getApplicationContext(), "ٌٌSet Date...", Toast.LENGTH_SHORT).show();
-                showDatePickerDialog();
-                //complet
+        dateTimeDialogFragment = SwitchDateTimeDialogFragment.newInstance(
+                "Set Date And Time",
+                "OK",
+                "Cancel"
+        );
+
+//Assign values
+        dateTimeDialogFragment.startAtCalendarView();
+        dateTimeDialogFragment.set24HoursMode(true);
+        dateTimeDialogFragment.setMinimumDateTime(new GregorianCalendar(1900, Calendar.JANUARY, 1).getTime());
+        dateTimeDialogFragment.setMaximumDateTime(Calendar.getInstance().getTime());
+        //dateTimeDialogFragment.setDefaultDateTime(new GregorianCalendar(2017, Calendar.MARCH, 4, 15, 20).getTime());
+
+//Define new day and month format
+
+        try {
+            dateTimeDialogFragment.setSimpleDateMonthAndDayFormat(new SimpleDateFormat("YYYY/MM/DD", Locale.getDefault()));
+        } catch (SwitchDateTimeDialogFragment.SimpleDateMonthAndDayFormatException e) {
+            Log.e(TAG, e.getMessage());
+        }
+//Set listener
+        dateTimeDialogFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonClickListener() {
+            @Override
+            public void onPositiveButtonClick(Date date) {
+                String year =""+ dateTimeDialogFragment.getYear();
+                String month =""+ (dateTimeDialogFragment.getMonth()+1);// if(month.length()==1)month = "0"+month;
+                String day =""+ dateTimeDialogFragment.getDay(); //if(day.length()==1)day= "0"+day;
+                String hour =""+ dateTimeDialogFragment.getHourOfDay(); //if(hour.length()==1)hour = "0"+hour;
+                String mnt =""+ dateTimeDialogFragment.getMinute();  //if(mnt.length()==1)mnt = "0"+mnt;
+                String date_T = dateTimeDialogFragment.getYear()+"-"+dateTimeDialogFragment.getMonth()+"-"+dateTimeDialogFragment.getDay()
+                        +" "+dateTimeDialogFragment.getHourOfDay()+":"+dateTimeDialogFragment.getMinute();
+
+                datE.setText(year+"-"+month+"-"+day);
+                timE.setText(hour+":"+mnt);
+                //  java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(year+"-"+month+"-"+day+" "+hour+":"+mnt+":0.0");
+                //timestamp;
+                //Toasty.showText(getApplicationContext(),(""+timestamp),Toasty.INFORMATION,Toast.LENGTH_SHORT);
+            }
+
+            @Override
+            public void onNegativeButtonClick(Date date) {
+
             }
         });
 
-        timeI = findViewById(R.id.TimeIcon4);
-        timeI.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+//Show
 
-                Toast.makeText(getApplicationContext(), "Set Time...", Toast.LENGTH_SHORT).show();
-                showTimePickerDialog();
-                //complet
+        stamp = findViewById(R.id.fpat);
+        stamp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dateTimeDialogFragment.show(getSupportFragmentManager(),"dialog_time");
             }
         });
 
-        autoTD = findViewById(R.id.TimeDateAuto4);
+        autoTD = findViewById(R.id.TimeDateAuto0);
         autoTD.setChecked(false);
         autoTD.setOnClickListener(this);
+
         td.setVisibility(View.VISIBLE);
 
         inputField[0] = findViewById(R.id.innerSGOTpercent);
@@ -195,56 +242,8 @@ public class PatientAddLiverTestActivity extends AppCompatActivity implements Vi
         clear = findViewById(R.id.ClearLiverTest); clear.setOnClickListener (this);
         add = findViewById(R.id.AddLiverTest); add.setOnClickListener(this);
 
-        //complet
-
-        //<!--get tests Count
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user != null) {
-            // User is signed in
-            String userId = user.getUid();
-            DocumentReference docRef = db.collection("patients") // table
-                    .document(userId) // patient id
-                    .collection("tests")// table inside patient table
-                    .document("count");
-
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                            String cte = "" + document.getData().toString();
-                            ct = Integer.parseInt(cte.substring(7,cte.length()-1));
-                        } else {
-                            Log.d(TAG, "No such document");
-                            ct = 0;
-                        }
-                    } else {
-                        Log.d(TAG, "get failed with ", task.getException());
-                        ct = 0;
-                    }
-                }
-            });
-        }
-        //end get tests Count-->
     }
 
-    //Date Picker
-    public void showDatePickerDialog() {
-        Functions.DatePickerFragment.setYear(0); Functions.DatePickerFragment.setMonth(0); Functions.DatePickerFragment.setDay(0);
-        DialogFragment newFragment = new Functions.DatePickerFragment(datE);
-        newFragment.show(getSupportFragmentManager(), "datePicker");
-        newFragment = null;
-    }
-
-    //Time Picker
-    public void showTimePickerDialog() {
-        Functions.TimePickerFragment.setHour(0); Functions.TimePickerFragment.setMinute(0);
-        DialogFragment newFragment = new Functions.TimePickerFragment(timE);
-        newFragment.show(getSupportFragmentManager(), "timePicker");
-        newFragment = null;
-    }
 
     //time and date auto
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -255,19 +254,22 @@ public class PatientAddLiverTestActivity extends AppCompatActivity implements Vi
         // Check which checkbox was clicked
         if (autoTD.equals(view)) {
             if (checked) {
-                timeI.setEnabled(false);
-                dateI.setEnabled(false);
+                stamp.setEnabled(false);
                 td.setVisibility(View.INVISIBLE);
 
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/mm/dd hh:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
-                Functions.timeS = now.getHour()+":"+now.getMinute();
-                Functions.dateS = now.getYear()+"-"+now.getMonthValue()+"-"+now.getDayOfMonth();
+                Functions.timeS = (now.getHour()>9?now.getHour():(/*"0"+*/now.getHour()))
+                        +":"+
+                        (now.getMinute()>9?now.getMinute():(/*"0"+*/now.getMinute()));
+                Functions.dateS = now.getYear()+"-"+
+                        (now.getMonthValue()>9?now.getMonthValue():(/*"0"+*/now.getMonthValue()))
+                        +"-"+
+                        (now.getDayOfMonth()>9?now.getDayOfMonth():(/*"0"+*/now.getDayOfMonth()));
                 timE.setText(Functions.timeS);
                 datE.setText(Functions.dateS);
             } else {
-                timeI.setEnabled(true);
-                dateI.setEnabled(true);
+                stamp.setEnabled(true);
                 td.setVisibility(View.VISIBLE);
             }
 
@@ -293,20 +295,7 @@ public class PatientAddLiverTestActivity extends AppCompatActivity implements Vi
         //complet
         if(ifEmptyFields())
         {
-            AlertDialog.Builder x = new AlertDialog.Builder(this);
-            x.setMessage("Please complete fill the form data.").setTitle("incomplete data")
-
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            return;
-                        }
-                    })
-
-                    .setIcon(R.drawable.goo)
-                    .setPositiveButtonIcon(getDrawable(R.drawable.yes))
-
-                    .show();
+            Toasty.showText(getApplicationContext(), "Please complete fill the form data...",Toasty.ERROR, Toast.LENGTH_SHORT);
             return;
         }
 
@@ -320,13 +309,13 @@ public class PatientAddLiverTestActivity extends AppCompatActivity implements Vi
                         Log.w ("ADD TEST", "ADD Liver TEST");
                         // functions and codes
                         //complet
+                        if(f)
+                        {
+                            setAddOPT();
 
+                            return;
+                        }
                         addTest();
-
-                        notification("Liver Test");
-                        Toast.makeText(getApplicationContext(), "Liver TEST IS ADD...", Toast.LENGTH_SHORT).show();
-
-
                     }
                 } )
 
@@ -354,7 +343,7 @@ public class PatientAddLiverTestActivity extends AppCompatActivity implements Vi
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.w ("CLEAR FIELDS", "Liver TEST CLEAR FIELDS");
-                        Toast.makeText(getApplicationContext(), "FIELDS IS CLEARD...", Toast.LENGTH_SHORT).show();
+                        Toasty.showText(getApplicationContext(),"FIELDS IS CLEARD...",Toasty.INFORMATION,Toast.LENGTH_SHORT);
                         // functions and codes
                         //complet
                         autoTD.setChecked(false);
@@ -397,7 +386,7 @@ public class PatientAddLiverTestActivity extends AppCompatActivity implements Vi
                     Log.d("focus", "focus lost");
                     // Do whatever you want here
                 } else {
-                    Toast.makeText(getApplicationContext(), " Tap outside edittext to lose focus ", Toast.LENGTH_SHORT).show();
+                    Toasty.showText(getApplicationContext()," Tap outside edittext to lose focus ",Toasty.INFORMATION,Toast.LENGTH_SHORT);
                     Log.d("focus", "focused");
                 }
 
@@ -433,59 +422,6 @@ public class PatientAddLiverTestActivity extends AppCompatActivity implements Vi
     }
 // "Clear focus input" -->
 
-    // notification
-    private void createChannel() {
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel x;
-            x = new NotificationChannel(ChannelID, "My  Hi Channel with you", NotificationManager.IMPORTANCE_HIGH);
-
-            NotificationManager man = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-            man.createNotificationChannel(x);
-
-
-        }
-    }
-
-    void notification(String text)
-    {
-        NotificationManager man= (NotificationManager)getSystemService ( NOTIFICATION_SERVICE );
-        NotificationCompat.Builder  note=null;
-
-
-        createChannel();
-
-        NotificationCompat.BigTextStyle bigtext = new NotificationCompat.BigTextStyle ();
-        bigtext.setBigContentTitle ("Test Type:"+text);
-        bigtext.bigText ("Test Date:"+ datE.getText().toString()+ " && Test Time:"+timE.getText().toString() );
-        bigtext.setSummaryText ("New  Test ADD");
-
-        note = new NotificationCompat.Builder ( getApplicationContext(),ChannelID )
-                /*.setContentTitle ( "New  Test ADD"  )
-                .setSubText ( "Test Type:"+text
-                        +"\nTest Date:"+ datE.getText().toString()
-                        +"\nTest Time:"+timE.getText().toString()  )
-                .setContentText ("")*/
-                .setOngoing ( false )
-                .setColor ( Color.RED  )
-                .setColorized ( true )
-                .setPriority ( NotificationManager.IMPORTANCE_HIGH )
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setShowWhen ( true )
-                .setUsesChronometer ( true )
-                .setSmallIcon ( R.drawable.icof)
-                .setStyle ( bigtext )
-                .setLargeIcon ( BitmapFactory.decodeResource ( getResources (),R.drawable.icof ) )
-                .setAutoCancel ( true )
-        //.setOnlyAlertOnce(true)
-        //.addAction ( R.drawable.no,"Mark Complete", markCompleteIntent);
-        ;
-
-        man.notify (++Functions.ne, note.build ());
-
-    }
 
     //rotate
     @Override
@@ -546,6 +482,7 @@ public class PatientAddLiverTestActivity extends AppCompatActivity implements Vi
             dataTest.put("GGT_percent", Float.parseFloat(inputField[2].getText().toString()));
             dataTest.put("AlkPhosphatese_percent", Float.parseFloat(inputField[3].getText().toString()));
             dataTest.put("sub", false);
+            dataTest.put("type", "liver");
             //Time Stamp
             String Date =datE.getText().toString();
             int i1 = Date.indexOf("-");
@@ -587,6 +524,7 @@ public class PatientAddLiverTestActivity extends AppCompatActivity implements Vi
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Log.d(TAG, "DocumentSnapshot successfully written!");
+                                            f=false;
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
@@ -640,19 +578,63 @@ public class PatientAddLiverTestActivity extends AppCompatActivity implements Vi
                                         Log.w(TAG, "Error writing document", e);
                                     }
                                 });
+                        f=false;
                     } else {
                         Log.d(TAG, "get failed with ", task.getException());
-
+                        f=false;
                     }
+                    f=false;
                 }
             });
             //end add test -->
         } else {
             // No user is signed in
         }
+
+        Toasty.showText(getApplicationContext(),"successfully submit Liver test...",Toasty.SUCCESS,Toast.LENGTH_SHORT);
+
     }
 
+    void setAddOPT()
+    {
+//complet
 
+        //<!--get tests Count
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            // User is signed in
+            String userId = user.getUid();
+            DocumentReference docRef = db.collection("patients") // table
+                    .document(userId) // patient id
+                    .collection("tests")// table inside patient table
+                    .document("count");
+
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @SuppressLint("LongLogTag")
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            String cte = "" + document.getData().toString();
+                            ct = Integer.parseInt(cte.substring(7,cte.length()-1));
+                            addTest();
+                        } else {
+                            Log.d(TAG, "No such document");
+                            ct = 0;
+                            addTest();
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                        ct = 0;
+                        addTest();
+                    }
+                }
+            });
+        }
+        //end get tests Count-->
+    }
     @Override
     protected void onStart()
     {
