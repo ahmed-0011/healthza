@@ -23,7 +23,6 @@ import android.widget.ViewFlipper;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 import com.project.cdh.R;
 import com.project.cdh.Toasty;
-import com.project.cdh.adapters.DoctorAppointmentAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -53,7 +52,6 @@ public class DoctorAppointmentsActivity extends AppCompatActivity
 
     List<Map<String, Object>> NEW;
     List<Map<String, Object>> EXPIERD;
-    DoctorAppointmentAdapter adp;
 
     private ChipNavigationBar chipNavigationBar;
 

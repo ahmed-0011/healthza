@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +22,6 @@ import android.widget.ViewFlipper;
 import com.project.cdh.DrawerUtil;
 import com.project.cdh.R;
 import com.project.cdh.Toasty;
-import com.project.cdh.adapters.PatientAppointmentAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -45,7 +43,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -54,7 +51,6 @@ public class PatientAppointmentsActivity extends AppCompatActivity
 {
     List<Map<String, Object>> NEW;
     List<Map<String, Object>> EXPIERD;
-    PatientAppointmentAdapter adp;
 
     private ChipNavigationBar chipNavigationBar;
     private Long selectedDate;

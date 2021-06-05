@@ -35,6 +35,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.project.cdh.DrawerUtil;
 import com.project.cdh.R;
+import com.project.cdh.Toasty;
 import com.project.cdh.models.Patient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -54,8 +55,8 @@ public class DoctorAddPatientComplicationsActivity extends AppCompatActivity imp
         , View.OnFocusChangeListener
 {
     /////////////////varible///////////////////////////
-    public final int holo_green_dark = 17170453;
-    private static final String ChannelID = "addNewComplicationNote";
+
+
 
     private Button add;
     private Button clear;
@@ -229,7 +230,7 @@ public class DoctorAddPatientComplicationsActivity extends AppCompatActivity imp
                         patientName = temp.substring(0,temp.indexOf(" : "));
                         patientId = temp.substring((temp.indexOf(" : ")+3),temp.length());
                         patientPOS = position;
-                        ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                        ((TextView) spinnerP.getSelectedView()).setTextColor(Color.rgb(129,212,250));
                         //!complet
                     }
 
@@ -238,7 +239,7 @@ public class DoctorAddPatientComplicationsActivity extends AppCompatActivity imp
                         String temp = "" + parent.getItemAtPosition(patientPOS).toString();
                         patientName = temp.substring(0,temp.indexOf(" : "));
                         patientId = temp.substring((temp.indexOf(" : ")+3),temp.length());
-                        ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                        ((TextView) spinnerP.getSelectedView()).setTextColor(Color.rgb(129,212,250));
                         //!complet
                     }
                 });
@@ -403,8 +404,6 @@ public class DoctorAddPatientComplicationsActivity extends AppCompatActivity imp
 
         //-->
 
-        notification("New Complication added",nameC.getText().toString(),s3);
-
     }
 
     void add_O(String d,String n ,String c)
@@ -428,6 +427,7 @@ public class DoctorAddPatientComplicationsActivity extends AppCompatActivity imp
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
+                        Toasty.showText(getApplicationContext(),"ADD Done...",Toasty.SUCCESS,Toast.LENGTH_SHORT);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -469,51 +469,7 @@ public class DoctorAddPatientComplicationsActivity extends AppCompatActivity imp
     }
 ///end on clike
 
-    /////////////////////////Notification///////////////////////////
-    private void createChannel() {
 
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel x;
-            x = new NotificationChannel(ChannelID, "My  Hi Channel with you", NotificationManager.IMPORTANCE_HIGH);
-
-            NotificationManager man = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-            man.createNotificationChannel(x);
-
-
-        }
-    }
-
-    //
-    void notification(String s1,String s2 ,String s3) {
-        NotificationManager man = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        NotificationCompat.Builder note = null;
-
-        createChannel();
-
-        note = new NotificationCompat.Builder(getApplicationContext(), ChannelID)
-                .setContentTitle(s1)
-                .setContentText(s2)
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(s3))
-                .setOngoing(false)
-                .setColor(Color.RED)
-                .setColorized(true)
-                .setPriority(NotificationManager.IMPORTANCE_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setShowWhen(true)
-                .setUsesChronometer(true)
-                .setSmallIcon(R.drawable.icof)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.icof))
-                .setAutoCancel(true)
-        //.setOnlyAlertOnce(true)
-        //.addAction ( R.drawable.no,"Mark Complete", markCompleteIntent);
-        ;
-
-        man.notify(++Functions.ne, note.build());
-    }
-///////////////////////////////////////////////////////////////////
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
 

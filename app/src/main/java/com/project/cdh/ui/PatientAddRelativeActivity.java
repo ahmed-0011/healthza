@@ -33,6 +33,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.project.cdh.Toasty;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -336,6 +337,7 @@ public class PatientAddRelativeActivity extends AppCompatActivity implements Vie
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d(TAG, "DocumentSnapshot successfully written!");
+                            Toasty.showText(getApplicationContext(),"Add Done...",Toasty.SUCCESS,Toast.LENGTH_SHORT);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -346,7 +348,7 @@ public class PatientAddRelativeActivity extends AppCompatActivity implements Vie
                         }
                     });
 
-            //end add test -->
+
         }
     }
 

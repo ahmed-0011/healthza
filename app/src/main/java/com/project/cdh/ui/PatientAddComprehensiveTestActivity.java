@@ -492,7 +492,7 @@ public class PatientAddComprehensiveTestActivity extends AppCompatActivity imple
                     Log.d("focus", "focus lost");
                     // Do whatever you want here
                 } else {
-                    Toast.makeText(getApplicationContext(), " Tap outside edittext to lose focus ", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(), " Tap outside edittext to lose focus ", Toast.LENGTH_SHORT).show();
                     Log.d("focus", "focused");
                 }
 
@@ -604,7 +604,7 @@ public class PatientAddComprehensiveTestActivity extends AppCompatActivity imple
             dataTest.put("fbs_percent", Float.parseFloat(inputField[0].getText().toString()));
             dataTest.put("sub", true);
             dataTest.put("timestamp", timestamp);
-            dataTest.put("type", "comprehensive_fbs");
+            dataTest.put("type", "fbs");
 
 
             DocumentReference DRC = db.collection("patients") // table
@@ -707,7 +707,7 @@ public class PatientAddComprehensiveTestActivity extends AppCompatActivity imple
             dataTest.put("AlkPhosphatese_percent", Float.parseFloat(inputField[1].getText().toString()));
             dataTest.put("sub", true);
             dataTest.put("timestamp", timestamp);
-            dataTest.put("type", "comprehensive_liver");
+            dataTest.put("type", "liver");
 
            DRC = db.collection("patients") // table
                     .document(userId) // patient id
@@ -808,7 +808,7 @@ public class PatientAddComprehensiveTestActivity extends AppCompatActivity imple
             dataTest.put("Creatinine_percent", Float.parseFloat(inputField[7].getText().toString()));
             dataTest.put("sub", true);
             dataTest.put("timestamp", timestamp);
-            dataTest.put("type", "comprehensive_kidneys");
+            dataTest.put("type", "kidneys");
 
             DRC = db.collection("patients") // table
                     .document(userId) // patient id
@@ -910,7 +910,7 @@ public class PatientAddComprehensiveTestActivity extends AppCompatActivity imple
             dataTest.put("CholesterolTotal_percent", Float.parseFloat(inputField[11].getText().toString()));
             dataTest.put("sub", true);
             dataTest.put("timestamp", timestamp);
-            dataTest.put("type", "comprehensive_cholesterol");
+            dataTest.put("type", "cholesterol");
 
             DRC = db.collection("patients") // table
                     .document(userId) // patient id

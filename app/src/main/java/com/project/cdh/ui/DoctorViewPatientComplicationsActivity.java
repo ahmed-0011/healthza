@@ -47,7 +47,6 @@ public class DoctorViewPatientComplicationsActivity extends AppCompatActivity im
     ArrayAdapter<String> adapter1;
 
     EditText searchP;
-    public final int holo_green_dark = 17170453;
     private Spinner spinnerP;
     List<String> dataP;
     List<String> idsP;
@@ -61,7 +60,6 @@ public class DoctorViewPatientComplicationsActivity extends AppCompatActivity im
     TableLayout tb;
     ProgressDialog pb;
 
-    ImageView nod;
     int child;
 //////////////////////////////////////////////
     @Override
@@ -73,9 +71,6 @@ public class DoctorViewPatientComplicationsActivity extends AppCompatActivity im
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
 
-        nod = findViewById(R.id.imageViewT);
-        nod.setEnabled(true);
-        nod.setVisibility(View.INVISIBLE);
 
         pb = new ProgressDialog(this);
         tb = findViewById(R.id.idf);
@@ -149,8 +144,7 @@ public class DoctorViewPatientComplicationsActivity extends AppCompatActivity im
                         patientName = temp.substring(0,temp.indexOf(" : "));
                         patientId = temp.substring((temp.indexOf(" : ")+3),temp.length());
                         patientPOS = position;
-                        ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
-                        nod.setVisibility(View.INVISIBLE);
+                        ((TextView) spinnerP.getSelectedView()).setTextColor(Color.rgb(129,212,250));
                         getComp();
                         //!complet
                     }
@@ -160,7 +154,7 @@ public class DoctorViewPatientComplicationsActivity extends AppCompatActivity im
                         String temp = "" + parent.getItemAtPosition(patientPOS).toString();
                         patientName = temp.substring(0,temp.indexOf(" : "));
                         patientId = temp.substring((temp.indexOf(" : ")+3),temp.length());
-                        ((TextView) spinnerP.getSelectedView()).setTextColor(getResources().getColor(holo_green_dark));
+                        ((TextView) spinnerP.getSelectedView()).setTextColor(Color.rgb(129,212,250));
                         //!complet
                     }
                 });
@@ -265,7 +259,39 @@ public class DoctorViewPatientComplicationsActivity extends AppCompatActivity im
             if (task.isSuccessful()) {
 
                 if (task.getResult().size() == 0) {
-                    nod.setVisibility(View.VISIBLE);
+
+                    TableRow.LayoutParams mw = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                            TableRow.LayoutParams.WRAP_CONTENT,1);
+
+                    TableRow tr1 = new TableRow(this);
+                    tr1.setGravity(Gravity.CENTER);
+
+                    TextView textview = new TextView(this);
+                    textview.setText("---------");
+                    textview.setLayoutParams(mw); // match warp wighet
+                    textview.setGravity(Gravity.CENTER); //gravity center
+                    tr1.addView(textview);
+
+                    textview = new TextView(this);
+                    textview.setText("---------");
+                    textview.setLayoutParams(mw); // match warp wighet
+                    textview.setGravity(Gravity.CENTER); //gravity center
+                    tr1.addView(textview);
+
+                    textview = new TextView(this);
+                    textview.setText("---------");
+                    textview.setLayoutParams(mw); // match warp wighet
+                    textview.setGravity(Gravity.CENTER); //gravity center
+                    tr1.addView(textview);
+
+                    textview = new TextView(this);
+                    textview.setText("---------");
+                    textview.setLayoutParams(mw); // match warp wighet
+                    textview.setGravity(Gravity.CENTER); //gravity center
+                    tr1.addView(textview);
+
+                    tb.addView(tr1);
+
                     AlertDialog.Builder x = new AlertDialog.Builder(DoctorViewPatientComplicationsActivity.this);
                     x.setMessage("You not have complications.").setTitle("No Complications")
 
@@ -359,9 +385,7 @@ public class DoctorViewPatientComplicationsActivity extends AppCompatActivity im
         ImageView nod1;
         int child1;
 
-        nod1 = view.findViewById(R.id.imageViewT);
-        nod1.setEnabled(true);
-        nod1.setVisibility(View.INVISIBLE);
+
 
         pb1 = new ProgressDialog(this);
         tb1 = view.findViewById(R.id.idf1);

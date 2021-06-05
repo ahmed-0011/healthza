@@ -20,86 +20,103 @@
             android:layout_marginBottom="5dp"
             android:src="@android:drawable/ic_delete"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/scroll" />
 
-        <ImageView
-            android:id="@+id/imageViewT"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
-            app:layout_constraintBottom_toBottomOf="@+id/idf1"
-            app:layout_constraintEnd_toEndOf="@+id/idf1"
-            app:layout_constraintStart_toStartOf="@+id/idf1"
-            app:layout_constraintTop_toTopOf="@+id/idf1"
-            app:srcCompat="@drawable/no_data"
-            tools:srcCompat="@drawable/no_data" />
-
-        <TableLayout
-            android:id="@+id/idf1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            app:layout_constraintBottom_toTopOf="@+id/imageButton"
+        <ScrollView
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/imageButton"
             app:layout_constraintTop_toTopOf="parent">
 
+            <HorizontalScrollView
+                android:id="@+id/scrolh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                android:fadeScrollbars="false"
+                android:fillViewport="true"
+                app:layout_constraintBottom_toBottomOf="@+id/scroll"
+                app:layout_constraintEnd_toEndOf="@+id/scroll"
+                app:layout_constraintStart_toStartOf="@+id/scroll"
+                app:layout_constraintTop_toTopOf="@+id/scroll">
 
-            <TableRow
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="#FFEE58"
-                android:gravity="center"
-                android:padding="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <TextView
-                    android:layout_width="0dip"
+                <TableLayout
+                    android:id="@+id/idf1"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/candal"
-                    android:gravity="center"
-                    android:text="Complications Statuses"
-                    android:textAlignment="center"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </TableRow>
-
-
-            <TableRow
-                android:background="#514597BC"
-                android:gravity="center"
-                android:padding="5dp"
-                android:paddingStart="5dp"
-                android:paddingTop="5dp"
-                android:paddingEnd="5dp"
-                android:paddingBottom="5dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Update Date"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Status"
-                    android:textStyle="bold" />
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="0dp"
+                    android:isScrollContainer="true"
+                    app:layout_constraintBottom_toTopOf="@+id/scrolh"
+                    app:layout_constraintEnd_toEndOf="@+id/scrolh"
+                    app:layout_constraintStart_toStartOf="@+id/scrolh"
+                    app:layout_constraintTop_toTopOf="@+id/scrolh">
 
 
-            </TableRow>
+                    <TableRow
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="#FFEE58"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <TextView
+                            android:layout_width="0dip"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/candal"
+                            android:gravity="center"
+                            android:text="Complications Statuses"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                    </TableRow>
 
 
-            <!--<TableRow
+                    <TableRow
+                        android:background="#514597BC"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="5dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Update Date"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Status"
+                            android:textStyle="bold" />
+
+
+                    </TableRow>
+
+
+                    <!--<TableRow
         android:background="#ECEFF1"
         android:padding="5dp"
         android:paddingStart="5dp"
@@ -125,7 +142,9 @@
 
     </TableRow>-->
 
-        </TableLayout>
+                </TableLayout>
+            </HorizontalScrollView>
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
