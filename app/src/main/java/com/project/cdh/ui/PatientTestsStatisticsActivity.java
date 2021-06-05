@@ -49,13 +49,11 @@ public class PatientTestsStatisticsActivity extends AppCompatActivity
         db = FirebaseFirestore.getInstance();
 
         patientId = getIntent().getStringExtra("patientID");
+
+
         if((patientId == null) || patientId.isEmpty() )
-        {
-            // Toasty.showText(getApplicationContext(),"Error occurred!!!\\n patient ID is error",Toasty.ERROR, Toast.LENGTH_LONG);
-            // finish();
-            //return;
             patientId = FirebaseAuth.getInstance().getUid();
-        }
+
 
         setupActionBar();
 
