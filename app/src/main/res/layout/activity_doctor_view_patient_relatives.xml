@@ -12,18 +12,44 @@
         android:layout_height="match_parent"
         tools:context=".ui.DoctorViewPatientsRelativesActivity">
 
-        <TableLayout
-            android:id="@+id/idf"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginBottom="15dp"
-            app:layout_constraintBottom_toTopOf="@+id/spinnerPatient"
+        <ScrollView
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
+        <HorizontalScrollView
+            android:id="@+id/scrolh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:fadeScrollbars="false"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="@+id/scroll"
+            app:layout_constraintEnd_toEndOf="@+id/scroll"
+            app:layout_constraintStart_toStartOf="@+id/scroll"
+            app:layout_constraintTop_toTopOf="@+id/scroll">
+
+        <TableLayout
+            android:id="@+id/idf"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:isScrollContainer="true"
+            app:layout_constraintBottom_toTopOf="@+id/scrolh"
+            app:layout_constraintEnd_toEndOf="@+id/scrolh"
+            app:layout_constraintStart_toStartOf="@+id/scrolh"
+            app:layout_constraintTop_toTopOf="@+id/scrolh">
 
 
             <TableRow
@@ -113,6 +139,8 @@
         </TableRow>-->
 
         </TableLayout>
+        </HorizontalScrollView>
+        </ScrollView>
 
         <Spinner
             android:id="@+id/spinnerPatient"
