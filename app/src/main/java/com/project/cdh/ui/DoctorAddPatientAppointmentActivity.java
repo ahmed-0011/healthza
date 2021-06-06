@@ -177,8 +177,8 @@ public class DoctorAddPatientAppointmentActivity extends AppCompatActivity imple
 //Assign values
         dateTimeDialogFragment.startAtCalendarView();
         dateTimeDialogFragment.set24HoursMode(true);
-        dateTimeDialogFragment.setMinimumDateTime(Calendar.getInstance().getTime());
-        dateTimeDialogFragment.setMaximumDateTime(new GregorianCalendar(3000, Calendar.DECEMBER, 31).getTime());
+       // dateTimeDialogFragment.setMinimumDateTime(Calendar.getInstance().getTime());
+       // dateTimeDialogFragment.setMaximumDateTime(new GregorianCalendar(3000, Calendar.DECEMBER, 31).getTime());
        //dateTimeDialogFragment.setDefaultDateTime(new GregorianCalendar(2017, Calendar.MARCH, 4, 15, 20).getTime());
 
 //Define new day and month format
