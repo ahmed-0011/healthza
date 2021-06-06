@@ -72,7 +72,10 @@ public class MedicineEffectivenessActivity extends AppCompatActivity {
         tb = findViewById(R.id.idf);
         child = tb.getChildCount();
 
+
+
         getTests();
+
 
         fpa = findViewById(R.id.fpa4);
         fpa.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +135,7 @@ public class MedicineEffectivenessActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
 
@@ -213,6 +217,32 @@ public class MedicineEffectivenessActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         catDrug(0,document,x);
                     }
+                    if(tb.getChildCount()==child)
+                    {
+
+
+                        TableRow.LayoutParams mw = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                                TableRow.LayoutParams.MATCH_PARENT, 1);
+                        mw.topMargin=5;
+                        TableRow tr = new TableRow(MedicineEffectivenessActivity.this);
+                        tr.setGravity(Gravity.CENTER);
+                        tr.setLayoutParams(mw);
+
+                        mw = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                                TableRow.LayoutParams.MATCH_PARENT, 1);
+                        mw.topMargin=10;
+                        TextView textview = new TextView(MedicineEffectivenessActivity.this);
+                        textview.setText("NO Medicines_Drugs Active");
+                        textview.setTextColor(Color.rgb(255,0,0));
+                        Typeface tf = ResourcesCompat.getFont(getApplicationContext(), R.font.candal);
+                        textview.setTypeface(tf,Typeface.BOLD);
+                        textview.setLayoutParams(mw);
+                        textview.setGravity(Gravity.CENTER);
+                        textview.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                        tr.addView(textview);
+
+                        tb.addView(tr);
+                    }
                 }
 
             }
@@ -224,7 +254,7 @@ public class MedicineEffectivenessActivity extends AppCompatActivity {
 
     void catDrug(int p,QueryDocumentSnapshot document, ProgressDialog x)
     {
-        //System.out.println(" catDrug P ----> "+p);
+        System.out.println(" catDrug P ----> "+p);
         List<Map<String, Object>> part = null ,partA = null ,partB = null;
 
         switch(p)
@@ -278,7 +308,8 @@ public class MedicineEffectivenessActivity extends AppCompatActivity {
 
             default:
             {
-                //return;
+                printE(document,x);
+                return;
             }
         };
 
@@ -287,6 +318,7 @@ public class MedicineEffectivenessActivity extends AppCompatActivity {
             catDrug(++p,document,x);
             return;
         }
+
         if(p>4)
         {     //System.out.println(document.getString("medicine_name")+"----> print");
             printE(document,x);
@@ -296,11 +328,11 @@ public class MedicineEffectivenessActivity extends AppCompatActivity {
         List<Map<String, Object>> finalPart = part;
         List<Map<String, Object>> finalPartB = partB;
         List<Map<String, Object>> finalPartA = partA;
-
+System.out.println(p+ "------>"+ document.getBoolean("status"));
         if(document.getBoolean("status"))
         {
-            //System.out.println(document.getString("medicine_name")+"---->"+document.getString("prescription_date"));
-            //System.out.println("-------------->"+finalPart.size());
+            System.out.println(document.getString("medicine_name")+"---->"+document.getString("prescription_date"));
+            System.out.println("-------------->"+finalPart.size());
             for(int i = 0; i< finalPart.size(); i++)
             {                    ArrayList<String> old = (ArrayList<String>) document.get("old_prescription_date");
                 String start = document.getString("prescription_date");
@@ -322,7 +354,8 @@ public class MedicineEffectivenessActivity extends AppCompatActivity {
             }
             catDrug(++p,document,x);
         }
-
+        x.dismiss();
+        return;
     }
 
 
