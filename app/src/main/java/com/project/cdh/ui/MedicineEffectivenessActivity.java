@@ -102,7 +102,7 @@ public class MedicineEffectivenessActivity extends AppCompatActivity {
                     List<String> dates = (List<String>) task.getResult().get("dates");
 
                     if(dates!=null
-                    && dates.size()!=0)
+                            && dates.size()!=0)
                     {
                         int finalS=dates.size()-1;
                         for(int i =0;i<dates.size();i++) {
@@ -121,14 +121,14 @@ public class MedicineEffectivenessActivity extends AppCompatActivity {
                                     }
 
                                     if(finalI ==finalS){
-                                      // System.out.println("_____>"+finalI+" -------->"+finalS+" ---hh");
-                                      CategoryDayParts(tests,x);
+                                        // System.out.println("_____>"+finalI+" -------->"+finalS+" ---hh");
+                                        CategoryDayParts(tests,x);
                                     }
                                 }
                             });
                         }
                     }
-                   // x.dismiss();
+                    // x.dismiss();
                 }
             }
         });
@@ -148,78 +148,78 @@ public class MedicineEffectivenessActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful())
                 {
-        // System.out.println("-------------------------> ooooooooooooooooo ");
-        for (int i = 0; i < all.size(); i++) {
+                    // System.out.println("-------------------------> ooooooooooooooooo ");
+                    for (int i = 0; i < all.size(); i++) {
 
-            com.google.firebase.Timestamp timestamp =(com.google.firebase.Timestamp) all.get(i).get("timestamp");
-            Date currentDate = timestamp.toDate();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-            String time = dateFormat.format(currentDate);
-           // System.out.println(" ______________TimeStamp " +time);
-            int l2 = time.lastIndexOf(":");
-            int l1 = time.indexOf(" ");
-            time = time.substring(l1+1, l2);
-           // System.out.println(" ______________Time " +time);
-            if ((time.compareTo("05:00") >= 0)
-                    && (time.compareTo("11:59") <= -1)) {
-               // System.out.println(" ______________Morning " +time);
-                Morning.add(all.get(i));
-            }   else {
-                if ((time.compareTo("12:00") >= 0)
-                        && (time.compareTo("16:59") <= -1)) {
-                   // System.out.println(" ______________Afternoon "+time);
-                    Afternoon.add(all.get(i));
-                } else {
-                    if ((time.compareTo("17:00") >= 0)
-                            && (time.compareTo("20:59") <= -1)) {
-                       // System.out.println(" ______________Evening "+time);
-                        Evening.add(all.get(i));
-                    } else {
-                        if (((time.compareTo("21:00") >= 0)
-                                && (time.compareTo("23:59") <= -1))
-                         ||
-                                ((time.compareTo("00:00") >= 0)
-                                        && (time.compareTo("04:59") <= -1))
-                        )
-                        {
-                           // System.out.println(" ______________Night "+time);
-                            Night.add(all.get(i));
-                        }
-                        else
-                        {
-                           // System.out.println(" ______________error "+time);
+                        com.google.firebase.Timestamp timestamp =(com.google.firebase.Timestamp) all.get(i).get("timestamp");
+                        Date currentDate = timestamp.toDate();
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+                        String time = dateFormat.format(currentDate);
+                        // System.out.println(" ______________TimeStamp " +time);
+                        int l2 = time.lastIndexOf(":");
+                        int l1 = time.indexOf(" ");
+                        time = time.substring(l1+1, l2);
+                        // System.out.println(" ______________Time " +time);
+                        if ((time.compareTo("05:00") >= 0)
+                                && (time.compareTo("11:59") <= -1)) {
+                            // System.out.println(" ______________Morning " +time);
+                            Morning.add(all.get(i));
+                        }   else {
+                            if ((time.compareTo("12:00") >= 0)
+                                    && (time.compareTo("16:59") <= -1)) {
+                                // System.out.println(" ______________Afternoon "+time);
+                                Afternoon.add(all.get(i));
+                            } else {
+                                if ((time.compareTo("17:00") >= 0)
+                                        && (time.compareTo("20:59") <= -1)) {
+                                    // System.out.println(" ______________Evening "+time);
+                                    Evening.add(all.get(i));
+                                } else {
+                                    if (((time.compareTo("21:00") >= 0)
+                                            && (time.compareTo("23:59") <= -1))
+                                            ||
+                                            ((time.compareTo("00:00") >= 0)
+                                                    && (time.compareTo("04:59") <= -1))
+                                    )
+                                    {
+                                        // System.out.println(" ______________Night "+time);
+                                        Night.add(all.get(i));
+                                    }
+                                    else
+                                    {
+                                        // System.out.println(" ______________error "+time);
+                                    }
+                                }
+                            }
                         }
                     }
-                }
-            }
-        }
                     CategoryDrugs(x);
+                }
+            }});
     }
-             }});
+
+    void CategoryDrugs( ProgressDialog x) {
+
+        //  System.out.println("--------------> ggggg");
+        CollectionReference de = db.collection("patients").document(patientID)
+                .collection("medicines");
+
+        de.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                if(task.isSuccessful())
+                {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        catDrug(0,document,x);
+                    }
+                }
+
+            }
+        });
+
+
     }
-
-   void CategoryDrugs( ProgressDialog x) {
-
-     //  System.out.println("--------------> ggggg");
-       CollectionReference de = db.collection("patients").document(patientID)
-               .collection("medicines");
-
-       de.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-           @Override
-           public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-               if(task.isSuccessful())
-               {
-                   for (QueryDocumentSnapshot document : task.getResult()) {
-                       catDrug(0,document,x);
-                   }
-               }
-
-           }
-       });
-
-
-   }
 
 
     void catDrug(int p,QueryDocumentSnapshot document, ProgressDialog x)
@@ -343,8 +343,8 @@ public class MedicineEffectivenessActivity extends AppCompatActivity {
                 ae[i] = ae[i]+((double)partA[i].get(j).get("glucose_percent"));
             }
 
-           if(partA[i].size()>0) ae[i]= ae[i]/partA[i].size();
-           else if(partA[i].size()==0) ae[i]=Double.MIN_VALUE;
+            if(partA[i].size()>0) ae[i]= ae[i]/partA[i].size();
+            else if(partA[i].size()==0) ae[i]=Double.MIN_VALUE;
         }
 
         for(int i=0;i<be.length;i++)
@@ -359,7 +359,7 @@ public class MedicineEffectivenessActivity extends AppCompatActivity {
             else if(partB[i].size()==0) be[i]=Double.MIN_VALUE;
         }
 
-       // System.out.println(document.getString("medicine_name")+"----> print");
+        // System.out.println(document.getString("medicine_name")+"----> print");
 
         TableRow.LayoutParams mw = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
                 TableRow.LayoutParams.MATCH_PARENT, 1);
@@ -383,7 +383,7 @@ public class MedicineEffectivenessActivity extends AppCompatActivity {
         tb.addView(tr);
 
         //
-         mw = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+        mw = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
                 TableRow.LayoutParams.MATCH_PARENT, 1);
         mw.topMargin=5;
         tr = new TableRow(this);
